@@ -24,7 +24,7 @@ import Vue from 'vue';
 import router from '../router';
 
 import { Servers } from '@/helpers/servers';
-import { getStorage, setStorage, StorageKeys } from '@/helpers/localStorage';
+import { localStorage } from '@/helpers/localStorage';
 import { getSocksConfig, setSocks } from '@/helpers/socks';
 
 export default Vue.extend({
@@ -41,11 +41,8 @@ export default Vue.extend({
       const socksConfig = getSocksConfig(this.currentProtocol, socksName);
       setSocks(true, socksConfig);
 
-      console.log('handleSelect socksName: ', socksName);
-      console.log('handleSelect socksConfig: ', socksConfig);
-
-      setStorage(StorageKeys.socksConfig, socksConfig);
-      setStorage(StorageKeys.socksEnabled, true);
+      localStorage.socksConfig.set(socksConfig);
+      localStorage.socksEnabled.set(true);
 
       // Redirect to Home route
       router.push('/');
@@ -55,14 +52,14 @@ export default Vue.extend({
     },
   },
   async created(): Promise<void> {
-    const { servers } = await getStorage(StorageKeys.servers);
-    const { socksProtocols } = await getStorage(StorageKeys.socksProtocols);
+    const servers = await localStorage.servers.get();
+    const socksProtocols = await localStorage.socksProtocols.get();
 
-    // FIXME Order servers [1-n]
+    // FIXME: Order servers [1-n]
     this.servers = servers;
     this.currentProtocol = socksProtocols.current;
 
-    // TODO Open the view to the current Mullvad server
+    // FIXME: Open the view to the current Mullvad server
   },
 });
 </script>
@@ -70,7 +67,6 @@ export default Vue.extend({
 <style lang="scss">
 .country {
   border-bottom: 1px solid #192e45;
-  // background-color: rebeccapurple;
 
   > summary {
     padding: 0.5em;

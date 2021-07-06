@@ -1,5 +1,5 @@
 import { setWebRTC, setSocks, serversToStorage } from '@/helpers';
-import { getStorage, StorageKeys } from '@/helpers/localStorage';
+import { localStorage } from '@/helpers/localStorage';
 
 init();
 
@@ -16,9 +16,9 @@ async function init() {
 
   // Load socks and webRTC settings from storage
   try {
-    const { webrtcDisabled } = await getStorage(StorageKeys.webrtcDisabled);
-    const { socksConfig } = await getStorage(StorageKeys.socksConfig);
-    const { socksEnabled } = await getStorage(StorageKeys.socksEnabled);
+    const webrtcDisabled = await localStorage.webrtcDisabled.get();
+    const socksConfig = await localStorage.socksConfig.get();
+    const socksEnabled = await localStorage.socksEnabled.get();
 
     let isDisabled = webrtcDisabled;
     if (typeof webrtcDisabled === 'undefined') {

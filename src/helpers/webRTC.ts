@@ -1,4 +1,4 @@
-import { setStorage, StorageKeys } from './localStorage';
+import { localStorage } from './localStorage';
 
 export function setWebRTC(isDisabled: boolean) {
   // Disable WebRTC in Firefox
@@ -8,5 +8,5 @@ export function setWebRTC(isDisabled: boolean) {
   });
 
   // Save webRTC config to storage
-  return setStorage(StorageKeys.webrtcDisabled, isDisabled);
+  return localStorage.webrtcDisabled.set(isDisabled);
 }

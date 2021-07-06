@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setStorage, StorageKeys } from './localStorage';
+import { localStorage } from './localStorage';
 
 export interface Server {
   active: boolean;
@@ -28,35 +28,32 @@ export interface Servers {
 /**
  * Fetch servers list and save it to storage
  */
-export const serversToStorage = function () {
-  axios
-    .get('https://api.mullvad.net/www/relays/wireguard/')
-    .then(({ data }) => {
-      const servers: Servers = {};
+export const serversToStorage = async function () {
+  try {
+    const servers: Servers = {};
 
-      data
-        .filter((server: Server) => server.active == true)
-        .forEach((server: Server) => {
-          const countryName: string = server.country_name;
-          const cityName: string = server.city_name;
+    const { data } = await axios.get('https://api.mullvad.net/www/relays/wireguard/');
 
-          // Create country object if not present
-          if (!(countryName in servers)) {
-            servers[countryName] = {};
-          }
-          // Create a city array if not present
-          if (!(cityName in servers[countryName])) {
-            servers[countryName][cityName] = [];
-          }
-          // If active, add server to servers
-          if (server.active) {
-            servers[countryName][cityName].push(server);
-          }
-        });
+    data
+      .filter((server: Server) => server.active == true)
+      .forEach((server: Server) => {
+        const countryName: string = server.country_name;
+        const cityName: string = server.city_name;
 
-      setStorage(StorageKeys.servers, servers);
-    })
-    .catch((error) => {
-      console.log(`Couldn't get the servers list`, error);
-    });
+        // Create country object if not present
+        if (!(countryName in servers)) {
+          servers[countryName] = {};
+        }
+        // Create a city array if not present
+        if (!(cityName in servers[countryName])) {
+          servers[countryName][cityName] = [];
+        }
+        // Add server to servers
+        servers[countryName][cityName].push(server);
+      });
+
+    localStorage.servers.set(servers);
+  } catch (error) {
+    console.log(`Couldn't get the servers list`, error);
+  }
 };

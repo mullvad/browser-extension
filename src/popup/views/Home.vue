@@ -5,8 +5,8 @@
 
       <div v-if="!checking">
         <p v-if="location">{{ location }}</p>
-        <p v-if="connection.ip"><b>Ip:</b> {{ connection.ip }}</p>
-        <p v-if="connection.company"><b>Isp:</b> {{ connection.company }}</p>
+        <p v-if="connection.ip"><b>IP:</b> {{ connection.ip }}</p>
+        <p v-if="connection.provider"><b>Provider:</b> {{ connection.provider }}</p>
         <p v-if="connection.server"><b>Server:</b> {{ connection.server }}</p>
       </div>
     </div>
@@ -48,7 +48,7 @@
             </button>
           </router-link>
           <button v-if="!socksEnabled" @click="socksConnect">Connect through socks</button>
-          <button v-if="socksEnabled" @click="socksDisconnect">Disconnect socks</button>
+          <button v-else @click="socksDisconnect">Disconnect socks</button>
         </div>
 
         <div v-else>
@@ -56,18 +56,16 @@
         </div>
       </div>
 
-      <div v-if="!connection.isMullvad">
-        <p v-if="!socksEnabled">
-          To connect through socks, you need to have an active connection to Mullvad.
-        </p>
-
-        <div v-if="socksEnabled">
+      <div v-else>
+        <template v-if="socksEnabled">
           <p>
             You have a socks connection activated. <br />
             If you can't access internet, disable socks to access internet directly.
           </p>
           <button @click="socksDisable">Disable socks</button>
-        </div>
+        </template>
+
+        <p v-else>To connect through socks, you need to have an active connection to Mullvad.</p>
       </div>
     </div>
   </div>
@@ -78,17 +76,8 @@ import Vue from 'vue';
 
 import { connCheck, setWebRTC } from '@/helpers';
 import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
-import { getStorage, setStorage, removeStorage, StorageKeys } from '@/helpers/localStorage';
-
-export interface Connection {
-  city: string;
-  country: string;
-  ip: string;
-  server?: string;
-  protocol?: string;
-  company: string;
-  isMullvad: boolean;
-}
+import { localStorage } from '@/helpers/localStorage';
+import { Connection } from '@/helpers/connCheck';
 
 export default Vue.extend({
   data() {
@@ -104,7 +93,7 @@ export default Vue.extend({
         ip: '',
         server: '',
         protocol: '',
-        company: '',
+        provider: '',
         isMullvad: false,
       } as Connection,
     };
@@ -114,125 +103,90 @@ export default Vue.extend({
       setWebRTC(checked);
     },
     async socksConnect(): Promise<void> {
-      // FIXME Without destructuring, this.socksConfig == {}
+      // FIXME: Without destructuring, this.socksConfig == {}
       const socksConfig = { ...this.socksConfig };
 
       setSocks(true, socksConfig);
-      setStorage(StorageKeys.socksEnabled, true);
+      localStorage.socksEnabled.set(true);
 
       this.socksEnabled = true;
       await this.updateConnection();
     },
     async socksDisconnect(): Promise<void> {
       setSocks(false);
-      setStorage(StorageKeys.socksEnabled, false);
+      localStorage.socksEnabled.set(false);
 
       this.socksEnabled = false;
       await this.updateConnection();
     },
     async socksDisable(): Promise<void> {
       setSocks(false);
-      setStorage(StorageKeys.socksEnabled, false);
-      removeStorage(StorageKeys.socksConfig);
+      localStorage.socksEnabled.set(false);
+      localStorage.socksConfig.remove();
       this.socksEnabled = false;
 
       await this.updateConnection();
     },
     async updateConnection(): Promise<void> {
-      const connData = await connCheck();
-      const connection = {
-        city: connData.city || '',
-        country: connData.country || '',
-        ip: connData.ip,
-        server: connData.mullvad_exit_ip_hostname,
-        protocol: connData.mullvad_server_type,
-        company: connData.organization,
-        isMullvad: connData.mullvad_exit_ip,
-      };
+      const connection = await connCheck();
 
       this.connection = connection;
     },
   },
   computed: {
     location(): string {
-      let location;
-
       if (this.connection.city && this.connection.country) {
-        location = `${this.connection.city}, ${this.connection.country}`;
+        return `${this.connection.city}, ${this.connection.country}`;
       } else if (!this.connection.city && this.connection.country) {
-        location = this.connection.country;
+        return this.connection.country;
       } else if (this.connection.city && !this.connection.country) {
-        location = this.connection.city;
+        return this.connection.city;
       } else {
-        location = 'Unknown';
+        return 'Unknown';
       }
-      return location;
     },
     title(): string {
-      let title;
+      if (this.checking) {
+        return 'Checking connection';
+      }
 
       if (this.connection.protocol) {
-        title = this.connection.protocol;
+        return this.connection.protocol;
       } else {
-        title = 'Not Mullvad';
+        return 'Not Mullvad';
       }
-
-      if (this.checking) {
-        title = 'Checking connection';
-      }
-
-      return title;
     },
     statusIcon(): string {
-      let classname;
+      if (this.checking) {
+        return 'checking';
+      }
 
       if (this.connection.isMullvad) {
-        classname = 'connected';
+        return 'connected';
       } else {
-        classname = 'disconnected';
+        return 'disconnected';
       }
-
-      if (this.checking) {
-        classname = 'checking';
-      }
-
-      return classname;
     },
   },
   async created(): Promise<void> {
     try {
       const incognitoAllowed = await browser.extension.isAllowedIncognitoAccess();
-      const { webrtcDisabled } = await getStorage(StorageKeys.webrtcDisabled);
-      const { socksConfig } = await getStorage(StorageKeys.socksConfig);
-      const { socksEnabled } = await getStorage(StorageKeys.socksEnabled);
+      const webrtcDisabled = await localStorage.webrtcDisabled.get();
 
-      console.log('HOME - socksConfig', socksConfig);
-      console.log('HOME - socksEnabled', socksEnabled);
+      const socksConfig = await localStorage.socksConfig.get();
+      const socksEnabled = await localStorage.socksEnabled.get();
 
       this.webrtcDisabled = webrtcDisabled;
       this.socksEnabled = socksEnabled;
       this.incognitoAllowed = incognitoAllowed;
 
-      // // ConnCheck on popup start
-      // // Try 2 times on error as a workaround (See connCheck for details)
-      const connData = await connCheck(2);
-      console.log('HOME - connData', connData);
-
-      const connection = {
-        city: connData.city || '',
-        country: connData.country || '',
-        ip: connData.ip,
-        server: connData.mullvad_exit_ip_hostname,
-        protocol: connData.mullvad_server_type,
-        company: connData.organization,
-        isMullvad: connData.mullvad_exit_ip,
-      };
+      // ConnCheck on popup start
+      // Try 2 times on error as a workaround (See connCheck for details)
+      const connection = await connCheck();
 
       // Set connection to storage for reuse in Location (Maybe not needed?)
-      setStorage(StorageKeys.connection, connection);
+      localStorage.connection.set(connection);
       this.connection = connection;
-      // console.log('HOME - connData.connInfo', connData.connInfo);
-      // console.log('HOME - connection', connection);
 
       if (socksEnabled) {
         this.socksEnabled = socksEnabled;
@@ -240,44 +194,33 @@ export default Vue.extend({
 
       // Connected to Mullvad
       if (connection.protocol) {
-        console.log('HOME -  Protocol: ', connection.protocol);
-
         // If no socksConfig in storage
         if (!socksConfig) {
-          console.log('Generate default config and save it to storage');
           // Generate default config and save it to storage
           const defaultConfig = getSocksConfig(connection.protocol);
-          setStorage(StorageKeys.socksConfig, defaultConfig);
-          console.log('socksConfig', socksConfig);
+          localStorage.socksConfig.set(defaultConfig);
           this.socksConfig = defaultConfig;
         }
 
         // If socks is already connected
         if (socksConfig && socksEnabled) {
-          console.log('If socks is already connected');
-          console.log('socksConfig', socksConfig);
           this.socksConfig = socksConfig;
           this.socksEnabled = true;
         }
 
         // If socks is present, but not enabled
         if (socksConfig && !socksEnabled) {
-          console.log('If socks is present, but not enabled');
-          console.log('socksConfig', socksConfig);
           this.socksConfig = socksConfig;
         }
       }
 
       // Not connected to Mullvad, and socks present
       if (!connection.isMullvad && socksConfig) {
-        console.log('Not connected to Mullvad, and socks present');
-        console.log('socksConfig', socksConfig);
         this.socksConfig = socksConfig;
       }
 
       this.checking = false;
     } catch (error) {
-      console.log('Error in created(): ', error);
       this.checking = false;
     }
   },
