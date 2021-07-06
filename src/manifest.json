@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "Mullvad Privacy Companion",
+  "homepage_url": "https://mullvad.net",
+  "description": "Easily improve your privacy",
+  "default_locale": "en",
+
+  "permissions": ["storage", "privacy", "browserSettings", "proxy", "<all_urls>"],
+
+  "icons": {
+    "16": "icons/logo.svg",
+    "48": "icons/logo.svg",
+    "96": "icons/logo.svg",
+    "128": "icons/logo.svg",
+    "256": "icons/logo.svg"
+  },
+
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Mullvad Privacy Companion",
+    "default_icon": {
+      "16": "icons/logo.svg",
+      "48": "icons/logo.svg",
+      "96": "icons/logo.svg"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true,
+    "browser_style": true
+  }
+}
