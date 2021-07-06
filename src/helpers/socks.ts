@@ -4,6 +4,10 @@ export interface SocksConfig {
   proxyDNS?: boolean;
 }
 
+const defaultWgSocksIP = '10.64.0.1';
+const defaulOvpnSocksIP = '10.8.0.1';
+const defaultSocksPort = '1080';
+
 export function setSocks(socksEnabled: boolean, socksConfig?: SocksConfig) {
   console.log('setSocks socksConfig: ', socksConfig);
 
@@ -27,10 +31,10 @@ export function getSocksConfig(protocol: string, socks?: string): SocksConfig {
     // Use default socks
     switch (protocol) {
       case 'WireGuard' || 'SOCKS through WireGuard':
-        socks = '10.64.0.1';
+        socks = defaultWgSocksIP;
         break;
       case 'OpenVPN' || 'SOCKS through OpenVPN':
-        socks = '10.8.0.1';
+        socks = defaulOvpnSocksIP;
         break;
     }
   } else {
@@ -39,8 +43,9 @@ export function getSocksConfig(protocol: string, socks?: string): SocksConfig {
   }
 
   return {
+    // TODO: Allow disabling Proxy DNS in the settings
     proxyDNS: true,
     proxyType: 'manual',
-    socks: socks + ':1080',
+    socks: socks + ':' + defaultSocksPort,
   };
 }

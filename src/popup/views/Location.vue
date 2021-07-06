@@ -41,8 +41,8 @@ export default Vue.extend({
       const socksConfig = getSocksConfig(this.currentProtocol, socksName);
       setSocks(true, socksConfig);
 
-      console.log('handleSelect socksName: ', socksName);
-      console.log('handleSelect socksConfig: ', socksConfig);
+      // console.log('handleSelect socksName: ', socksName);
+      // console.log('handleSelect socksConfig: ', socksConfig);
 
       setStorage(StorageKeys.socksConfig, socksConfig);
       setStorage(StorageKeys.socksEnabled, true);
@@ -58,11 +58,11 @@ export default Vue.extend({
     const { servers } = await getStorage(StorageKeys.servers);
     const { socksProtocols } = await getStorage(StorageKeys.socksProtocols);
 
-    // FIXME Order servers [1-n]
+    // FIXME: Order servers [1-n]
     this.servers = servers;
     this.currentProtocol = socksProtocols.current;
 
-    // TODO Open the view to the current Mullvad server
+    // TODO: Open the view to the current Mullvad server
   },
 });
 </script>
@@ -70,7 +70,6 @@ export default Vue.extend({
 <style lang="scss">
 .country {
   border-bottom: 1px solid #192e45;
-  // background-color: rebeccapurple;
 
   > summary {
     padding: 0.5em;
