@@ -1,5 +1,5 @@
 ## High
- - [ ] src/helpers/localStorage.ts: Using any is quite risky and can lead to runtime errors. It would be nice with a typed interface for LocalStorage. I have some ideas of how to solve this so let me know if you want ideas.
+ - [x] src/helpers/localStorage.ts: Using any is quite risky and can lead to runtime errors. It would be nice with a typed interface for LocalStorage. I have some ideas of how to solve this so let me know if you want ideas.
  - [x] src/helpers/connCheck.ts: I would suggest creating an interface for the data and use as return type instead of any.
 
  - [?] Both web-ext and vue-cli contains a lot of vulnerabilities. I'm not sure what the best approach is here. I tried updating packages to resolve those vulnerabilities but wasn't successful. I didn't spend a lot of time on it though.

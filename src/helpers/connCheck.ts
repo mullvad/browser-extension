@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getStorage, setStorage, StorageKeys } from './localStorage';
+import { localStorage } from './localStorage';
 
 const CONN_URL = 'https://am.i.mullvad.net/json';
 
@@ -21,21 +21,26 @@ export interface Connection {
   isMullvad: boolean;
 }
 
+export interface SocksProtocols {
+  previous?: string;
+  current: string;
+}
+
 export const connCheck = async (n = 2): Promise<Connection> => {
   try {
     const { data } = await axios.get(CONN_URL);
 
     // Keep track of procotols used previously
     // Used to detect a mismatch when switching from one to another
-    const { socksProtocols } = await getStorage(StorageKeys.socksProtocols);
+    const socksProtocols = await localStorage.socksProtocols.get();
 
     if (socksProtocols !== undefined) {
-      setStorage(StorageKeys.socksProtocols, {
+      localStorage.socksProtocols.set({
         previous: socksProtocols.current,
         current: data.mullvad_server_type,
       });
     } else {
-      setStorage(StorageKeys.socksProtocols, {
+      localStorage.socksProtocols.set({
         current: data.mullvad_server_type,
       });
     }

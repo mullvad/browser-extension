@@ -76,7 +76,8 @@ import Vue from 'vue';
 
 import { connCheck, setWebRTC } from '@/helpers';
 import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
-import { getStorage, setStorage, removeStorage, StorageKeys } from '@/helpers/localStorage';
+// import { getStorage, setStorage, localStorage, StorageKeys } from '@/helpers/localStorage';
+import { localStorage } from '@/helpers/localStorage';
 import { Connection } from '@/helpers/connCheck';
 
 export default Vue.extend({
@@ -107,22 +108,22 @@ export default Vue.extend({
       const socksConfig = { ...this.socksConfig };
 
       setSocks(true, socksConfig);
-      setStorage(StorageKeys.socksEnabled, true);
+      localStorage.socksEnabled.set(true);
 
       this.socksEnabled = true;
       await this.updateConnection();
     },
     async socksDisconnect(): Promise<void> {
       setSocks(false);
-      setStorage(StorageKeys.socksEnabled, false);
+      localStorage.socksEnabled.set(false);
 
       this.socksEnabled = false;
       await this.updateConnection();
     },
     async socksDisable(): Promise<void> {
       setSocks(false);
-      setStorage(StorageKeys.socksEnabled, false);
-      removeStorage(StorageKeys.socksConfig);
+      localStorage.socksEnabled.set(false);
+      localStorage.socksConfig.remove();
       this.socksEnabled = false;
 
       await this.updateConnection();
@@ -171,9 +172,10 @@ export default Vue.extend({
   async created(): Promise<void> {
     try {
       const incognitoAllowed = await browser.extension.isAllowedIncognitoAccess();
-      const { webrtcDisabled } = await getStorage(StorageKeys.webrtcDisabled);
-      const { socksConfig } = await getStorage(StorageKeys.socksConfig);
-      const { socksEnabled } = await getStorage(StorageKeys.socksEnabled);
+      const webrtcDisabled = await localStorage.webrtcDisabled.get();
+
+      const socksConfig = await localStorage.socksConfig.get();
+      const socksEnabled = await localStorage.socksEnabled.get();
 
       console.log('HOME - socksConfig', socksConfig);
       console.log('HOME - socksEnabled', socksEnabled);
@@ -188,7 +190,7 @@ export default Vue.extend({
       // console.log('HOME - connection', connection);
 
       // Set connection to storage for reuse in Location (Maybe not needed?)
-      setStorage(StorageKeys.connection, connection);
+      localStorage.connection.set(connection);
       this.connection = connection;
       // console.log('HOME - connData.connInfo', connData.connInfo);
       // console.log('HOME - connection', connection);
@@ -206,7 +208,7 @@ export default Vue.extend({
           // console.log('Generate default config and save it to storage');
           // Generate default config and save it to storage
           const defaultConfig = getSocksConfig(connection.protocol);
-          setStorage(StorageKeys.socksConfig, defaultConfig);
+          localStorage.socksConfig.set(defaultConfig);
           // console.log('socksConfig', socksConfig);
           this.socksConfig = defaultConfig;
         }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setStorage, StorageKeys } from './localStorage';
+import { localStorage } from './localStorage';
 
 export interface Server {
   active: boolean;
@@ -52,7 +52,7 @@ export const serversToStorage = async function () {
         servers[countryName][cityName].push(server);
       });
 
-    setStorage(StorageKeys.servers, servers);
+    localStorage.servers.set(servers);
   } catch (error) {
     console.log(`Couldn't get the servers list`, error);
   }
