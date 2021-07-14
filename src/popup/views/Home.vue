@@ -74,7 +74,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import { connCheck, setWebRTC } from '@/helpers';
+import { checkInstalledExts, connCheck, setWebRTC } from '@/helpers';
 import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
 import { localStorage } from '@/helpers/localStorage';
 import { Connection } from '@/helpers/connCheck';
@@ -218,6 +218,15 @@ export default Vue.extend({
       if (!connection.isMullvad && socksConfig) {
         this.socksConfig = socksConfig;
       }
+
+      // Get installation status of recommended extensions
+      const extsStatus = await checkInstalledExts([
+        'uBlock0@raymondhill.net',
+        'https-everywhere@eff.org',
+        'CookieAutoDelete@kennydo.com',
+        'jid1-MnnxcxisBPnSXQ@jetpack', // Privacy Badger ID
+      ]);
+      console.log(extsStatus);
 
       this.checking = false;
     } catch (error) {
