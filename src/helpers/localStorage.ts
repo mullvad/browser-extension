@@ -30,7 +30,6 @@ function getSetter<T>(key: string): (value: T) => Promise<void> {
 function getGetter<T>(key: string, defaultValue: T): () => Promise<T> {
   return async () => {
     const value = (await browser.storage.local.get(key))[key] as T;
-    console.log('Value getGetter: ', value);
     if (typeof value === 'undefined') {
       return defaultValue;
     } else {

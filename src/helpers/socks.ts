@@ -9,8 +9,6 @@ const defaulOvpnSocksIP = '10.8.0.1';
 const defaultSocksPort = '1080';
 
 export function setSocks(socksEnabled: boolean, socksConfig?: SocksConfig) {
-  console.log('setSocks socksConfig: ', socksConfig);
-
   // If socks should be set
   if (socksEnabled) {
     // Update browser socks settings with provided settings
@@ -43,7 +41,7 @@ export function getSocksConfig(protocol: string, socks?: string): SocksConfig {
   }
 
   return {
-    // TODO: Allow disabling Proxy DNS in the settings
+    // FIXME: Allow disabling Proxy DNS in the settings
     proxyDNS: true,
     proxyType: 'manual',
     socks: socks + ':' + defaultSocksPort,

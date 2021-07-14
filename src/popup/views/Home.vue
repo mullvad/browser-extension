@@ -76,7 +76,6 @@ import Vue from 'vue';
 
 import { connCheck, setWebRTC } from '@/helpers';
 import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
-// import { getStorage, setStorage, localStorage, StorageKeys } from '@/helpers/localStorage';
 import { localStorage } from '@/helpers/localStorage';
 import { Connection } from '@/helpers/connCheck';
 
@@ -177,23 +176,17 @@ export default Vue.extend({
       const socksConfig = await localStorage.socksConfig.get();
       const socksEnabled = await localStorage.socksEnabled.get();
 
-      console.log('HOME - socksConfig', socksConfig);
-      console.log('HOME - socksEnabled', socksEnabled);
-
       this.webrtcDisabled = webrtcDisabled;
       this.socksEnabled = socksEnabled;
       this.incognitoAllowed = incognitoAllowed;
 
-      // // ConnCheck on popup start
-      // // Try 2 times on error as a workaround (See connCheck for details)
+      // ConnCheck on popup start
+      // Try 2 times on error as a workaround (See connCheck for details)
       const connection = await connCheck();
-      // console.log('HOME - connection', connection);
 
       // Set connection to storage for reuse in Location (Maybe not needed?)
       localStorage.connection.set(connection);
       this.connection = connection;
-      // console.log('HOME - connData.connInfo', connData.connInfo);
-      // console.log('HOME - connection', connection);
 
       if (socksEnabled) {
         this.socksEnabled = socksEnabled;
@@ -201,44 +194,33 @@ export default Vue.extend({
 
       // Connected to Mullvad
       if (connection.protocol) {
-        // console.log('HOME -  Protocol: ', connection.protocol);
-
         // If no socksConfig in storage
         if (!socksConfig) {
-          // console.log('Generate default config and save it to storage');
           // Generate default config and save it to storage
           const defaultConfig = getSocksConfig(connection.protocol);
           localStorage.socksConfig.set(defaultConfig);
-          // console.log('socksConfig', socksConfig);
           this.socksConfig = defaultConfig;
         }
 
         // If socks is already connected
         if (socksConfig && socksEnabled) {
-          // console.log('If socks is already connected');
-          // console.log('socksConfig', socksConfig);
           this.socksConfig = socksConfig;
           this.socksEnabled = true;
         }
 
         // If socks is present, but not enabled
         if (socksConfig && !socksEnabled) {
-          console.log('If socks is present, but not enabled');
-          console.log('socksConfig', socksConfig);
           this.socksConfig = socksConfig;
         }
       }
 
       // Not connected to Mullvad, and socks present
       if (!connection.isMullvad && socksConfig) {
-        // console.log('Not connected to Mullvad, and socks present');
-        // console.log('socksConfig', socksConfig);
         this.socksConfig = socksConfig;
       }
 
       this.checking = false;
     } catch (error) {
-      // console.log('Error in created(): ', error);
       this.checking = false;
     }
   },

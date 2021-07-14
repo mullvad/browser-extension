@@ -45,7 +45,7 @@ export const connCheck = async (n = 2): Promise<Connection> => {
       });
     }
 
-    // TODO: Set connection to storage directly here
+    // FIXME: Set connection to storage directly here
 
     return {
       city: data.city || '',

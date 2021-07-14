@@ -41,9 +41,6 @@ export default Vue.extend({
       const socksConfig = getSocksConfig(this.currentProtocol, socksName);
       setSocks(true, socksConfig);
 
-      // console.log('handleSelect socksName: ', socksName);
-      // console.log('handleSelect socksConfig: ', socksConfig);
-
       localStorage.socksConfig.set(socksConfig);
       localStorage.socksEnabled.set(true);
 
@@ -62,7 +59,7 @@ export default Vue.extend({
     this.servers = servers;
     this.currentProtocol = socksProtocols.current;
 
-    // TODO: Open the view to the current Mullvad server
+    // FIXME: Open the view to the current Mullvad server
   },
 });
 </script>
