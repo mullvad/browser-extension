@@ -1,4 +1,5 @@
 import { Connection, SocksProtocols } from './connCheck';
+import { Extension, defaultExtsConfig } from './extensions';
 import { Servers } from './servers';
 import { SocksConfig } from './socks';
 
@@ -9,6 +10,7 @@ export const localStorage = {
   socksEnabled: createStorageMethodsForKey<boolean>('socksEnabled', false),
   socksProtocols: createStorageMethodsForKey<SocksProtocols>('socksProtocols', { current: '' }),
   connection: createStorageMethodsForKey<Connection | undefined>('connection', undefined),
+  extensions: createStorageMethodsForKey<Extension[]>('extensions', defaultExtsConfig),
 };
 
 function createStorageMethodsForKey<T>(key: string, defaultValue: T) {
@@ -21,9 +23,7 @@ function createStorageMethodsForKey<T>(key: string, defaultValue: T) {
 
 function getSetter<T>(key: string): (value: T) => Promise<void> {
   return (value: T) => {
-    // Clean object from Vue getter/setter
-    const cleanedValue = JSON.parse(JSON.stringify(value));
-    return browser.storage.local.set({ [key]: cleanedValue });
+    return browser.storage.local.set({ [key]: cleanObject(value) });
   };
 }
 
@@ -40,4 +40,10 @@ function getGetter<T>(key: string, defaultValue: T): () => Promise<T> {
 
 function getRemover(key: string): () => Promise<void> {
   return () => browser.storage.local.remove(key);
+}
+
+export function cleanObject(obj: any): any {
+  // Clean object from Vue getter/setter
+  // Useful when logging or before saving to storage
+  return JSON.parse(JSON.stringify(obj));
 }

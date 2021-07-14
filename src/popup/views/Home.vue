@@ -13,6 +13,29 @@
 
     <hr />
 
+    <div class="recommendations">
+      <div>
+        <h3>Privacy recommendations</h3>
+      </div>
+
+      <div v-if="recommendedExtensions.length > 0">
+        <ul v-for="ext in recommendedExtensions" :key="ext.id">
+          <li>
+            <p v-if="ext.installed === false">
+              Please install <a :href="ext.url"> {{ ext.name }}</a>
+            </p>
+            <p v-else-if="ext.enabled === false">
+              Please enable {{ ext.name }} in the Addons Page.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div v-else><p>All set!</p></div>
+    </div>
+
+    <hr />
+
     <div class="settings">
       <div>
         <h3>Settings</h3>
@@ -78,6 +101,7 @@ import { connCheck, setWebRTC } from '@/helpers';
 import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
 import { localStorage } from '@/helpers/localStorage';
 import { Connection } from '@/helpers/connCheck';
+import { Extension, getRecommended } from '@/helpers/extensions';
 
 export default Vue.extend({
   data() {
@@ -96,6 +120,7 @@ export default Vue.extend({
         provider: '',
         isMullvad: false,
       } as Connection,
+      recommendedExtensions: [] as Extension[],
     };
   },
   methods: {
@@ -218,6 +243,10 @@ export default Vue.extend({
       if (!connection.isMullvad && socksConfig) {
         this.socksConfig = socksConfig;
       }
+
+      // Get recommended extensions
+      const recommendedExtensions = await getRecommended();
+      this.recommendedExtensions = recommendedExtensions;
 
       this.checking = false;
     } catch (error) {

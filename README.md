@@ -56,3 +56,4 @@ extension needs access to the following permissions:
 - `proxy` to configure socks proxy
 - `storage` to save preferences
 - `<all_urls>` to handle requests through proxy
+- `management` to be able to recommend third party extensions
