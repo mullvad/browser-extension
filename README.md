@@ -6,19 +6,34 @@ configure socks proxy.
 
 ## Development
 
+### **Environment**
+
+Build on:
+
+- Node 14.16.1
+- Npm 6.14.13
+- Ubuntu 20.04
+
+For:
+
+- Firefox: last version (>89)
+
+### **Developing**
+
 Run `npm run serve` to automatically rebuild the extension when changes are saved.
 
 In another terminal, run `npm run start` to start a development instance of Firefox with the
 extension or `npm run debug` to also open the console in a separate window. The extension will
 automatically reload when changes are saved.
 
-The developer tools can be accessed by clicking on `inspect` in `about:debugging`.
+The developer tools can be started by clicking on `This Firefox` in `about:debugging`, then
+`inspect`.
 
-## Build
+### **Building**
 
-Run `npm run build` to generate a new .zip, it zill be created in the `artifacts` folder.
+Run `npm run build` to generate a new .zip, it will be created in an `artifacts` folder.
 
-## Testing in Firefox
+### **Testing**
 
 The extension can be installed alongside current extensions. The extension will automatically unload
 when Firefox is closed.
@@ -29,10 +44,9 @@ To install an extension temporarily:
 - enter "about:debugging" in the URL bar
 - click "This Firefox"
 - click "Load Temporary Add-on"
-- open `mullvad-extension.zip` file; or the extension's directory and select any file inside the
-  extension.
+- open `mullvad-extension.zip` file; or the extension's folder and select any file inside of it.
 
-## Permissions
+## Permissions required
 
 Permissions are automatically accepted when testing the extension (see `Resources` below). This
 extension needs access to the following permissions:
@@ -42,10 +56,3 @@ extension needs access to the following permissions:
 - `proxy` to configure socks proxy
 - `storage` to save preferences
 - `<all_urls>` to handle requests through proxy
-
-## Resources
-
-- [MDN Browser Extensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
-- [Extension workshop](https://extensionworkshop.com/)
-- [Testing persistent and restart features](https://extensionworkshop.com/documentation/develop/testing-persistent-and-restart-features/)
-- [Testing permission requests](https://extensionworkshop.com/documentation/develop/test-permission-requests/)
