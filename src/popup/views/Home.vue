@@ -5,7 +5,7 @@
 
       <div v-if="!checking">
         <p v-if="location">{{ location }}</p>
-        <p v-if="connection.ip"><b>Ip:</b> {{ connection.ip }}</p>
+        <p v-if="connection.ip"><b>IP:</b> {{ connection.ip }}</p>
         <p v-if="connection.provider"><b>Provider:</b> {{ connection.provider }}</p>
         <p v-if="connection.server"><b>Server:</b> {{ connection.server }}</p>
       </div>
