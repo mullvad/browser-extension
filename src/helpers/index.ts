@@ -3,4 +3,3 @@ export { setSocks } from './socks';
 export { serversToStorage } from './servers';
 export { localStorage } from './localStorage';
 export { connCheck } from './connCheck';
-export { checkInstalledExts } from './extensions';

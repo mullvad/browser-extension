@@ -74,10 +74,11 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import { checkInstalledExts, connCheck, setWebRTC } from '@/helpers';
+import { connCheck, setWebRTC } from '@/helpers';
 import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
-import { localStorage } from '@/helpers/localStorage';
+import { cleanObject, localStorage } from '@/helpers/localStorage';
 import { Connection } from '@/helpers/connCheck';
+import { Extension, getRecommended } from '@/helpers/extensions';
 
 export default Vue.extend({
   data() {
@@ -96,6 +97,7 @@ export default Vue.extend({
         provider: '',
         isMullvad: false,
       } as Connection,
+      recommendedExtensions: [] as Extension[],
     };
   },
   methods: {
@@ -219,14 +221,11 @@ export default Vue.extend({
         this.socksConfig = socksConfig;
       }
 
-      // Get installation status of recommended extensions
-      const extsStatus = await checkInstalledExts([
-        'uBlock0@raymondhill.net',
-        'https-everywhere@eff.org',
-        'CookieAutoDelete@kennydo.com',
-        'jid1-MnnxcxisBPnSXQ@jetpack', // Privacy Badger ID
-      ]);
-      console.log(extsStatus);
+      // Get recommended extensions
+      const recommendedExtensions = await getRecommended();
+      this.recommendedExtensions = cleanObject(recommendedExtensions!);
+
+      console.log(cleanObject(recommendedExtensions!));
 
       this.checking = false;
     } catch (error) {
