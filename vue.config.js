@@ -20,15 +20,4 @@ module.exports = {
       },
     },
   },
-  chainWebpack: (config) => {
-    // Workaround for some import error with webpack
-    // See: https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/issues/111#issuecomment-401519194
-    config.plugins.delete('fork-ts-checker');
-    config.module
-      .rule('ts')
-      .use('ts-loader')
-      .tap((options) => {
-        return { ...options, transpileOnly: false };
-      });
-  },
 };
