@@ -1,5 +1,5 @@
 import { setWebRTC, setSocks, serversToStorage } from '@/helpers';
-import { localStorage } from '@/helpers/localStorage';
+import { cleanObject, localStorage } from '@/helpers/localStorage';
 import {
   defaultExtsConfig,
   onDisable,
@@ -54,5 +54,5 @@ async function init() {
 // Simple logging function for storage update
 function handleStorageChange(changes: any, areaName: string) {
   const key: string = Object.keys(changes)[0];
-  console.log(`Changes to ${key} in ${areaName}: `, changes);
+  console.log(`Changes to ${key} in ${areaName}: `, cleanObject(changes));
 }

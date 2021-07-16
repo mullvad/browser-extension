@@ -13,6 +13,29 @@
 
     <hr />
 
+    <div class="recommendations">
+      <div>
+        <h3>Privacy recommendations</h3>
+      </div>
+
+      <div v-if="recommendedExtensions.length > 0">
+        <ul v-for="ext in recommendedExtensions" :key="ext.id">
+          <li>
+            <p v-if="ext.installed === false">
+              Please install <a :href="ext.url"> {{ ext.name }}</a>
+            </p>
+            <p v-if="ext.installed === true && ext.enabled === false">
+              Please enable {{ ext.name }} in the Addons Page.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div v-else><p>All set!</p></div>
+    </div>
+
+    <hr />
+
     <div class="settings">
       <div>
         <h3>Settings</h3>
