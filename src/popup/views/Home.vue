@@ -1,95 +1,152 @@
 <template>
   <div>
-    <div class="status">
-      <h2 :class="statusIcon">{{ title }}</h2>
-
-      <div v-if="!checking">
-        <p v-if="location">{{ location }}</p>
-        <p v-if="connection.ip"><b>IP:</b> {{ connection.ip }}</p>
-        <p v-if="connection.provider"><b>Provider:</b> {{ connection.provider }}</p>
-        <p v-if="connection.server"><b>Server:</b> {{ connection.server }}</p>
-      </div>
-    </div>
-
-    <hr />
-
-    <div class="recommendations">
-      <div>
-        <h3>Privacy recommendations</h3>
-      </div>
-
-      <div v-if="recommendedExtensions.length > 0">
-        <ul v-for="ext in recommendedExtensions" :key="ext.id">
-          <li>
-            <p v-if="ext.installed === false">
-              Please install <a :href="ext.url"> {{ ext.name }}</a>
-            </p>
-            <p v-else-if="ext.enabled === false">
-              Please enable {{ ext.name }} in the Addons Page.
-            </p>
-          </li>
-        </ul>
-      </div>
-
-      <div v-else><p>All set!</p></div>
-    </div>
-
-    <hr />
-
-    <div class="settings">
-      <div>
-        <h3>Settings</h3>
-      </div>
-
-      <div class="switch-container">
-        <p>Disable WebRTC</p>
-        <label class="switch">
-          <input
-            type="checkbox"
-            v-model="webrtcDisabled"
-            @change="toggleWebrtc($event.target.checked)"
-          />
-          <span class="slider round"></span>
-        </label>
-      </div>
-    </div>
-
-    <hr />
-
-    <div class="socks-proxy">
-      <h3>Socks Proxy</h3>
-      <div v-if="connection.isMullvad">
-        <div v-if="incognitoAllowed">
-          <router-link
-            v-if="connection.protocol == 'WireGuard' || 'SOCKS through WireGuard'"
-            to="/location"
-            v-slot="{ navigate }"
-            custom
-          >
-            <button @click="navigate" @keypress.enter="navigate" role="link">
-              Switch location
-            </button>
-          </router-link>
-          <button v-if="!socksEnabled" @click="socksConnect">Connect through socks</button>
-          <button v-else @click="socksDisconnect">Disconnect socks</button>
-        </div>
-
-        <div v-else>
-          Allow <em>Run in Private Windows</em> (in the extension settings) to use socks proxy.
+    <header class="header-home">
+      <div class="logo">
+        <img src="../../assets/svg/logo.svg" />
+        <div class="home-title">
+          <span>MULLVAD</span>
+          <span>Privacy companion</span>
         </div>
       </div>
+      <!-- Link to settings view
+      <img src="../../assets/svg/settings.svg" style="visibility: hidden" /> -->
+    </header>
 
-      <div v-else>
-        <template v-if="socksEnabled">
-          <p>
-            You have a socks connection activated. <br />
-            If you can't access internet, disable socks to access internet directly.
-          </p>
-          <button @click="socksDisable">Disable socks</button>
-        </template>
+    <div>
+      <section class="connection">
+        <div v-if="checking" class="checking container">
+          <div>
+            <img src="../../assets/svg/spinner.svg" />
+            <p>Checking connection</p>
+          </div>
 
-        <p v-else>To connect through socks, you need to have an active connection to Mullvad.</p>
-      </div>
+          <div v-if="socksEnabled" class="socks-error">
+            <p>
+              The connection is set to use the proxy. <br />
+              If you can't load any page, disconnect the proxy to connect to the internet directly.
+            </p>
+            <Button @button-click="socksReset" color="red">Disconnect proxy</Button>
+          </div>
+        </div>
+
+        <div v-else-if="connection.ip" class="container">
+          <div v-if="connection.city || connection.country" class="location">
+            <h2>
+              <span v-if="connection.city">
+                {{ connection.city }}
+              </span>
+              <span v-if="connection.country">, {{ connection.country }} </span>
+            </h2>
+
+            <div v-if="connection.isMullvad" class="mullvad-status">
+              <img src="../../assets/svg/lock.svg" />
+              <p>
+                Mullvad <span v-if="connection.protocol">({{ connection.protocol }})</span>
+              </p>
+            </div>
+          </div>
+          <div v-else class="container">
+            <h2>Unknown</h2>
+          </div>
+
+          <div v-if="showConnDetails" class="conn-details">
+            <p v-if="connection.ip">IP: {{ connection.ip }}</p>
+            <p v-if="connection.provider">Provider: {{ connection.provider }}</p>
+            <!-- <p>DNS server: coming soon</p> -->
+            <p v-if="connection.server">Server: {{ connection.server }}</p>
+
+            <section v-if="connection.isMullvad" class="proxy">
+              <div v-if="connection.isMullvad">
+                <div v-if="incognitoAllowed" class="proxy-controls">
+                  <split-button v-if="connection.protocol.includes('WireGuard')" size="big">
+                    <template v-slot:left-button>
+                      <Button
+                        v-if="connection.protocol.includes('SOCKS')"
+                        @button-click="socksDisconnect"
+                        split="left"
+                        color="red"
+                      >
+                        Disconnect proxy
+                      </Button>
+                      <Button v-else @button-click="socksConnect" split="left" color="green">
+                        Connect proxy
+                      </Button>
+                    </template>
+
+                    <template v-slot:right-button>
+                      <Button split="right" color="blue" title="Switch proxy location">
+                        <router-link to="/location">
+                          <img src="../../assets/svg/location.svg" />
+                        </router-link>
+                      </Button>
+                    </template>
+                  </split-button>
+
+                  <Button v-else-if="!socksEnabled" @button-click="socksConnect" color="green">
+                    Connect proxy
+                  </Button>
+                  <Button v-else @button-click="socksDisconnect" color="red">
+                    Disconnect proxy
+                  </Button>
+                </div>
+
+                <div v-else>
+                  Allow <em>Run in Private Windows</em> in the extension settings to use the proxy.
+                </div>
+              </div>
+
+              <!-- To show provy even if not Mullvad
+              <p v-else>
+                To connect through the proxy, an active Mullvad VPN connection is required.
+              </p> -->
+            </section>
+          </div>
+
+          <div @click="toggleDetails" id="show-details" :class="showClass">
+            <p v-if="showConnDetails">Show less</p>
+            <p v-else>Advanced</p>
+          </div>
+        </div>
+
+        <div v-else class="container">
+          <h2>No connection detected</h2>
+        </div>
+      </section>
+
+      <section>
+        <div v-if="recommendedExtensions.length > 0">
+          <div v-for="ext in recommendedExtensions" :key="ext.id">
+            <recommendation
+              :name="ext.name"
+              :description="ext.description"
+              :cta="ext.installed ? 'enable' : 'install'"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="sub-section">
+        <router-link to="/privacy-extensions" v-slot="{ navigate }" custom>
+          <div @click="navigate" role="link" class="container">
+            <h3>Privacy extensions</h3>
+            <div>
+              <img v-if="!recommendedExtensions.length == 0" src="../../assets/svg/warning.svg" />
+              <img src="../../assets/svg/chevron-right.svg" />
+            </div>
+          </div>
+        </router-link>
+      </section>
+
+      <section class="sub-section">
+        <router-link to="/privacy-settings" v-slot="{ navigate }" custom>
+          <div @click="navigate" role="link" class="container">
+            <h3>Privacy settings</h3>
+            <div>
+              <img src="../../assets/svg/chevron-right.svg" />
+            </div>
+          </div>
+        </router-link>
+      </section>
     </div>
   </div>
 </template>
@@ -101,16 +158,25 @@ import { connCheck, setWebRTC } from '@/helpers';
 import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
 import { localStorage } from '@/helpers/localStorage';
 import { Connection } from '@/helpers/connCheck';
-import { Extension, getRecommended } from '@/helpers/extensions';
+import { Extension } from '@/helpers/extensions';
+
+import Recommendation from '../components/Recommendation.vue';
+import SplitButton from '../components/SplitButton.vue';
+import Button from '../components/Button.vue';
 
 export default Vue.extend({
+  components: {
+    Recommendation,
+    SplitButton,
+    Button,
+  },
   data() {
     return {
       checking: true,
+      showConnDetails: false,
       incognitoAllowed: false,
       socksEnabled: false,
       socksConfig: {} as SocksConfig,
-      webrtcDisabled: true,
       connection: {
         city: '',
         country: '',
@@ -123,32 +189,44 @@ export default Vue.extend({
       recommendedExtensions: [] as Extension[],
     };
   },
+  computed: {
+    showClass(): string {
+      return this.showConnDetails ? 'show-less' : 'show-more';
+    },
+  },
   methods: {
+    async toggleDetails(): Promise<void> {
+      const updated = !this.showConnDetails;
+
+      this.showConnDetails = updated;
+      await localStorage.showConnDetails.set(updated);
+    },
     toggleWebrtc(checked: boolean): void {
       setWebRTC(checked);
     },
     async socksConnect(): Promise<void> {
-      // FIXME: Without destructuring, this.socksConfig == {}
       const socksConfig = { ...this.socksConfig };
 
       setSocks(true, socksConfig);
-      localStorage.socksEnabled.set(true);
+      await localStorage.socksEnabled.set(true);
 
       this.socksEnabled = true;
       await this.updateConnection();
     },
     async socksDisconnect(): Promise<void> {
       setSocks(false);
-      localStorage.socksEnabled.set(false);
+      await localStorage.socksEnabled.set(false);
 
       this.socksEnabled = false;
       await this.updateConnection();
     },
-    async socksDisable(): Promise<void> {
+    async socksReset(): Promise<void> {
       setSocks(false);
-      localStorage.socksEnabled.set(false);
-      localStorage.socksConfig.remove();
+      await localStorage.socksEnabled.set(false);
       this.socksEnabled = false;
+
+      // Delete sock config (in case connection protocol has changed)
+      await localStorage.socksConfig.remove();
 
       await this.updateConnection();
     },
@@ -158,55 +236,28 @@ export default Vue.extend({
       this.connection = connection;
     },
   },
-  computed: {
-    location(): string {
-      if (this.connection.city && this.connection.country) {
-        return `${this.connection.city}, ${this.connection.country}`;
-      } else if (!this.connection.city && this.connection.country) {
-        return this.connection.country;
-      } else if (this.connection.city && !this.connection.country) {
-        return this.connection.city;
-      } else {
-        return 'Unknown';
-      }
-    },
-    title(): string {
-      if (this.checking) {
-        return 'Checking connection';
-      }
-
-      if (this.connection.protocol) {
-        return this.connection.protocol;
-      } else {
-        return 'Not Mullvad';
-      }
-    },
-    statusIcon(): string {
-      if (this.checking) {
-        return 'checking';
-      }
-
-      if (this.connection.isMullvad) {
-        return 'connected';
-      } else {
-        return 'disconnected';
-      }
-    },
-  },
   async created(): Promise<void> {
     try {
-      const incognitoAllowed = await browser.extension.isAllowedIncognitoAccess();
-      const webrtcDisabled = await localStorage.webrtcDisabled.get();
+      const extensions = await localStorage.extensions.get();
+      const recommendedExtensions = extensions
+        .filter((ext) => ext.ignored === false)
+        .filter((ext) => ext.enabled === false || ext.installed === false);
 
+      this.recommendedExtensions = recommendedExtensions;
+      this.showConnDetails = await localStorage.showConnDetails.get();
+      this.incognitoAllowed = await browser.extension.isAllowedIncognitoAccess();
+    } catch (error) {
+      console.log(error);
+    }
+
+    // Get settings for connection and do a ConnCheck
+    try {
       const socksConfig = await localStorage.socksConfig.get();
       const socksEnabled = await localStorage.socksEnabled.get();
 
-      this.webrtcDisabled = webrtcDisabled;
       this.socksEnabled = socksEnabled;
-      this.incognitoAllowed = incognitoAllowed;
 
       // ConnCheck on popup start
-      // Try 2 times on error as a workaround (See connCheck for details)
       const connection = await connCheck();
 
       // Set connection to storage for reuse in Location (Maybe not needed?)
@@ -244,10 +295,6 @@ export default Vue.extend({
         this.socksConfig = socksConfig;
       }
 
-      // Get recommended extensions
-      const recommendedExtensions = await getRecommended();
-      this.recommendedExtensions = recommendedExtensions;
-
       this.checking = false;
     } catch (error) {
       this.checking = false;
@@ -257,154 +304,172 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-/* SIMPLE CSS RESET */
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
+@import '../../assets/scss/base';
+@import '../../assets/scss/buttons';
 
-body {
-  background-color: #294d73;
-  margin: 1rem;
-  font-family: Noto Sans Display, sans-serif;
-  color: white;
-  width: 14em;
-}
-
-hr {
-  margin: 0.5em 0;
-  size: 0em;
-  color: transparent;
-}
-
-/* FONTS
-Some errors in console due to loading method,
-maybe use a loader instead?
- */
-
-@font-face {
-  font-family: 'Noto Sans Display';
-  src: url('/src/fonts/NotoSansDisplay-SemiBold.woff2') format('woff2'),
-    url('/src/fonts/NotoSansDisplay-SemiBold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Noto Sans Display';
-  src: url('/src/fonts/NotoSansDisplay-Regular.woff2') format('woff2'),
-    url('/src/fonts/NotoSansDisplay-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.spinner {
-  width: 1rem;
-}
-
+////////////
 /* HEADER */
-.connected::before {
-  display: inline-flex;
-  content: '';
-  background-image: url(../../assets/svg/lock.svg);
-  background-size: 1em 1em;
-  height: 1em;
-  width: 1em;
-  margin-right: 0.3rem;
+////////////
+
+.header-home {
+  @extend .header;
 }
 
-.checking::before {
-  display: inline-flex;
-  content: '';
-  background-image: url(../../assets/svg/spinner.svg);
-  background-size: 1em 1em;
-  height: 1em;
-  width: 1em;
-  margin-right: 0.3rem;
-}
+.home-title {
+  display: flex;
+  flex-flow: column;
 
-.disconnected::before {
-  display: inline-flex;
-  content: '';
-  background-image: url(../../assets/svg/unlock.svg);
-  background-size: 1em 1em;
-  height: 1em;
-  width: 1em;
-  margin-right: 0.3rem;
-}
+  span {
+    font-size: 1.2rem !important;
+    line-height: 20px;
 
-/* STATUS */
-.status {
-  & p:not(:first-child) {
-    font-size: 0.9em;
+    &:last-child {
+      font-weight: 400;
+    }
   }
 }
 
-/* WEBRTC */
-.switch-container {
+.logo {
   display: flex;
+  align-items: center;
+
+  img {
+    height: 2.5rem;
+  }
+
+  span {
+    font-family: $header;
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-left: 0.5rem;
+  }
+}
+
+////////////////
+/* CONNECTION */
+////////////////
+
+.connection {
+  @extend .light-text;
+
+  h2 {
+    font-size: 1.2rem;
+    color: $white;
+  }
+}
+
+.checking {
+  margin: 0.2rem 0;
+
+  div:first-child {
+    display: inline-flex;
+    align-items: center;
+
+    p {
+      font-size: 1.2rem;
+      font-family: $header;
+      color: $white;
+    }
+
+    img {
+      height: 1.3rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .socks-error {
+    margin: 0.3rem 0 0.6rem 0;
+  }
+}
+
+.location {
+  display: flex;
+  flex-direction: column;
+
+  :first-child {
+    display: inline-flex;
+  }
+}
+
+.mullvad-status {
+  display: inline-flex;
+  height: 1rem;
+  margin-bottom: 0.6rem;
+
+  img {
+    margin-right: 0.2rem;
+  }
+}
+
+.conn-details {
+  margin-bottom: 0.3rem;
+}
+
+#show-details {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.show-more {
+  ::after {
+    content: url('../../assets/svg/chevron-down.svg');
+    top: 4px;
+    left: 4px;
+  }
+
+  p:hover {
+    color: $white !important;
+  }
+}
+
+.show-less {
+  ::after {
+    content: url('../../assets/svg/chevron-up.svg');
+    top: 4px;
+    left: 4px;
+  }
+
+  p:hover {
+    color: $white !important;
+  }
+}
+
+///////////
+/* PROXY */
+///////////
+
+.proxy {
+  margin: 0.5em 0;
+}
+
+.proxy-controls {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
-/* switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 61px;
-  height: 34px;
-  margin-left: 0.5rem;
-}
+//////////////
+/* SUB-MENU */
+//////////////
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
+.sub-section {
+  background-color: $blue;
+  border-bottom: 1px solid $dark-blue;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: solid 1px white;
-  /* background-color: #ccc; */
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
 
-/* Toggle circle */
-.slider:before {
-  position: absolute;
-  content: '';
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  background-color: #e34039;
-}
+  &:hover {
+    background-color: $blue80;
+  }
 
-input:checked + .slider::before {
-  background-color: #44ad4d;
-}
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-input:checked + .slider:before {
-  transform: translateX(24px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
+    img {
+      height: 1.2rem;
+    }
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 import { setWebRTC, setSocks, serversToStorage } from '@/helpers';
 import { cleanObject, localStorage } from '@/helpers/localStorage';
-import { onDisable, onEnable, onInstall, onUninstall } from './helpers/extensions';
+import { loadExtConfigs, onDisable, onEnable, onInstall, onUninstall } from './helpers/extensions';
 
 init();
 
@@ -21,12 +21,14 @@ async function init() {
   // Fetch servers list and save it to storage
   serversToStorage();
 
+  // Load extensions settings
+  loadExtConfigs();
+
   // Load socks and webRTC settings from storage
   try {
     const webrtcDisabled = await localStorage.webrtcDisabled.get();
     const socksConfig = await localStorage.socksConfig.get();
     const socksEnabled = await localStorage.socksEnabled.get();
-    const extensionsConfig = await localStorage.extensions.get();
 
     let isDisabled = webrtcDisabled;
     if (typeof webrtcDisabled === 'undefined') {

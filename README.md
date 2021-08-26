@@ -1,8 +1,8 @@
-# Mullvad extension
+# Mullvad Privacy Companion
 
-Mullvad Privacy Companion is a Firefox extension giving an easy access to privacy settings. It will
-also give information on your connection, and if you're using Mullvad, it will also allow you to
-configure socks proxy.
+Mullvad Privacy Companion is a Firefox extension helping you improve your privacy by recommending
+extensions and better browser settings. It displays information about the connection, and when using
+Mullvad, a one-click access to proxy servers (socks5).
 
 ## Development
 
@@ -53,7 +53,16 @@ extension needs access to the following permissions:
 
 - `privacy` to disable webRTC
 - `browserSettings` to disable webRTC
-- `proxy` to configure socks proxy
+- `proxy` to configure and use Mullvad proxy servers
 - `storage` to save preferences
-- `<all_urls>` to handle requests through proxy
+- `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
+  `Network requests` for details)
 - `management` to be able to recommend third party extensions
+
+## Network requests
+
+Two external network requests are made by the extension:
+
+- `api.mullvad.net` to get the lastest proxy servers (Frequency: once on extension start)
+- `am.i.mullvad.net` to get the connection information (Frequency: each time the popup is started
+  and each time the proxy is connected/disconnected)

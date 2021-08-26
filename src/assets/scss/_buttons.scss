@@ -1,0 +1,160 @@
+@import 'colors';
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: Source Sans;
+  font-weight: 800;
+
+  cursor: pointer;
+  text-decoration: none;
+
+  border: none;
+}
+
+.btn-single {
+  @extend .btn;
+
+  border-radius: 3px;
+}
+
+.btn-split-left {
+  @extend .btn;
+
+  min-width: unset !important;
+
+  flex-grow: 1;
+  border-radius: 3px 0 0 3px;
+}
+
+.btn-split-right {
+  @extend .btn;
+
+  min-width: unset !important;
+
+  display: flex;
+  align-items: center;
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+
+  margin-left: 2px;
+  padding: 0 0.4rem !important;
+
+  border-radius: 0 3px 3px 0;
+}
+
+.btn-split-container-big {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+}
+
+.btn-split-container-medium {
+  display: flex;
+  justify-content: center;
+}
+
+/* Sizes */
+.btn-big {
+  font-size: 1.1rem;
+
+  min-width: 80%;
+
+  padding: 0.3rem 0;
+  margin-top: 0.6rem;
+}
+
+.btn-medium {
+  font-size: 1rem;
+
+  padding: 0.3rem 0.5rem;
+}
+
+/* Colors */
+.btn-green {
+  color: $white;
+  background-color: $green90;
+
+  &:hover {
+    background-color: $green;
+  }
+}
+
+.btn-red {
+  color: $white;
+  background-color: $red90;
+
+  &:hover {
+    background-color: $red;
+  }
+}
+
+.btn-blue {
+  color: $white;
+  background-color: $blue80;
+
+  &:hover {
+    background-color: $blue;
+  }
+}
+
+.btn-dark-blue {
+  color: $white;
+  background-color: $dark-blue90;
+
+  &:hover {
+    background-color: $dark-blue;
+  }
+}
+
+.btn-light-grey {
+  color: $dark-blue;
+  background-color: $light-grey;
+
+  cursor: initial;
+}
+
+/* Labels */
+.label {
+  padding: 0.1rem 0.5rem;
+  border-radius: 3px;
+
+  background-color: $dark-blue;
+
+  p {
+    font-size: 0.85rem;
+    color: $white;
+  }
+}
+
+.label-yellow {
+  @extend .label;
+  background-color: $yellow;
+
+  p {
+    color: $dark-blue;
+  }
+}
+
+.label-green {
+  @extend .label;
+  background-color: $green;
+
+  p {
+    color: $dark-blue;
+  }
+}
+
+.label-light {
+  @extend .label;
+  background-color: $light-grey;
+
+  p {
+    color: $dark-blue;
+  }
+}

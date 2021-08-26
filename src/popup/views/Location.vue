@@ -1,27 +1,43 @@
 <template>
-  <div class="location">
-    <button @click="handleBack">back</button>
-    <details v-for="country in Object.keys(servers)" :key="country" class="country">
-      <summary>{{ country }}</summary>
+  <div>
+    <header class="header-title">
+      <img src="../../assets/svg/chevron-down-circle.svg" @click="handleBack" />
+      <h2>Select proxy location</h2>
+      <br style="visibility: hidden" />
+    </header>
 
-      <details v-for="city in Object.keys(servers[country])" :key="city" class="city">
-        <summary>
-          {{ city }}
-        </summary>
+    <section>
+      <div class="info container">
+        <p>
+          While connected through the proxy, your real location and your VPN location are masked
+          with a private and secure location in the selected region.
+        </p>
+      </div>
 
-        <div v-for="server in servers[country][city]" :key="server.hostname" class="server">
-          <div @click="handleSelect(server.socks_name)">
-            {{ server.hostname }}
-          </div>
-        </div>
-      </details>
-    </details>
+      <div v-for="country in Object.keys(servers)" :key="country">
+        <accordion :title="country" class="country">
+          <accordion
+            v-for="city in Object.keys(servers[country])"
+            :key="city"
+            :title="city"
+            class="city"
+          >
+            <div v-for="server in servers[country][city]" :key="server.hostname" class="server">
+              <div @click="handleSelect(server.socks_name)">
+                {{ server.hostname }}
+              </div>
+            </div>
+          </accordion>
+        </accordion>
+      </div>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import router from '../router';
+import Accordion from '../components/Accordion.vue';
 
 import { Servers } from '@/helpers/servers';
 import { localStorage } from '@/helpers/localStorage';
@@ -29,6 +45,9 @@ import { getSocksConfig, setSocks } from '@/helpers/socks';
 
 export default Vue.extend({
   name: 'Location',
+  components: {
+    Accordion,
+  },
   data() {
     return {
       servers: {} as Servers,
@@ -58,57 +77,32 @@ export default Vue.extend({
     // FIXME: Order servers [1-n]
     this.servers = servers;
     this.currentProtocol = socksProtocols.current;
-
-    // FIXME: Open the view to the current Mullvad server
   },
 });
 </script>
 
 <style lang="scss">
-.country {
-  border-bottom: 1px solid #192e45;
+@import '../../assets/scss/colors';
 
-  > summary {
-    padding: 0.5em;
-    list-style: none;
+/* SERVERS LIST */
+.city {
+  .accordion-header {
+    padding-left: 3rem;
+    background-color: $blue40;
 
     &:hover {
-      cursor: pointer !important;
-    }
-    // For chrome
-    &::-webkit-details-marker {
-      display: none;
+      background-color: $blue60;
     }
   }
 }
 
-.city {
-  padding: 0.5em 0 0.5em 1em;
-  background-color: #192e45;
+.server {
+  padding: 0.8rem 1rem;
+  padding-left: 4.5rem;
+  cursor: pointer;
 
-  > summary {
-    list-style: none;
-
-    &:hover {
-      cursor: pointer !important;
-    }
-    // For chrome
-    &::-webkit-details-marker {
-      display: none;
-    }
-  }
-
-  .server {
-    padding: 0.5em 0;
-
-    div {
-      padding-left: 1em;
-      cursor: pointer !important;
-
-      &:hover {
-        background-color: #0c1722;
-      }
-    }
+  &:hover {
+    background-color: $blue60;
   }
 }
 </style>

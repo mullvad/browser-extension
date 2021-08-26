@@ -1,0 +1,59 @@
+@import 'fonts';
+@import 'colors';
+
+/* SIMPLE CSS RESET */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+body {
+  width: 20rem;
+
+  font-size: 16px;
+  font-family: $text, sans-serif;
+
+  color: $white;
+  background-color: $dark-blue;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $header;
+  font-weight: 700;
+}
+
+.light-text {
+  p {
+    color: $light-grey;
+    font-size: 0.9rem;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  background-color: $blue;
+
+  > img {
+    height: 1.5rem;
+  }
+}
+
+.container {
+  padding: 0.5rem 1rem;
+  > section {
+    margin-bottom: 1rem;
+  }
+}

@@ -5,7 +5,14 @@
   "description": "Easily improve your privacy",
   "default_locale": "en",
 
-  "permissions": ["storage", "privacy", "browserSettings", "proxy", "<all_urls>", "management"],
+  "permissions": [
+    "storage",
+    "privacy",
+    "browserSettings",
+    "proxy",
+    "*://*.mullvad.net/*",
+    "management"
+  ],
 
   "icons": {
     "16": "icons/logo.svg",

@@ -11,6 +11,7 @@ export const localStorage = {
   socksProtocols: createStorageMethodsForKey<SocksProtocols>('socksProtocols', { current: '' }),
   connection: createStorageMethodsForKey<Connection | undefined>('connection', undefined),
   extensions: createStorageMethodsForKey<Extension[]>('extensions', defaultExtsConfig),
+  showConnDetails: createStorageMethodsForKey<boolean>('showConnDetails', false),
 };
 
 function createStorageMethodsForKey<T>(key: string, defaultValue: T) {

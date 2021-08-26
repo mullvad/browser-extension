@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 
 import Home from '../../popup/views/Home.vue';
 import Location from '../../popup/views/Location.vue';
-import PrivacyExtensions from '../views/PrivacyExtensions.vue';
+import PrivacyExtensions from '../../popup/views/PrivacyExtensions.vue';
 import PrivacySettings from '../../popup/views/PrivacySettings.vue';
 
 Vue.use(VueRouter);
