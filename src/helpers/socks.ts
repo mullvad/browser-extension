@@ -24,7 +24,7 @@ export function setSocks(socksEnabled: boolean, socksConfig?: SocksConfig) {
   }
 }
 
-export function getSocksConfig(protocol: string, socks?: string): SocksConfig {
+export function createSocksConfig(protocol: string, socks?: string): SocksConfig {
   if (!socks) {
     // Use default socks
     switch (protocol) {

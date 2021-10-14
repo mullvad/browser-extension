@@ -10,6 +10,11 @@
       </div>
       <!-- Link to settings view
       <img src="../../assets/svg/settings.svg" style="visibility: hidden" /> -->
+      <div class="version">
+        <label class="label-yellow">
+          <p>beta {{ getExtVersion }}</p>
+        </label>
+      </div>
     </header>
 
     <div>
@@ -18,14 +23,6 @@
           <div>
             <img src="../../assets/svg/spinner.svg" />
             <p>Checking connection</p>
-          </div>
-
-          <div v-if="socksEnabled" class="socks-error">
-            <p>
-              The connection is set to use the proxy. <br />
-              If you can't load any page, disconnect the proxy to connect to the internet directly.
-            </p>
-            <Button @button-click="socksReset" color="red">Disconnect proxy</Button>
           </div>
         </div>
 
@@ -110,6 +107,13 @@
 
         <div v-else class="container">
           <h2>No connection detected</h2>
+          <div v-if="socksEnabled" class="socks-error">
+            <p>
+              The connection is set to use the proxy. <br />
+              If you can't load any page, disconnect the proxy to connect to the internet directly.
+            </p>
+            <Button @button-click="socksReset" color="red">Disconnect proxy</Button>
+          </div>
         </div>
       </section>
 
@@ -155,7 +159,7 @@
 import Vue from 'vue';
 
 import { connCheck, setWebRTC } from '@/helpers';
-import { getSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
+import { createSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
 import { localStorage } from '@/helpers/localStorage';
 import { Connection } from '@/helpers/connCheck';
 import { Extension } from '@/helpers/extensions';
@@ -193,6 +197,10 @@ export default Vue.extend({
     showClass(): string {
       return this.showConnDetails ? 'show-less' : 'show-more';
     },
+    getExtVersion(): string {
+      const { version } = browser.runtime.getManifest();
+      return version;
+    },
   },
   methods: {
     async toggleDetails(): Promise<void> {
@@ -205,6 +213,11 @@ export default Vue.extend({
       setWebRTC(checked);
     },
     async socksConnect(): Promise<void> {
+      // Generate a new default config, if none exists
+      if (Object.keys(this.socksConfig).length === 0) {
+        this.socksConfig = createSocksConfig(this.connection.protocol!);
+      }
+
       const socksConfig = { ...this.socksConfig };
 
       setSocks(true, socksConfig);
@@ -273,7 +286,7 @@ export default Vue.extend({
         // If no socksConfig in storage
         if (!socksConfig) {
           // Generate default config and save it to storage
-          const defaultConfig = getSocksConfig(connection.protocol);
+          const defaultConfig = createSocksConfig(connection.protocol);
           localStorage.socksConfig.set(defaultConfig);
           this.socksConfig = defaultConfig;
         }
@@ -343,6 +356,12 @@ export default Vue.extend({
     font-size: 1.4rem;
     margin-left: 0.5rem;
   }
+}
+
+.version {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
 }
 
 ////////////////

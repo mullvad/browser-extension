@@ -41,7 +41,7 @@ import Accordion from '../components/Accordion.vue';
 
 import { Servers } from '@/helpers/servers';
 import { localStorage } from '@/helpers/localStorage';
-import { getSocksConfig, setSocks } from '@/helpers/socks';
+import { createSocksConfig, setSocks } from '@/helpers/socks';
 
 export default Vue.extend({
   name: 'Location',
@@ -57,7 +57,7 @@ export default Vue.extend({
   },
   methods: {
     handleSelect(socksName: string) {
-      const socksConfig = getSocksConfig(this.currentProtocol, socksName);
+      const socksConfig = createSocksConfig(this.currentProtocol, socksName);
       setSocks(true, socksConfig);
 
       localStorage.socksConfig.set(socksConfig);

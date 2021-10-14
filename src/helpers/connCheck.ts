@@ -26,9 +26,11 @@ export interface SocksProtocols {
   current: string;
 }
 
-export const connCheck = async (n = 2): Promise<Connection> => {
+export const connCheck = async (n = 3): Promise<Connection> => {
   try {
-    const { data } = await axios.get(CONN_URL);
+    const { data } = await axios.get(CONN_URL, {
+      timeout: 6000, // with two tries, the max total time  will be over the 10s of the bug (see link above)
+    });
 
     // Keep track of procotols used previously
     // Used to detect a mismatch when switching from one to another
@@ -57,9 +59,7 @@ export const connCheck = async (n = 2): Promise<Connection> => {
       isMullvad: data.mullvad_exit_ip,
     };
   } catch (error) {
-    console.error('Error connCheck()', error);
-
-    if (n === 1) throw error;
+    if (n === 1) throw new Error('Connection check failed.');
     return connCheck(n - 1);
   }
 };

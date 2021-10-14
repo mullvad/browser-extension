@@ -11,6 +11,7 @@ export interface Server {
   ipv4_addr_in: string;
   ipv6_addr_in: string;
   multihop_port: number;
+  network_port_speed: number;
   owned: boolean;
   provider: string;
   pubkey: string;
