@@ -39,5 +39,10 @@
     "page": "options.html",
     "open_in_tab": true,
     "browser_style": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "91.1.0"
+    }
   }
 }
