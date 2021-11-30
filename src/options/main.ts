@@ -1,9 +1,6 @@
-import Vue from 'vue';
-import router from './router';
-import Options from './Options.vue';
+import { createApp } from 'vue'
+import App from './Options.vue'
+import '../styles'
 
-new Vue({
-  router,
-  el: '#app',
-  render: (h) => h(Options),
-});
+const app = createApp(App)
+app.mount('#app')

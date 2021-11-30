@@ -1,9 +1,6 @@
-import Vue from 'vue';
-import Popup from './Popup.vue';
-import router from './router';
+import { createApp } from 'vue'
+import App from './Popup.vue'
+import '../styles'
 
-new Vue({
-  router,
-  el: '#app',
-  render: (h) => h(Popup),
-});
+const app = createApp(App)
+app.mount('#app')
