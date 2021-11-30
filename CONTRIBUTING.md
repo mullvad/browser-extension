@@ -46,9 +46,11 @@ This is to verify no one else is already working on it, and to make sure we’re
 given contribution.
 
 Once you receive our confirmation, you are welcome to open a pull request and start working on it.
-Once you are ready, we will then review your pull request.
+You may also want to comment and ask for help if you’re new or if you get stuck. We’re more than
+happy to help! When ready, we will review your pull request.
 
-Make sure to follow our [coding guidelines](https://github.com/mullvad/coding-guidelines).
+Make sure to follow our code of conduct (link coming soon) and our
+[coding guidelines](https://github.com/mullvad/coding-guidelines).
 
 ### Copyright and ownership of contributed code and changes
 
