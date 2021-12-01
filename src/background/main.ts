@@ -1,4 +1,5 @@
-import { serversToStorage } from '~/helpers/servers';
+import { loadExtConfigs } from '@/helpers/extensions';
+import { serversToStorage } from '@/helpers/servers';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -10,3 +11,6 @@ if (import.meta.hot) {
 
 // Fetch servers list and save it to storage
 serversToStorage();
+
+// Load extensions settings
+loadExtConfigs();
