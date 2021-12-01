@@ -1,3 +1,5 @@
+import { storageLocal } from './storageLocal';
+
 export interface SocksConfig {
   proxyType?: string;
   socks?: string;
@@ -22,8 +24,8 @@ const setSocks = (socksEnabled: boolean, socksConfig?: SocksConfig) => {
 
 export const initSocks = async () => {
   try {
-    const socksConfig = await localStorage.socksConfig.get();
-    const socksEnabled = await localStorage.socksEnabled.get();
+    const socksConfig = await storageLocal.socksConfig.get();
+    const socksEnabled = await storageLocal.socksEnabled.get();
 
     setSocks(socksEnabled, socksConfig);
   } catch (error) {

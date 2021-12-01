@@ -1,5 +1,6 @@
 import { Extension } from './extensions';
 import { Servers } from './servers';
+import { SocksConfig } from './socks';
 
 const createStorageMethodsForKey = <T>(key: string, defaultValue: T) => {
   return {
@@ -30,8 +31,10 @@ const getRemover = (key: string): (() => Promise<void>) => {
   return () => browser.storage.local.remove(key);
 };
 
-export const localStorage = {
+export const storageLocal = {
   extensions: createStorageMethodsForKey<Extension[]>('extensions', []),
   servers: createStorageMethodsForKey<Servers>('servers', {}),
+  socksConfig: createStorageMethodsForKey<SocksConfig | undefined>('socksConfig', undefined),
+  socksEnabled: createStorageMethodsForKey<boolean>('socksEnabled', false),
   webrtcDisabled: createStorageMethodsForKey<boolean>('webrtcDisabled', true),
 };

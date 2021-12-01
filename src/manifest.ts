@@ -31,7 +31,7 @@ export async function getManifest() {
       48: './assets/icon-512.png',
       128: './assets/icon-512.png',
     },
-    permissions: ['*://*.mullvad.net/*', 'management', 'storage'],
+    permissions: ['*://*.mullvad.net/*', 'management', 'storage', 'privacy', 'proxy'],
     content_scripts: [
       {
         matches: ['http://*/*', 'https://*/*'],

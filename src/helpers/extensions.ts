@@ -1,4 +1,4 @@
-import { localStorage } from './localStorage';
+import { storageLocal } from './storageLocal';
 
 export interface Extension {
   id: string;
@@ -65,7 +65,7 @@ const defaultExtsConfigID = defaultExtsConfig.map((ext) => ext.id);
 
 const loadExtConfigs = async (): Promise<void> => {
   // Get extensions config from storage
-  let extensionsConfig = await localStorage.extensions.get();
+  let extensionsConfig = await storageLocal.extensions.get();
 
   if (extensionsConfig.length === 0) {
     extensionsConfig = defaultExtsConfig;
@@ -94,7 +94,7 @@ const loadExtConfigs = async (): Promise<void> => {
     } else return ext;
   });
 
-  localStorage.extensions.set(updatedConfig);
+  storageLocal.extensions.set(updatedConfig);
 };
 
 const addExtListeners = () => {
@@ -127,12 +127,12 @@ export const onIgnore = async (extensionInfo: ExtensionInfo, status: boolean) =>
 
 const updateExtConfig = async (extensionInfo: ExtensionInfo, modification: Partial<Extension>) => {
   if (defaultExtsConfigID.includes(extensionInfo.id)) {
-    const extensionsConfig = await localStorage.extensions.get();
+    const extensionsConfig = await storageLocal.extensions.get();
     const updatedConfig = extensionsConfig.map((extension) => {
       return extension.id === extensionInfo.id ? { ...extension, ...modification } : extension;
     });
 
-    localStorage.extensions.set(updatedConfig);
+    storageLocal.extensions.set(updatedConfig);
   }
 };
 
