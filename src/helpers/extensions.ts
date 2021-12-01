@@ -63,7 +63,7 @@ const defaultExtsConfig: Extension[] = [
 
 const defaultExtsConfigID = defaultExtsConfig.map((ext) => ext.id);
 
-export async function loadExtConfigs(): Promise<void> {
+const loadExtConfigs = async (): Promise<void> => {
   // Get extensions config from storage
   let extensionsConfig = await localStorage.extensions.get();
 
@@ -95,22 +95,29 @@ export async function loadExtConfigs(): Promise<void> {
   });
 
   localStorage.extensions.set(updatedConfig);
-}
+};
+
+const addExtListeners = () => {
+  browser.management.onInstalled.addListener(onInstall);
+  browser.management.onUninstalled.addListener(onUninstall);
+  browser.management.onEnabled.addListener(onEnable);
+  browser.management.onDisabled.addListener(onDisable);
+};
 
 // Listeners
-export async function onInstall(extensionInfo: ExtensionInfo) {
+async function onInstall(extensionInfo: ExtensionInfo) {
   await updateExtConfig(extensionInfo, { installed: true, enabled: true, ignored: false });
 }
 
-export async function onUninstall(extensionInfo: ExtensionInfo) {
+async function onUninstall(extensionInfo: ExtensionInfo) {
   await updateExtConfig(extensionInfo, { installed: false, enabled: false });
 }
 
-export async function onEnable(extensionInfo: ExtensionInfo) {
+async function onEnable(extensionInfo: ExtensionInfo) {
   await updateExtConfig(extensionInfo, { enabled: true, ignored: false });
 }
 
-export async function onDisable(extensionInfo: ExtensionInfo) {
+async function onDisable(extensionInfo: ExtensionInfo) {
   await updateExtConfig(extensionInfo, { enabled: false });
 }
 
@@ -129,7 +136,15 @@ async function updateExtConfig(extensionInfo: ExtensionInfo, modification: Parti
   }
 }
 
-export function sortExtensions(extensions: Extension[]): Extension[] {
+export const initExtensions = () => {
+  // Add listener on extension action
+  addExtListeners();
+
+  // Load extensions settings
+  loadExtConfigs();
+};
+
+export const sortExtensions = (extensions: Extension[]): Extension[] => {
   // Sort in the following order:
   // to install + disabled / installed / ignored
   extensions.sort((a, b) => {
@@ -141,4 +156,4 @@ export function sortExtensions(extensions: Extension[]): Extension[] {
   });
 
   return extensions;
-}
+};

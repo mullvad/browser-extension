@@ -1,4 +1,4 @@
-import { loadExtConfigs } from '@/helpers/extensions';
+import { initExtensions } from '@/helpers/extensions';
 import { serversToStorage } from '@/helpers/servers';
 
 // only on dev mode
@@ -9,8 +9,8 @@ if (import.meta.hot) {
   import('./contentScriptHMR');
 }
 
+// Add listener on extension action & load extensions settings
+initExtensions();
+
 // Fetch servers list and save it to storage
 serversToStorage();
-
-// Load extensions settings
-loadExtConfigs();

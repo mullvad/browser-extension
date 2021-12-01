@@ -29,7 +29,7 @@ export interface Servers {
 /**
  * Fetch servers list and save it to storage
  */
-export const serversToStorage = async function () {
+export const serversToStorage = async () => {
   try {
     const servers: Servers = {};
 
