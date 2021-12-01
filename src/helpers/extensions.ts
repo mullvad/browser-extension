@@ -16,7 +16,7 @@ export interface Extension {
 
 type ExtensionInfo = browser.management.ExtensionInfo | Extension;
 
-export const defaultExtsConfig: Extension[] = [
+const defaultExtsConfig: Extension[] = [
   {
     id: 'uBlock0@raymondhill.net',
     name: 'uBlock Origin',
@@ -65,35 +65,36 @@ const defaultExtsConfigID = defaultExtsConfig.map((ext) => ext.id);
 
 export async function loadExtConfigs(): Promise<void> {
   // Get extensions config from storage
-  const extensionsConfig = await localStorage.extensions.get();
+  let extensionsConfig = await localStorage.extensions.get();
 
-  // Create extensions configs if default one are provided
-  if (extensionsConfig == defaultExtsConfig) {
-    // Get installed addons
-    const installedAddons = await browser.management.getAll();
-
-    // Create a disabled extensions ID list
-    const disabledIDs = installedAddons
-      .filter((addon) => addon.enabled === false)
-      .map((addons) => addons.id);
-
-    const enabledIDs = installedAddons
-      .filter((addon) => addon.enabled === true)
-      .map((addons) => addons.id);
-
-    const updatedConfig = extensionsConfig.map((ext) => {
-      // ext disabled
-      if (disabledIDs.includes(ext.id)) {
-        return { ...ext, installed: true, enabled: false };
-        // ext enabled
-      } else if (enabledIDs.includes(ext.id)) {
-        return { ...ext, installed: true, enabled: true };
-        // ext to install
-      } else return ext;
-    });
-
-    localStorage.extensions.set(updatedConfig);
+  if (extensionsConfig.length === 0) {
+    extensionsConfig = defaultExtsConfig;
   }
+
+  // Get installed addons
+  const installedAddons = await browser.management.getAll();
+
+  // Create a disabled extensions ID list
+  const disabledIDs = installedAddons
+    .filter((addon) => addon.enabled === false)
+    .map((addons) => addons.id);
+
+  const enabledIDs = installedAddons
+    .filter((addon) => addon.enabled === true)
+    .map((addons) => addons.id);
+
+  const updatedConfig = extensionsConfig.map((ext) => {
+    // ext disabled
+    if (disabledIDs.includes(ext.id)) {
+      return { ...ext, installed: true, enabled: false };
+      // ext enabled
+    } else if (enabledIDs.includes(ext.id)) {
+      return { ...ext, installed: true, enabled: true };
+      // ext to install
+    } else return ext;
+  });
+
+  localStorage.extensions.set(updatedConfig);
 }
 
 // Listeners

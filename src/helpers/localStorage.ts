@@ -1,9 +1,9 @@
-import { defaultExtsConfig, Extension } from './extensions';
+import { Extension } from './extensions';
 import { Servers } from './servers';
 
 export const localStorage = {
   servers: createStorageMethodsForKey<Servers>('servers', {}),
-  extensions: createStorageMethodsForKey<Extension[]>('extensions', defaultExtsConfig),
+  extensions: createStorageMethodsForKey<Extension[]>('extensions', []),
 };
 
 function createStorageMethodsForKey<T>(key: string, defaultValue: T) {
