@@ -105,27 +105,27 @@ const addExtListeners = () => {
 };
 
 // Listeners
-async function onInstall(extensionInfo: ExtensionInfo) {
+const onInstall = async (extensionInfo: ExtensionInfo) => {
   await updateExtConfig(extensionInfo, { installed: true, enabled: true, ignored: false });
-}
+};
 
-async function onUninstall(extensionInfo: ExtensionInfo) {
+const onUninstall = async (extensionInfo: ExtensionInfo) => {
   await updateExtConfig(extensionInfo, { installed: false, enabled: false });
-}
+};
 
-async function onEnable(extensionInfo: ExtensionInfo) {
+const onEnable = async (extensionInfo: ExtensionInfo) => {
   await updateExtConfig(extensionInfo, { enabled: true, ignored: false });
-}
+};
 
-async function onDisable(extensionInfo: ExtensionInfo) {
+const onDisable = async (extensionInfo: ExtensionInfo) => {
   await updateExtConfig(extensionInfo, { enabled: false });
-}
+};
 
-export async function onIgnore(extensionInfo: ExtensionInfo, status: boolean) {
+export const onIgnore = async (extensionInfo: ExtensionInfo, status: boolean) => {
   await updateExtConfig(extensionInfo, { ignored: status });
-}
+};
 
-async function updateExtConfig(extensionInfo: ExtensionInfo, modification: Partial<Extension>) {
+const updateExtConfig = async (extensionInfo: ExtensionInfo, modification: Partial<Extension>) => {
   if (defaultExtsConfigID.includes(extensionInfo.id)) {
     const extensionsConfig = await localStorage.extensions.get();
     const updatedConfig = extensionsConfig.map((extension) => {
@@ -134,7 +134,7 @@ async function updateExtConfig(extensionInfo: ExtensionInfo, modification: Parti
 
     localStorage.extensions.set(updatedConfig);
   }
-}
+};
 
 export const initExtensions = () => {
   // Add listener on extension action
