@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Extension, onIgnore } from "@/helpers/extensions";
-import { Status } from "@/popup/views/PrivacyExtenstions/types";
+import { Extension, onIgnore } from '@/helpers/extensions';
+import { Status } from '@/popup/views/PrivacyExtensions/types';
 
 const { extension } = defineProps<{
   extension: Extension,

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 
-import { Extension, sortExtensions } from "@/helpers/extensions";
-import { storageLocal } from "@/helpers/storageLocal";
-import PrivacyExtension from "@/popup/views/PrivacyExtenstions/PrivacyExtension.vue";
+import { Extension, sortExtensions } from '@/helpers/extensions';
+import { storageLocal } from '@/helpers/storageLocal';
+import PrivacyExtension from '@/popup/views/PrivacyExtensions/PrivacyExtension.vue';
 
 const extensions = ref<Extension[]>([]);
 storageLocal.extensions.get().then((ext) => {
