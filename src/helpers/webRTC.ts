@@ -1,6 +1,6 @@
 import { storageLocal } from './storageLocal';
 
-const setWebRTC = (isDisabled: boolean) => {
+export const setWebRTC = (isDisabled: boolean) => {
   // Disable WebRTC in Firefox
   browser.privacy.network.peerConnectionEnabled.set({ value: !isDisabled });
   browser.privacy.network.webRTCIPHandlingPolicy.set({
