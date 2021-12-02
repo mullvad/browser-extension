@@ -14,11 +14,7 @@ export async function getManifest() {
     version: pkg.version,
     description: pkg.description,
     browser_action: {
-      default_icon: {
-        "16": "assets/logo.svg",
-        "48": "assets/logo.svg",
-        "96": "assets/logo.svg"
-      },
+      default_icon: './assets/icon.svg',
       default_popup: './dist/popup/index.html',
     },
     options_ui: {
@@ -31,11 +27,11 @@ export async function getManifest() {
       persistent: false,
     },
     icons: {
-      '16': 'assets/logo.svg',
-      '48': 'assets/logo.svg',
-      '96': 'assets/logo.svg',
-      '128': 'assets/logo.svg',
-      '256': 'assets/logo.svg',
+      '16': 'icons/logo.svg',
+      '48': 'icons/logo.svg',
+      '96': 'icons/logo.svg',
+      '128': 'icons/logo.svg',
+      '256': 'icons/logo.svg',
     },
     permissions: ['*://*.mullvad.net/*', 'management', 'storage', 'privacy', 'proxy'],
     content_scripts: [
