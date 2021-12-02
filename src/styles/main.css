@@ -5,6 +5,28 @@ body,
   padding: 0;
 }
 
+:root {
+  --blue: rgba(41, 77, 115, 1);;
+  --dark-blue: rgba(25, 46, 69, 1);
+  --light-grey: rgba(255, 255, 255, 0.6);
+  --white: rgba(255, 255, 255, 1);
+  --yellow: rgba(255, 213, 36, 1);
+}
+
+body {
+  background-color: var(--dark-blue);
+  color: var(--light-grey);
+}
+
+img {
+  max-width: 100%;
+}
+
+header {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
 .btn {
   @apply px-4 py-1 rounded inline-block
     bg-teal-600 text-white cursor-pointer
