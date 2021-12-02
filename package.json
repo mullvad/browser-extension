@@ -42,6 +42,7 @@
     "fs-extra": "^10.0.0",
     "kolorist": "^1.5.0",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.3",
     "unplugin-auto-import": "^0.4.8",
@@ -56,6 +57,7 @@
     "webextension-polyfill": "^0.8.0"
   },
   "dependencies": {
-    "axios": "^0.24.0"
+    "axios": "^0.24.0",
+    "vue-router": "^4.0.12"
   }
 }
