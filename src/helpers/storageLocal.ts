@@ -1,3 +1,4 @@
+import { Connection, SocksProtocols } from './connCheck';
 import { Extension } from './extensions';
 import { Servers } from './servers';
 import { SocksConfig } from './socks';
@@ -32,9 +33,12 @@ const getRemover = (key: string): (() => Promise<void>) => {
 };
 
 export const storageLocal = {
+  connection: createStorageMethodsForKey<Connection | undefined>('connection', undefined),
   extensions: createStorageMethodsForKey<Extension[]>('extensions', []),
   servers: createStorageMethodsForKey<Servers>('servers', {}),
+  showConnDetails: createStorageMethodsForKey<boolean>('showConnDetails', false),
   socksConfig: createStorageMethodsForKey<SocksConfig | undefined>('socksConfig', undefined),
   socksEnabled: createStorageMethodsForKey<boolean>('socksEnabled', false),
+  socksProtocols: createStorageMethodsForKey<SocksProtocols>('socksProtocols', { current: '' }),
   webrtcDisabled: createStorageMethodsForKey<boolean>('webrtcDisabled', true),
 };
