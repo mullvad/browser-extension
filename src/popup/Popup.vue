@@ -1,39 +1,20 @@
 <script lang="ts" setup>
-const extensionVersion = computed(() => {
-  const { version } = browser.runtime.getManifest();
-  return version;
-});
+
 </script>
 <template>
-  <main class="w-[300px]">
+  <main class="w-[500px]">
     <div>
-      <header class="px-4 py-1">
-        <div class="flex justify-between items-center">
-          <div class="flex">
-            <img src="/assets/icon.svg" class="w-10" />
-            <div class="mx-2">
-              <h1 class="uppercase">Mullvad</h1>
-              <p>Privacy Companion</p>
-            </div>
+      <header class="px-4 py-2 min-h-14 flex justify-between items-center">
+        <div class="flex items-center">
+          <img src="/assets/icon.svg" class="w-8 h-8" />
+          <div class="mx-4">
+            <h1 class="uppercase text-2xl font-bold">Mullvad Privacy Companion</h1>
           </div>
-          <Label :content="extensionVersion" />
         </div>
       </header>
-      <ul>
-        <li>
-          <router-link to="/">Home</router-link>
-        </li>
-        <li>
-          <router-link to="/location">Location</router-link>
-        </li>
-        <li>
-          <router-link to="/privacy-extensions">Privacy Extensions</router-link>
-        </li>
-        <li>
-          <router-link to="/privacy-settings">Privacy Settings</router-link>
-        </li>
-      </ul>
     </div>
-    <router-view />
+    <div class="px-4 py-1.5rem">
+      <router-view />
+    </div>
   </main>
 </template>

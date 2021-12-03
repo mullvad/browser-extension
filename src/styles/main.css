@@ -6,16 +6,20 @@ body,
 }
 
 :root {
-  --blue: rgba(41, 77, 115, 1);;
+  --blue: rgba(41, 77, 115, 1);
   --dark-blue: rgba(25, 46, 69, 1);
-  --light-grey: rgba(255, 255, 255, 0.6);
+  --grey: #7F94AB;
+  --light-grey: rgb(127, 148, 171);
   --white: rgba(255, 255, 255, 1);
   --yellow: rgba(255, 213, 36, 1);
+  --success: #44AD4D;
+  --error: #E34039;
 }
 
 body {
   background-color: var(--dark-blue);
   color: var(--light-grey);
+  font-size: 16px;
 }
 
 img {
@@ -25,6 +29,14 @@ img {
 header {
   background-color: var(--blue);
   color: var(--white);
+}
+
+.text-success {
+  color: var(--success);
+}
+
+.text-error {
+  color: var(--error);
 }
 
 .btn {
