@@ -27,11 +27,11 @@ export async function getManifest() {
       persistent: false,
     },
     icons: {
-      '16': 'icons/logo.svg',
-      '48': 'icons/logo.svg',
-      '96': 'icons/logo.svg',
-      '128': 'icons/logo.svg',
-      '256': 'icons/logo.svg',
+      '16': './assets/icon.svg',
+      '48': './assets/icon.svg',
+      '96': './assets/icon.svg',
+      '128': './assets/icon.svg',
+      '256': './assets/icon.svg',
     },
     permissions: ['*://*.mullvad.net/*', 'management', 'storage', 'privacy', 'proxy'],
     content_scripts: [
