@@ -14,7 +14,9 @@ connCheck().then((conn) => {
     <span v-if="connection.isMullvad">Secure connection</span>
     <span v-else>Unsecured connection</span>
   </p>
-  <h2 class="text-white text-4xl font-bold pb-2">{{ connection.city }}</h2>
-  <h2 class="text-white text-4xl font-bold pb-2">{{ connection.country }}</h2>
+  <div class="pb-2 pt-1">
+    <h2 class="text-white text-4xl font-bold pb-1">{{ connection.city }}</h2>
+    <h2 class="text-white text-4xl font-bold pb-1">{{ connection.country }}</h2>
+  </div>
   <p class="text-lg font-mono">{{ connection.ip }}</p>
 </template>
