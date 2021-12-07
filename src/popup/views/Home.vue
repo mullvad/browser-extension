@@ -3,10 +3,11 @@ import { connCheck, Connection } from '@/helpers/connCheck';
 import ConnectionDetails from '@/components/ConnectionDetails.vue';
 import ConnectionStatus from '@/components/ConnectionStatus.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
-import { storageLocal } from '@/helpers/storageLocal';
-import { createSocksConfig } from '@/helpers/socks';
+import useRecommendedExtensions from '@/helpers/useRecommendedExtensions';
 
 const connection = ref<Connection>({} as Connection);
+const recommendedExtensions = useRecommendedExtensions();
+
 connCheck().then((conn) => {
   connection.value = conn;
   /*if (connection.protocol) {
@@ -19,7 +20,7 @@ connCheck().then((conn) => {
 });
 </script>
 <template>
-  <PrivacyRecommendations />
+  <PrivacyRecommendations :recommendedExtensions="recommendedExtensions" />
   <ConnectionDetails :connection="connection" />
   <ConnectionStatus :connected="connection.isMullvad" :protocol="connection.protocol" />
 </template>

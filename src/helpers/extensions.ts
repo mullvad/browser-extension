@@ -76,11 +76,11 @@ const loadExtConfigs = async (): Promise<void> => {
 
   // Create a disabled extensions ID list
   const disabledIDs = installedAddons
-    .filter((addon) => addon.enabled === false)
+    .filter((addon) => !addon.enabled)
     .map((addons) => addons.id);
 
   const enabledIDs = installedAddons
-    .filter((addon) => addon.enabled === true)
+    .filter((addon) => addon.enabled)
     .map((addons) => addons.id);
 
   const updatedConfig = extensionsConfig.map((ext) => {

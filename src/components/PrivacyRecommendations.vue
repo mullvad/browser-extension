@@ -1,21 +1,23 @@
 <script lang="ts" setup>
 import { Carousel, Slide } from 'vue-snap';
 import 'vue-snap/dist/vue-snap.css';
-import useStoredExtensions from '@/helpers/useStoredExtensions';
+import { Extension } from '@/helpers/extensions';
 
-const extensions = useStoredExtensions();
+defineProps<{ recommendedExtensions: Extension[] }>();
 </script>
 <template>
   <h1 class="text-xl pb-1">Privacy Recommendations</h1>
   <Carousel>
-    <Slide v-for="(extension, index) in extensions" :key="extension.id">
+    <Slide v-for="(extension, index) in recommendedExtensions" :key="extension.id">
       <div class="wrapper">
         <h1 class="text-center text-2xl text-white font-bold">{{ extension.name }}</h1>
         <p class="text-center">{{ extension.description }}</p>
-        <p  class="text-center pt-2 text-sm">
-          <router-link to="privacy-extensions" class="hover:text-white">Read More&hellip;</router-link>
+        <p class="text-center pt-2 text-sm">
+          <router-link to="privacy-extensions" class="hover:text-white"
+            >Read More&hellip;</router-link
+          >
         </p>
-        <p class="text-right pt-4">{{ index + 1 }}/{{ extensions.length }}</p>
+        <p class="text-right pt-4">{{ index + 1 }}/{{ recommendedExtensions.length }}</p>
       </div>
     </Slide>
   </Carousel>
