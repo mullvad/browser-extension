@@ -20,7 +20,8 @@
     "start:chromium": "web-ext run --source-dir ./extension --target=chromium",
     "start": "web-ext run --source-dir ./extension --target=firefox-desktop",
     "clear": "rimraf extension/dist extension/manifest.json extension.*",
-    "lint": "eslint 'src/**/*.{json,ts,js,vue}'"
+    "lint": "eslint 'src/**/*.{json,ts,js,vue}'",
+    "tsc": "vue-tsc --noEmit"
   },
   "devDependencies": {
     "@ffflorian/jszip-cli": "^3.1.5",
@@ -51,6 +52,7 @@
     "vite-plugin-windicss": "^1.4.8",
     "vue": "^3.2.19",
     "vue-demi": "^0.11.4",
+    "vue-tsc": "^0.29.8",
     "web-ext": "^6.4.0",
     "webext-bridge": "^5.0.0",
     "webextension-polyfill": "^0.8.0"
