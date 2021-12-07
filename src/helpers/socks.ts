@@ -13,6 +13,9 @@ const defaultSocksPort = '1080';
 export const setSocks = (socksEnabled: boolean, socksConfig?: SocksConfig) => {
   // If socks should be set
   if (socksEnabled) {
+    if (!socksConfig) {
+      throw new Error('No socksConfig given when trying to set proxy settings')
+    }
     // Update browser socks settings with provided settings
     browser.proxy.settings.set({
       value: socksConfig,
