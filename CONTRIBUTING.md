@@ -49,9 +49,6 @@ Once you receive our confirmation, you are welcome to open a pull request and st
 You may also want to comment and ask for help if you’re new or if you get stuck. We’re more than
 happy to help! When ready, we will review your pull request.
 
-Make sure to follow our code of conduct (link coming soon) and our
-[coding guidelines](https://github.com/mullvad/coding-guidelines).
-
 ### Copyright and ownership of contributed code and changes
 
 Any code, binaries, tools, documentation, graphics, or any other material that you submit to this
