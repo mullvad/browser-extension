@@ -1,25 +1,15 @@
 <script lang="ts" setup>
 import { isProxy, toRaw, toRefs } from 'vue';
-import { createSocksConfig, setSocks, SocksConfig } from '@/helpers/socks';
+import { setSocks } from '@/helpers/socks';
 import { Connection } from '@/helpers/connCheck';
 import { asyncComputed } from '@vueuse/core';
 import { storageLocal } from '@/helpers/storageLocal';
+import useSocksConfig from '@/helpers/useSocksConfig';
 
 const props = defineProps<{ connection: Connection }>();
 const connection = toRefs(props).connection;
 
-const socksConfig = asyncComputed<SocksConfig | undefined>(async () => {
-  let config: SocksConfig | undefined;
-  if (connection.value.protocol) {
-    config = await storageLocal.socksConfig.get();
-    if (!config) {
-      config = createSocksConfig(connection.value.protocol);
-      // TODO: Should this component really be responsible for storing the value?
-      await storageLocal.socksConfig.set(config);
-    }
-  }
-  return config;
-});
+const socksConfig = useSocksConfig(connection);
 
 const socksEnabled = asyncComputed<boolean>(
   async () => await storageLocal.socksEnabled.get(),
