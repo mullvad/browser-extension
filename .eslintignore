@@ -1,3 +1,5 @@
 dist
 node_modules
 public
+components.d.ts
+auto-imports.d.ts

@@ -19,7 +19,6 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "vue/multi-word-component-names": "off",
-    "vue/no-setup-props-destructure": "off",
     "vue/script-setup-uses-vars": "error"
   }
 }

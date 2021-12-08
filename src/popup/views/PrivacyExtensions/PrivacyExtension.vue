@@ -1,36 +1,38 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import { Extension, onIgnore } from '@/helpers/extensions';
 import { Status } from '@/popup/views/PrivacyExtensions/types';
 
-const { extension } = defineProps<{
+const props = defineProps<{
   extension: Extension,
 }>();
 
+const extension = toRefs(props).extension;
+
 const emit = defineEmits<{ (e: 'update-recommendations'): void }>();
 const isClosed = ref(true);
-const iconUrl = computed(() => new URL(`icons/${extension.icon}`, import.meta.url).href);
+const iconUrl = computed(() => new URL(`icons/${extension.value.icon}`, import.meta.url).href);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const toggleDropdown = () => {
   isClosed.value = !isClosed.value;
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ignoreRecommendation = async (status: boolean) => {
-  await onIgnore(extension, status);
+  await onIgnore(extension.value, status);
   emit('update-recommendations');
   isClosed.value = true;
 };
 
 const status = computed(() => {
-  if (extension.ignored) {
+  if (extension.value.ignored) {
     return Status.ignored;
   }
 
-  if (extension.installed && !extension.enabled) {
+  if (extension.value.installed && !extension.value.enabled) {
     return Status.disabled;
   }
 
-  if (extension.ignored && !extension.installed) {
+  if (extension.value.ignored && !extension.value.installed) {
     return Status.not_installed;
   }
 
