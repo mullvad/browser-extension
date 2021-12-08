@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { setWebRTC } from "@/helpers/webRTC";
-import { storageLocal } from "@/helpers/storageLocal";
+import { setWebRTC } from '@/helpers/webRTC';
+import { storageLocal } from '@/helpers/storageLocal';
 
 const webrtcDisabled = ref(true);
 const toggleWebrtc = (checked: boolean) => {
@@ -21,7 +21,7 @@ storageLocal.webrtcDisabled.get().then((checked) => {
             v-model="webrtcDisabled"
             type="checkbox"
             @change="toggleWebrtc($event.target.checked)"
-          >
+          />
           <span class="slider round" />
         </label>
       </div>

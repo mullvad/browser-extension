@@ -21,7 +21,7 @@
     "start": "web-ext run --source-dir ./extension --target=firefox-desktop",
     "clear": "rimraf extension/dist extension/manifest.json extension.*",
     "lint": "npm run eslint",
-    "eslint": "eslint . --ext=.json,.ts,.js,.vue",
+    "eslint": "eslint . --ext=.ts,.js,.vue",
     "tsc": "vue-tsc --noEmit"
   },
   "devDependencies": {
