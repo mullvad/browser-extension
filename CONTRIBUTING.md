@@ -12,7 +12,7 @@ The Mullvad Privacy Companion is open sourced for many reasons, but primarily
 
 If you find a bug in the extension's code:
 
-- check first in the issue tracker if a similar bug hasn't been already reported
+- check first in the issue tracker if a similar bug hasn't already been reported
 - add it in the issue tracker.
 
 Please send all other problems or questions **not directly related to the extension's development**
