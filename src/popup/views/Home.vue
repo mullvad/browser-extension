@@ -1,30 +1,20 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { connCheck, Connection } from '@/helpers/connCheck';
 import ConnectionDetails from '@/components/ConnectionDetails.vue';
 import ConnectionStatus from '@/components/ConnectionStatus.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
 import useRecommendedExtensions from '@/helpers/useRecommendedExtensions';
+import { asyncComputed } from '@vueuse/core';
 
-const connection = ref<Connection>({} as Connection);
+const connection = asyncComputed<Connection>(async () => {
+  return await connCheck();
+}, {} as Connection);
+
 const recommendedExtensions = useRecommendedExtensions();
 
-connCheck().then((conn) => {
-  connection.value = conn;
-  /*if (connection.protocol) {
-    storageLocal.socksConfig.get().then((socksConfig) => {
-      if (!socksConfig) {
-        createSocksConfig(connection.protocol);
-      }
-    })
-  }*/
-});
 </script>
 <template>
-  <PrivacyRecommendations :recommended-extensions="recommendedExtensions" />
+  <PrivacyRecommendations :recommendedExtensions="recommendedExtensions" />
   <ConnectionDetails :connection="connection" />
-  <ConnectionStatus
-    :connected="connection.isMullvad"
-    :protocol="connection.protocol"
-  />
+  <ConnectionStatus :connected="connection.isMullvad" :protocol="connection.protocol" />
 </template>

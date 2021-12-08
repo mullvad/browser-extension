@@ -2,25 +2,15 @@
 import { Connection } from '@/helpers/connCheck';
 import ProxyButton from '@/components/ProxyButton.vue';
 
-defineProps<{ connection: Connection }>();
+defineProps<{ connection: Connection; }>();
 </script>
 <template>
-  <h1 class="text-xl pb-1 pt-4">
-    Connection
-  </h1>
+  <h1 class="text-xl pb-1 pt-4">Connection</h1>
   <div>
     <div>
-      <span
-        v-if="connection.city"
-        class="text-white text-lg"
-      >{{ connection.city }}</span> <span
-        v-if="connection.country"
-        class="text-white text-lg"
-      >{{ connection.country }}</span>
-      <h2
-        v-if="!connection.city && !connection.country"
-        class="text-white text-lg"
-      >
+      <span v-if="connection.city" class="text-white text-lg">{{ connection.city }}</span>
+      <span v-if="connection.country" class="text-white text-lg">{{ connection.country }}</span>
+      <h2 v-if="!connection.city && !connection.country" class="text-white text-lg">
         Unknown location
       </h2>
     </div>
@@ -63,7 +53,7 @@ defineProps<{ connection: Connection }>();
   <details>
     <summary>Show Proxy</summary>
     <p>{{ connection.protocol }}</p>
-    <ProxyButton />
+    <ProxyButton :connection="connection" />
   </details>
 </template>
 <style scoped>
