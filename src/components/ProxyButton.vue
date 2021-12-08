@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { setSocks } from '@/helpers/socks';
 
 const socksEnabled = ref(false);
@@ -7,5 +8,7 @@ const clickSocksProxy = () => {
 };
 </script>
 <template>
-  <button @click="clickSocksProxy"><span v-if="socksEnabled">Disconnect</span><span v-else>Connect</span> Proxy</button>
+  <button @click="clickSocksProxy">
+    <span v-if="socksEnabled">Disconnect</span><span v-else>Connect</span> Proxy
+  </button>
 </template>

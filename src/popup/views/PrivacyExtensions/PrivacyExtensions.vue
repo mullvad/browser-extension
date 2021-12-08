@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { Extension, sortExtensions } from '@/helpers/extensions';
 import { storageLocal } from '@/helpers/storageLocal';
 import PrivacyExtension from '@/popup/views/PrivacyExtensions/PrivacyExtension.vue';
@@ -17,8 +18,14 @@ const updateRecommendations = async () => {
 <template>
   <section>
     <p>Here's a list of recommended third party extensions to improve your privacy</p>
-    <div v-for="extension in extensions" :key="extension.id">
-      <PrivacyExtension :extension="extension" @update-recommendations="updateRecommendations" />
+    <div
+      v-for="extension in extensions"
+      :key="extension.id"
+    >
+      <PrivacyExtension
+        :extension="extension"
+        @update-recommendations="updateRecommendations"
+      />
     </div>
   </section>
 </template>

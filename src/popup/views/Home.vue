@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { connCheck, Connection } from '@/helpers/connCheck';
 import ConnectionDetails from '@/components/ConnectionDetails.vue';
 import ConnectionStatus from '@/components/ConnectionStatus.vue';
@@ -20,7 +21,10 @@ connCheck().then((conn) => {
 });
 </script>
 <template>
-  <PrivacyRecommendations :recommendedExtensions="recommendedExtensions" />
+  <PrivacyRecommendations :recommended-extensions="recommendedExtensions" />
   <ConnectionDetails :connection="connection" />
-  <ConnectionStatus :connected="connection.isMullvad" :protocol="connection.protocol" />
+  <ConnectionStatus
+    :connected="connection.isMullvad"
+    :protocol="connection.protocol"
+  />
 </template>
