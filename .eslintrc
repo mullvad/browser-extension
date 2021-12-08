@@ -6,7 +6,7 @@
     "node": true,
     "vue/setup-compiler-macros": true
   },
-  "extends": ["plugin:vue/vue3-recommended", "eslint:recommended", "@vue/typescript/recommended"],
+  "extends": ["plugin:vue/vue3-recommended", "eslint:recommended", "@vue/typescript/recommended", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2021
   },
@@ -14,6 +14,7 @@
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "vue/attribute-hyphenation": "off",
     "vue/html-self-closing": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
