@@ -4,8 +4,8 @@ import { setWebRTC } from '@/helpers/webRTC';
 import { storageLocal } from '@/helpers/storageLocal';
 
 const webrtcDisabled = ref(true);
-const toggleWebrtc = (checked: boolean) => {
-  setWebRTC(checked);
+const toggleWebrtc = (event: Event) => {
+  setWebRTC((event.target as HTMLInputElement).checked);
 };
 storageLocal.webrtcDisabled.get().then((checked) => {
   webrtcDisabled.value = checked;
@@ -20,7 +20,7 @@ storageLocal.webrtcDisabled.get().then((checked) => {
           <input
             v-model="webrtcDisabled"
             type="checkbox"
-            @change="toggleWebrtc($event.target.checked)"
+            @change="toggleWebrtc($event)"
           />
           <span class="slider round" />
         </label>
