@@ -26,7 +26,8 @@
     "clear": "rimraf extension/dist extension/manifest.json extension.*",
     "lint": "npm run eslint",
     "eslint": "eslint . --ext=.ts,.js,.vue",
-    "tsc": "vue-tsc --noEmit"
+    "tsc": "vue-tsc --noEmit",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@ffflorian/jszip-cli": "^3.1.5",
@@ -49,7 +50,9 @@
     "eslint-plugin-vue": "^8.2.0",
     "esno": "^0.10.0",
     "fs-extra": "^10.0.0",
+    "husky": "^7.0.4",
     "kolorist": "^1.5.0",
+    "lint-staged": "^12.1.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.0",
     "rimraf": "^3.0.2",
@@ -70,5 +73,10 @@
     "axios": "^0.24.0",
     "vue-router": "^4.0.12",
     "vue-snap": "^1.0.0-alpha.5"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": "eslint --cache --fix",
+    "*.{ts,vue}": "vue-tsc --noEmit",
+    "*.{js,ts,css,json,vue}": "prettier --write"
   }
 }
