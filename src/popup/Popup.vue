@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-
 </script>
 <template>
   <main class="w-[500px]">
     <header class="px-4 py-2 min-h-14 flex justify-between items-center sticky top-0 z-1">
       <div class="flex items-center">
         <img
-          src="/assets/icon.svg"
+          src="./icon.svg"
           class="w-8 h-8"
+          alt="Mullvad Logo"
         >
         <div class="mx-4">
           <h1 class="uppercase text-2xl font-bold">

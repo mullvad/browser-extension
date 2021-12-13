@@ -11,7 +11,7 @@ const extension = toRefs(props).extension;
 
 const emit = defineEmits<{ (e: 'update-recommendations'): void }>();
 const isClosed = ref(true);
-const iconUrl = computed(() => new URL(`icons/${extension.value.icon}`, import.meta.url).href);
+const iconUrl = computed(() => `/assets/icons/${extension.value.icon}`);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const toggleDropdown = () => {
   isClosed.value = !isClosed.value;

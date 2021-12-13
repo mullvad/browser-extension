@@ -10,8 +10,8 @@ Mullvad, a one-click access to proxy servers (socks5).
 
 Build on:
 
-- Node 14.16.1
-- Npm 6.14.13
+- Node 16.13.0
+- Npm 8.3.0
 - Ubuntu 20.04
 
 For:
@@ -20,10 +20,10 @@ For:
 
 ### **Developing**
 
-Run `npm run serve` to automatically rebuild the extension when changes are saved.
+Run `npm run dev` to automatically rebuild the extension when changes are saved.
 
 In another terminal, run `npm run start` to start a development instance of Firefox with the
-extension or `npm run debug` to also open the console in a separate window. The extension will
+extension ~~or `npm run debug` to also open the console in a separate window~~. The extension will
 automatically reload when changes are saved.
 
 The developer tools can be started by clicking on `This Firefox` in `about:debugging`, then
