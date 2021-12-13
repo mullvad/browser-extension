@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+const logoUrl = '/assets/icon.svg';
 </script>
 <template>
   <main class="w-[500px]">
     <header class="px-4 py-2 min-h-14 flex justify-between items-center sticky top-0 z-1">
       <div class="flex items-center">
         <img
-          src="./icon.svg"
+          :src="logoUrl"
           class="w-8 h-8"
           alt="Mullvad Logo"
         >
