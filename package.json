@@ -73,10 +73,5 @@
     "axios": "^0.24.0",
     "vue-router": "^4.0.12",
     "vue-snap": "^1.0.0-alpha.5"
-  },
-  "lint-staged": {
-    "*.{js,ts,vue}": "eslint --cache --fix",
-    "*.{ts,vue}": "vue-tsc --noEmit",
-    "*.{js,ts,css,json,vue}": "prettier --write"
   }
 }
