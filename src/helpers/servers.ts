@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { storageLocal } from './storageLocal';
+import { useBrowserStorage } from '@/lib/useBrowserStorage';
 
 export interface Server {
   active: boolean;
@@ -26,34 +26,33 @@ export interface Servers {
   [country: string]: Country;
 }
 
+export const servers = useBrowserStorage('servers', {});
+
 /**
  * Fetch servers list and save it to storage
  */
 export const serversToStorage = async () => {
   try {
-    const servers: Servers = {};
-
     const { data } = await axios.get('https://api.mullvad.net/www/relays/wireguard/');
-
-    data
-      .filter((server: Server) => server.active == true)
-      .forEach((server: Server) => {
+  
+    servers.value = data
+      .filter((server: Server) => server.active)
+      .reduce((acc: Servers, server: Server) => {
         const countryName: string = server.country_name;
         const cityName: string = server.city_name;
 
         // Create country object if not present
-        if (!(countryName in servers)) {
-          servers[countryName] = {};
+        if (!(countryName in acc)) {
+          acc[countryName] = {};
         }
         // Create a city array if not present
-        if (!(cityName in servers[countryName])) {
-          servers[countryName][cityName] = [];
+        if (!(cityName in acc[countryName])) {
+          acc[countryName][cityName] = [];
         }
         // Add server to servers
-        servers[countryName][cityName].push(server);
-      });
-
-    storageLocal.servers.set(servers);
+        acc[countryName][cityName].push(server);
+        return acc;
+      }, {});
   } catch (error) {
     console.log(`Couldn't get the servers list`, error);
   }

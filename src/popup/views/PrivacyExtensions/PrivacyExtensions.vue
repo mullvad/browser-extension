@@ -1,25 +1,19 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { Extension, sortExtensions } from '@/helpers/extensions';
-import { storageLocal } from '@/helpers/storageLocal';
+import { computed } from 'vue';
+import { sortExtensions, extensions } from '@/helpers/extensions';
 import PrivacyExtension from '@/popup/views/PrivacyExtensions/PrivacyExtension.vue';
 
-const extensions = ref<Extension[]>([]);
-
-storageLocal.extensions.get().then((ext) => {
-  extensions.value = sortExtensions(ext);
-});
+const sortedExtensions = computed(() => sortExtensions(extensions.value));
 
 const updateRecommendations = async () => {
-  const ext = await storageLocal.extensions.get();
-  extensions.value = sortExtensions(ext);
+  // Do some kind of update
 };
 </script>
 <template>
   <section>
     <p>Here's a list of recommended third party extensions to improve your privacy</p>
     <div
-      v-for="extension in extensions"
+      v-for="extension in sortedExtensions"
       :key="extension.id"
     >
       <PrivacyExtension

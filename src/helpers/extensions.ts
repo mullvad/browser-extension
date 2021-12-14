@@ -1,4 +1,4 @@
-import { storageLocal } from './storageLocal';
+import { useBrowserStorage } from '@/lib/useBrowserStorage';
 
 export interface Extension {
   id: string;
@@ -63,23 +63,19 @@ const defaultExtsConfig: Extension[] = [
 
 const defaultExtsConfigID = defaultExtsConfig.map((ext) => ext.id);
 
+// Get extensions config from storage
+export const extensions = useBrowserStorage<Extension[]>('extensions', defaultExtsConfig);
+
 const loadExtConfigs = async (): Promise<void> => {
-  // Get extensions config from storage
-  let extensionsConfig = await storageLocal.extensions.get();
-  
-  if (extensionsConfig.length === 0) {
-    extensionsConfig = defaultExtsConfig;
-  }
-  
   // Get installed addons
   const installedAddons = await browser.management.getAll();
-  
+
   // Create a disabled extensions ID list
   const disabledIDs = installedAddons.filter((addon) => !addon.enabled).map((addons) => addons.id);
-  
+
   const enabledIDs = installedAddons.filter((addon) => addon.enabled).map((addons) => addons.id);
-  
-  const updatedConfig = extensionsConfig.map((ext) => {
+
+  extensions.value = extensions.value.map((ext) => {
     // ext disabled
     if (disabledIDs.includes(ext.id)) {
       return { ...ext, installed: true, enabled: false };
@@ -89,8 +85,6 @@ const loadExtConfigs = async (): Promise<void> => {
       // ext to install
     } else return ext;
   });
-  
-  storageLocal.extensions.set(updatedConfig);
 };
 
 const addExtListeners = () => {
@@ -123,19 +117,16 @@ export const onIgnore = async (extensionInfo: ExtensionInfo, status: boolean) =>
 
 const updateExtConfig = async (extensionInfo: ExtensionInfo, modification: Partial<Extension>) => {
   if (defaultExtsConfigID.includes(extensionInfo.id)) {
-    const extensionsConfig = await storageLocal.extensions.get();
-    const updatedConfig = extensionsConfig.map((extension) => {
+    extensions.value = extensions.value.map((extension) => {
       return extension.id === extensionInfo.id ? { ...extension, ...modification } : extension;
     });
-    
-    storageLocal.extensions.set(updatedConfig);
   }
 };
 
 export const initExtensions = () => {
   // Add listener on extension action
   addExtListeners();
-  
+
   // Load extensions settings
   loadExtConfigs();
 };
@@ -150,6 +141,6 @@ export const sortExtensions = (extensions: Extension[]): Extension[] => {
       return a.installed ? 1 : -1;
     } else return 0;
   });
-  
+
   return extensions;
 };
