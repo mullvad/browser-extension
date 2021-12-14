@@ -6,12 +6,22 @@ import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
 import useRecommendedExtensions from '@/helpers/useRecommendedExtensions';
 import { asyncComputed } from '@vueuse/core';
 
-const connection = asyncComputed<Connection>(async () => {
-  return await connCheck();
-}, {} as Connection);
+const connection = asyncComputed<Connection>(
+  async () => {
+    return await connCheck();
+  },
+  {
+    city: '',
+    country: '',
+    ip: '',
+    server: '',
+    protocol: '',
+    provider: '',
+    isMullvad: false,
+  },
+);
 
 const recommendedExtensions = useRecommendedExtensions();
-
 </script>
 <template>
   <PrivacyRecommendations :recommendedExtensions="recommendedExtensions" />
