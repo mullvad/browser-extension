@@ -1,6 +1,6 @@
+import { storage } from 'webextension-polyfill';
 import { initExtensions } from '@/helpers/extensions';
 import { serversToStorage } from '@/helpers/servers';
-import { initSocks } from '@/helpers/socks';
 import { initWebRTC } from '@/helpers/webRTC';
 
 // only on dev mode
@@ -18,6 +18,17 @@ initExtensions();
 serversToStorage();
 
 // Load socks settings
+const initSocks = async () => {
+  const rawSocksEnabled = (await storage.local.get('socksEnabled')).socksEnabled;
+  const rawSocksConfig = (await storage.local.get('socksConfig')).socksConfig;
+  const socksEnabled = JSON.parse(rawSocksEnabled);
+  const socksConfig = JSON.parse(rawSocksConfig);
+  if (socksEnabled) {
+    browser.proxy.settings.set({
+      value: socksConfig,
+    });
+  }
+};
 initSocks();
 
 // Load webRTC settings

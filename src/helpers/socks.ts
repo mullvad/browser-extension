@@ -36,18 +36,7 @@ export const disableProxy = () => {
   browser.proxy.settings.set({
     value: {},
   });
-};
-
-export const setSocks = (socksEnabled: boolean) => {
-  // If socks should be set
-  if (socksEnabled) {
-    // Update browser socks settings with provided settings
-    enableProxy();
-  } else {
-    // If socks should be unset
-    // Reset to default proxy config
-    disableProxy();
-  }
+  socksConfig.value = undefined;
 };
 
 export const createSocksConfig = (protocol: string, socks?: string) => {
@@ -77,10 +66,3 @@ export const createSocksConfig = (protocol: string, socks?: string) => {
 };
 
 const { socksEnabled, socksConfig } = useStore();
-export const initSocks = async () => {
-  try {
-    setSocks(socksEnabled.value);
-  } catch (error) {
-    console.log('Error fetching socks config: ', error);
-  }
-};
