@@ -12,7 +12,7 @@ export function useBrowserStorage<T>(key: string, initialValue: T) {
   get(key).then(
     (storedValue) => {
       if (storedValue) {
-        data.value = storedValue;
+        data.value = JSON.parse(storedValue);
       }
     },
     (error) => {
@@ -23,7 +23,7 @@ export function useBrowserStorage<T>(key: string, initialValue: T) {
   // Update local reactive state
   storage.onChanged.addListener((changes) => {
     if (Object.keys(changes).includes(key)) {
-      data.value = changes[key].newValue;
+      data.value = JSON.parse(changes[key].newValue);
     }
   });
   
@@ -35,11 +35,12 @@ export function useBrowserStorage<T>(key: string, initialValue: T) {
       if (value === null || value === undefined) {
         await storage.local.remove(key);
       } else {
+        const serializedValue = JSON.stringify(value);
         const currentValue = await get(key);
         
-        if (value !== currentValue) {
+        if (serializedValue !== currentValue) {
           await storage.local.set({
-            [key]: value,
+            [key]: serializedValue,
           });
         }
       }
