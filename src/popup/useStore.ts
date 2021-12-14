@@ -1,7 +1,6 @@
 import { Ref } from 'vue-demi';
 import { useBrowserStorage } from '@/lib/useBrowserStorage';
-import { createSocksConfig, SocksConfig } from '@/helpers/socks';
-import { connCheck } from '@/helpers/connCheck';
+import { SocksConfig } from '@/helpers/socks';
 
 export type Store = {
   socksConfig: Ref<SocksConfig | undefined>;
@@ -12,11 +11,6 @@ const useStore = (): Store => {
   const socksConfig = useBrowserStorage<SocksConfig | undefined>('socksConfig', undefined);
   const socksEnabled = useBrowserStorage('socksEnabled', false);
   
-  connCheck().then((connection) => {
-    if (connection.protocol) {
-      socksConfig.value = createSocksConfig(connection.protocol);
-    }
-  });
   return { socksEnabled, socksConfig };
 };
 

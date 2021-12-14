@@ -1,5 +1,6 @@
 import useStore from '@/popup/useStore';
 import { isProxy } from 'vue';
+import { connCheck } from '@/helpers/connCheck';
 
 export interface SocksConfig {
   proxyType?: string;
@@ -16,14 +17,19 @@ export const toggleProxy = () => {
   socksEnabled.value = !socksEnabled.value;
 };
 
-export const enableProxy = () => {
+export const enableProxy = async () => {
   let configValue = socksConfig.value;
+  if (!configValue) {
+    const connection = await connCheck();
+    configValue = createSocksConfig(connection.protocol!);
+  }
   if (isProxy(configValue)) {
     configValue = toRaw(configValue);
   }
   browser.proxy.settings.set({
     value: configValue,
   });
+  socksConfig.value = configValue;
 };
 
 export const disableProxy = () => {
