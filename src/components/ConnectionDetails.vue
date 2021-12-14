@@ -53,7 +53,7 @@ defineProps<{ connection: Connection; }>();
   <details>
     <summary>Show Proxy</summary>
     <p>{{ connection.protocol }}</p>
-    <ProxyButton :connection="connection" />
+    <ProxyButton />
   </details>
 </template>
 <style scoped>

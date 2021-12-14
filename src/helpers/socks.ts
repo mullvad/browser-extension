@@ -1,4 +1,5 @@
-import { storageLocal } from './storageLocal';
+import useStore from '@/popup/useStore';
+import { isProxy } from 'vue';
 
 export interface SocksConfig {
   proxyType?: string;
@@ -10,26 +11,40 @@ const defaultWgSocksIP = '10.64.0.1';
 const defaulOvpnSocksIP = '10.8.0.1';
 const defaultSocksPort = '1080';
 
-export const setSocks = (socksEnabled: boolean, socksConfig?: SocksConfig) => {
+export const toggleProxy = () => {
+  socksEnabled.value ? disableProxy() : enableProxy();
+  socksEnabled.value = !socksEnabled.value;
+};
+
+export const enableProxy = () => {
+  let configValue = socksConfig.value;
+  if (isProxy(configValue)) {
+    configValue = toRaw(configValue);
+  }
+  browser.proxy.settings.set({
+    value: configValue,
+  });
+};
+
+export const disableProxy = () => {
+  browser.proxy.settings.set({
+    value: {},
+  });
+};
+
+export const setSocks = (socksEnabled: boolean) => {
   // If socks should be set
   if (socksEnabled) {
-    if (!socksConfig) {
-      throw new Error('No socksConfig given when trying to set proxy settings');
-    }
     // Update browser socks settings with provided settings
-    browser.proxy.settings.set({
-      value: socksConfig,
-    });
+    enableProxy();
   } else {
     // If socks should be unset
     // Reset to default proxy config
-    browser.proxy.settings.set({
-      value: {},
-    });
+    disableProxy();
   }
 };
 
-export const createSocksConfig = (protocol: string, socks?: string): SocksConfig => {
+export const createSocksConfig = (protocol: string, socks?: string) => {
   if (!socks) {
     // Use default socks
     switch (protocol) {
@@ -45,20 +60,20 @@ export const createSocksConfig = (protocol: string, socks?: string): SocksConfig
     socks = socks + '.mullvad.net';
   }
 
-  return {
+  socksConfig.value = {
     // FIXME: Allow disabling Proxy DNS in the settings
     proxyDNS: true,
     proxyType: 'manual',
     socks: socks + ':' + defaultSocksPort,
   };
+
+  return socksConfig.value;
 };
 
+const { socksEnabled, socksConfig } = useStore();
 export const initSocks = async () => {
   try {
-    const socksConfig = await storageLocal.socksConfig.get();
-    const socksEnabled = await storageLocal.socksEnabled.get();
-
-    setSocks(socksEnabled, socksConfig);
+    setSocks(socksEnabled.value);
   } catch (error) {
     console.log('Error fetching socks config: ', error);
   }
