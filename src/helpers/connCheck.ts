@@ -14,6 +14,7 @@ export interface Connection {
   city: string;
   country: string;
   ip: string;
+  ipv6: string;
   server?: string;
   protocol?: string;
   provider: string;
@@ -31,10 +32,25 @@ export const connCheck = async (n = 3): Promise<Connection> => {
       timeout: 6000, // with two tries, the max total time  will be over the 10s of the bug (see link above)
     });
 
+    let ipv4Data;
+    try {
+      ipv4Data = await axios.get('https://ipv4.am.i.mullvad.net/json');
+    } catch (e) {
+      console.log({ e });
+    }
+    
+    let ipv6Data;
+    try {
+      ipv6Data = await axios.get('https://ipv6.am.i.mullvad.net/json');
+    } catch (e) {
+      console.log({ e });
+    }
+
     return {
       city: data.city || '',
       country: data.country || '',
-      ip: data.ip,
+      ip: ipv4Data?.data.ip ?? data.ip,
+      ipv6: ipv6Data?.data.ip ?? '',
       server: data.mullvad_exit_ip_hostname,
       protocol: data.mullvad_server_type,
       provider: data.organization,

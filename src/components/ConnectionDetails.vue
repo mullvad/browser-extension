@@ -25,9 +25,9 @@ defineProps<{ connection: Connection; }>();
                 {{ connection.ip }}
               </td>
             </tr>
-            <tr>
-              <td>IP v6</td>
-              <td class="text-white pl-2" />
+            <tr v-if="connection.ipv6">
+              <td>IPv6</td>
+              <td class="text-white pl-2">{{ connection.ipv6 }}</td>
             </tr>
             <tr>
               <td>Provider</td>
