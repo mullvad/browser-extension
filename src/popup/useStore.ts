@@ -1,6 +1,6 @@
 import { Ref } from 'vue-demi';
 import { useBrowserStorage } from '@/lib/useBrowserStorage';
-import { SocksConfig } from '@/helpers/socks';
+import type { SocksConfig } from '@/helpers/socks';
 
 export type Store = {
   socksConfig: Ref<SocksConfig | undefined>;
