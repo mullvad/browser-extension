@@ -1,4 +1,4 @@
-import { storageLocal } from './storageLocal';
+import useStore from '@/popup/useStore';
 
 export const setWebRTC = (isDisabled: boolean) => {
   // Disable WebRTC in Firefox
@@ -8,20 +8,11 @@ export const setWebRTC = (isDisabled: boolean) => {
   });
 
   // Save webRTC config to storage
-  return storageLocal.webrtcDisabled.set(isDisabled);
+  webrtcDisabled.value = isDisabled;
 };
 
-export const initWebRTC = async () => {
-  try {
-    const webrtcDisabled = await storageLocal.webrtcDisabled.get();
+const { webrtcDisabled } = useStore();
 
-    let isDisabled = webrtcDisabled;
-    if (typeof webrtcDisabled === 'undefined') {
-      isDisabled = true;
-    }
-
-    setWebRTC(isDisabled);
-  } catch (error) {
-    console.log('Error fetching webRTC config: ', error);
-  }
+export const initWebRTC = () => {
+  setWebRTC(webrtcDisabled.value ?? true);
 };

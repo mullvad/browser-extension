@@ -1,15 +1,12 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { setWebRTC } from '@/helpers/webRTC';
-import { storageLocal } from '@/helpers/storageLocal';
+import useStore from '@/popup/useStore';
 
-const webrtcDisabled = ref(true);
+const { webrtcDisabled } = useStore();
 const toggleWebrtc = (event: Event) => {
   setWebRTC((event.target as HTMLInputElement).checked);
 };
-storageLocal.webrtcDisabled.get().then((checked) => {
-  webrtcDisabled.value = checked;
-});
+
 </script>
 <template>
   <section>
