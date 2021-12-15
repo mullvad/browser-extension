@@ -1,27 +1,11 @@
 <script lang="ts" setup>
-import { connCheck, Connection } from '@/helpers/connCheck';
 import ConnectionDetails from '@/components/ConnectionDetails.vue';
 import ConnectionStatus from '@/components/ConnectionStatus.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
 import useRecommendedExtensions from '@/helpers/useRecommendedExtensions';
-import { asyncComputed } from '@vueuse/core';
+import useConnection from '@/popup/useConnection';
 
-const connection = asyncComputed<Connection>(
-  async () => {
-    return await connCheck();
-  },
-  {
-    city: '',
-    country: '',
-    ip: '',
-    ipv6: '',
-    server: '',
-    protocol: '',
-    provider: '',
-    isMullvad: false,
-  },
-);
-
+const { connection } = useConnection();
 const recommendedExtensions = useRecommendedExtensions();
 </script>
 <template>
