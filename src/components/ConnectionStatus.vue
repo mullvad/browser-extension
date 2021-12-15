@@ -1,17 +1,15 @@
 <script lang="ts" setup>
-defineProps<{ connected: boolean; protocol?: string }>();
+import { toRefs, computed } from 'vue';
+import IconLabel from '@/components/IconLabel.vue';
+
+const props = defineProps<{ connected: boolean; protocol?: string }>();
+const { protocol } = toRefs(props);
+const isUsingProxy = computed(() => protocol?.value?.startsWith('SOCKS'));
 </script>
 <template>
-  <div
-    v-if="connected"
-    class="mt-8"
-  >
-    <p class="text-success">
-      <FeCheckCircle class="mr-2" />Using Mullvad VPN <span
-        v-if="protocol"
-        class="ml-2"
-      >({{ protocol }})</span>
-    </p>
+  <div v-if="connected" class="mt-8">
+    <IconLabel :state="connected" text="Using Mullvad VPN" />
+    <IconLabel :state="isUsingProxy" text="Using Proxy" />
   </div>
 </template>
 <style scoped>

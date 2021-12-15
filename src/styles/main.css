@@ -35,6 +35,10 @@ header {
   color: var(--success);
 }
 
+.text-warning {
+  color: var(--yellow);
+}
+
 .text-error {
   color: var(--error);
 }
