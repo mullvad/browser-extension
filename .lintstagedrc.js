@@ -1,4 +1,4 @@
 module.exports = {
-  '*.{js,ts,css,vue}': ['eslint'],
+  '*.{js,ts,vue}': ['eslint'],
   '*.{ts,vue}': [() => 'tsc --noEmit'],
 };
