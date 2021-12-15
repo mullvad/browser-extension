@@ -2,6 +2,7 @@ import { storage } from 'webextension-polyfill';
 import { initExtensions } from '@/helpers/extensions';
 import { serversToStorage } from '@/helpers/servers';
 import { initWebRTC } from '@/helpers/webRTC';
+import { enableProxy } from '@/helpers/socks';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -19,14 +20,9 @@ serversToStorage();
 
 // Load socks settings
 const initSocks = async () => {
-  const rawSocksEnabled = (await storage.local.get('socksEnabled')).socksEnabled;
-  const rawSocksConfig = (await storage.local.get('socksConfig')).socksConfig;
-  const socksEnabled = JSON.parse(rawSocksEnabled);
-  const socksConfig = JSON.parse(rawSocksConfig);
+  const socksEnabled = JSON.parse((await storage.local.get('socksEnabled')).socksEnabled ?? 'false');
   if (socksEnabled) {
-    browser.proxy.settings.set({
-      value: socksConfig,
-    });
+    enableProxy();
   }
 };
 initSocks();
