@@ -4,21 +4,22 @@ import { Connection } from '@/helpers/connCheck';
 import ProxyButton from '@/components/ProxyButton.vue';
 import { asyncComputed } from '@vueuse/core';
 
-defineProps<{ connection: Connection }>();
+defineProps<{ connection: Connection; isLoading: boolean }>();
 const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess());
 </script>
 <template>
   <h1 class="text-xl pb-1 pt-4">Connection</h1>
   <div>
-    <div class="space-x-2">
+    <p v-if="isLoading" class="text-lg flex items-center">Loading location<LaSpinner class="ml-2 animate-spin" /></p>
+    <div v-else class="space-x-2">
       <span v-if="connection.city" class="text-white text-lg">{{ connection.city }}</span>
       <span v-if="connection.country" class="text-white text-lg">{{ connection.country }}</span>
-      <h2 v-if="!connection.city && !connection.country" class="text-white text-lg">
+      <p v-if="!connection.city && !connection.country" class="text-white text-lg">
         Unknown location
-      </h2>
+      </p>
     </div>
     <div>
-      <details>
+      <details :class="{ disabled: isLoading }">
         <summary>Details&hellip;</summary>
         <table class="mb-4">
           <tbody>
@@ -82,6 +83,12 @@ details {
 summary {
   cursor: pointer;
   margin-left: -1rem;
+}
+details.disabled {
+  cursor: not-allowed;
+}
+details.disabled summary {
+  pointer-events: none;
 }
 em {
   color: hsl(211deg 21% 78%);
