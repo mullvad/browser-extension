@@ -24,7 +24,7 @@ const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess(
           <tbody>
             <tr>
               <td>IP</td>
-              <td class="text-white pl-2">
+              <td class="text-white px-2">
                 {{ connection.ip }}
               </td>
             </tr>
@@ -89,5 +89,8 @@ em {
 ol {
   margin-left: 1rem;
   list-style-type: decimal;
+}
+td:first-of-type {
+  text-align: right;
 }
 </style>
