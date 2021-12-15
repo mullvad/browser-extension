@@ -19,7 +19,7 @@ const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess(
     </div>
     <div>
       <details>
-        <summary>Show details</summary>
+        <summary>Details&hellip;</summary>
         <table class="mb-4">
           <tbody>
             <tr>
@@ -54,7 +54,7 @@ const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess(
     </div>
   </div>
   <details>
-    <summary class="mb-4">Show Proxy</summary>
+    <summary class="mb-4">Proxy&hellip;</summary>
     <div v-if="showProxySection">
       <ProxyButton />
     </div>
