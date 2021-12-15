@@ -14,6 +14,7 @@ const connection = asyncComputed<Connection>(
     city: '',
     country: '',
     ip: '',
+    ipv6: '',
     server: '',
     protocol: '',
     provider: '',
