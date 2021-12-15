@@ -36,14 +36,18 @@ export const connCheck = async (n = 3): Promise<Connection> => {
     try {
       ipv4Data = await axios.get('https://ipv4.am.i.mullvad.net/json');
     } catch (e) {
-      console.log({ e });
+      if (__DEV__) {
+        console.log(`[conCheck IPv4]: Error trying to get ipv4 data: ${(e as Error).message}`);
+      }
     }
     
     let ipv6Data;
     try {
       ipv6Data = await axios.get('https://ipv6.am.i.mullvad.net/json');
     } catch (e) {
-      console.log({ e });
+      if (__DEV__) {
+        console.log(`[conCheck IPv6]: Error trying to get ipv6 data: ${(e as Error).message}`);
+      }
     }
 
     return {
