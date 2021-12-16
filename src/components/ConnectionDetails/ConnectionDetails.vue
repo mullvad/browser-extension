@@ -9,7 +9,7 @@ defineProps<{ connection: Connection; isLoading: boolean }>();
 const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess());
 </script>
 <template>
-  <h1 class="text-xl pb-1 pt-4">Connection</h1>
+  <h1 class="text-sm pb-1 pt-4">Connection</h1>
   <div>
     <p v-if="isLoading" class="text-lg flex items-center">
       Loading location<LaSpinner class="ml-2 animate-spin" />
@@ -77,23 +77,29 @@ const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess(
 details {
   padding-left: 1rem;
 }
+
 summary {
   cursor: pointer;
   margin-left: -1rem;
 }
+
 details.disabled {
   cursor: not-allowed;
 }
+
 details.disabled summary {
   pointer-events: none;
 }
+
 em {
   color: hsl(211deg 21% 78%);
 }
+
 ol {
   margin-left: 1rem;
   list-style-type: decimal;
 }
+
 td:first-of-type {
   text-align: right;
 }
