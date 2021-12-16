@@ -26,7 +26,7 @@
     "clear": "rimraf extension/dist extension/manifest.json extension.*",
     "lint": "npm run eslint && npm run lint:style",
     "eslint": "eslint . --ext=.ts,.js,.vue",
-    "lint:style": "stylelint src/**/*.css",
+    "lint:style": "stylelint src/**/*.{css,scss,vue}",
     "tsc": "vue-tsc --noEmit",
     "test": "jest",
     "prepare": "husky install"
@@ -63,6 +63,8 @@
     "prettier": "^2.5.0",
     "rimraf": "^3.0.2",
     "stylelint": "^14.1.0",
+    "stylelint-config-recommended": "^6.0.0",
+    "stylelint-config-recommended-vue": "^1.1.0",
     "stylelint-config-standard": "^24.0.0",
     "ts-jest": "^27.1.1",
     "typescript": "^4.4.3",

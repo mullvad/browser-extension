@@ -6,7 +6,7 @@ import { Extension } from '@/helpers/extensions';
 defineProps<{ recommendedExtensions: Extension[] }>();
 </script>
 <template>
-  <h1 class="text-xl pb-1">
+  <h1 class="text-sm pb-1">
     Privacy Recommendations
   </h1>
   <Carousel>

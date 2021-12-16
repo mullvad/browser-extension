@@ -26,7 +26,6 @@ const logoUrl = '/assets/icon.svg';
 </template>
 <style scoped>
 header {
-  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0, rgba(0, 0, 0, 0.05) 0 1px 4px 0,
-    rgba(0, 0, 0, 0.05) 0 2px 8px 0;
+  box-shadow: rgb(0 0 0 / 5%) 0 1px 2px 0, rgb(0 0 0 / 5%) 0 1px 4px 0, rgb(0 0 0 / 5%) 0 2px 8px 0;
 }
 </style>
