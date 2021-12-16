@@ -39,6 +39,7 @@ export const disableProxy = () => {
   updateConnection();
 };
 
+// TODO: No-one is calling this method with `socks` at the moment, it got lost somewhere...
 export const createSocksConfig = (protocol: string, socks?: string) => {
   if (!socks) {
     // Use default socks
