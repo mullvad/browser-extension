@@ -1,5 +1,5 @@
 import { Connection } from '@/helpers/connCheck';
-import { isProxy } from 'vue';
+import { isProxy, toRaw } from 'vue';
 
 const useConnectionLocation = (conn: Connection) => {
   let connection = conn;
