@@ -4,7 +4,7 @@ import IconLabel from '@/components/IconLabel.vue';
 
 const props = defineProps<{ connected: boolean; protocol?: string }>();
 const { protocol } = toRefs(props);
-const isUsingProxy = computed(() => protocol?.value?.startsWith('SOCKS'));
+const isUsingProxy = computed(() => protocol?.value?.startsWith('SOCKS') ?? false);
 </script>
 <template>
   <div v-if="connected" class="mt-8">
