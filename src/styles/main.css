@@ -6,14 +6,14 @@ body,
 }
 
 :root {
-  --blue: rgba(41, 77, 115, 1);
-  --dark-blue: rgba(25, 46, 69, 1);
-  --grey: #7F94AB;
-  --light-grey: rgb(127, 148, 171);
-  --white: rgba(255, 255, 255, 1);
-  --yellow: rgba(255, 213, 36, 1);
-  --success: #44AD4D;
-  --error: #E34039;
+  --blue: rgb(41 77 115 / 100%);
+  --dark-blue: rgb(25 46 69 / 100%);
+  --grey: #7f94ab;
+  --light-grey: rgb(127 148 171);
+  --white: rgb(255 255 255 / 100%);
+  --yellow: rgb(255 213 36 / 100%);
+  --success: #44ad4d;
+  --error: #e34039;
 }
 
 body {
@@ -54,5 +54,6 @@ header {
   @apply inline-block cursor-pointer select-none
     opacity-75 transition duration-200 ease-in-out
     hover:opacity-100 hover:text-teal-600;
+
   font-size: 0.9em;
 }

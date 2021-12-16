@@ -2,9 +2,11 @@
   width: 1.5rem;
   height: 1.5rem;
 }
+
 .vs-carousel__arrows--left {
   left: 0.5rem;
 }
+
 .vs-carousel__arrows--right {
   right: 0.5rem;
 }
@@ -12,6 +14,7 @@
 .vs-carousel__arrows:focus {
   outline: none;
 }
+
 .vs-carousel__arrows:disabled {
   display: none;
 }
