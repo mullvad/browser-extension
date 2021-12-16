@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.13]
 
     steps:
       - uses: actions/checkout@v2
@@ -20,5 +20,5 @@ jobs:
           cahce: 'npm'
       - run: npm ci
       - run: npm run lint
-      - run: npm run test
+      - run: npm test
       - run: npm run build
