@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const CONN_URL = 'https://am.i.mullvad.net/json';
+import { AmIMullvadServerResponse, Ipv4ServerResponse } from '@/helpers/connCheck.types';
 
 /*
 n is an optional parameter to retry the connCheck any number of time.
@@ -11,39 +10,26 @@ It's a workaround for the following bug: https://bugzilla.mozilla.org/show_bug.c
 */
 
 export interface Connection {
-  city: string;
-  country: string;
-  ip: string;
-  ipv6: string;
-  server?: string;
-  protocol?: string;
-  provider: string;
+  city?: string;
+  country?: string;
+  ip?: string;
+  ipv6?: string;
   isMullvad: boolean;
-}
-
-export interface SocksProtocols {
-  previous?: string;
-  current: string;
+  protocol?: string;
+  provider?: string;
+  server?: string;
 }
 
 export const connCheck = async (n = 3): Promise<Connection> => {
   try {
-    const { data } = await axios.get(CONN_URL, {
+    const { data } = await axios.get<Ipv4ServerResponse>('https://ipv4.am.i.mullvad.net/json', {
       timeout: 6000, // with two tries, the max total time  will be over the 10s of the bug (see link above)
     });
 
-    let ipv4Data;
+    let ipv6;
     try {
-      ipv4Data = await axios.get('https://ipv4.am.i.mullvad.net/json');
-    } catch (e) {
-      if (__DEV__) {
-        console.log(`[conCheck IPv4]: Error trying to get ipv4 data: ${(e as Error).message}`);
-      }
-    }
-    
-    let ipv6Data;
-    try {
-      ipv6Data = await axios.get('https://ipv6.am.i.mullvad.net/json');
+      const { data: ipv6Data} = await axios.get<AmIMullvadServerResponse>('https://ipv6.am.i.mullvad.net/json');
+      ipv6 = ipv6Data.ip;
     } catch (e) {
       if (__DEV__) {
         console.log(`[conCheck IPv6]: Error trying to get ipv6 data: ${(e as Error).message}`);
@@ -51,14 +37,14 @@ export const connCheck = async (n = 3): Promise<Connection> => {
     }
 
     return {
-      city: data.city || '',
-      country: data.country || '',
-      ip: ipv4Data?.data.ip ?? data.ip,
-      ipv6: ipv6Data?.data.ip ?? '',
+      city: data.city,
+      country: data.country,
+      ip: data.ip,
+      ipv6,
       server: data.mullvad_exit_ip_hostname,
       protocol: data.mullvad_server_type,
       provider: data.organization,
-      isMullvad: data.mullvad_exit_ip,
+      isMullvad: data.mullvad_exit_ip ?? false,
     };
   } catch (error) {
     if (n === 1) throw new Error('Connection check failed.');
