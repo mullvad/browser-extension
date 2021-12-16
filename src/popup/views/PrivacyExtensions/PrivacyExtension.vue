@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, toRefs } from 'vue';
 import { Extension, onIgnore } from '@/helpers/extensions';
-import { Status } from '@/popup/views/PrivacyExtensions/types';
+import { Status } from '@/popup/views/PrivacyExtensions/Status.types';
 
 const props = defineProps<{
   extension: Extension,

@@ -17,5 +17,14 @@
       "@/*": ["src/*"]
     }
   },
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "shim.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.d.ts",
+    "src/**/*.types.ts",
+    "src/**/*.test.ts",
+    "src/**/*.vue",
+    "scripts/**/*.ts"
+  ]
 }
