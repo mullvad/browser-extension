@@ -1,53 +1,41 @@
 <script lang="ts" setup>
-import { Carousel, Slide } from 'vue-snap';
-import 'vue-snap/dist/vue-snap.css';
+import { NCarousel, NCard } from 'naive-ui';
 import { Extension } from '@/helpers/extensions';
 
 defineProps<{ recommendedExtensions: Extension[] }>();
 </script>
 <template>
-  <h1 class="text-sm pb-1">
-    Privacy Recommendations
-  </h1>
-  <Carousel>
-    <Slide
+  <h1 class="text-sm pb-1">Privacy Recommendations</h1>
+
+  <n-carousel show-arrow>
+    <n-card
       v-for="(extension, index) in recommendedExtensions"
       :key="extension.id"
+      :title="extension.name"
+      embedded
+      :bordered="false"
     >
-      <div class="wrapper">
-        <h1 class="text-center text-2xl text-white font-bold">
-          {{ extension.name }}
-        </h1>
-        <p class="text-center">
-          {{ extension.description }}
-        </p>
+      <template #header-extra>
+        <p class="text-right pt-4">{{ index + 1 }}/{{ recommendedExtensions.length }}</p>
+      </template>
+
+      <p>{{ extension.description }}</p>
+
+      <template #action>
         <p class="text-center pt-2 text-sm">
-          <router-link
-            to="privacy-extensions"
-            class="hover:text-white"
-          >
-            Read More&hellip;
-          </router-link>
+          <router-link to="privacy-extensions" class="hover:text-white"> Read More </router-link>
         </p>
-        <p class="text-right pt-4">
-          {{ index + 1 }}/{{ recommendedExtensions.length }}
-        </p>
-      </div>
-    </Slide>
-  </Carousel>
+      </template>
+    </n-card>
+  </n-carousel>
+
   <div class="text-right pt-2">
-    <router-link
-      class="hover:text-white"
-      to="privacy-extensions"
-    >
-      Show all
-    </router-link>
+    <router-link class="hover:text-white" to="privacy-extensions"> Show all </router-link>
   </div>
 </template>
 <style scoped>
-.wrapper {
-  width: 100%;
-  background-color: var(--blue);
-  padding: 1rem 3rem;
+.n-carousel .n-carousel__arrow svg {
+  cursor: pointer;
+  color: red;
 }
 </style>

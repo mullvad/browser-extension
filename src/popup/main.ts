@@ -5,7 +5,6 @@ import routes from '@/popup/routes';
 import App from './Popup.vue';
 import '../styles';
 
-
 const router = createRouter({
   history: createMemoryHistory(),
   routes,
