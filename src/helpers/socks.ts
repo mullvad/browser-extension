@@ -20,6 +20,7 @@ export const toggleProxy = () => {
 export const enableProxy = async () => {
   let configValue = socksConfig.value;
   if (!configValue) {
+    // TODO: How can we guarantee that we do have a protocol value here...?
     configValue = createSocksConfig(connection.value.protocol!);
   }
   if (isProxy(configValue)) {
