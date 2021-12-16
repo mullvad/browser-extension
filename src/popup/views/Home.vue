@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ConnectionDetails from '@/components/ConnectionDetails.vue';
+import ConnectionDetails from '@/components/ConnectionDetails/ConnectionDetails.vue';
 import ConnectionStatus from '@/components/ConnectionStatus.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
 import useRecommendedExtensions from '@/helpers/useRecommendedExtensions';

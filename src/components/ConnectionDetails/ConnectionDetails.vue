@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
 import { Connection } from '@/helpers/connCheck';
 import ProxyButton from '@/components/ProxyButton.vue';
-import { asyncComputed } from '@vueuse/core';
+import ConnectionLocation from '@/components/ConnectionDetails/ConnectionLocation.vue';
 
 defineProps<{ connection: Connection; isLoading: boolean }>();
 const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess());
@@ -10,14 +11,10 @@ const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess(
 <template>
   <h1 class="text-xl pb-1 pt-4">Connection</h1>
   <div>
-    <p v-if="isLoading" class="text-lg flex items-center">Loading location<LaSpinner class="ml-2 animate-spin" /></p>
-    <div v-else class="space-x-2">
-      <span v-if="connection.city" class="text-white text-lg">{{ connection.city }}</span>
-      <span v-if="connection.country" class="text-white text-lg">{{ connection.country }}</span>
-      <p v-if="!connection.city && !connection.country" class="text-white text-lg">
-        Unknown location
-      </p>
-    </div>
+    <p v-if="isLoading" class="text-lg flex items-center">
+      Loading location<LaSpinner class="ml-2 animate-spin" />
+    </p>
+    <ConnectionLocation v-else :connection="connection" />
     <div>
       <details :class="{ disabled: isLoading }">
         <summary>Details&hellip;</summary>
