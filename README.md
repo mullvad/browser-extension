@@ -1,3 +1,4 @@
+![ci](https://github.com/mullvad/browser-extension/actions/workflows/ci.yml/badge.svg)
 # Mullvad Privacy Companion
 
 Mullvad Privacy Companion is a Firefox extension helping you improve your privacy by recommending
