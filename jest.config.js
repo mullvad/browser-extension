@@ -1,9 +1,10 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.vue$': '@vue/vue3-jest',
+    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.vue$': '@vue/vue3-jest'
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
