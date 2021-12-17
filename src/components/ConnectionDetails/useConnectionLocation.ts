@@ -1,11 +1,6 @@
 import { Connection } from '@/helpers/connCheck';
-import { isProxy, toRaw } from 'vue';
 
-const useConnectionLocation = (conn: Connection) => {
-  let connection = conn;
-  if (isProxy(connection)) {
-    connection = toRaw(connection);
-  }
+const useConnectionLocation = (connection: Connection) => {
   const { city, country } = connection;
   
   if (!city && !country) {
