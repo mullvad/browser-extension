@@ -6,7 +6,7 @@ import ProxyButton from '@/components/ProxyButton.vue';
 import ConnectionLocation from '@/components/ConnectionDetails/ConnectionLocation.vue';
 
 defineProps<{ connection: Connection; isLoading: boolean }>();
-const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess());
+const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess());
 </script>
 <template>
   <h1 class="text-sm pb-1 pt-4">Connection</h1>
@@ -53,7 +53,7 @@ const showProxySection = asyncComputed(() => extension.isAllowedIncognitoAccess(
   </div>
   <details>
     <summary class="mb-4">Proxy&hellip;</summary>
-    <div v-if="showProxySection">
+    <div v-if="showProxyButton">
       <ProxyButton />
     </div>
     <div v-else>
