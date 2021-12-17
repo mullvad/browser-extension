@@ -1,8 +1,8 @@
 declare const __DEV__: boolean;
 
 declare module '*.vue' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const component: any;
+  import { DefineComponent } from 'vue';
+  const component: DefineComponent;
   export default component;
 }
 
