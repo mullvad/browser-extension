@@ -22,8 +22,7 @@ const defaultExtsConfig: Extension[] = [
     name: 'uBlock Origin',
     author: 'Raymond Hill',
     description: 'Block ad content and trackers.',
-    longDescription:
-      `uBlock Origin is not just a free and open-source “ad blocker“, it's a very efficient content blocker consuming minimal resources.`,
+    longDescription: `uBlock Origin is not just a free and open-source “ad blocker“, it's a very efficient content blocker consuming minimal resources.`,
     homeUrl: 'https://ublockorigin.com/',
     addonUrl: 'https://addons.mozilla.org/firefox/addon/ublock-origin/',
     icon: 'ubo64.png',
@@ -76,14 +75,15 @@ const loadExtConfigs = async (): Promise<void> => {
   const enabledIDs = installedAddons.filter((addon) => addon.enabled).map((addons) => addons.id);
 
   extensions.value = extensions.value.map((ext) => {
-    // ext disabled
     if (disabledIDs.includes(ext.id)) {
+      // ext disabled
       return { ...ext, installed: true, enabled: false };
-      // ext enabled
     } else if (enabledIDs.includes(ext.id)) {
+      // ext enabled
       return { ...ext, installed: true, enabled: true };
-      // ext to install
-    } else return ext;
+    }
+    // ext to install
+    return ext;
   });
 };
 
