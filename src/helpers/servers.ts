@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useBrowserStorage } from '@/lib/useBrowserStorage';
+import { useBrowserStorage } from '@/composables/useBrowserStorage';
 
 export interface Server {
   active: boolean;

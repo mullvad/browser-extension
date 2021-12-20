@@ -1,4 +1,4 @@
-import { useBrowserStorage } from '@/lib/useBrowserStorage';
+import { useBrowserStorage } from '@/composables/useBrowserStorage';
 
 export interface Extension {
   id: string;

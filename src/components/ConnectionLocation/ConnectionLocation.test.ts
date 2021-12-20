@@ -1,5 +1,5 @@
 import { mount, MountingOptions } from '@vue/test-utils';
-import ConnectionLocation from '@/components/ConnectionDetails/ConnectionLocation.vue';
+import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import { Connection } from '@/helpers/connCheck';
 
 describe('ConnectionLocation.vue', function () {

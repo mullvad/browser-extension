@@ -1,5 +1,5 @@
 import { Ref } from 'vue-demi';
-import { useBrowserStorage } from '@/lib/useBrowserStorage';
+import { useBrowserStorage } from '@/composables/useBrowserStorage';
 import type { SocksConfig } from '@/helpers/socks';
 
 export type Store = {

@@ -1,4 +1,4 @@
-import useConnectionLocation from '@/components/ConnectionDetails/useConnectionLocation';
+import useConnectionLocation from '@/composables/useConnectionLocation';
 import { Connection } from '@/helpers/connCheck';
 
 describe('useConnectionLocation test', function () {

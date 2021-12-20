@@ -3,7 +3,7 @@ import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
 import { Connection } from '@/helpers/connCheck';
 import ProxyButton from '@/components/ProxyButton.vue';
-import ConnectionLocation from '@/components/ConnectionDetails/ConnectionLocation.vue';
+import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 
 defineProps<{ connection: Connection; isLoading: boolean }>();
 const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess());
