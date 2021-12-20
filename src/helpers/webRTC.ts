@@ -1,4 +1,4 @@
-import useStore from '@/popup/useStore';
+import useStore from '@/composables/useStore';
 
 export const setWebRTC = (isDisabled: boolean) => {
   // Disable WebRTC in Firefox

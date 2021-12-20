@@ -2,8 +2,8 @@
 import ConnectionDetails from '@/components/ConnectionDetails/ConnectionDetails.vue';
 import ConnectionStatus from '@/components/ConnectionStatus.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
-import useRecommendedExtensions from '@/helpers/useRecommendedExtensions';
-import useConnection from '@/popup/useConnection';
+import useRecommendedExtensions from '@/composables/useRecommendedExtensions';
+import useConnection from '@/composables/useConnection';
 
 const { isLoading, connection } = useConnection();
 const recommendedExtensions = useRecommendedExtensions();

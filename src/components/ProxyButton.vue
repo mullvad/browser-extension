@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { toggleProxy } from '@/helpers/socks';
-import useStore from '@/popup/useStore';
+import useStore from '@/composables/useStore';
 
 const { socksEnabled } = useStore();
 </script>

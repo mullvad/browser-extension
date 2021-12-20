@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { setWebRTC } from '@/helpers/webRTC';
-import useStore from '@/popup/useStore';
+import useStore from '@/composables/useStore';
 
 const { webrtcDisabled } = useStore();
 const toggleWebrtc = (event: Event) => {
