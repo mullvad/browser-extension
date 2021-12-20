@@ -9,7 +9,7 @@ const { extensions } = toRefs(props);
 const isUsingAllExtensions = computed(() => extensions.value.length === 0);
 const labelText = computed(() =>
   isUsingAllExtensions.value
-    ? 'Handled all recommended extensions'
+    ? 'Installed all recommended extensions'
     : `Install ${pluralize('recommended extension', extensions.value.length)}`,
 );
 </script>
