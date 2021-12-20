@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ConnectionDetails from '@/components/ConnectionDetails/ConnectionDetails.vue';
-import ConnectionStatus from '@/components/ConnectionStatus.vue';
+import ConnectionStatus from '@/components/ConnectionStatus/ConnectionStatus.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
 import useRecommendedExtensions from '@/composables/useRecommendedExtensions';
 import useConnection from '@/composables/useConnection';
@@ -11,5 +11,9 @@ const recommendedExtensions = useRecommendedExtensions();
 <template>
   <PrivacyRecommendations :recommendedExtensions="recommendedExtensions" />
   <ConnectionDetails :connection="connection" :isLoading="isLoading" />
-  <ConnectionStatus :connected="connection.isMullvad" :protocol="connection.protocol" />
+  <ConnectionStatus
+    :connected="connection.isMullvad"
+    :protocol="connection.protocol"
+    :extensions="recommendedExtensions"
+  />
 </template>
