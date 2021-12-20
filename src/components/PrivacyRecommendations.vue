@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NCarousel, NCard } from 'naive-ui';
+import { NCarousel, NCard, NAvatar } from 'naive-ui';
 import { Extension } from '@/helpers/extensions';
 
 defineProps<{ recommendedExtensions: Extension[] }>();
@@ -9,33 +9,25 @@ defineProps<{ recommendedExtensions: Extension[] }>();
 
   <n-carousel show-arrow>
     <n-card
-      v-for="(extension, index) in recommendedExtensions"
+      v-for="(extension) in recommendedExtensions"
       :key="extension.id"
-      :title="extension.name"
-      embedded
       :bordered="false"
     >
-      <template #header-extra>
-        <p class="text-right pt-4">{{ index + 1 }}/{{ recommendedExtensions.length }}</p>
+      <template #header>
+        <div class="flex">
+          <n-avatar size="small" :src="`/assets/icons/${extension.icon}`" class="mr-2"></n-avatar>
+          <p>{{ extension.name }}</p>
+        </div>
       </template>
 
-      <p>{{ extension.description }}</p>
-
-      <template #action>
-        <p class="text-center pt-2 text-sm">
-          <router-link to="privacy-extensions" class="hover:text-white"> Read More </router-link>
-        </p>
-      </template>
+      <p class="mb-8">
+        <span>{{ extension.description }}</span>&nbsp;
+        <router-link to="privacy-extensions" class="hover:text-white underline">Read more&hellip;</router-link>
+      </p>
     </n-card>
   </n-carousel>
 
   <div class="text-right pt-2">
-    <router-link class="hover:text-white" to="privacy-extensions"> Show all </router-link>
+    <router-link class="hover:text-white" to="privacy-extensions">Show all</router-link>
   </div>
 </template>
-<style scoped>
-.n-carousel .n-carousel__arrow svg {
-  cursor: pointer;
-  color: red;
-}
-</style>
