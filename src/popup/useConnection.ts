@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 import { connCheck, Connection } from '@/helpers/connCheck';
 
 //  Keep this outside of the hook to make it a singleton

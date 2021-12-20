@@ -1,3 +1,4 @@
+import { watch, ref } from 'vue';
 import { storage } from 'webextension-polyfill';
 
 const get = async (key: string) => {

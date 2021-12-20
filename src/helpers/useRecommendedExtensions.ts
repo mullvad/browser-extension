@@ -1,5 +1,5 @@
+import { Ref, computed } from 'vue';
 import { Extension, extensions } from '@/helpers/extensions';
-import { Ref } from 'vue-demi';
 
 const useRecommendedExtensions = (): Ref<Extension[]> => {
   return computed(() =>

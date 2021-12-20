@@ -1,5 +1,5 @@
+import { isProxy, toRaw } from 'vue';
 import useStore from '@/popup/useStore';
-import { isProxy } from 'vue';
 import useConnection from '@/popup/useConnection';
 
 export interface SocksConfig {
