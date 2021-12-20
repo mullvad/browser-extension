@@ -30,6 +30,7 @@
     "lint:style:fix": "npm run lint:style -- --fix",
     "tsc": "vue-tsc --noEmit",
     "test": "jest",
+    "test:watch": "jest --watch",
     "prepare": "husky install"
   },
   "devDependencies": {
