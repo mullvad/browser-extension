@@ -12,3 +12,4 @@ dist
 dist-ssr
 extension/manifest.json
 node_modules
+coverage
