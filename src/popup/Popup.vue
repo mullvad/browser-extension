@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import FeArrowLeft from '~icons/fe/arrow-left';
+
 const path = computed(() => {
   return useRoute().path;
 });

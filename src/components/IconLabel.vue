@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import FeCheckCircle from '~icons/fe/check-circle';
+import FeWarning from '~icons/fe/warning';
 defineProps<{ text: string; state: boolean }>();
 </script>
 <template>

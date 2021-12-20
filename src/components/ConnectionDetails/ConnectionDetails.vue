@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
+import LaSpinner from '~icons/la/spinner';
+import IcRoundMenu from '~icons/ic/round-menu';
 import { Connection } from '@/helpers/connCheck';
 import ProxyButton from '@/components/ProxyButton.vue';
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';

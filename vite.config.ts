@@ -2,8 +2,6 @@ import { dirname, relative } from 'path';
 import { defineConfig, UserConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import Icons from 'unplugin-icons/vite';
-import IconsResolver from 'unplugin-icons/resolver';
-import Components from 'unplugin-vue-components/vite';
 import WindiCSS from 'vite-plugin-windicss';
 import windiConfig from './windi.config';
 import { r, port, isDev } from './scripts/utils';
@@ -20,19 +18,9 @@ export const sharedConfig: UserConfig = {
   },
   plugins: [
     Vue(),
-
-    // https://github.com/antfu/unplugin-vue-components
-    Components({
-      resolvers: [
-        // auto import icons
-        IconsResolver({
-          componentPrefix: '',
-        }),
-      ],
-    }),
-
+    
     // https://github.com/antfu/unplugin-icons
-    Icons(),
+    Icons({ compiler: 'vue3' }),
 
     // rewrite assets to use relative path
     {
