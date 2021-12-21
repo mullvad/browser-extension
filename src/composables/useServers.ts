@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useBrowserStorage } from '@/composables/useBrowserStorage';
 
 export type Location = {
   city: string;
@@ -26,12 +25,7 @@ export interface Servers {
   [country: string]: Country;
 }
 
-export const servers = useBrowserStorage('servers', {});
-
-/**
- * Fetch servers list and save it to storage
- */
-export const serversToStorage = async () => {
+const useServers = async () => {
   try {
     const { data } = await axios.get<SocksProxy[]>(
       'https://api.mullvad.net/network/v1-beta1/socks-proxies',
@@ -55,7 +49,7 @@ export const serversToStorage = async () => {
         return acc;
       }, {});
 
-    servers.value = Object.entries(grouped)
+    return Object.entries(grouped)
       .map(([country, cityMap]) => {
         const cities = Object.entries(cityMap)
           .map(([city, proxyList]) => {
@@ -69,3 +63,5 @@ export const serversToStorage = async () => {
     console.log(`Couldn't get the servers list`, error);
   }
 };
+
+export default useServers;
