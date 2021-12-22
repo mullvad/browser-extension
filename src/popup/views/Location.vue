@@ -2,6 +2,7 @@
 import { NCollapseItem, NCollapse, NButton, NSpace } from 'naive-ui';
 import useServers from '@/composables/useServers';
 import { asyncComputed } from '@vueuse/core';
+import pluralize from '@/helpers/pluralize';
 
 const servers = asyncComputed(() => useServers());
 const connect = (hostname: string) => {
@@ -17,7 +18,16 @@ const connect = (hostname: string) => {
       :name="country"
       :title="country"
     >
-      <template #header-extra>{{ cities.length }}</template>
+      <template #header-extra
+        >{{ pluralize('city', cities.length, 'cities') }} /
+        {{
+          pluralize(
+            'proxy',
+            cities.reduce((acc, { proxyList }) => acc + proxyList.length, 0),
+            'proxies',
+          )
+        }}</template
+      >
       <n-collapse arrow-placement="right">
         <n-collapse-item
           v-for="{ city, proxyList } in cities"
@@ -25,10 +35,8 @@ const connect = (hostname: string) => {
           :name="city"
           :title="city"
         >
-          <template #header-extra>{{ proxyList.length }}</template>
-          <n-space
-            vertical
-          >
+          <template #header-extra>{{ pluralize('proxy', proxyList.length, 'proxies') }}</template>
+          <n-space vertical>
             <n-button
               v-for="proxy in proxyList"
               :key="proxy.hostname"
