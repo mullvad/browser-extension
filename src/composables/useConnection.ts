@@ -14,11 +14,10 @@ const useConnection = () => {
     error.value = undefined;
     try {
       connection.value = await connCheck();
-    } catch(e) {
+    } catch (e) {
       isError.value = true;
       error.value = e as Error;
-    }
-    finally {
+    } finally {
       isLoading.value = false;
     }
   };
