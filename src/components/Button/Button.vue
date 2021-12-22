@@ -1,0 +1,78 @@
+<script lang="ts" setup>
+import { computed, toRefs } from 'vue';
+
+type Props = {
+  color?: string;
+  textColor?: string;
+  href?: string;
+  to?: string;
+};
+
+const props = defineProps<Props>();
+const type = computed(() => {
+  if (props.href) {
+    return 'a';
+  }
+  if (props.to) {
+    return 'router-link';
+  }
+  return 'button';
+});
+
+const { color, textColor } = toRefs(props);
+const classes = computed(() => {
+  let colors;
+
+  if (color?.value) {
+    colors = `bg-${color.value} text-${textColor?.value || 'white'}`;
+  }
+
+  return colors;
+});
+</script>
+<template>
+  <component :is="type" :href="href" :to="to" class="btn" :class="classes"><slot></slot></component>
+</template>
+<style scoped>
+.btn {
+  --green: #44ad4de6;
+  --green-hover: #44ad4dff;
+  --red: #e34039e6;
+  --red-hover: #e34039ff;
+  --blue: rgb(41 77 115 / 90%);
+  --blue-hover: rgb(41 77 115 / 100%);
+
+  background-color: var(--blue);
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 0.25rem;
+}
+
+.btn:focus,
+.btn:active {
+  outline: none;
+}
+
+.bg-success {
+  background-color: var(--green);
+}
+
+.bg-error {
+  background-color: var(--red);
+}
+
+.btn:focus,
+.btn:hover {
+  background-color: var(--blue-hover);
+}
+
+.bg-success:focus,
+.bg-success:hover {
+  background-color: var(--green-hover);
+}
+
+.bg-error:focus,
+.bg-error:hover {
+  background-color: var(--red-hover);
+}
+</style>
