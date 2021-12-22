@@ -16,5 +16,4 @@ const recommendedExtensions = useRecommendedExtensions();
     :protocol="connection.protocol"
     :extensions="recommendedExtensions"
   />
-  <router-link to="location">Location</router-link>
 </template>
