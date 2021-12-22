@@ -31,6 +31,10 @@ header {
   color: var(--white);
 }
 
+em {
+  color: hsl(211deg 21% 78%);
+}
+
 .text-success {
   color: var(--success);
 }

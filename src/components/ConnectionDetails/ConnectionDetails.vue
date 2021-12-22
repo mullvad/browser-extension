@@ -93,10 +93,6 @@ details.disabled summary {
   pointer-events: none;
 }
 
-em {
-  color: hsl(211deg 21% 78%);
-}
-
 ol {
   margin-left: 1rem;
   list-style-type: decimal;
