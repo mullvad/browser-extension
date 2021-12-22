@@ -1,19 +1,23 @@
 <script lang="ts" setup>
 import { NCollapseItem, NCollapse, NButton, NSpace } from 'naive-ui';
-import useServers from '@/composables/useServers';
+import useSocksProxies from '@/composables/useSocksProxies';
 import { asyncComputed } from '@vueuse/core';
 import pluralize from '@/helpers/pluralize';
 
-const servers = asyncComputed(() => useServers());
+const socksProxies = asyncComputed(() => useSocksProxies());
 const connect = (hostname: string) => {
   console.log({ hostname });
 };
 </script>
 <template>
-  <h1>Location</h1>
+  <h1 class="text-xl">Select proxy location</h1>
+  <p class="mb-8">
+    While connected through the proxy, your real location and your VPN location are masked with a
+    private and secure location in the selected region.
+  </p>
   <n-collapse arrow-placement="right">
     <n-collapse-item
-      v-for="{ country, cities } in servers"
+      v-for="{ country, cities } in socksProxies"
       :key="country"
       :name="country"
       :title="country"
