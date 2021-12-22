@@ -5,20 +5,15 @@ import PrivacyExtension from '@/popup/views/PrivacyExtensions/PrivacyExtension.v
 
 const sortedExtensions = computed(() => sortExtensions(extensions.value));
 
-const updateRecommendations = async () => {
-  // Do some kind of update
-};
 </script>
 <template>
   <section>
     <p>Here's a list of recommended third party extensions to improve your privacy</p>
-    <div
-      v-for="extension in sortedExtensions"
-      :key="extension.id"
-    >
+    <div class="space-y-4 mt-4">
       <PrivacyExtension
+        v-for="extension in sortedExtensions"
+        :key="extension.id"
         :extension="extension"
-        @update-recommendations="updateRecommendations"
       />
     </div>
   </section>
