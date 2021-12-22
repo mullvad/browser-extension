@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import { NCollapseItem, NCollapse, NButton, NSpace } from 'naive-ui';
 import useSocksProxies from '@/composables/useSocksProxies';
-import { asyncComputed } from '@vueuse/core';
 import pluralize from '@/helpers/pluralize';
+import useSocksProxy from '@/composables/useSocksProxy';
+import { useRouter } from 'vue-router';
+import LaSpinner from '~icons/la/spinner';
 
-const socksProxies = asyncComputed(() => useSocksProxies());
-const connect = (hostname: string) => {
-  console.log({ hostname });
+const { socksProxies, isLoading, isError, error } = useSocksProxies();
+const router = useRouter();
+const { connectToSocksProxy } = useSocksProxy();
+const clickSocksProxy = (hostname: string, port: number) => {
+  connectToSocksProxy(hostname, port);
+  router.push('/');
 };
 </script>
 <template>
@@ -15,7 +20,11 @@ const connect = (hostname: string) => {
     While connected through the proxy, your real location and your VPN location are masked with a
     private and secure location in the selected region.
   </p>
-  <n-collapse arrow-placement="right">
+  <p v-if="isLoading" class="text-lg flex items-center">
+    Loading proxies<LaSpinner class="ml-2 animate-spin" />
+  </p>
+  <p v-else-if="isError">{{ error }}</p>
+  <n-collapse v-else arrow-placement="right">
     <n-collapse-item
       v-for="{ country, cities } in socksProxies"
       :key="country"
@@ -46,7 +55,7 @@ const connect = (hostname: string) => {
               :key="proxy.hostname"
               secondary
               medium
-              @click="connect(proxy.hostname)"
+              @click="clickSocksProxy(proxy.hostname, proxy.port)"
             >
               {{ proxy.hostname }}
             </n-button>

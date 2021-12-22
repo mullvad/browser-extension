@@ -1,8 +1,7 @@
-import { storage } from 'webextension-polyfill';
 import { initExtensions } from '@/helpers/extensions';
 import { serversToStorage } from '@/helpers/servers';
 import { initWebRTC } from '@/helpers/webRTC';
-import { enableProxy } from '@/helpers/socks';
+import useSocksProxy from '@/composables/useSocksProxy';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -12,6 +11,8 @@ if (import.meta.hot) {
   import('./contentScriptHMR');
 }
 
+const { socksEnabled } = useSocksProxy();
+
 // Add listener on extension action & load extensions settings
 initExtensions();
 
@@ -20,9 +21,9 @@ serversToStorage();
 
 // Load socks settings
 const initSocks = async () => {
-  const socksEnabled = JSON.parse((await storage.local.get('socksEnabled')).socksEnabled ?? 'false');
   if (socksEnabled) {
-    enableProxy();
+    // TODO: Fix initial enable proxy again
+    // enableProxy();
   }
 };
 initSocks();
