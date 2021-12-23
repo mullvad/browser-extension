@@ -31,7 +31,7 @@ const loadExtConfigs = async (): Promise<void> => {
   // We need to get the "actual" value stored in local storage here.
   // Do not trust extensions.value since it contains defaultExtensions at this point in time
   const storedExtensionsData = await storage.local.get('extensions');
-  const storedExtensions: Extension[] = JSON.parse(storedExtensionsData.extensions);
+  const storedExtensions: Extension[] = storedExtensionsData.extensions ? JSON.parse(storedExtensionsData.extensions) : defaultExtensions;
   
   extensions.value = storedExtensions.map((ext) => {
     if (disabledIDs.includes(ext.id)) {
