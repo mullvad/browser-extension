@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { NCarousel, NCard, NAvatar } from 'naive-ui';
-import { Extension } from '@/helpers/extensions';
+import { Extension } from '@/composables/useExtensions/Extension.types';
 
 defineProps<{ recommendedExtensions: Extension[] }>();
 </script>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import IconLabel from '@/components/IconLabel.vue';
-import { Extension } from '@/helpers/extensions';
+import { Extension } from '@/composables/useExtensions/Extension.types';
 import pluralize from '@/helpers/pluralize';
 
 const props = defineProps<{ extensions: Extension[] }>();

@@ -4,7 +4,7 @@ import FeLinkExternal from '~icons/fe/link-external';
 import FeCheckCircle from '~icons/fe/check-circle';
 import FeWarning from '~icons/fe/warning';
 import { NAvatar, NCard } from 'naive-ui';
-import { Extension } from '@/helpers/extensions';
+import { Extension } from '@/composables/useExtensions/Extension.types';
 import { Status } from '@/popup/views/PrivacyExtensions/Status.types';
 import Button from '@/components/Button/Button.vue';
 
@@ -75,8 +75,8 @@ const status = computed(() => {
           >
             Install
           </Button>
-          <Button :color="extension.ignored ? 'success' : 'error'" @click="toggleIgnore()">
-            <span v-if="extension.ignored">Enable recommendation</span>
+          <Button :color="status === Status.ignored ? 'success' : 'error'" @click="toggleIgnore()">
+            <span v-if="status === Status.ignored">Enable recommendation</span>
             <span v-else>Disable recommendation</span>
           </Button>
         </div>
