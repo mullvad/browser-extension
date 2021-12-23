@@ -1,11 +1,12 @@
 import { useBrowserStorage } from '@/composables/useBrowserStorage';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { Extension, ExtensionInfo } from '@/composables/useExtensions/Extension.types';
 import {
   defaultExtensions,
   defaultExtensionIds,
 } from '@/composables/useExtensions/defaultExtensions';
 import sortExtensions from '@/composables/useExtensions/sortExtensions';
+import { storage } from 'webextension-polyfill';
 
 const extensions = useBrowserStorage<Extension[]>('extensions', defaultExtensions);
 
@@ -26,7 +27,13 @@ const loadExtConfigs = async (): Promise<void> => {
 
   const enabledIDs = installedAddons.filter((addon) => addon.enabled).map((addons) => addons.id);
 
-  extensions.value = extensions.value.map((ext) => {
+  // HACK!
+  // We need to get the "actual" value stored in local storage here.
+  // Do not trust extensions.value since it contains defaultExtensions at this point in time
+  const storedExtensionsData = await storage.local.get('extensions');
+  const storedExtensions: Extension[] = JSON.parse(storedExtensionsData.extensions);
+  
+  extensions.value = storedExtensions.map((ext) => {
     if (disabledIDs.includes(ext.id)) {
       // ext disabled
       return { ...ext, installed: true, enabled: false };
