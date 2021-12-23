@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { sortExtensions, extensions } from '@/helpers/extensions';
 import PrivacyExtension from '@/popup/views/PrivacyExtensions/PrivacyExtension.vue';
+import useExtensions from '@/composables/useExtensions/useExtensions';
 
-const sortedExtensions = computed(() => sortExtensions(extensions.value));
+const { extensions } = useExtensions();
 
 </script>
 <template>
@@ -11,7 +10,7 @@ const sortedExtensions = computed(() => sortExtensions(extensions.value));
     <p>Here's a list of recommended third party extensions to improve your privacy</p>
     <div class="space-y-4 mt-4">
       <PrivacyExtension
-        v-for="extension in sortedExtensions"
+        v-for="extension in extensions"
         :key="extension.id"
         :extension="extension"
       />
