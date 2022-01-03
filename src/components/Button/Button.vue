@@ -53,17 +53,31 @@ const classes = computed(() => {
   outline: none;
 }
 
+.btn:focus,
+.btn:hover {
+  background-color: var(--blue-hover);
+}
+
+.n-button-group .btn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.n-button-group .btn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.n-button-group .btn:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
 .bg-success {
   background-color: var(--green);
 }
 
 .bg-error {
   background-color: var(--red);
-}
-
-.btn:focus,
-.btn:hover {
-  background-color: var(--blue-hover);
 }
 
 .bg-success:focus,
