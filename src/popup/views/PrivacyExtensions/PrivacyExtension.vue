@@ -63,7 +63,7 @@ const status = computed(() => {
     </div>
     <template #action>
       <div class="flex justify-between">
-        <Button :href="extension.homeUrl">
+        <Button :href="extension.homeUrl" @click="closePopup">
           <span class="flex items-center">Learn More&nbsp;<FeLinkExternal /></span>
         </Button>
         <div v-if="status !== Status.activated && status !== Status.disabled">
