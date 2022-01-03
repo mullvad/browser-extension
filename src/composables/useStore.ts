@@ -1,12 +1,12 @@
 import { Ref } from 'vue';
-import { useBrowserStorage } from '@/composables/useBrowserStorage';
+import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
 
 export type Store = {
   webrtcDisabled: Ref<boolean>;
 };
 
 const useStore = (): Store => {
-  const webrtcDisabled = useBrowserStorage('webrtcDisabled', true);
+  const webrtcDisabled = useBrowserStorageLocal('webrtcDisabled', true);
   
   return { webrtcDisabled };
 };
