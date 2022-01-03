@@ -7,6 +7,15 @@ import '../styles';
 
 const router = createRouter({
   history: createMemoryHistory(),
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        top: 60, // Make sure that the entire card is visible when auto-scrolling
+        behavior: 'smooth',
+      };
+    }
+  },
   routes,
 });
 

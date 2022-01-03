@@ -9,7 +9,9 @@ defineProps<{ recommendedExtensions: Extension[] }>();
 
   <div v-if="recommendedExtensions.length === 0">
     <p class="text-white text-lg">Sweet! You have installed all recommended extensions</p>
-    <router-link class="hover:text-white" to="privacy-extensions">See recommended extensions</router-link>
+    <router-link class="hover:text-white" to="privacy-extensions"
+      >See recommended extensions</router-link
+    >
   </div>
 
   <div v-else>
@@ -23,9 +25,10 @@ defineProps<{ recommendedExtensions: Extension[] }>();
         </template>
 
         <p class="mb-8">
-          <span>{{ extension.description }}</span
-          >&nbsp;
-          <router-link to="privacy-extensions" class="hover:text-white underline"
+          <span>{{ extension.description }}</span>&nbsp;
+          <router-link
+            :to="`/privacy-extensions#${extension.id}`"
+            class="hover:text-white underline"
             >Read more&hellip;</router-link
           >
         </p>

@@ -43,7 +43,7 @@ const status = computed(() => {
 });
 </script>
 <template>
-  <n-card>
+  <n-card :id="extension.id">
     <template #header>
       <div class="flex">
         <n-avatar size="small" :src="`/assets/icons/${extension.icon}`" class="mr-2"></n-avatar>
