@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import PrivacyExtension from '@/popup/views/PrivacyExtensions/PrivacyExtension.vue';
+import PrivacyExtension from '@/components/PrivacyExtension.vue';
 import useExtensions from '@/composables/useExtensions/useExtensions';
 
 const { extensions } = useExtensions();

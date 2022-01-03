@@ -3,7 +3,7 @@ import { computed, toRefs } from 'vue';
 import FeLinkExternal from '~icons/fe/link-external';
 import FeCheckCircle from '~icons/fe/check-circle';
 import FeWarning from '~icons/fe/warning';
-import { NAvatar, NCard } from 'naive-ui';
+import { NAvatar, NCard, NDropdown, NButtonGroup, NTooltip } from 'naive-ui';
 import { Extension } from '@/composables/useExtensions/Extension.types';
 import { Status } from '@/popup/views/PrivacyExtensions/Status.types';
 import Button from '@/components/Button/Button.vue';
@@ -41,6 +41,13 @@ const status = computed(() => {
 
   return Status.activated;
 });
+
+const options = computed(() => [
+  {
+    label: `${status.value === Status.ignored ? 'Enable' : 'Disable'} Recommendation`,
+    props: { onClick: toggleIgnore },
+  },
+]);
 </script>
 <template>
   <n-card :id="extension.id">
@@ -52,8 +59,18 @@ const status = computed(() => {
     </template>
     <template #header-extra>
       <div class="text-2xl flex">
-        <FeCheckCircle v-if="status === Status.activated" class="text-success" />
-        <FeWarning v-if="status === Status.disabled" class="text-warning" />
+        <n-tooltip v-if="status === Status.activated" >
+          <template #trigger>
+            <FeCheckCircle class="text-success" />
+          </template>
+          <span>Installed</span>
+        </n-tooltip>
+        <n-tooltip v-if="status === Status.disabled">
+          <template #trigger>
+            <FeWarning class="text-warning" />
+          </template>
+          <span>Disabled</span>
+        </n-tooltip>
       </div>
     </template>
     <p>{{ extension.longDescription }}</p>
@@ -67,18 +84,22 @@ const status = computed(() => {
           <span class="flex items-center">Learn More&nbsp;<FeLinkExternal /></span>
         </Button>
         <div v-if="status !== Status.activated && status !== Status.disabled">
-          <Button
-            v-if="status !== Status.ignored"
-            :href="extension.addonUrl"
-            color="success"
-            @click="closePopup"
-          >
-            Install
-          </Button>
-          <Button :color="status === Status.ignored ? 'success' : 'error'" @click="toggleIgnore()">
-            <span v-if="status === Status.ignored">Enable recommendation</span>
-            <span v-else>Disable recommendation</span>
-          </Button>
+          <n-button-group>
+            <Button
+              v-if="status !== Status.ignored"
+              :href="extension.addonUrl"
+              color="success"
+              @click="closePopup"
+            >
+              Install
+            </Button>
+            <n-dropdown trigger="click" :options="options">
+              <Button>
+                <span v-if="status === Status.ignored">Ignored&hellip;</span>
+                <span v-else>Options&hellip;</span>
+              </Button>
+            </n-dropdown>
+          </n-button-group>
         </div>
       </div>
     </template>
