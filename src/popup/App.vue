@@ -4,7 +4,7 @@ import Popup from '@/popup/Popup.vue';
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
-    cardColor: 'rgb(41 77 115 / 50%)',
+    cardColor: 'rgba(41, 77, 115, 0.5)',
   },
   Avatar: {
     color: 'transparent',
