@@ -38,7 +38,7 @@
     "@iconify/json": "^1.1.408",
     "@types/firefox-webext-browser": "^94.0.0",
     "@types/fs-extra": "^9.0.13",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.0",
     "@types/node": "^16.10.2",
     "@types/webextension-polyfill": "^0.8.0",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
