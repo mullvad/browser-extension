@@ -1,13 +1,7 @@
-import { useStorageAsync, Awaitable } from '@vueuse/core';
+import { useStorageAsync, StorageLikeAsync } from '@vueuse/core';
 import { storage } from 'webextension-polyfill';
 
-interface BrowserStorageLocal {
-  getItem(key: string): Awaitable<string | null>;
-  setItem(key: string, value: string): Awaitable<void>;
-  removeItem(key: string): Awaitable<void>;
-}
-
-const browserStorageLocal: BrowserStorageLocal = {
+const browserStorageLocal: StorageLikeAsync = {
   removeItem(key: string) {
     return storage.local.remove(key);
   },
