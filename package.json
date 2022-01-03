@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@ffflorian/jszip-cli": "^3.1.5",
-    "@iconify/json": "^1.1.408",
+    "@iconify/json": "^1.1.451",
     "@types/firefox-webext-browser": "^94.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.4.0",
