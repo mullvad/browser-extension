@@ -3,7 +3,7 @@ import UsingMullvadConnectionStatus from '@/components/ConnectionStatus/UsingMul
 import UsingProxyConnectionStatus from '@/components/ConnectionStatus/UsingProxyConnectionStatus.vue';
 import UsingRecommendedExtensionsConnectionStatus from '@/components/ConnectionStatus/UsingRecommendedExtensionsConnectionStatus.vue';
 import DnsLeakStatus from '@/components/ConnectionStatus/DnsLeakStatus.vue';
-import { Extension } from '@/composables/useExtensions/Extension.types';
+import type { Extension } from '@/composables/useExtensions/Extension.types';
 
 defineProps<{ connected: boolean; extensions: Extension[]; protocol?: string }>();
 </script>
