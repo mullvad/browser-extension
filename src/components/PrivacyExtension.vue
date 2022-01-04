@@ -59,7 +59,7 @@ const options = computed(() => [
     </template>
     <template #header-extra>
       <div class="text-2xl flex">
-        <n-tooltip v-if="status === Status.activated" >
+        <n-tooltip v-if="status === Status.activated">
           <template #trigger>
             <FeCheckCircle class="text-success" />
           </template>
@@ -94,7 +94,7 @@ const options = computed(() => [
               Install
             </Button>
             <n-dropdown trigger="click" :options="options">
-              <Button>
+              <Button class="h-10">
                 <span v-if="status === Status.ignored">Ignored&hellip;</span>
                 <span v-else>Options&hellip;</span>
               </Button>
