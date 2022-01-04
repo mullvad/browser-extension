@@ -22,7 +22,10 @@ const useConnection = () => {
     }
   };
 
-  updateConnection();
+  // Don't run multiple checks at the same time
+  if (!isLoading.value) {
+    updateConnection();
+  }
 
   return { connection, updateConnection, isLoading, isError, error };
 };
