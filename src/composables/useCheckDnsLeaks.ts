@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { ref } from 'vue';
+import unique from '@/helpers/unique';
 
 export type DnsServer = {
   ip: string;
@@ -37,9 +38,7 @@ const useCheckDnsLeaks = () => {
     // The returned value from  Promise.all is here a list of lists, so add .flat() to make it a single level list
     const allDnsServers = (await Promise.all([...Array(6)].map(() => dnsLeakRequest()))).flat();
     // Remove duplicates, based on DnsServer.ip
-    const uniqueDnsServers = [
-      ...new Map(allDnsServers.map((server) => [server.ip, server])).values(),
-    ];
+    const uniqueDnsServers = unique(allDnsServers, 'ip');
 
     isLeaking.value = uniqueDnsServers.some((server) => !server.mullvad_dns);
     dnsServers.value = uniqueDnsServers;
