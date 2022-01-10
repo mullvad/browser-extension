@@ -37,7 +37,7 @@ const toggleDetails = (open: boolean) => {
             {{ connection.provider }}
           </td>
         </tr>
-        <tr>
+        <tr v-if="connection.isMullvad">
           <td class="text-right">Server</td>
           <td class="text-white pl-2">
             {{ connection.server }}
