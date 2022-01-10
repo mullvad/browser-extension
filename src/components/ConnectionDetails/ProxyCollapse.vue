@@ -1,23 +1,45 @@
 <script lang="ts" setup>
+import { computed, toRefs } from 'vue';
 import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
-import { NDrawer, NDrawerContent } from 'naive-ui';
 import IcRoundMenu from '~icons/ic/round-menu';
-import useLocations from '@/composables/useLocations';
 import useStore from '@/composables/useStore';
+import Button from '@/components/Button/Button.vue';
 import Collapse from '@/components/Collapse.vue';
 import ProxyButton from '@/components/ProxyButton.vue';
-import Location from '@/popup/views/Location.vue';
+
+import type { Connection } from '@/helpers/connCheck';
+import useSocksProxy from '@/composables/useSocksProxy';
+import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
+
+const props = defineProps<{ connection: Connection }>();
+const { connection } = toRefs(props);
 
 const { proxyExpanded } = useStore();
+const { socksEnabled, disableProxy } = useSocksProxy();
+
+// Only show the Proxy collapse if the user is connected to Mullvad
+const showProxyCollapse = computed(() => connection.value.isMullvad);
+
+// Only show the Proxy Button inside the collapse if the extension is allowed to change the proxy settings.
+// If not, show a message on how to enable this
 const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess());
-const toggleProxy = (open: boolean) => {
-  proxyExpanded.value = open ?? false;
-};
-const { showLocations, toggleLocations } = useLocations();
+
+// If the user has connected to a Proxy but disconnected from Mullvad,
+// make sure he can remove the bullet from his foot by showing a disconnect button
+const showDisconnectButton = computed(() => !connection.value.isMullvad && socksEnabled.value);
+
+// Store the state of the proxy collapse in storage
+const toggleProxyCollapse = (open: boolean) => (proxyExpanded.value = open ?? false);
 </script>
 <template>
-  <Collapse title="Proxy&hellip;" :isOpen="proxyExpanded" @toggle="toggleProxy">
+  <Button v-if="showDisconnectButton" color="error" @click="disableProxy">Disconnect Proxy</Button>
+  <Collapse
+    v-else-if="showProxyCollapse"
+    title="Proxy&hellip;"
+    :isOpen="proxyExpanded"
+    @toggle="toggleProxyCollapse"
+  >
     <div v-if="showProxyButton">
       <ProxyButton />
     </div>
@@ -37,9 +59,5 @@ const { showLocations, toggleLocations } = useLocations();
       </ol>
     </div>
   </Collapse>
-  <n-drawer v-model:show="showLocations" :width="400">
-    <n-drawer-content title="Select proxy location" closable>
-      <Location />
-    </n-drawer-content>
-  </n-drawer>
+  <LocationDrawer />
 </template>

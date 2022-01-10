@@ -16,5 +16,5 @@ defineProps<{ connection: Connection; isLoading: boolean }>();
     <ConnectionLocation v-else :connection="connection" />
   </div>
   <DetailsCollapse :is-loading="isLoading" :connection="connection" />
-  <ProxyCollapse />
+  <ProxyCollapse :connection="connection" />
 </template>
