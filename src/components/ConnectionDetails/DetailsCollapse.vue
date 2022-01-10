@@ -15,7 +15,7 @@ const toggleDetails = (open: boolean) => {
 <template>
   <Collapse
     title="Details&hellip;"
-    :open="!isLoading && detailsExpanded"
+    :open="detailsExpanded"
     :disabled="isLoading"
     @toggle="toggleDetails"
   >
