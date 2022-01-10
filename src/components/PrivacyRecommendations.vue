@@ -1,17 +1,15 @@
 <script lang="ts" setup>
 import { NCarousel, NCard, NAvatar } from 'naive-ui';
-import { Extension } from '@/composables/useExtensions/Extension.types';
+import useExtensions from '@/composables/useExtensions/useExtensions';
 
-defineProps<{ recommendedExtensions: Extension[] }>();
+const { recommendedExtensions } = useExtensions();
 </script>
 <template>
   <h1 class="text-sm pb-1">Privacy Recommendations</h1>
 
   <div v-if="recommendedExtensions.length === 0">
-    <p class="text-white text-lg">Sweet! You have installed all recommended extensions</p>
-    <router-link class="hover:text-white" to="privacy-extensions"
-      >See recommended extensions</router-link
-    >
+    <p class="text-white text-lg">Sweet! You have taken action on all recommendations</p>
+    <router-link class="hover:text-white" to="privacy-extensions">See all Privacy Recommendations</router-link>
   </div>
 
   <div v-else>
