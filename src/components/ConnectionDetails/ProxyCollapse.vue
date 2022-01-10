@@ -1,16 +1,20 @@
 <script lang="ts" setup>
-import useStore from '@/composables/useStore';
 import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
+import { NDrawer, NDrawerContent } from 'naive-ui';
 import IcRoundMenu from '~icons/ic/round-menu';
+import useLocations from '@/composables/useLocations';
+import useStore from '@/composables/useStore';
 import Collapse from '@/components/Collapse.vue';
 import ProxyButton from '@/components/ProxyButton.vue';
+import Location from '@/popup/views/Location.vue';
 
 const { proxyExpanded } = useStore();
 const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess());
 const toggleProxy = (open: boolean) => {
   proxyExpanded.value = open ?? false;
 };
+const { showLocations, toggleLocations } = useLocations();
 </script>
 <template>
   <Collapse title="Proxy&hellip;" :isOpen="proxyExpanded" @toggle="toggleProxy">
@@ -33,4 +37,9 @@ const toggleProxy = (open: boolean) => {
       </ol>
     </div>
   </Collapse>
+  <n-drawer v-model:show="showLocations" :width="400">
+    <n-drawer-content title="Select proxy location" closable>
+      <Location />
+    </n-drawer-content>
+  </n-drawer>
 </template>

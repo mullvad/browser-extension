@@ -13,6 +13,9 @@ const themeOverrides: GlobalThemeOverrides = {
     actionColor: 'transparent',
     paddingMedium: '1.25rem 3rem',
   },
+  Drawer: {
+    color: 'var(--dark-blue)',
+  },
 };
 </script>
 <template>
