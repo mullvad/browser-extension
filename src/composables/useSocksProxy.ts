@@ -15,7 +15,7 @@ const baseConfig = {
 
 const enableProxy = () => {
   const socksIp = getSocksIpForProtocol(connection.value.protocol);
-  browser.proxy.settings.set({
+  proxy.settings.set({
     value: {
       ...baseConfig,
       socks: `${socksIp}:${DEFAULT_PORT}`,
@@ -25,7 +25,7 @@ const enableProxy = () => {
 };
 
 const disableProxy = () => {
-  browser.proxy.settings.set({
+  proxy.settings.set({
     value: {},
   });
   updateConnection();
@@ -39,20 +39,29 @@ const toggleProxy = () => {
 };
 
 const useSocksProxy = () => {
-  
-  proxy.settings.get({}).then(({ value }) => {
-    socksEnabled.value = !!value.socks;
-  });
+  try {
+    proxy.settings.get({}).then(({ value }) => {
+      socksEnabled.value = !!value.socks;
+    });
+  } catch (e) {
+    // TODO: Fix `proxy.settings.get` for Chrome
+    console.log(e);
+  }
 
   const connectToSocksProxy = (hostname: string, port = DEFAULT_PORT) => {
-    proxy.settings.set({
-      value: {
-        ...baseConfig,
-        socks: `${hostname}:${port}`,
-      },
-    });
-    socksEnabled.value = true;
-    updateConnection();
+    try {
+      proxy.settings.set({
+        value: {
+          ...baseConfig,
+          socks: `${hostname}:${port}`,
+        },
+      });
+      socksEnabled.value = true;
+      updateConnection();
+    } catch (e) {
+      // TODO: Fix `proxy.settings.set` for Chrome
+      console.log(e);
+    }
   };
   
   return { connectToSocksProxy, socksEnabled, toggleProxy };

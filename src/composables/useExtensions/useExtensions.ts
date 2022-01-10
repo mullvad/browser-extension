@@ -1,4 +1,6 @@
 import { computed } from 'vue';
+import { management } from 'webextension-polyfill';
+
 import { Extension, ExtensionInfo } from '@/composables/useExtensions/Extension.types';
 import {
   defaultExtensions,
@@ -19,7 +21,7 @@ const updateExtConfig = async (extensionInfo: ExtensionInfo, modification: Parti
 
 const loadExtConfigs = async (): Promise<void> => {
   // Get installed addons
-  const installedAddons = await browser.management.getAll();
+  const installedAddons = await management.getAll();
 
   // Create a disabled extensions ID list
   const disabledIDs = installedAddons.filter((addon) => !addon.enabled).map((addons) => addons.id);

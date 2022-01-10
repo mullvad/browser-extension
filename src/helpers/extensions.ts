@@ -1,13 +1,15 @@
+import { management } from 'webextension-polyfill';
+
 import useExtensions from '@/composables/useExtensions/useExtensions';
 import { ExtensionInfo } from '@/composables/useExtensions/Extension.types';
 
 const { updateExtConfig, loadExtConfigs } = useExtensions();
 
 const addExtListeners = () => {
-  browser.management.onInstalled.addListener(onInstall);
-  browser.management.onUninstalled.addListener(onUninstall);
-  browser.management.onEnabled.addListener(onEnable);
-  browser.management.onDisabled.addListener(onDisable);
+  management.onInstalled.addListener(onInstall);
+  management.onUninstalled.addListener(onUninstall);
+  management.onEnabled.addListener(onEnable);
+  management.onDisabled.addListener(onDisable);
 };
 
 // Listeners
