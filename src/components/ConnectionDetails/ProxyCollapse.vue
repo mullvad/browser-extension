@@ -2,7 +2,6 @@
 import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
 import IcRoundMenu from '~icons/ic/round-menu';
-import useLocations from '@/composables/useLocations';
 import useStore from '@/composables/useStore';
 import Collapse from '@/components/Collapse.vue';
 import ProxyButton from '@/components/ProxyButton.vue';
@@ -13,7 +12,6 @@ const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess()
 const toggleProxy = (open: boolean) => {
   proxyExpanded.value = open ?? false;
 };
-const { showLocations, toggleLocations } = useLocations();
 </script>
 <template>
   <Collapse title="Proxy&hellip;" :isOpen="proxyExpanded" @toggle="toggleProxy">
