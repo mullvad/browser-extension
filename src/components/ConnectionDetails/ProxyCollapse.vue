@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
-import { NDrawer, NDrawerContent } from 'naive-ui';
 import IcRoundMenu from '~icons/ic/round-menu';
 import useLocations from '@/composables/useLocations';
 import useStore from '@/composables/useStore';
