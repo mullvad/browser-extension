@@ -6,7 +6,7 @@ import useStore from '@/composables/useStore';
 import { Connection } from '@/helpers/connCheck';
 
 defineProps<{ connection: Connection; isLoading: boolean }>();
-const { dnsServers, isLoading: isGettingDns } = useCheckDnsLeaks();
+const { dnsServers, isLoading: isGettingDns, isError } = useCheckDnsLeaks();
 const { detailsExpanded } = useStore();
 const toggleDetails = (open: boolean) => {
   detailsExpanded.value = open ?? false;
@@ -44,11 +44,14 @@ const toggleDetails = (open: boolean) => {
           </td>
         </tr>
         <tr>
-          <td class="text-right align-top">DNS Server(s)</td>
+          <td class="text-right align-top">DNS Servers</td>
           <td v-if="isGettingDns" class="pl-2">
             <div class="flex items-center">
               Getting DNS Servers<LaSpinner class="ml-2 animate-spin" />
             </div>
+          </td>
+          <td v-else-if="isError" class="pl-2">
+            Could not determine DNS servers
           </td>
           <td v-else class="text-white pl-2">
             <div v-for="dnsServer in dnsServers" :key="dnsServer.ip">{{ dnsServer.ip }}</div>

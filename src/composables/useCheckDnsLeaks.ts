@@ -31,18 +31,27 @@ const dnsLeakRequest = async () => {
 const isLeaking = ref<boolean | undefined>();
 const dnsServers = ref([] as DnsServer[]);
 const isLoading = ref(false);
+const isError = ref(false);
+const error = ref<Error>();
 
 const useCheckDnsLeaks = () => {
   const checkDnsLeaks = async () => {
     isLoading.value = true;
-    // The returned value from  Promise.all is here a list of lists, so add .flat() to make it a single level list
-    const allDnsServers = (await Promise.all([...Array(6)].map(() => dnsLeakRequest()))).flat();
-    // Remove duplicates, based on DnsServer.ip
-    const uniqueDnsServers = unique(allDnsServers, 'ip');
-
-    isLeaking.value = uniqueDnsServers.some((server) => !server.mullvad_dns);
-    dnsServers.value = uniqueDnsServers;
-    isLoading.value = false;
+    try {
+      // The returned value from  Promise.all is here a list of lists, so add .flat() to make it a single level list
+      const allDnsServers = (await Promise.all([...Array(6)].map(() => dnsLeakRequest()))).flat();
+      // Remove duplicates, based on DnsServer.ip
+      const uniqueDnsServers = unique(allDnsServers, 'ip');
+  
+      isLeaking.value = uniqueDnsServers.some((server) => !server.mullvad_dns);
+      dnsServers.value = uniqueDnsServers;
+    } catch (e) {
+      // If the users is not connected to Mullvad, but using a Proxy we will end up here
+      isError.value = true;
+      error.value = e as Error;
+    } finally {
+      isLoading.value = false;
+    }
   };
 
   // Don't start multiple checks
@@ -50,7 +59,7 @@ const useCheckDnsLeaks = () => {
     checkDnsLeaks();
   }
 
-  return { isLeaking, dnsServers, isLoading };
+  return { isLeaking, dnsServers, isLoading, isError, error };
 };
 
 export default useCheckDnsLeaks;
