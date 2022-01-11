@@ -17,23 +17,28 @@ const { toggleProxy, disableProxy, socksEnabled } = useSocksProxy();
 // Only allow connecting to Proxy if the user is connected to Mullvad
 const canUseProxy = computed(() => connection.value.isMullvad);
 
+const isWireGuard = computed(() => connection.value.protocol?.includes('WireGuard'));
 const color = computed(() => (socksEnabled.value ? 'error' : 'success'));
 const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
 </script>
 <template>
   <div v-if="isLoading">Connecting&hellip;</div>
   <div v-else-if="!canUseProxy && socksEnabled">
-    <p class="mb-2">You are <em>not</em> connected to Mullvad VPN, but have a Proxy configured and can therefore not reach the internet.</p>
+    <p class="mb-2">
+      You are <em>not</em> connected to Mullvad VPN, but have a Proxy configured and can therefore
+      not reach the internet.
+    </p>
     <p>Either <em>connect to Mullvad VPN (safe)</em> or disconnect the proxy (unsafe).</p>
-    <Button :color="color" class="mt-2" @click="disableProxy">Disconnect Proxy</Button>
+    <Button color="error" class="mt-2" @click="disableProxy">Disconnect Proxy</Button>
   </div>
   <p v-else-if="!canUseProxy">To be able to use a proxy, please <em>connect to Mullvad VPN</em></p>
   <div v-else class="flex">
-    <n-button-group>
+    <n-button-group v-if="isWireGuard">
       <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
       <Button class="flex items-center justify-center" @click="toggleLocations">
         <IcLocation />
       </Button>
     </n-button-group>
+    <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
   </div>
 </template>
