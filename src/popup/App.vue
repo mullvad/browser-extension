@@ -1,6 +1,9 @@
 <script lang="ts" setup>
+import { useQueryProvider } from 'vue-query';
 import { NConfigProvider, GlobalThemeOverrides, darkTheme } from 'naive-ui';
 import Popup from '@/popup/Popup.vue';
+
+useQueryProvider();
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {

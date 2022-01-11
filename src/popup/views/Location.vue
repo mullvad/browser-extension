@@ -7,7 +7,7 @@ import LaSpinner from '~icons/la/spinner';
 import useLocations from '@/composables/useLocations';
 
 const { toggleLocations } = useLocations();
-const { socksProxies, isLoading, isError, error } = useSocksProxies();
+const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
 const { connectToSocksProxy } = useSocksProxy();
 const clickSocksProxy = (hostname: string, port: number) => {
   connectToSocksProxy(hostname, port);
