@@ -6,9 +6,7 @@ import useStore from '@/composables/useStore';
 import Collapse from '@/components/Collapse.vue';
 import ProxyButton from '@/components/ProxyButton.vue';
 import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
-import type { Connection } from '@/helpers/connCheck';
 
-defineProps<{ connection: Connection, isLoading: boolean }>();
 const { proxyExpanded } = useStore();
 const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess());
 const toggleProxy = (open: boolean) => {
@@ -18,7 +16,7 @@ const toggleProxy = (open: boolean) => {
 <template>
   <Collapse title="Proxy&hellip;" :isOpen="proxyExpanded" @toggle="toggleProxy">
     <div v-if="showProxyButton">
-      <ProxyButton :connection="connection" :is-loading="isLoading" />
+      <ProxyButton />
     </div>
     <div v-else>
       <p>Please allow <em>Run in Private Windows</em>:</p>

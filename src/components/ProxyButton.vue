@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { NButtonGroup } from 'naive-ui';
 import IcLocation from '~icons/ic/baseline-location-on';
+import type { Connection } from '@/helpers/connCheck.types';
+import { ConnectionIsLoadingKey, ConnectionKey } from '@/composables/useConnection';
 import useSocksProxy from '@/composables/useSocksProxy';
 import Button from '@/components/Button/Button.vue';
 import useLocations from '@/composables/useLocations';
-import type { Connection } from '@/helpers/connCheck';
 
-const props = defineProps<{ connection: Connection, isLoading: boolean }>();
-const { connection } = toRefs(props);
+const connection = inject(ConnectionKey, ref({} as Connection));
+const isLoading = inject(ConnectionIsLoadingKey, ref(false));
 
 const { toggleLocations } = useLocations();
 const { toggleProxy, disableProxy, socksEnabled } = useSocksProxy();

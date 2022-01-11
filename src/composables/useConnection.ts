@@ -1,5 +1,6 @@
-import { ref } from 'vue';
-import { connCheck, Connection } from '@/helpers/connCheck';
+import { InjectionKey, Ref, ref } from 'vue';
+import type { Connection } from '@/helpers/connCheck.types';
+import { connCheck } from '@/helpers/connCheck';
 
 //  Keep this outside of the hook to make it a singleton
 const connection = ref({ isMullvad: false } as Connection);
@@ -31,3 +32,7 @@ const useConnection = () => {
 };
 
 export default useConnection;
+
+export const ConnectionKey: InjectionKey<Ref<Connection>> = Symbol('Connection');
+export const ConnectionIsLoadingKey: InjectionKey<Ref<boolean>> = Symbol('ConnectionIsLoadingKey');
+

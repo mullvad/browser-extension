@@ -1,5 +1,5 @@
+import type { Connection } from '@/helpers/connCheck.types';
 import useConnectionLocation from '@/composables/useConnectionLocation';
-import { Connection } from '@/helpers/connCheck';
 
 describe('useConnectionLocation test', function () {
   it('should handle empty input', () => {
