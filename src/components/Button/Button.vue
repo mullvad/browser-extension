@@ -53,8 +53,8 @@ const classes = computed(() => {
   outline: none;
 }
 
-.btn:focus,
-.btn:hover {
+.btn:not(:disabled):focus,
+.btn:not(:disabled):hover {
   background-color: var(--blue-hover);
 }
 
@@ -80,13 +80,13 @@ const classes = computed(() => {
   background-color: var(--red);
 }
 
-.bg-success:focus,
-.bg-success:hover {
+.bg-success:not(:disabled):focus,
+.bg-success:not(:disabled):hover {
   background-color: var(--green-hover);
 }
 
-.bg-error:focus,
-.bg-error:hover {
+.bg-error:not(:disabled):focus,
+.bg-error:not(:disabled):hover {
   background-color: var(--red-hover);
 }
 </style>
