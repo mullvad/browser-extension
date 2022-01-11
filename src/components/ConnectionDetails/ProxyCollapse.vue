@@ -7,7 +7,7 @@ import useLocations from '@/composables/useLocations';
 import useStore from '@/composables/useStore';
 import Collapse from '@/components/Collapse.vue';
 import ProxyButton from '@/components/ProxyButton.vue';
-import Location from '@/popup/views/Location.vue';
+import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
 
 const { proxyExpanded } = useStore();
 const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess());
@@ -37,9 +37,5 @@ const { showLocations, toggleLocations } = useLocations();
       </ol>
     </div>
   </Collapse>
-  <n-drawer v-model:show="showLocations" :width="400">
-    <n-drawer-content title="Select proxy location" closable>
-      <Location />
-    </n-drawer-content>
-  </n-drawer>
+  <LocationDrawer />
 </template>
