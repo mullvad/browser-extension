@@ -14,6 +14,9 @@ const { isLoading } = inject(ConnectionKey, defaultConnection);
     <p v-if="isLoading" class="text-lg flex items-center">
       Loading location<LaSpinner class="ml-2 animate-spin" />
     </p>
+    <p v-else-if="isError" class="text-lg">
+      Couldn't get connection
+    </p>
     <ConnectionLocation v-else />
   </div>
   <DetailsCollapse />
