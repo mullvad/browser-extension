@@ -1,20 +1,33 @@
 <script lang="ts" setup>
-import { NCarousel, NCard, NAvatar } from 'naive-ui';
+import { NCarousel, NCard, NAvatar, CardProps } from 'naive-ui';
 import useExtensions from '@/composables/useExtensions/useExtensions';
 
+type CardThemeOverrides = NonNullable<CardProps['themeOverrides']>;
+
 const { recommendedExtensions } = useExtensions();
+// Add some extra padding for the carousel buttons on the sides
+const cardThemeOverrides: CardThemeOverrides = {
+  paddingMedium: '1.25rem 3rem',
+};
 </script>
 <template>
   <h1 class="text-sm pb-1">Privacy Recommendations</h1>
 
   <div v-if="recommendedExtensions.length === 0">
     <p class="text-white text-lg">Sweet! You have taken action on all recommendations</p>
-    <router-link class="hover:text-white" to="privacy-extensions">See all Privacy Recommendations</router-link>
+    <router-link class="hover:text-white" to="privacy-extensions"
+      >See all Privacy Recommendations</router-link
+    >
   </div>
 
   <div v-else>
     <n-carousel show-arrow>
-      <n-card v-for="extension in recommendedExtensions" :key="extension.id" :bordered="false">
+      <n-card
+        v-for="extension in recommendedExtensions"
+        :key="extension.id"
+        :bordered="false"
+        :theme-overrides="cardThemeOverrides"
+      >
         <template #header>
           <div class="flex">
             <n-avatar size="small" :src="`/assets/icons/${extension.icon}`" class="mr-2"></n-avatar>
@@ -23,7 +36,8 @@ const { recommendedExtensions } = useExtensions();
         </template>
 
         <p class="mb-8">
-          <span>{{ extension.description }}</span>&nbsp;
+          <span>{{ extension.description }}</span
+          >&nbsp;
           <router-link
             :to="`/privacy-extensions#${extension.id}`"
             class="hover:text-white underline"
