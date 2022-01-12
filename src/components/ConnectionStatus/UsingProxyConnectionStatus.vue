@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue';
-import type { Connection } from '@/helpers/connCheck.types';
-import { ConnectionKey } from '@/composables/useConnection';
+import { computed, inject } from 'vue';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import IconLabel from '@/components/IconLabel.vue';
 
-const connection = inject(ConnectionKey, ref({} as Connection));
+const { connection } = inject(ConnectionKey, defaultConnection);
 const protocol = computed(() => connection.value.protocol);
 const isUsingProxy = computed(() => protocol?.value?.startsWith('SOCKS') ?? false);
 const labelText = computed(() => (isUsingProxy.value ? 'Using Proxy' : 'Not Using Proxy'));

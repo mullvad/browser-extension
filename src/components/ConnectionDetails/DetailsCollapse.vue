@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-import { inject, ref } from 'vue';
+import { inject } from 'vue';
 import LaSpinner from '~icons/la/spinner';
-import type { Connection } from '@/helpers/connCheck.types';
-import { ConnectionIsLoadingKey, ConnectionKey } from '@/composables/useConnection';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import Collapse from '@/components/Collapse.vue';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 import useStore from '@/composables/useStore';
 
-const connection = inject(ConnectionKey, ref({} as Connection));
-const isLoading = inject(ConnectionIsLoadingKey, ref(false));
+const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 const { dnsServers, isLoading: isGettingDns, isError } = useCheckDnsLeaks();
 const { detailsExpanded } = useStore();
 const toggleDetails = (open: boolean) => {
