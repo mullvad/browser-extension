@@ -22,6 +22,7 @@ const enableProxy = () => {
     },
   });
   updateConnection();
+  socksEnabled.value = true;
 };
 
 const disableProxy = () => {
@@ -29,14 +30,12 @@ const disableProxy = () => {
     value: {},
   });
   updateConnection();
+  socksEnabled.value = false;
 };
 
 const socksEnabled = ref(false);
 
-const toggleProxy = () => {
-  socksEnabled.value ? disableProxy() : enableProxy();
-  socksEnabled.value = !socksEnabled.value;
-};
+const toggleProxy = () => (socksEnabled.value ? disableProxy() : enableProxy());
 
 const useSocksProxy = () => {
   try {
@@ -63,8 +62,8 @@ const useSocksProxy = () => {
       console.log(e);
     }
   };
-  
-  return { connectToSocksProxy, socksEnabled, toggleProxy };
+
+  return { connectToSocksProxy, socksEnabled, toggleProxy, disableProxy };
 };
 
 export default useSocksProxy;

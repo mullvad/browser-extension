@@ -1,7 +1,11 @@
 <script lang="ts" setup>
+import { inject, ref } from 'vue';
+import type { Connection } from '@/helpers/connCheck.types';
+import { ConnectionKey } from '@/composables/useConnection';
 import IconLabel from '@/components/IconLabel.vue';
-defineProps<{ connected: boolean }>();
+
+const connection = inject(ConnectionKey, ref({} as Connection));
 </script>
 <template>
-  <IconLabel :state="connected" text="Using Mullvad VPN" />
+  <IconLabel :state="connection.isMullvad" text="Using Mullvad VPN" />
 </template>

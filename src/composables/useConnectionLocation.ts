@@ -1,4 +1,4 @@
-import { Connection } from '@/helpers/connCheck';
+import type { Connection } from '@/helpers/connCheck.types';
 
 const useConnectionLocation = (connection: Connection) => {
   const { city, country } = connection;

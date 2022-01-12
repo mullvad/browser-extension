@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AmIMullvadServerResponse, Ipv4ServerResponse } from '@/helpers/connCheck.types';
+import type { AmIMullvadServerResponse, Connection, Ipv4ServerResponse } from '@/helpers/connCheck.types';
 
 /*
 n is an optional parameter to retry the connCheck any number of time.
@@ -8,17 +8,6 @@ By default, it will retry twice because after connecting/disconnecting to/from M
 
 It's a workaround for the following bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1706377
 */
-
-export interface Connection {
-  city?: string;
-  country?: string;
-  ip?: string;
-  ipv6?: string;
-  isMullvad: boolean;
-  protocol?: string;
-  provider?: string;
-  server?: string;
-}
 
 export const connCheck = async (n = 3): Promise<Connection> => {
   try {

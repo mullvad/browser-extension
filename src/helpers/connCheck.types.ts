@@ -22,3 +22,14 @@ export interface Ipv4ServerResponse extends AmIMullvadServerResponse {
     results: BlackListResult[];
   };
 }
+
+export type Connection = {
+  city?: string;
+  country?: string;
+  ip?: string;
+  ipv6?: string;
+  isMullvad: boolean;
+  protocol?: string;
+  provider?: string;
+  server?: string;
+}
