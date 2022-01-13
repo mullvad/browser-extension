@@ -13,13 +13,7 @@ const clickSocksProxy = (hostname: string, port: number) => {
   connectToSocksProxy(hostname, port);
   toggleLocations();
 };
-const clickCountry = (event: Event, country: string) => {
-  event.stopPropagation();
-  const { hostname, port } = getRandomSocksProxy({ socksProxies: socksProxies.value, country });
-  clickSocksProxy(hostname, port);
-};
-const clickCity = (event: Event, country: string, city: string) => {
-  event.stopPropagation();
+const clickCountryOrCity = (country: string, city?: string) => {
   const { hostname, port } = getRandomSocksProxy({
     socksProxies: socksProxies.value,
     country,
@@ -40,7 +34,7 @@ const clickCity = (event: Event, country: string, city: string) => {
   <n-collapse v-else arrow-placement="right">
     <n-collapse-item v-for="{ country, cities } in socksProxies" :key="country" :name="country">
       <template #header>
-        <n-button quaternary @click="clickCountry($event, country)">
+        <n-button quaternary @click.prevent="clickCountryOrCity(country)">
           {{ country }}
         </n-button>
       </template>
@@ -52,7 +46,7 @@ const clickCity = (event: Event, country: string, city: string) => {
           :title="city"
         >
           <template #header>
-            <n-button quaternary @click="clickCity($event, country, city)">
+            <n-button quaternary @click.prevent="clickCountryOrCity(country, city)">
               {{ city }}
             </n-button>
           </template>
