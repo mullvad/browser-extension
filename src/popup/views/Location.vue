@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { NCollapseItem, NCollapse, NButton, NSpace } from 'naive-ui';
-import useSocksProxies from '@/composables/useSocksProxies';
-import pluralize from '@/helpers/pluralize';
-import useSocksProxy from '@/composables/useSocksProxy';
 import LaSpinner from '~icons/la/spinner';
+import useSocksProxies from '@/composables/useSocksProxies';
+import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
+import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 
 const { toggleLocations } = useLocations();
 const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
@@ -12,6 +12,14 @@ const { connectToSocksProxy } = useSocksProxy();
 const clickSocksProxy = (hostname: string, port: number) => {
   connectToSocksProxy(hostname, port);
   toggleLocations();
+};
+const clickCountryOrCity = (country: string, city?: string) => {
+  const { hostname, port } = getRandomSocksProxy({
+    socksProxies: socksProxies.value,
+    country,
+    city,
+  });
+  clickSocksProxy(hostname, port);
 };
 </script>
 <template>
@@ -24,22 +32,12 @@ const clickSocksProxy = (hostname: string, port: number) => {
   </p>
   <p v-else-if="isError">{{ error }}</p>
   <n-collapse v-else arrow-placement="right">
-    <n-collapse-item
-      v-for="{ country, cities } in socksProxies"
-      :key="country"
-      :name="country"
-      :title="country"
-    >
-      <template #header-extra
-        >{{ pluralize('city', cities.length, 'cities') }} /
-        {{
-          pluralize(
-            'proxy',
-            cities.reduce((acc, { proxyList }) => acc + proxyList.length, 0),
-            'proxies',
-          )
-        }}</template
-      >
+    <n-collapse-item v-for="{ country, cities } in socksProxies" :key="country" :name="country">
+      <template #header>
+        <n-button quaternary @click.prevent="clickCountryOrCity(country)">
+          {{ country }}
+        </n-button>
+      </template>
       <n-collapse arrow-placement="right">
         <n-collapse-item
           v-for="{ city, proxyList } in cities"
@@ -47,7 +45,11 @@ const clickSocksProxy = (hostname: string, port: number) => {
           :name="city"
           :title="city"
         >
-          <template #header-extra>{{ pluralize('proxy', proxyList.length, 'proxies') }}</template>
+          <template #header>
+            <n-button quaternary @click.prevent="clickCountryOrCity(country, city)">
+              {{ city }}
+            </n-button>
+          </template>
           <n-space vertical>
             <n-button
               v-for="proxy in proxyList"
