@@ -1,5 +1,4 @@
 import type { Country } from '@/composables/useSocksProxies';
-import { isProxy, toRaw } from 'vue-demi';
 
 type Props = {
   socksProxies: Country[] | undefined
@@ -8,14 +7,11 @@ type Props = {
 }
 
 const getRandomSocksProxy = ({ socksProxies, country, city }: Props) => {
-  if (!socksProxies) {
-    throw new Error('No proxy list to choose from');
+  if (!socksProxies || !socksProxies.length) {
+    throw new Error('No proxies to choose from');
   }
-  let proxyList = socksProxies;
-  if (isProxy(socksProxies)) {
-    proxyList = toRaw(socksProxies);
-  }
-  const theCountry = proxyList.filter((c) => c.country === country)[0];
+  
+  const theCountry = socksProxies.filter((c) => c.country === country)[0];
   let proxies;
   if (!city) {
     const { cities } = theCountry;
