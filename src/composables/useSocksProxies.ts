@@ -29,7 +29,7 @@ type City = {
   proxyList: SocksProxy[];
 };
 
-type Country = {
+export type Country = {
   country: string;
   cities: City[];
 };
