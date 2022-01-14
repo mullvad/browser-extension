@@ -1,15 +1,38 @@
 <script lang="ts" setup>
-import { NCarousel, NCard, NAvatar, CardProps } from 'naive-ui';
+import { NCarousel, NCard, NImage, NIcon, NButton } from 'naive-ui';
+import { closePopup } from '@/helpers/closePopup';
+
+import ArrowForward from '~icons/mdi/arrow-right';
+import ArrowBack from '~icons/mdi/arrow-left';
+
 import useExtensions from '@/composables/useExtensions/useExtensions';
-
-type CardThemeOverrides = NonNullable<CardProps['themeOverrides']>;
-
 const { recommendedExtensions } = useExtensions();
-// Add some extra padding for the carousel buttons on the sides
-const cardThemeOverrides: CardThemeOverrides = {
-  paddingMedium: '1.25rem 3rem',
+
+type Recommendation = {
+  image?: string;
+  title: string;
+  description: string;
+  anchor: string;
+  ctaURL?: string;
 };
+
+// Create recommendations and add recommended extensions
+const recommendations: Recommendation[] = recommendedExtensions.value.map((extension) => {
+  //TODO: recommendedExtensions logic is not working properly
+  // It is not updated properly on extension change (install/disable, etc.) UNTIL WE CLICK ON SHOW ALL
+  // And when an extension is disabled, it will be marked as uninstalled
+  const action = extension.installed && !extension.enabled ? 'Enable' : 'Install';
+
+  return {
+    image: `/assets/icons/${extension.icon}`,
+    title: `${action} ${extension.name}`,
+    description: extension.longDescription,
+    ctaURL: extension.addonUrl,
+    anchor: `/privacy-extensions#${extension.id}`,
+  };
+});
 </script>
+
 <template>
   <h1 class="text-sm pb-1">Privacy Recommendations</h1>
 
@@ -22,33 +45,115 @@ const cardThemeOverrides: CardThemeOverrides = {
 
   <div v-else>
     <n-carousel show-arrow>
-      <n-card
-        v-for="extension in recommendedExtensions"
-        :key="extension.id"
-        :bordered="false"
-        :theme-overrides="cardThemeOverrides"
-      >
+      <template #arrow="{ prev, next }">
+        <div class="custom-arrow">
+          <n-icon class="arrow-icon" size="25" @click="prev"><ArrowBack /></n-icon>
+          <n-icon class="arrow-icon" size="25" @click="next"><ArrowForward /></n-icon>
+        </div>
+      </template>
+      <template #dots="{ total, currentIndex, to }">
+        <ul class="custom-dots">
+          <li
+            v-for="index of total"
+            :key="index"
+            :class="{ ['is-active']: currentIndex === index - 1 }"
+            @click="to(index - 1)"
+          ></li>
+        </ul>
+      </template>
+
+      <n-card v-for="(recommendation, index) in recommendations" :key="index" :bordered="false">
         <template #header>
           <div class="flex">
-            <n-avatar size="small" :src="`/assets/icons/${extension.icon}`" class="mr-2"></n-avatar>
-            <p>{{ extension.name }}</p>
+            <n-image
+              v-if="recommendation.image"
+              class="mr-4"
+              width="20"
+              :src="recommendation.image"
+              object-fit="contain"
+              preview-disabled
+            />
+            <h3>{{ recommendation.title }}</h3>
           </div>
         </template>
 
-        <p class="mb-8">
-          <span>{{ extension.description }}</span
-          >&nbsp;
-          <router-link
-            :to="`/privacy-extensions#${extension.id}`"
-            class="hover:text-white underline"
-            >Read more&hellip;</router-link
-          >
+        <p>
+          {{ recommendation.description }}
         </p>
+
+        <div class="inline-flex items-center">
+          <a
+            v-if="recommendation.ctaURL"
+            :href="recommendation.ctaURL"
+            class="hover:text-white underline"
+            @click="closePopup"
+          >
+            <n-button ghost>Install</n-button>
+          </a>
+          <router-link :to="recommendation.anchor" class="hover:text-white underline">
+            Learn more
+          </router-link>
+        </div>
       </n-card>
     </n-carousel>
 
-    <div class="text-right pt-2">
-      <router-link class="hover:text-white" to="privacy-extensions">Show all</router-link>
+    <div class="text-right pt-2 mr-2">
+      <router-link class="hover:text-white" to="privacy-extensions">
+        Show all ({{ recommendedExtensions.length }})
+      </router-link>
     </div>
   </div>
 </template>
+
+<style>
+.custom-arrow {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  bottom: 9px;
+  right: 11px;
+}
+
+.custom-arrow .n-icon {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.custom-arrow .n-icon:hover {
+  color: white;
+}
+
+.custom-arrow .n-icon:active {
+  transform: scale(0.95);
+  transform-origin: center;
+}
+
+.custom-dots {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.custom-dots li {
+  display: inline-block;
+  width: 12px;
+  height: 4px;
+  margin: 0 3px;
+  border-radius: 4px;
+  background-color: rgba(255 255 255 / 40%);
+  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.custom-dots li.is-active {
+  width: 40px;
+  background: white;
+}
+
+.n-card > .n-card__content {
+  min-height: 11em;
+}
+</style>
