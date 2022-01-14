@@ -1,6 +1,7 @@
 import { initExtensions } from '@/helpers/extensions';
 import { initWebRTC } from '@/helpers/webRTC';
 import useSocksProxy from '@/composables/useSocksProxy';
+import { isDev } from 'scripts/utils';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -8,6 +9,11 @@ if (import.meta.hot) {
   import('/@vite/client');
   // load latest content script
   import('./contentScriptHMR');
+}
+
+// Open the popup in a tab on start in dev mode
+if (isDev) {
+  browser.runtime.openOptionsPage();
 }
 
 const { socksEnabled } = useSocksProxy();
