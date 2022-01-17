@@ -11,6 +11,6 @@ provide(ConnectionKey, { connection, isLoading, isError });
 </script>
 
 <template>
-  <PrivacyRecommendations />
+  <RecommendationsCarousel />
   <ConnectionDetails />
 </template>
