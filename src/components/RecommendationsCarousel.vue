@@ -13,6 +13,7 @@ type Recommendation = {
   title: string;
   description: string;
   anchor: string;
+  cta: string;
   ctaURL?: string;
 };
 
@@ -21,15 +22,26 @@ const recommendations: Recommendation[] = recommendedExtensions.value.map((exten
   //TODO: recommendedExtensions logic is not working properly
   // It is not updated properly on extension change (install/disable, etc.) UNTIL WE CLICK ON SHOW ALL
   // And when an extension is disabled, it will be marked as uninstalled
-  const action = extension.installed && !extension.enabled ? 'Enable' : 'Install';
+  const cta = extension.installed && !extension.enabled ? 'Enable' : 'Install';
 
   return {
     image: `/assets/icons/${extension.icon}`,
-    title: `${action} ${extension.name}`,
+    title: `${cta} ${extension.name}`,
     description: extension.longDescription,
     ctaURL: extension.addonUrl,
+    cta: cta,
     anchor: `/privacy-extensions#${extension.id}`,
   };
+});
+
+// Add other recommendations
+recommendations.push({
+  title: 'Enable HTTPS-only mode',
+  description:
+    'Enabling this security enhancing mode provides a guarantee that all of your connections to websites are upgraded to use HTTPS, and warn you if only HTTP unsafe mode is available.',
+  anchor: '/privacy-extensions#https-only',
+  cta: 'Enable',
+  ctaURL: 'https://support.mozilla.org/en-US/kb/https-only-prefs#w_enabledisable-https-only-mode',
 });
 </script>
 
@@ -88,7 +100,7 @@ const recommendations: Recommendation[] = recommendedExtensions.value.map((exten
             class="hover:text-white underline"
             @click="closePopup"
           >
-            <n-button ghost>Install</n-button>
+            <n-button ghost>{{ recommendation.cta }}</n-button>
           </a>
           <router-link :to="recommendation.anchor" class="hover:text-white underline">
             Learn more
@@ -98,8 +110,8 @@ const recommendations: Recommendation[] = recommendedExtensions.value.map((exten
     </n-carousel>
 
     <div class="text-right pt-2 mr-2">
-      <router-link class="hover:text-white" to="privacy-extensions">
-        Show all ({{ recommendedExtensions.length }})
+      <router-link class="hover:text-white" to="privacy-recommendations">
+        Show all ({{ recommendations.length }})
       </router-link>
     </div>
   </div>
