@@ -57,7 +57,7 @@ const { recommendations } = useRecommendations();
           {{ recommendation.description }}
         </p>
 
-        <div class="inline-flex items-center">
+        <div class="inline-flex items-center mt-2">
           <a
             v-if="recommendation.ctaURL"
             :href="recommendation.ctaURL"
