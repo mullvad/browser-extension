@@ -1,61 +1,18 @@
 <script lang="ts" setup>
-import { NCarousel, NCard, NImage, NIcon, NButton } from 'naive-ui';
-import { closePopup } from '@/helpers/closePopup';
-
+import { NButton, NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 import ArrowForward from '~icons/mdi/arrow-right';
 import ArrowBack from '~icons/mdi/arrow-left';
 
-import useExtensions from '@/composables/useExtensions/useExtensions';
-import useHTTPSOnly from '@/composables/useHTTPSOnly';
-const { recommendedExtensions } = useExtensions();
+import { closePopup } from '@/helpers/closePopup';
+import useRecommendations from '@/composables/useRecommendations';
 
-type Recommendation = {
-  image?: string;
-  title: string;
-  description: string;
-  anchor: string;
-  cta: string;
-  ctaURL?: string;
-};
-
-// Create recommendations and add recommended extensions
-const recommendations: Recommendation[] = recommendedExtensions.value.map((extension) => {
-  //TODO: recommendedExtensions logic is not working properly
-  // It is not updated properly on extension change (install/disable, etc.) UNTIL WE CLICK ON SHOW ALL
-  // And when an extension is disabled, it will be marked as uninstalled
-  const cta = extension.installed && !extension.enabled ? 'Enable' : 'Install';
-
-  return {
-    image: `/assets/icons/${extension.icon}`,
-    title: `${cta} ${extension.name}`,
-    description: extension.longDescription,
-    ctaURL: extension.addonUrl,
-    cta: cta,
-    anchor: `/privacy-extensions#${extension.id}`,
-  };
-});
-
-// Add other recommendations
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { data: HTTPSOnly } = useHTTPSOnly();
-// TODO: fix this, the value is not returned or is undefined when it does
-// When fix, adapt the logic here.
-
-recommendations.push({
-  title: 'Set HTTPS-only mode',
-  description:
-    'Enabling this security enhancing mode provides a guarantee that all of your connections to websites are upgraded to use HTTPS, and warn you if only HTTP unsafe mode is available.',
-  anchor: '/privacy-extensions#https-only',
-  cta: 'Set HTTPS-Only mode',
-  ctaURL: 'https://support.mozilla.org/en-US/kb/https-only-prefs#w_enabledisable-https-only-mode',
-});
+const { recommendations } = useRecommendations();
 </script>
 
 <template>
   <h1 class="text-sm pb-1">Privacy Recommendations</h1>
 
-  <div v-if="recommendedExtensions.length === 0">
+  <div v-if="recommendations.length === 0">
     <p class="text-white text-lg">Sweet! You have taken action on all recommendations</p>
     <router-link class="hover:text-white" to="privacy-extensions"
       >See all Privacy Recommendations</router-link
