@@ -61,7 +61,7 @@ const { recommendations } = useRecommendations();
           <a
             v-if="recommendation.ctaURL"
             :href="recommendation.ctaURL"
-            class="hover:text-white underline"
+            class="hover:text-white underline mr-4"
             @click="closePopup"
           >
             <n-button ghost>{{ recommendation.cta }}</n-button>
