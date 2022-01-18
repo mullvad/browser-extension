@@ -6,12 +6,13 @@ import IconLabel from '@/components/IconLabel.vue';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 
 const { connection } = inject(ConnectionKey, defaultConnection);
+
 const protocol = computed(() => connection.value.protocol);
 const isUsingProxy = computed(() => protocol?.value?.startsWith('SOCKS') ?? false);
-// TODO: isUsingProxy is not dynamic, this needs fixing
-console.log('isUsingProxy.value :>> ', isUsingProxy.value);
 
-const connectionStatus = isUsingProxy.value ? 'Using Mullvad VPN (via proxy)' : 'Using Mullvad VPN';
+const connectionStatus = computed(() =>
+  isUsingProxy.value ? 'Using Mullvad VPN (via proxy)' : 'Using Mullvad VPN',
+);
 </script>
 
 <template>

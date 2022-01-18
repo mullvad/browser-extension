@@ -26,6 +26,6 @@ const connected = computed(() => connection.value.isMullvad);
     <ConnectionLocation v-else />
     <ConnectionStatus v-if="connected" />
     <DetailsCollapse v-if="!isLoading" />
-    <ProxyCollapse v-if="!isLoading" />
+    <ProxyCollapse />
   </n-card>
 </template>
