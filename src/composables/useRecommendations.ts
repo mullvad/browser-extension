@@ -32,7 +32,7 @@ const useRecommendations = () => {
         description: extension.longDescription,
         ctaURL: extension.addonUrl,
         cta,
-        anchor: `/privacy-extensions#${extension.id}`,
+        anchor: `/privacy-recommendations#${extension.id}`,
       };
     });
 
