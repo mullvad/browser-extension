@@ -1,26 +1,27 @@
 <script lang="ts" setup>
+import { NSwitch, SwitchProps } from 'naive-ui';
 import { setWebRTC } from '@/helpers/webRTC';
 import useStore from '@/composables/useStore';
 
-const { webrtcDisabled } = useStore();
-const toggleWebrtc = (event: Event) => {
-  setWebRTC((event.target as HTMLInputElement).checked);
+type SwitchThemeOverrides = NonNullable<SwitchProps['themeOverrides']>;
+const switchThemeOverrides: SwitchThemeOverrides = {
+  railColorActive: 'var(--success)',
+  railColor: 'var(--error)',
 };
 
+const { webrtcDisabled } = useStore();
 </script>
+
 <template>
   <section>
     <div class="container">
       <div class="switch-container">
         <p>Disable WebRTC</p>
-        <label class="switch">
-          <input
-            v-model="webrtcDisabled"
-            type="checkbox"
-            @change="toggleWebrtc($event)"
-          />
-          <span class="slider round" />
-        </label>
+        <n-switch
+          v-model:value="webrtcDisabled"
+          :theme-overrides="switchThemeOverrides"
+          @update:value="setWebRTC"
+        />
       </div>
     </div>
   </section>
