@@ -14,15 +14,11 @@ const { webrtcDisabled } = useStore();
 
 <template>
   <section>
-    <div class="container">
-      <div class="switch-container">
-        <p>Disable WebRTC</p>
-        <n-switch
-          v-model:value="webrtcDisabled"
-          :theme-overrides="switchThemeOverrides"
-          @update:value="setWebRTC"
-        />
-      </div>
-    </div>
+    <p>Disable WebRTC</p>
+    <n-switch
+      v-model:value="webrtcDisabled"
+      :theme-overrides="switchThemeOverrides"
+      @update:value="setWebRTC"
+    />
   </section>
 </template>
