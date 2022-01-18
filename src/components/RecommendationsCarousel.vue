@@ -6,6 +6,7 @@ import ArrowForward from '~icons/mdi/arrow-right';
 import ArrowBack from '~icons/mdi/arrow-left';
 
 import useExtensions from '@/composables/useExtensions/useExtensions';
+import useHTTPSOnly from '@/composables/useHTTPSOnly';
 const { recommendedExtensions } = useExtensions();
 
 type Recommendation = {
@@ -35,12 +36,18 @@ const recommendations: Recommendation[] = recommendedExtensions.value.map((exten
 });
 
 // Add other recommendations
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { data: HTTPSOnly } = useHTTPSOnly();
+// TODO: fix this, the value is not returned or is undefined when it does
+// When fix, adapt the logic here.
+
 recommendations.push({
-  title: 'Enable HTTPS-only mode',
+  title: 'Set HTTPS-only mode',
   description:
     'Enabling this security enhancing mode provides a guarantee that all of your connections to websites are upgraded to use HTTPS, and warn you if only HTTP unsafe mode is available.',
   anchor: '/privacy-extensions#https-only',
-  cta: 'Enable',
+  cta: 'Set HTTPS-Only mode',
   ctaURL: 'https://support.mozilla.org/en-US/kb/https-only-prefs#w_enabledisable-https-only-mode',
 });
 </script>
