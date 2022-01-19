@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, toRefs } from 'vue';
-import { NAvatar, NCard, NDropdown, NButtonGroup, NTooltip } from 'naive-ui';
+import { NAvatar, NButtonGroup, NCard, NPopover, NTooltip } from 'naive-ui';
 
 import FeLinkExternal from '~icons/fe/link-external';
 import FeCheckCircle from '~icons/fe/check-circle';
@@ -18,10 +18,18 @@ const props = defineProps<{
   extension: Extension;
 }>();
 
+const popoverRef = ref<typeof NPopover>();
+const rotateDropDown = ref(false);
+const onUpdateShow = (show: boolean) => {
+  rotateDropDown.value = show;
+};
+
 const extension = toRefs(props).extension;
 
 const toggleIgnore = () => {
   extension.value.ignored = !extension.value.ignored;
+  popoverRef?.value?.setShow(false);
+  rotateDropDown.value = false;
 };
 
 const status = computed(() => {
@@ -40,19 +48,10 @@ const status = computed(() => {
   return Status.activated;
 });
 
-const options = computed(() => [
-  {
-    label: `${status.value === Status.ignored ? 'Enable' : 'Disable'} Recommendation`,
-    props: { onClick: toggleIgnore },
-  },
-]);
-const showDropDown = ref(false);
-const handleClick = () => {
-  showDropDown.value = !showDropDown.value;
-};
-const resetDropdown = () => {
-  showDropDown.value = false;
-};
+const buttonLabel = computed(
+  () => `${status.value === Status.ignored ? 'Enable' : 'Disable'} Recommendation`,
+);
+const buttonColor = computed(() => (status.value === Status.ignored ? 'success' : 'error'));
 </script>
 
 <template>
@@ -99,21 +98,25 @@ const resetDropdown = () => {
             >
               Install
             </Button>
-            <n-dropdown
+            <n-popover
+              ref="popoverRef"
               trigger="click"
-              :options="options"
-              :on-clickoutside="resetDropdown"
-              :on-select="resetDropdown"
+              raw
+              placement="bottom"
+              @update:show="onUpdateShow"
             >
-              <Button class="h-10 flex items-center" @click="handleClick">
-                <span v-if="status === Status.ignored">Ignored&hellip;</span>
-                <FeDropDown
-                  v-else
-                  class="transform transition-transform duration-400 text-lg"
-                  :class="{ 'rotate-180': showDropDown }"
-                />
-              </Button>
-            </n-dropdown>
+              <template #trigger>
+                <Button class="h-10 flex items-center">
+                  <span v-if="status === Status.ignored">Ignored&hellip;</span>
+                  <FeDropDown
+                    v-else
+                    class="transform transition-transform duration-400 text-lg"
+                    :class="{ 'rotate-180': rotateDropDown }"
+                  />
+                </Button>
+              </template>
+              <Button :color="buttonColor" @click="toggleIgnore">{{ buttonLabel }}</Button>
+            </n-popover>
           </n-button-group>
         </div>
       </div>
