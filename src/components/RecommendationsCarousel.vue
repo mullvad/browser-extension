@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { NButton, NCard, NCarousel, NIcon, NImage } from 'naive-ui';
+import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 import ArrowForward from '~icons/mdi/arrow-right';
 import ArrowBack from '~icons/mdi/arrow-left';
+import FeLinkExternal from '~icons/fe/link-external';
 
 import { closePopup } from '@/helpers/closePopup';
+import Button from '@/components/Button/Button.vue';
 import useRecommendations from '@/composables/useRecommendations';
 
 const { recommendations } = useRecommendations();
@@ -51,15 +53,17 @@ const { recommendations } = useRecommendations();
         </p>
 
         <template #footer>
-          <a
+          <Button
             v-if="recommendation.ctaURL"
             :href="recommendation.ctaURL"
-            class="hover:text-white underline mr-4"
+            class="mr-4"
             @click="closePopup"
           >
-            <n-button ghost>{{ recommendation.cta }}</n-button>
-          </a>
-          <router-link :to="recommendation.anchor" class="hover:text-white underline">Learn more</router-link>
+            <span class="flex items-center">{{ recommendation.cta }}&nbsp;<FeLinkExternal /></span>
+          </Button>
+          <router-link :to="recommendation.anchor" class="hover:text-white underline"
+            >Learn more</router-link
+          >
         </template>
       </n-card>
     </n-carousel>
