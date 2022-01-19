@@ -2,7 +2,6 @@
 import { computed, ref, toRefs } from 'vue';
 import { NAvatar, NButtonGroup, NCard, NPopover, NTooltip } from 'naive-ui';
 
-import FeLinkExternal from '~icons/fe/link-external';
 import FeCheckCircle from '~icons/fe/check-circle';
 import FeDropDown from '~icons/fe/drop-down';
 import FeWarning from '~icons/fe/warning';
@@ -11,6 +10,7 @@ import { closePopup } from '@/helpers/closePopup';
 
 import { Status } from '@/components/PrivacyExtensions/Status.types';
 import Button from '@/components/Button/Button.vue';
+import IconLabel from '@/components/IconLabel.vue';
 
 import { Extension } from '@/composables/useExtensions/Extension.types';
 
@@ -86,7 +86,7 @@ const buttonColor = computed(() => (status.value === Status.ignored ? 'success' 
     <template #action>
       <div class="flex justify-between">
         <Button :href="extension.homeUrl" @click="closePopup">
-          <span class="flex items-center">Learn More&nbsp;<FeLinkExternal /></span>
+          <IconLabel text="Learn More" type="external" />
         </Button>
         <div v-if="status !== Status.activated && status !== Status.disabled">
           <n-button-group>

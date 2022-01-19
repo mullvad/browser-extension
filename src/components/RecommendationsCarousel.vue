@@ -2,10 +2,10 @@
 import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 import ArrowForward from '~icons/mdi/arrow-right';
 import ArrowBack from '~icons/mdi/arrow-left';
-import FeLinkExternal from '~icons/fe/link-external';
 
 import { closePopup } from '@/helpers/closePopup';
 import Button from '@/components/Button/Button.vue';
+import IconLabel from '@/components/IconLabel.vue';
 import useRecommendations from '@/composables/useRecommendations';
 
 const { recommendations } = useRecommendations();
@@ -59,7 +59,7 @@ const { recommendations } = useRecommendations();
             class="mr-4"
             @click="closePopup"
           >
-            <span class="flex items-center">{{ recommendation.cta }}&nbsp;<FeLinkExternal /></span>
+            <IconLabel type="external" :text="recommendation.cta" />
           </Button>
           <router-link :to="recommendation.anchor" class="hover:text-white underline"
             >Learn more</router-link
