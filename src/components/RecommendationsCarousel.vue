@@ -50,7 +50,7 @@ const { recommendations } = useRecommendations();
           {{ recommendation.description }}
         </p>
 
-        <div class="inline-flex items-center mt-2">
+        <template #footer>
           <a
             v-if="recommendation.ctaURL"
             :href="recommendation.ctaURL"
@@ -59,10 +59,8 @@ const { recommendations } = useRecommendations();
           >
             <n-button ghost>{{ recommendation.cta }}</n-button>
           </a>
-          <router-link :to="recommendation.anchor" class="hover:text-white underline">
-            Learn more
-          </router-link>
-        </div>
+          <router-link :to="recommendation.anchor" class="hover:text-white underline">Learn more</router-link>
+        </template>
       </n-card>
     </n-carousel>
 
