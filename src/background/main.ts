@@ -1,6 +1,6 @@
 import { initExtensions } from '@/helpers/extensions';
-import { initWebRTC } from '@/helpers/webRTC';
 import useSocksProxy from '@/composables/useSocksProxy';
+import useWebRtc from '@/composables/useWebRtc';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -28,4 +28,5 @@ const initSocks = async () => {
 initSocks();
 
 // Load webRTC settings
+const { initWebRTC } = useWebRtc();
 initWebRTC();
