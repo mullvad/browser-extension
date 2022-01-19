@@ -10,10 +10,10 @@ defineProps<{ text: string; type: IconType }>();
 </script>
 
 <template>
-  <p v-if="type == 'success'" class="text-success"><Check class="mr-2" />{{ text }}</p>
-  <p v-if="type == 'warning'" class="text-warning"><Warning class="mr-2" />{{ text }}</p>
-  <p v-if="type == 'info'" class="text-info"><Info class="mr-2" />{{ text }}</p>
-  <p v-if="type == 'spinner'" class="text-info"><Spinner class="mr-2 animate-spin" />{{ text }}</p>
+  <p v-if="type === 'success'" class="text-success"><Check class="mr-2" />{{ text }}</p>
+  <p v-if="type === 'warning'" class="text-warning"><Warning class="mr-2" />{{ text }}</p>
+  <p v-if="type === 'info'" class="text-info"><Info class="mr-2" />{{ text }}</p>
+  <p v-if="type === 'spinner'" class="text-info"><Spinner class="mr-2 animate-spin" />{{ text }}</p>
 </template>
 
 <style scoped>
