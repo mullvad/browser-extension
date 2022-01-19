@@ -17,10 +17,10 @@ const connected = computed(() => connection.value.isMullvad);
 <template>
   <h1 class="text-sm pb-1 pt-4">Connection status</h1>
   <n-card>
-    <p class="text-xl">
+    <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Loading connection details" type="spinner" />
       <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
-      <ConnectionLocation v-else />
+      <ConnectionLocation v-else class="mb-2" />
       <ConnectionStatus v-if="connected" />
     </p>
     <DetailsCollapse v-if="!isLoading" />
