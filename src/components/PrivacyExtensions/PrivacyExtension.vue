@@ -50,6 +50,9 @@ const showDropDown = ref(false);
 const handleClick = () => {
   showDropDown.value = !showDropDown.value;
 };
+const resetDropdown = () => {
+  showDropDown.value = false;
+};
 </script>
 
 <template>
@@ -96,7 +99,12 @@ const handleClick = () => {
             >
               Install
             </Button>
-            <n-dropdown trigger="click" :options="options">
+            <n-dropdown
+              trigger="click"
+              :options="options"
+              :on-clickoutside="resetDropdown"
+              :on-select="resetDropdown"
+            >
               <Button class="h-10 flex items-center" @click="handleClick">
                 <span v-if="status === Status.ignored">Ignored&hellip;</span>
                 <FeDropDown
