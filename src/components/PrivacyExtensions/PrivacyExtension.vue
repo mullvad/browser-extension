@@ -46,12 +46,10 @@ const options = computed(() => [
     props: { onClick: toggleIgnore },
   },
 ]);
-const showDropDown = ref(false);
-const handleClick = () => {
-  showDropDown.value = !showDropDown.value;
-};
-const resetDropdown = () => {
-  showDropDown.value = false;
+const rotateDropDown = ref(false);
+
+const onUpdateShow = (show: boolean) => {
+  rotateDropDown.value = show;
 };
 </script>
 
@@ -99,18 +97,13 @@ const resetDropdown = () => {
             >
               Install
             </Button>
-            <n-dropdown
-              trigger="click"
-              :options="options"
-              :on-clickoutside="resetDropdown"
-              :on-select="resetDropdown"
-            >
-              <Button class="h-10 flex items-center" @click="handleClick">
+            <n-dropdown trigger="click" :options="options" :on-update:show="onUpdateShow">
+              <Button class="h-10 flex items-center">
                 <span v-if="status === Status.ignored">Ignored&hellip;</span>
                 <FeDropDown
                   v-else
                   class="transform transition-transform duration-400 text-lg"
-                  :class="{ 'rotate-180': showDropDown }"
+                  :class="{ 'rotate-180': rotateDropDown }"
                 />
               </Button>
             </n-dropdown>
