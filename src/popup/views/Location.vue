@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { NCollapseItem, NCollapse, NButton, NSpace } from 'naive-ui';
-import LaSpinner from '~icons/la/spinner';
+
+import IconLabel from '@/components/IconLabel.vue';
+
 import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
@@ -22,13 +24,14 @@ const clickCountryOrCity = (country: string, city?: string) => {
   clickSocksProxy(hostname, port);
 };
 </script>
+
 <template>
   <p class="mb-8">
     While connected through the proxy, your real location and your VPN location are masked with a
     private and secure location in the selected region.
   </p>
   <p v-if="isLoading" class="text-lg flex items-center">
-    Loading proxies<LaSpinner class="ml-2 animate-spin" />
+    <IconLabel text="Loading proxy servers list" type="spinner" />
   </p>
   <p v-else-if="isError">{{ error }}</p>
   <n-collapse v-else arrow-placement="right">
@@ -66,6 +69,7 @@ const clickCountryOrCity = (country: string, city?: string) => {
     </n-collapse-item>
   </n-collapse>
 </template>
+
 <style scoped>
 p {
   color: var(--light-grey);

@@ -1,23 +1,31 @@
 <script lang="ts" setup>
-import { inject } from 'vue';
-import LaSpinner from '~icons/la/spinner';
+import { computed, inject } from 'vue';
 import { NCard } from 'naive-ui';
+
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
+import ConnectionStatus from '@/components/ConnectionStatus/ConnectionStatus.vue';
 import DetailsCollapse from '@/components/ConnectionDetails/DetailsCollapse.vue';
 import ProxyCollapse from '@/components/ConnectionDetails/ProxyCollapse.vue';
+import IconLabel from '@/components/IconLabel.vue';
+
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 
-const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
+const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
+const connected = computed(() => connection.value.isMullvad);
 </script>
+
 <template>
-  <h1 class="text-sm pb-1 pt-4">Connection</h1>
+  <h1 class="text-sm pb-1 pt-4">Connection status</h1>
   <n-card>
     <p v-if="isLoading" class="text-lg flex items-center">
-      Loading location<LaSpinner class="ml-2 animate-spin" />
+      <IconLabel text="Loading connection details" type="spinner" />
     </p>
-    <p v-else-if="isError" class="text-lg">Couldn't get connection</p>
+    <p v-else-if="isError" class="text-lg">
+      <IconLabel text="Couldn't get connection details" type="warning" />
+    </p>
     <ConnectionLocation v-else />
-    <DetailsCollapse />
+    <ConnectionStatus v-if="connected" />
+    <DetailsCollapse v-if="!isLoading" />
     <ProxyCollapse />
   </n-card>
 </template>

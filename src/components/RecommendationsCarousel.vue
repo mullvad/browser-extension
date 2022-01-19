@@ -27,16 +27,6 @@ const { recommendations } = useRecommendations();
           <n-icon class="arrow-icon" size="25" @click="next"><ArrowForward /></n-icon>
         </div>
       </template>
-      <template #dots="{ total, currentIndex, to }">
-        <ul class="custom-dots">
-          <li
-            v-for="index of total"
-            :key="index"
-            :class="{ ['is-active']: currentIndex === index - 1 }"
-            @click="to(index - 1)"
-          ></li>
-        </ul>
-      </template>
 
       <n-card v-for="(recommendation, index) in recommendations" :key="index" :bordered="false">
         <template #header>
@@ -51,6 +41,9 @@ const { recommendations } = useRecommendations();
             />
             <h3>{{ recommendation.title }}</h3>
           </div>
+        </template>
+        <template #header-extra>
+          <p>{{ index + 1 }} / {{ recommendations.length }}</p>
         </template>
 
         <p>
@@ -74,14 +67,12 @@ const { recommendations } = useRecommendations();
     </n-carousel>
 
     <div class="text-right pt-2 mr-2">
-      <router-link class="hover:text-white" to="privacy-recommendations">
-        Show all ({{ recommendations.length }})
-      </router-link>
+      <router-link class="hover:text-white" to="privacy-recommendations">Show all</router-link>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .custom-arrow {
   display: flex;
   position: absolute;
@@ -102,34 +93,5 @@ const { recommendations } = useRecommendations();
 .custom-arrow .n-icon:active {
   transform: scale(0.95);
   transform-origin: center;
-}
-
-.custom-dots {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-}
-
-.custom-dots li {
-  display: inline-block;
-  width: 12px;
-  height: 4px;
-  margin: 0 3px;
-  border-radius: 4px;
-  background-color: rgba(255 255 255 / 40%);
-  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.custom-dots li.is-active {
-  width: 40px;
-  background: white;
-}
-
-.n-card > .n-card__content {
-  min-height: 11em;
 }
 </style>

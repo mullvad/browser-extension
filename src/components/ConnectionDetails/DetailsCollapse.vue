@@ -15,7 +15,7 @@ const toggleDetails = (open: boolean) => {
 </script>
 <template>
   <Collapse
-    title="Details&hellip;"
+    title="Connection details"
     :open="detailsExpanded"
     :disabled="isLoading"
     @toggle="toggleDetails"
@@ -51,9 +51,7 @@ const toggleDetails = (open: boolean) => {
               Getting DNS Servers<LaSpinner class="ml-2 animate-spin" />
             </div>
           </td>
-          <td v-else-if="isError" class="pl-2">
-            Could not determine DNS servers
-          </td>
+          <td v-else-if="isError" class="pl-2">Could not determine DNS servers</td>
           <td v-else class="text-white pl-2">
             <div v-for="dnsServer in dnsServers" :key="dnsServer.ip">{{ dnsServer.ip }}</div>
           </td>

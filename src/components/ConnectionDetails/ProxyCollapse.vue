@@ -14,7 +14,7 @@ const toggleProxy = (open: boolean) => {
 };
 </script>
 <template>
-  <Collapse title="Proxy&hellip;" :isOpen="proxyExpanded" @toggle="toggleProxy">
+  <Collapse title="Proxy server" :isOpen="proxyExpanded" @toggle="toggleProxy">
     <div v-if="showProxyButton">
       <ProxyButton />
     </div>

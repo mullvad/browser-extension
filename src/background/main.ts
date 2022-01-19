@@ -11,7 +11,7 @@ if (import.meta.hot) {
 }
 
 // Uncomment to open the popup in a tab on extension start
-browser.runtime.openOptionsPage();
+// browser.runtime.openOptionsPage();
 
 const { socksEnabled } = useSocksProxy();
 
