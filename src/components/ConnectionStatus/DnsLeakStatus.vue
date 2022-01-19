@@ -11,9 +11,7 @@ const iconType = computed(() => (isLeaking.value ? 'warning' : 'success'));
 </script>
 
 <template>
-  <p v-if="isLoading" class="text-lg flex items-center">
-    <IconLabel text="Checking for DNS Leaks" type="spinner" />
-  </p>
+  <IconLabel v-if="isLoading" text="Checking for DNS Leaks" type="spinner" />
   <IconLabel v-else-if="isError" text="Could not determine DNS servers" type="info" />
   <IconLabel v-else :text="labelText" :type="iconType" />
 </template>
