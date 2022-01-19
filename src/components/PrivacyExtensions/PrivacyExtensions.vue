@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import PrivacyExtension from '@/components/PrivacyExtension.vue';
+import PrivacyExtension from '@/components/PrivacyExtensions/PrivacyExtension.vue';
 import useExtensions from '@/composables/useExtensions/useExtensions';
 
 const { extensions } = useExtensions();
-
 </script>
 <template>
   <section>

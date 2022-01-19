@@ -5,22 +5,15 @@ import FeCheckCircle from '~icons/fe/check-circle';
 import FeWarning from '~icons/fe/warning';
 import { NAvatar, NCard, NDropdown, NButtonGroup, NTooltip } from 'naive-ui';
 import { Extension } from '@/composables/useExtensions/Extension.types';
-import { Status } from '@/popup/views/PrivacyExtensions/Status.types';
+import { Status } from '@/components/PrivacyExtensions/Status.types';
 import Button from '@/components/Button/Button.vue';
+import { closePopup } from '@/helpers/closePopup';
 
 const props = defineProps<{
   extension: Extension;
 }>();
 
 const extension = toRefs(props).extension;
-
-const closePopup = () => {
-  // The delay is added to stop a new browser window from opening
-  // when installing the extension
-  setTimeout(() => {
-    window.close();
-  }, 100);
-};
 
 const toggleIgnore = () => {
   extension.value.ignored = !extension.value.ignored;

@@ -10,6 +10,9 @@ if (import.meta.hot) {
   import('./contentScriptHMR');
 }
 
+// Uncomment to open the popup in a tab on extension start
+// browser.runtime.openOptionsPage();
+
 const { socksEnabled } = useSocksProxy();
 
 // Add listener on extension action & load extensions settings

@@ -2,7 +2,7 @@
 import { provide } from 'vue';
 
 import ConnectionDetails from '@/components/ConnectionDetails/ConnectionDetails.vue';
-import PrivacyRecommendations from '@/components/PrivacyRecommendations.vue';
+import RecommendationsCarousel from '@/components/RecommendationsCarousel.vue';
 
 import useConnection, { ConnectionKey } from '@/composables/useConnection';
 
@@ -11,6 +11,6 @@ provide(ConnectionKey, { connection, isLoading, isError });
 </script>
 
 <template>
-  <PrivacyRecommendations />
+  <RecommendationsCarousel />
   <ConnectionDetails />
 </template>
