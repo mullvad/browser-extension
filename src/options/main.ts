@@ -1,3 +1,5 @@
+// TODO: Remove entire options folder before publishing
+
 import { createApp } from 'vue';
 import { createRouter, createMemoryHistory } from 'vue-router';
 
