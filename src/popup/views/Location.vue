@@ -10,7 +10,7 @@ import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 
 const { toggleLocations } = useLocations();
 const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
-const { connectToSocksProxy } = useSocksProxy();
+const { connectToSocksProxy, storeSocksProxyUsage, historicConnections } = useSocksProxy();
 const clickSocksProxy = (hostname: string, port: number) => {
   connectToSocksProxy(hostname, port);
   toggleLocations();
@@ -21,8 +21,15 @@ const clickCountryOrCity = (country: string, city?: string) => {
     country,
     city,
   });
+  storeSocksProxyUsage({ country, city, hostname, port });
   clickSocksProxy(hostname, port);
 };
+const list = [];
+for (const [key, count] of historicConnections.value.entries()) {
+  const [country, city, hostname, port] = key.split(',');
+  list.push({ country, city, hostname, port, count });
+}
+list.sort((a, b) => b.count - a.count);
 </script>
 
 <template>
@@ -30,6 +37,7 @@ const clickCountryOrCity = (country: string, city?: string) => {
     While connected through the proxy, your real location and your VPN location are masked with a
     private and secure location in the selected region.
   </p>
+  <p v-if="list.length">Most frequently used: {{ list[0] }}</p>
   <p v-if="isLoading" class="text-lg flex items-center">
     <IconLabel text="Loading proxy servers list" type="spinner" />
   </p>
