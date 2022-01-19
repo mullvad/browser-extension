@@ -4,7 +4,7 @@ import ArrowForward from '~icons/mdi/arrow-right';
 import ArrowBack from '~icons/mdi/arrow-left';
 
 import { closePopup } from '@/helpers/closePopup';
-import useRecommendations from '@/composables/useRecommendations/useRecommendations';
+import useRecommendations from '@/composables/useRecommendations';
 
 const { recommendations } = useRecommendations();
 </script>
@@ -27,16 +27,6 @@ const { recommendations } = useRecommendations();
           <n-icon class="arrow-icon" size="25" @click="next"><ArrowForward /></n-icon>
         </div>
       </template>
-      <template #dots="{ total, currentIndex, to }">
-        <ul class="custom-dots">
-          <li
-            v-for="index of total"
-            :key="index"
-            :class="{ ['is-active']: currentIndex === index - 1 }"
-            @click="to(index - 1)"
-          ></li>
-        </ul>
-      </template>
 
       <n-card v-for="(recommendation, index) in recommendations" :key="index" :bordered="false">
         <template #header>
@@ -51,6 +41,9 @@ const { recommendations } = useRecommendations();
             />
             <h3>{{ recommendation.title }}</h3>
           </div>
+        </template>
+        <template #header-extra>
+          <p>{{ index + 1 }} / {{ recommendations.length }}</p>
         </template>
 
         <p>
@@ -74,9 +67,7 @@ const { recommendations } = useRecommendations();
     </n-carousel>
 
     <div class="text-right pt-2 mr-2">
-      <router-link class="hover:text-white" to="privacy-recommendations">
-        Show all ({{ recommendations.length }})
-      </router-link>
+      <router-link class="hover:text-white" to="privacy-recommendations"> Show all </router-link>
     </div>
   </div>
 </template>
@@ -104,7 +95,7 @@ const { recommendations } = useRecommendations();
   transform-origin: center;
 }
 
-.custom-dots {
+/* .custom-dots {
   display: flex;
   margin: 0;
   padding: 0;
@@ -127,9 +118,9 @@ const { recommendations } = useRecommendations();
 .custom-dots li.is-active {
   width: 40px;
   background: white;
-}
+} */
 
-.n-card > .n-card__content {
+.n-card__content {
   min-height: 11em;
 }
 </style>
