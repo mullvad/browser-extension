@@ -1,13 +1,18 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
+import { NAvatar, NCard, NDropdown, NButtonGroup, NTooltip } from 'naive-ui';
+
 import FeLinkExternal from '~icons/fe/link-external';
 import FeCheckCircle from '~icons/fe/check-circle';
+import FeDropDown from '~icons/fe/drop-down';
 import FeWarning from '~icons/fe/warning';
-import { NAvatar, NCard, NDropdown, NButtonGroup, NTooltip } from 'naive-ui';
-import { Extension } from '@/composables/useExtensions/Extension.types';
+
+import { closePopup } from '@/helpers/closePopup';
+
 import { Status } from '@/components/PrivacyExtensions/Status.types';
 import Button from '@/components/Button/Button.vue';
-import { closePopup } from '@/helpers/closePopup';
+
+import { Extension } from '@/composables/useExtensions/Extension.types';
 
 const props = defineProps<{
   extension: Extension;
@@ -87,9 +92,9 @@ const options = computed(() => [
               Install
             </Button>
             <n-dropdown trigger="click" :options="options">
-              <Button class="h-10">
+              <Button class="h-10 flex items-center">
                 <span v-if="status === Status.ignored">Ignored&hellip;</span>
-                <span v-else>Options&hellip;</span>
+                <FeDropDown v-else />
               </Button>
             </n-dropdown>
           </n-button-group>
