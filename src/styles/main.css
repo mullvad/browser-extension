@@ -8,8 +8,7 @@ body,
 :root {
   --blue: rgb(41 77 115 / 100%);
   --dark-blue: rgb(25 46 69 / 100%);
-  --grey: #7f94ab;
-  --light-grey: rgb(127 148 171);
+  --light-grey: rgb(162 189 218);
   --white: rgb(255 255 255 / 100%);
   --yellow: rgb(255 213 36 / 100%);
   --success: #44ad4d;
@@ -32,7 +31,7 @@ header {
 }
 
 em {
-  color: hsl(211deg 21% 78%);
+  color: rgb(157 227 255);
 }
 
 .text-success {
