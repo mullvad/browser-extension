@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import { NAvatar, NCard, NDropdown, NButtonGroup, NTooltip } from 'naive-ui';
 
 import FeLinkExternal from '~icons/fe/link-external';
@@ -46,7 +46,12 @@ const options = computed(() => [
     props: { onClick: toggleIgnore },
   },
 ]);
+const showDropDown = ref(false);
+const handleClick = () => {
+  showDropDown.value = !showDropDown.value;
+};
 </script>
+
 <template>
   <n-card :id="extension.id">
     <template #header>
@@ -92,9 +97,13 @@ const options = computed(() => [
               Install
             </Button>
             <n-dropdown trigger="click" :options="options">
-              <Button class="h-10 flex items-center">
+              <Button class="h-10 flex items-center" @click="handleClick">
                 <span v-if="status === Status.ignored">Ignored&hellip;</span>
-                <FeDropDown v-else />
+                <FeDropDown
+                  v-else
+                  class="transform transition-transform duration-400 text-lg"
+                  :class="{ 'rotate-180': showDropDown }"
+                />
               </Button>
             </n-dropdown>
           </n-button-group>
