@@ -4,7 +4,7 @@ import ArrowForward from '~icons/mdi/arrow-right';
 import ArrowBack from '~icons/mdi/arrow-left';
 
 import { closePopup } from '@/helpers/closePopup';
-import useRecommendations from '@/composables/useRecommendations';
+import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 
 const { recommendations } = useRecommendations();
 </script>
@@ -81,7 +81,7 @@ const { recommendations } = useRecommendations();
   </div>
 </template>
 
-<style>
+<style scoped>
 .custom-arrow {
   display: flex;
   position: absolute;
