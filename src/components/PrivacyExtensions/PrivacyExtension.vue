@@ -55,7 +55,7 @@ const buttonColor = computed(() => (status.value === Status.ignored ? 'success' 
 </script>
 
 <template>
-  <n-card :id="extension.id">
+  <n-card :id="extension.id" :bordered="false">
     <template #header>
       <div class="flex">
         <n-avatar size="small" :src="`/assets/icons/${extension.icon}`" class="mr-2"></n-avatar>
