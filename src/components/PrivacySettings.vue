@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { NSwitch, SwitchProps } from 'naive-ui';
-import { setWebRTC } from '@/helpers/webRTC';
-import useStore from '@/composables/useStore';
+import useWebRtc from '@/composables/useWebRtc';
 
 type SwitchThemeOverrides = NonNullable<SwitchProps['themeOverrides']>;
 const switchThemeOverrides: SwitchThemeOverrides = {
@@ -9,7 +8,7 @@ const switchThemeOverrides: SwitchThemeOverrides = {
   railColor: 'var(--error)',
 };
 
-const { webrtcDisabled } = useStore();
+const { webrtcDisabled, setWebRTC } = useWebRtc();
 </script>
 
 <template>
