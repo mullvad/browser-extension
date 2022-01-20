@@ -1,17 +1,18 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { NScrollbar } from 'naive-ui';
+import { NScrollbar, NAvatar, NIcon } from 'naive-ui';
 
 import FeArrowLeft from '~icons/fe/arrow-left';
+import FeQuestion from '~icons/fe/question';
 
-import TopBarMenu from '@/components/TopBarMenu.vue';
 const logoUrl = '/assets/icon.svg';
 
 const path = computed(() => {
   return useRoute().path;
 });
 const { currentRoute } = useRouter();
+
 const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Privacy Companion');
 </script>
 
@@ -20,15 +21,21 @@ const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Priva
     <header class="px-4 py-2 min-h-14 flex items-center sticky top-0 z-1">
       <div class="flex flex-grow items-center justify-between">
         <div class="flex items-center">
-          <img v-if="path === '/'" :src="logoUrl" class="w-8 h-8" alt="Mullvad Logo" />
-          <router-link v-else to="/" class="flex w-[32px]">
-            <FeArrowLeft />
-          </router-link>
+          <n-avatar v-if="path === '/'" :src="logoUrl" alt="Mullvad Logo" />
+          <n-avatar v-else>
+            <router-link to="/">
+              <n-icon>
+                <FeArrowLeft />
+              </n-icon>
+            </router-link>
+          </n-avatar>
           <div class="mx-4">
-            <h1 class="uppercase text-2xl font-bold">Mullvad Privacy Companion</h1>
+            <h1 class="text-2xl font-bold">{{ pageTitle }}</h1>
           </div>
         </div>
-        <TopBarMenu />
+        <router-link to="/about" class="flex">
+          <FeQuestion />
+        </router-link>
       </div>
     </header>
 
