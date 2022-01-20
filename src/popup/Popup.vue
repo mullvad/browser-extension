@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { NScrollbar } from 'naive-ui';
 
 import FeArrowLeft from '~icons/fe/arrow-left';
@@ -9,6 +9,8 @@ const logoUrl = '/assets/icon.svg';
 const path = computed(() => {
   return useRoute().path;
 });
+const { currentRoute } = useRouter();
+const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Privacy Companion');
 </script>
 
 <template>
@@ -20,7 +22,7 @@ const path = computed(() => {
           <FeArrowLeft />
         </router-link>
         <div class="mx-4">
-          <h1 class="uppercase text-2xl font-bold">Mullvad Privacy Companion</h1>
+          <h1 class="uppercase text-2xl font-bold">{{ pageTitle }}</h1>
         </div>
       </div>
     </header>
