@@ -60,3 +60,7 @@ em {
 
   font-size: 0.9em;
 }
+
+.n-drawer-mask {
+  background-color: rgb(0 0 0 / 60%);
+}
