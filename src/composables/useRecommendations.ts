@@ -29,7 +29,7 @@ const useRecommendations = () => {
       return {
         image: `/assets/icons/${extension.icon}`,
         title: `${cta} ${extension.name}`,
-        description: extension.longDescription,
+        description: extension.description,
         ctaURL: extension.addonUrl,
         cta,
         anchor: `/privacy-recommendations#${extension.id}`,

@@ -78,7 +78,7 @@ const buttonColor = computed(() => (status.value === Status.ignored ? 'success' 
         </n-tooltip>
       </div>
     </template>
-    <p>{{ extension.longDescription }}</p>
+    <p>{{ extension.description }}</p>
     <div v-if="status === Status.disabled" class="warning pt-4 flex items-center">
       <FeWarning class="text-warning mr-2 text-lg" />
       <p>Enable {{ extension.name }} from the Firefox <em>Extensions</em> settings page.</p>

@@ -3,7 +3,6 @@ export interface Extension {
   name: string;
   author: string;
   description: string;
-  longDescription: string;
   homeUrl: string;
   addonUrl: string;
   icon: string;
