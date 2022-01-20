@@ -42,7 +42,7 @@ const useRecommendations = () => {
         title: 'Set HTTPS-only mode',
         description:
           'Enabling this security enhancing mode provides a guarantee that all of your connections to websites are upgraded to use HTTPS, and warn you if only HTTP unsafe mode is available.',
-        anchor: '/privacy-extensions#https-only',
+        anchor: '/privacy-recommendations#https-only',
         cta: 'Set HTTPS-Only mode',
         ctaURL:
           'https://support.mozilla.org/en-US/kb/https-only-prefs#w_enabledisable-https-only-mode',
@@ -54,7 +54,7 @@ const useRecommendations = () => {
       );
     }
   });
-  
+
   return { recommendations };
 };
 
