@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { NScrollbar, NAvatar, NIcon } from 'naive-ui';
+import { NAvatar, NIcon, NScrollbar } from 'naive-ui';
 
 import FeArrowLeft from '~icons/fe/arrow-left';
 import FeQuestion from '~icons/fe/question';
