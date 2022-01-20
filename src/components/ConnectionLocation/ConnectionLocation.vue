@@ -7,5 +7,5 @@ const { connection } = inject(ConnectionKey, defaultConnection);
 const locationString = computed(() => useConnectionLocation(connection.value));
 </script>
 <template>
-  <p class="text-white text-lg">{{ locationString }}</p>
+  <p class="text-white">{{ locationString }}</p>
 </template>

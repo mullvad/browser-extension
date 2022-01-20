@@ -16,15 +16,13 @@ const connected = computed(() => connection.value.isMullvad);
 
 <template>
   <h1 class="text-sm pb-1 pt-4">Connection status</h1>
-  <n-card :bordered="false">
-    <p v-if="isLoading" class="text-lg flex items-center">
-      <IconLabel text="Loading connection details" type="spinner" />
+  <n-card>
+    <p class="text-xl mb-2">
+      <IconLabel v-if="isLoading" text="Loading connection details" type="spinner" />
+      <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
+      <ConnectionLocation v-else class="mb-2" />
+      <ConnectionStatus v-if="connected" />
     </p>
-    <p v-else-if="isError" class="text-lg">
-      <IconLabel text="Couldn't get connection details" type="warning" />
-    </p>
-    <ConnectionLocation v-else />
-    <ConnectionStatus v-if="connected" />
     <DetailsCollapse v-if="!isLoading" />
     <ProxyCollapse />
   </n-card>
