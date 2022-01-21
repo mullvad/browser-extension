@@ -49,7 +49,7 @@ const status = computed(() => {
 });
 
 const buttonLabel = computed(
-  () => `${status.value === Status.ignored ? 'Enable' : 'Disable'} Recommendation`,
+  () => `${status.value === Status.ignored ? 'Enable' : 'Ignore'} Recommendation`,
 );
 const buttonColor = computed(() => (status.value === Status.ignored ? 'success' : 'error'));
 </script>
