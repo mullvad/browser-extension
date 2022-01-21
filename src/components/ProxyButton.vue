@@ -3,11 +3,14 @@ import { computed, inject } from 'vue';
 import { NButtonGroup } from 'naive-ui';
 import LaSpinner from '~icons/la/spinner';
 import IcLocation from '~icons/ic/baseline-location-on';
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useSocksProxy from '@/composables/useSocksProxy';
+
 import Button from '@/components/Button/Button.vue';
-import useLocations from '@/composables/useLocations';
 import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
+import RecentLocationButton from '@/components/RecentLocationButton.vue';
+
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useLocations from '@/composables/useLocations';
+import useSocksProxy from '@/composables/useSocksProxy';
 
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 
@@ -31,12 +34,15 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
     <ProxyDisconnectMessage v-if="!canUseProxy && socksEnabled" />
     <p v-else-if="!canUseProxy">To be able to use a proxy, please <em>connect to Mullvad VPN</em></p>
     <div v-else class="flex">
-      <n-button-group v-if="isWireGuard">
-        <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
-        <Button class="flex items-center justify-center" @click="toggleLocations">
-          <IcLocation />
-        </Button>
-      </n-button-group>
+      <div v-if="isWireGuard">
+        <n-button-group class="mr-4">
+          <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
+          <Button class="flex items-center justify-center" @click="toggleLocations">
+            <IcLocation />
+          </Button>
+        </n-button-group>
+        <RecentLocationButton />
+      </div>
       <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
     </div>
   </div>

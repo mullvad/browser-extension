@@ -6,12 +6,16 @@ import IconLabel from '@/components/IconLabel.vue';
 import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
+import useHistoricConnections from '@/composables/useHistoricConnections';
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 
 const { toggleLocations } = useLocations();
 const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
-const { connectToSocksProxy, storeSocksProxyUsage, historicConnections } = useSocksProxy();
-const clickSocksProxy = (hostname: string, port: number) => {
+const { connectToSocksProxy } = useSocksProxy();
+const { storeSocksProxyUsage, sortedConnections } = useHistoricConnections();
+
+const clickSocksProxy = (country: string, city: string, hostname: string, port: number) => {
+  storeSocksProxyUsage({ country, city, hostname });
   connectToSocksProxy(hostname, port);
   toggleLocations();
 };
@@ -21,15 +25,10 @@ const clickCountryOrCity = (country: string, city?: string) => {
     country,
     city,
   });
-  storeSocksProxyUsage({ country, city, hostname, port });
-  clickSocksProxy(hostname, port);
+  storeSocksProxyUsage({ country, city });
+  connectToSocksProxy(hostname, port);
+  toggleLocations();
 };
-const list = [];
-for (const [key, count] of historicConnections.value.entries()) {
-  const [country, city, hostname, port] = key.split(',');
-  list.push({ country, city, hostname, port, count });
-}
-list.sort((a, b) => b.count - a.count);
 </script>
 
 <template>
@@ -37,7 +36,15 @@ list.sort((a, b) => b.count - a.count);
     While connected through the proxy, your real location and your VPN location are masked with a
     private and secure location in the selected region.
   </p>
-  <p v-if="list.length">Most frequently used: {{ list[0] }}</p>
+  <div v-if="sortedConnections.length" class="mb-8">
+    <p>Most frequently used:</p>
+    <ul>
+      <li v-for="connection in sortedConnections.slice(0, 3)" :key="connection">
+        {{ [connection.country, connection.city, connection.hostname].filter(Boolean).join(', ') }}:
+        {{ connection.count }}
+      </li>
+    </ul>
+  </div>
   <p v-if="isLoading" class="text-lg flex items-center">
     <IconLabel text="Loading proxy servers list" type="spinner" />
   </p>
@@ -67,7 +74,7 @@ list.sort((a, b) => b.count - a.count);
               :key="proxy.hostname"
               secondary
               medium
-              @click="clickSocksProxy(proxy.hostname, proxy.port)"
+              @click="clickSocksProxy(country, city, proxy.hostname, proxy.port)"
             >
               {{ proxy.hostname }}
             </n-button>
