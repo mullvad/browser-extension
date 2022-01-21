@@ -3,7 +3,7 @@ import { ref, watchEffect } from 'vue';
 import { asyncComputed } from '@vueuse/core';
 import useHTTPSOnly from '@/composables/useHttpsOnly';
 
-type Recommendation = {
+type RecommendationCard = {
   image?: string;
   title: string;
   description: string;
@@ -14,7 +14,7 @@ type Recommendation = {
 
 const { recommendedExtensions } = useExtensions();
 
-const recommendations = ref<Recommendation[]>([]);
+const recommendations = ref<RecommendationCard[]>([]);
 
 const useRecommendations = () => {
   // Add other recommendations here...
