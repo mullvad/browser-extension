@@ -60,3 +60,8 @@ const toggleDetails = (open: boolean) => {
     </table>
   </Collapse>
 </template>
+<style scoped>
+td:first-child {
+  color: var(--light-grey);
+}
+</style>
