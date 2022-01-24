@@ -2,8 +2,7 @@
 import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 
 import IconLabel from '@/components/IconLabel.vue';
-import RecentLocationButtons from '@/components/RecentLocationButtons.vue';
-import MostUsedLocationSelector from '@/components/MostUsedLocationButtons.vue';
+import LocationTabs from '@/components/LocationTabs.vue';
 
 import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
@@ -15,13 +14,14 @@ import type { HistoricConnection } from '@/composables/useHistoricConnections/Hi
 const { toggleLocations } = useLocations();
 const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
 const { connectToSocksProxy } = useSocksProxy();
-const { storeSocksProxyUsage, mostRecent } = useHistoricConnections();
+const { storeSocksProxyUsage } = useHistoricConnections();
 
 const clickSocksProxy = (country: string, city: string, hostname: string, port?: number) => {
   storeSocksProxyUsage({ country, city, hostname });
   connectToSocksProxy(hostname, port);
   toggleLocations();
 };
+
 const clickCountryOrCity = (country: string, city?: string) => {
   const { hostname, port } = getRandomSocksProxy({
     socksProxies: socksProxies.value,
@@ -53,16 +53,7 @@ const selectLocation = (connection: HistoricConnection) => {
   </p>
   <p v-else-if="isError">{{ error }}</p>
   <div v-else>
-    <div v-if="mostRecent" class="flex space-x-4 mb-4">
-      <div>
-        <p>Last used:</p>
-        <RecentLocationButtons :selectLocation="selectLocation" />
-      </div>
-      <div>
-        <p>Most used:</p>
-        <MostUsedLocationSelector :selectLocation="selectLocation" />
-      </div>
-    </div>
+    <LocationTabs :selectLocation="selectLocation" />
     <n-collapse arrow-placement="right">
       <n-collapse-item v-for="{ country, cities } in socksProxies" :key="country" :name="country">
         <template #header>
