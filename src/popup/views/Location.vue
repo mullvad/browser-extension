@@ -10,9 +10,11 @@ import useLocations from '@/composables/useLocations';
 import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
+import useFilteredSocksProxies from '@/composables/useFilteredSocksProxies';
 
 const { toggleLocations } = useLocations();
-const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
+const { data: allSocksProxies, isLoading, isError, error } = useSocksProxies();
+const { socksProxies, clearFilter } = useFilteredSocksProxies();
 const { connectToSocksProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useHistoricConnections();
 
@@ -20,17 +22,19 @@ const clickSocksProxy = (country: string, city: string, hostname: string, port?:
   storeSocksProxyUsage({ country, city, hostname });
   connectToSocksProxy(hostname, port);
   toggleLocations();
+  clearFilter();
 };
 
 const clickCountryOrCity = (country: string, city?: string) => {
   const { hostname, port } = getRandomSocksProxy({
-    socksProxies: socksProxies.value,
+    socksProxies: allSocksProxies.value,
     country,
     city,
   });
   storeSocksProxyUsage({ country, city });
   connectToSocksProxy(hostname, port);
   toggleLocations();
+  clearFilter();
 };
 
 const selectLocation = (connection: HistoricConnection) => {

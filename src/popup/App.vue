@@ -20,6 +20,13 @@ const themeOverrides: GlobalThemeOverrides = {
   Drawer: {
     color: 'var(--dark-blue)',
   },
+  Input: {
+    borderFocus: '1px solid var(--light-grey)',
+    borderHover: '1px solid var(--light-grey)',
+    caretColor: 'var(--light-grey)',
+    boxShadowFocus: 'none',
+    colorFocus: 'none',
+  }
 };
 </script>
 <template>
