@@ -36,6 +36,7 @@ export type Country = {
 
 const groupByCountryAndCity = (data: SocksProxy[]) =>
   data
+    .filter((socksProxy) => socksProxy.location.city !== 'System Transparency [BETA]')
     .filter((proxy: SocksProxy) => proxy.online)
     .reduce((acc: Servers, proxy: SocksProxy) => {
       const { country, city } = proxy.location;
