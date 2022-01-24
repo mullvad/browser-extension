@@ -6,7 +6,6 @@ import IcLocation from '~icons/ic/baseline-location-on';
 
 import Button from '@/components/Button/Button.vue';
 import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
-import RecentLocationButton from '@/components/RecentLocationButton.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useLocations from '@/composables/useLocations';
@@ -41,7 +40,6 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
             <IcLocation />
           </Button>
         </n-button-group>
-        <RecentLocationButton />
       </div>
       <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
     </div>

@@ -1,12 +1,23 @@
-import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
 import { watchEffect } from 'vue';
+import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
+import useSocksProxy from '@/composables/useSocksProxy';
+import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 
-type Props = { country?: string; city?: string; hostname?: string };
-type HistoricConnections = { [key: string]: { count: number; timestamp: number } };
+type StoreSocksProxyUsageProps = { country?: string; city?: string; hostname?: string };
+type HistoricConnectionsMap = { [key: string]: { count: number; timestamp: number } };
+export type HistoricConnection = {
+  country: string;
+  city: string;
+  hostname: string;
+  count: number;
+  timestamp: number;
+};
 
-const historicConnections = useBrowserStorageLocal<HistoricConnections>('connections', {});
+const { connectToSocksProxy } = useSocksProxy();
 
-const storeSocksProxyUsage = ({ country, city, hostname }: Props) => {
+const historicConnections = useBrowserStorageLocal<HistoricConnectionsMap>('connections', {});
+
+const storeSocksProxyUsage = ({ country, city, hostname }: StoreSocksProxyUsageProps) => {
   const keys: string[] = [];
   if (country) {
     keys.push(country);
@@ -18,14 +29,43 @@ const storeSocksProxyUsage = ({ country, city, hostname }: Props) => {
     keys.push(hostname);
   }
   const key = keys.join(',');
-  const data = historicConnections.value[key] ?? {};
+  const data = historicConnections.value[key] ?? { count: 0 };
   data.timestamp = Date.now();
-  data.count = (data.count ?? 0) + 1;
+  data.count += 1;
   historicConnections.value[key] = data;
 };
 
-let sortedConnections: { country: string; city: string; hostname: string; count: number, timestamp: number }[] = [];
-let mostRecent: { country: string; city: string; hostname: string; count: number, timestamp: number };
+const selectLocation = (connection: HistoricConnection) => {
+  const { country, city, hostname } = connection;
+  if (hostname) {
+    storeSocksProxyUsage({ country, city, hostname });
+    connectToSocksProxy(hostname);
+  } else {
+    const { hostname, port } = getRandomSocksProxy({
+      socksProxies: [],
+      country,
+      city,
+    });
+    storeSocksProxyUsage({ country, city });
+    connectToSocksProxy(hostname, port);
+  }
+};
+
+const getLabel = (latest: HistoricConnection) => {
+  const { country, city, hostname } = latest;
+  if (hostname) {
+    const [servername] = hostname.split('.socks5.mullvad.net');
+    return `${city} (${servername})`;
+  }
+  if (city) {
+    return city;
+  }
+  return country;
+};
+
+let sortedConnections: HistoricConnection[] = [];
+
+let mostRecent: HistoricConnection & { label: string };
 
 watchEffect(() => {
   sortedConnections = Object.entries(historicConnections.value)
@@ -33,13 +73,16 @@ watchEffect(() => {
       const [country, city, hostname] = key.split(',');
       return { country, city, hostname, count, timestamp };
     })
-    .sort((a, b) => b.count - a.count);
-  
-  mostRecent = [...sortedConnections].sort((a, b) => b.timestamp - a.timestamp)[0];
+    .sort((a, b) => b.count - a.count || b.timestamp - a.timestamp);
+
+  if (sortedConnections.length) {
+    const latest = [...sortedConnections].sort((a, b) => b.timestamp - a.timestamp)[0];
+    mostRecent = { ...latest, label: getLabel(latest) };
+  }
 });
 
 const useHistoricConnections = () => {
-  return { storeSocksProxyUsage, sortedConnections, mostRecent };
+  return { storeSocksProxyUsage, sortedConnections, mostRecent, getLabel, selectLocation };
 };
 
 export default useHistoricConnections;
