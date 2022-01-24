@@ -8,15 +8,16 @@ import MostUsedLocationSelector from '@/components/MostUsedLocationButtons.vue';
 import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
-import useHistoricConnections from '@/composables/useHistoricConnections';
+import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
+import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
 
 const { toggleLocations } = useLocations();
 const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
 const { connectToSocksProxy } = useSocksProxy();
 const { storeSocksProxyUsage, mostRecent } = useHistoricConnections();
 
-const clickSocksProxy = (country: string, city: string, hostname: string, port: number) => {
+const clickSocksProxy = (country: string, city: string, hostname: string, port?: number) => {
   storeSocksProxyUsage({ country, city, hostname });
   connectToSocksProxy(hostname, port);
   toggleLocations();
@@ -30,6 +31,15 @@ const clickCountryOrCity = (country: string, city?: string) => {
   storeSocksProxyUsage({ country, city });
   connectToSocksProxy(hostname, port);
   toggleLocations();
+};
+
+const selectLocation = (connection: HistoricConnection) => {
+  const { country, city, hostname } = connection;
+  if (hostname) {
+    clickSocksProxy(country, city, hostname);
+  } else {
+    clickCountryOrCity(country, city);
+  }
 };
 </script>
 
@@ -46,11 +56,11 @@ const clickCountryOrCity = (country: string, city?: string) => {
     <div v-if="mostRecent" class="flex space-x-4 mb-4">
       <div>
         <p>Last used:</p>
-        <RecentLocationButtons />
+        <RecentLocationButtons :selectLocation="selectLocation" />
       </div>
       <div>
         <p>Most used:</p>
-        <MostUsedLocationSelector />
+        <MostUsedLocationSelector :selectLocation="selectLocation" />
       </div>
     </div>
     <n-collapse arrow-placement="right">

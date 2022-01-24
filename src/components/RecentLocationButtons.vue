@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 import Button from '@/components/Button/Button.vue';
-import useHistoricConnections from '@/composables/useHistoricConnections';
+import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
+import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
 
-const { mostRecent, getLabel, selectLocation } = useHistoricConnections();
+defineProps<{ selectLocation: (connection: HistoricConnection) => void }>();
+
+const { mostRecent, getLabel } = useHistoricConnections();
+
 const buttons = mostRecent.slice(0, 3).map((connection) => {
   const label = getLabel(connection);
   return {
@@ -11,6 +15,7 @@ const buttons = mostRecent.slice(0, 3).map((connection) => {
   };
 });
 </script>
+
 <template>
   <div class="space-y-2">
     <Button

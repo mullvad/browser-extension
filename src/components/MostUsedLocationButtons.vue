@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-
 import Button from '@/components/Button/Button.vue';
-import useHistoricConnections from '@/composables/useHistoricConnections';
+import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
+import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
 
-const { mostUsed, getLabel, selectLocation } = useHistoricConnections();
+defineProps<{ selectLocation: (connection: HistoricConnection) => void }>();
+
+const { mostUsed, getLabel } = useHistoricConnections();
 
 const buttons = mostUsed.slice(0, 3).map((connection) => {
   const label = getLabel(connection);

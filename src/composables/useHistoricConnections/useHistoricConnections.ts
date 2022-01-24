@@ -1,19 +1,9 @@
 import { watchEffect } from 'vue';
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
-import useSocksProxy from '@/composables/useSocksProxy';
-import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
+import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
 
 type StoreSocksProxyUsageProps = { country?: string; city?: string; hostname?: string };
 type HistoricConnectionsMap = { [key: string]: { count: number; timestamp: number } };
-export type HistoricConnection = {
-  country: string;
-  city: string;
-  hostname: string;
-  count: number;
-  timestamp: number;
-};
-
-const { connectToSocksProxy } = useSocksProxy();
 
 const historicConnections = useBrowserStorageLocal<HistoricConnectionsMap>('connections', {});
 
@@ -33,22 +23,6 @@ const storeSocksProxyUsage = ({ country, city, hostname }: StoreSocksProxyUsageP
   data.timestamp = Date.now();
   data.count += 1;
   historicConnections.value[key] = data;
-};
-
-const selectLocation = (connection: HistoricConnection) => {
-  const { country, city, hostname } = connection;
-  if (hostname) {
-    storeSocksProxyUsage({ country, city, hostname });
-    connectToSocksProxy(hostname);
-  } else {
-    const { hostname, port } = getRandomSocksProxy({
-      socksProxies: [],
-      country,
-      city,
-    });
-    storeSocksProxyUsage({ country, city });
-    connectToSocksProxy(hostname, port);
-  }
 };
 
 const getLabel = (latest: HistoricConnection) => {
@@ -88,7 +62,6 @@ const useHistoricConnections = () => {
     mostUsed: sortedByUsageConnections,
     mostRecent: sortedByRecentConnections,
     getLabel,
-    selectLocation,
   };
 };
 
