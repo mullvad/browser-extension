@@ -7,7 +7,7 @@ useQueryProvider();
 
 const themeOverrides: GlobalThemeOverrides = {
   common: {
-    cardColor: 'rgb(41 77 115 / 50%)',
+    cardColor: 'rgba(41, 77, 115, 0.5)',
     fontSize: '1rem',
     lineHeight: '1.4',
   },
