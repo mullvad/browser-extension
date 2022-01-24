@@ -33,14 +33,12 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
     <ProxyDisconnectMessage v-if="!canUseProxy && socksEnabled" />
     <p v-else-if="!canUseProxy">To be able to use a proxy, please <em>connect to Mullvad VPN</em></p>
     <div v-else class="flex">
-      <div v-if="isWireGuard">
-        <n-button-group class="mr-4">
-          <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
-          <Button class="flex items-center justify-center" @click="toggleLocations">
-            <IcLocation />
-          </Button>
-        </n-button-group>
-      </div>
+      <n-button-group v-if="isWireGuard">
+        <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
+        <Button class="flex items-center justify-center" @click="toggleLocations">
+          <IcLocation />
+        </Button>
+      </n-button-group>
       <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
     </div>
   </div>
