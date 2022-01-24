@@ -63,26 +63,33 @@ const getLabel = (latest: HistoricConnection) => {
   return country;
 };
 
-let sortedConnections: HistoricConnection[] = [];
+let sortedByUsageConnections: HistoricConnection[] = [];
 
-let mostRecent: HistoricConnection & { label: string };
+let sortedByRecentConnections: HistoricConnection[];
 
 watchEffect(() => {
-  sortedConnections = Object.entries(historicConnections.value)
+  sortedByUsageConnections = Object.entries(historicConnections.value)
     .map(([key, { count, timestamp }]) => {
       const [country, city, hostname] = key.split(',');
       return { country, city, hostname, count, timestamp };
     })
     .sort((a, b) => b.count - a.count || b.timestamp - a.timestamp);
 
-  if (sortedConnections.length) {
-    const latest = [...sortedConnections].sort((a, b) => b.timestamp - a.timestamp)[0];
-    mostRecent = { ...latest, label: getLabel(latest) };
+  if (sortedByUsageConnections.length) {
+    sortedByRecentConnections = [...sortedByUsageConnections].sort(
+      (a, b) => b.timestamp - a.timestamp,
+    );
   }
 });
 
 const useHistoricConnections = () => {
-  return { storeSocksProxyUsage, sortedConnections, mostRecent, getLabel, selectLocation };
+  return {
+    storeSocksProxyUsage,
+    mostUsed: sortedByUsageConnections,
+    mostRecent: sortedByRecentConnections,
+    getLabel,
+    selectLocation,
+  };
 };
 
 export default useHistoricConnections;

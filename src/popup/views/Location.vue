@@ -3,7 +3,7 @@ import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 
 import IconLabel from '@/components/IconLabel.vue';
 import RecentLocationButtons from '@/components/RecentLocationButtons.vue';
-import MostUsedLocationSelector from '@/components/MostUsedLocationSelector.vue';
+import MostUsedLocationSelector from '@/components/MostUsedLocationButtons.vue';
 
 import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
