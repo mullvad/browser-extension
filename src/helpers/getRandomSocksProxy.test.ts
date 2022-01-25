@@ -1,5 +1,5 @@
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
-import { Country } from '@/composables/useSocksProxies';
+import { Country } from '@/composables/useFilteredSocksProxies/SocksProxies.types';
 
 const gothenburgProxies = [
   { hostname: 'se3-wg.socks5.mullvad.net', port: 1080 },
@@ -74,19 +74,17 @@ describe('getRandomSocksProxy', () => {
     expect(isGothenburgProxy).toBeDefined();
     expect(isMalmoProxy).toBeUndefined();
   });
-  
+
   it('should return a proxy in Malmö', () => {
     const { hostname, port } = getRandomSocksProxy({
       socksProxies: mockSocksProxies,
       country: 'Sweden',
       city: 'Malmo',
     });
-    const isMalmoProxy = malmoProxies.find(
-      (p) => p.hostname === hostname && p.port === port,
-    );
+    const isMalmoProxy = malmoProxies.find((p) => p.hostname === hostname && p.port === port);
     expect(isMalmoProxy).toBeDefined();
   });
-  
+
   it('should return a proxy in Stockholm', () => {
     const { hostname, port } = getRandomSocksProxy({
       socksProxies: mockSocksProxies,
