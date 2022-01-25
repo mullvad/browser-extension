@@ -4,17 +4,16 @@ import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 import IconLabel from '@/components/IconLabel.vue';
 import LocationTabs from '@/components/LocationTabs.vue';
 
-import useSocksProxies from '@/composables/useSocksProxies';
-import useSocksProxy from '@/composables/useSocksProxy';
-import useLocations from '@/composables/useLocations';
+import useFilteredSocksProxies from '@/composables/useFilteredSocksProxies/useFilteredSocksProxies';
 import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
+import useLocations from '@/composables/useLocations';
+import useSocksProxy from '@/composables/useSocksProxy';
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
-import useFilteredSocksProxies from '@/composables/useFilteredSocksProxies';
 
 const { toggleLocations } = useLocations();
-const { data: allSocksProxies, isLoading, isError, error } = useSocksProxies();
-const { socksProxies, clearFilter } = useFilteredSocksProxies();
+const { groupedSocksProxies, filteredSocksProxies, clearFilter, isLoading, isError, error } =
+  useFilteredSocksProxies();
 const { connectToSocksProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useHistoricConnections();
 
@@ -27,7 +26,7 @@ const clickSocksProxy = (country: string, city: string, hostname: string, port?:
 
 const clickCountryOrCity = (country: string, city?: string) => {
   const { hostname, port } = getRandomSocksProxy({
-    socksProxies: allSocksProxies.value,
+    socksProxies: groupedSocksProxies.value,
     country,
     city,
   });
@@ -59,7 +58,11 @@ const selectLocation = (connection: HistoricConnection) => {
   <div v-else>
     <LocationTabs :selectLocation="selectLocation" />
     <n-collapse arrow-placement="right">
-      <n-collapse-item v-for="{ country, cities } in socksProxies" :key="country" :name="country">
+      <n-collapse-item
+        v-for="{ country, cities } in filteredSocksProxies"
+        :key="country"
+        :name="country"
+      >
         <template #header>
           <n-button quaternary @click.prevent="clickCountryOrCity(country)">
             {{ country }}
