@@ -1,7 +1,8 @@
+import { ref } from 'vue';
 import { proxy } from 'webextension-polyfill';
+
 import useConnection from '@/composables/useConnection';
 import getSocksIpForProtocol from '@/composables/utils/getSocksIpForProtocol';
-import { ref } from 'vue';
 
 const { connection, updateConnection } = useConnection();
 

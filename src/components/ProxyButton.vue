@@ -3,11 +3,13 @@ import { computed, inject } from 'vue';
 import { NButtonGroup } from 'naive-ui';
 import LaSpinner from '~icons/la/spinner';
 import IcLocation from '~icons/ic/baseline-location-on';
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useSocksProxy from '@/composables/useSocksProxy';
+
 import Button from '@/components/Button/Button.vue';
-import useLocations from '@/composables/useLocations';
 import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
+
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useLocations from '@/composables/useLocations';
+import useSocksProxy from '@/composables/useSocksProxy';
 
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 
