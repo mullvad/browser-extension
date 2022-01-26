@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { NInput } from 'naive-ui';
 
-import useFilteredSocksProxies from '@/composables/useFilteredSocksProxies/useFilteredSocksProxies';
+import useFilteredSocksProxies from '@/composables/useFilteredSocksProxies';
 
 const { query } = useFilteredSocksProxies();
 
