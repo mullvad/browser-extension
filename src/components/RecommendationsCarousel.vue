@@ -1,24 +1,27 @@
 <script lang="ts" setup>
 import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
+
 import ArrowForward from '~icons/mdi/arrow-right';
 import ArrowBack from '~icons/mdi/arrow-left';
 
 import { closePopup } from '@/helpers/closePopup';
-import Button from '@/components/Button/Button.vue';
-import IconLabel from '@/components/IconLabel.vue';
-import useRecommendations from '@/composables/useRecommendations';
 
-const { recommendations } = useRecommendations();
+import Button from '@/components/Buttons/Button.vue';
+import IconLabel from '@/components/IconLabel.vue';
+
+import useRecommendations from '@/composables/useRecommendations/useRecommendations';
+
+const { activeRecommendations } = useRecommendations();
 </script>
 
 <template>
-  <h1 class="text-sm pb-1">Privacy Recommendations</h1>
+  <h1 class="text-sm pb-1">Privacy recommendations</h1>
 
-  <div v-if="recommendations.length === 0">
-    <p class="text-white text-lg">Sweet! You have taken action on all recommendations</p>
-    <router-link class="hover:text-white" to="privacy-extensions"
-      >See all Privacy Recommendations</router-link
-    >
+  <div v-if="activeRecommendations.length === 0">
+    <p class="text-white text-lg">Sweet! You have taken action on all recommendations.</p>
+    <router-link class="hover:text-white" to="privacy-recommendations">
+      See all Privacy Recommendations
+    </router-link>
   </div>
 
   <div v-else>
@@ -30,22 +33,26 @@ const { recommendations } = useRecommendations();
         </div>
       </template>
 
-      <n-card v-for="(recommendation, index) in recommendations" :key="index" :bordered="false">
+      <n-card
+        v-for="(recommendation, index) in activeRecommendations"
+        :key="index"
+        :bordered="false"
+      >
         <template #header>
           <div class="flex">
             <n-image
-              v-if="recommendation.image"
+              v-if="recommendation.icon"
               class="mr-4"
               width="20"
-              :src="recommendation.image"
+              :src="`/assets/icons/${recommendation.icon}`"
               object-fit="contain"
               preview-disabled
             />
-            <h3>{{ recommendation.title }}</h3>
+            <h3>{{ recommendation.name }}</h3>
           </div>
         </template>
         <template #header-extra>
-          <p>{{ index + 1 }} / {{ recommendations.length }}</p>
+          <p>{{ index + 1 }} / {{ activeRecommendations.length }}</p>
         </template>
 
         <p>
@@ -54,16 +61,23 @@ const { recommendations } = useRecommendations();
 
         <template #footer>
           <Button
-            v-if="recommendation.ctaURL"
-            :href="recommendation.ctaURL"
+            v-if="recommendation.ctaUrl"
+            :href="recommendation.ctaUrl"
             class="mr-4"
             @click="closePopup"
           >
-            <IconLabel type="external" :text="recommendation.cta" />
+            <IconLabel
+              v-if="recommendation.ctaLabel"
+              type="external"
+              :text="recommendation.ctaLabel"
+            />
           </Button>
-          <router-link :to="recommendation.anchor" class="hover:text-white underline"
-            >Learn more</router-link
+          <router-link
+            :to="`/privacy-recommendations#${recommendation.id}`"
+            class="hover:text-white underline"
           >
+            Learn more
+          </router-link>
         </template>
       </n-card>
     </n-carousel>

@@ -1,11 +1,12 @@
 import { management } from 'webextension-polyfill';
 
-import useExtensions from '@/composables/useExtensions/useExtensions';
-import { ExtensionInfo } from '@/composables/useExtensions/Extension.types';
+import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 
-const { updateExtConfig, loadExtConfigs } = useExtensions();
+const { updateRecConfig } = useRecommendations();
 
-const addExtListeners = () => {
+type ExtensionInfo = browser.management.ExtensionInfo;
+
+export const addExtListeners = () => {
   management.onInstalled.addListener(onInstall);
   management.onUninstalled.addListener(onUninstall);
   management.onEnabled.addListener(onEnable);
@@ -14,25 +15,43 @@ const addExtListeners = () => {
 
 // Listeners
 const onInstall = async (extensionInfo: ExtensionInfo) => {
-  await updateExtConfig(extensionInfo, { installed: true, enabled: true, ignored: false });
+  await updateRecConfig(extensionInfo.id, {
+    activated: true,
+    ctaLabel: undefined,
+    enabled: true,
+    ignored: false,
+    installed: true,
+    instructions: undefined,
+  });
 };
 
 const onUninstall = async (extensionInfo: ExtensionInfo) => {
-  await updateExtConfig(extensionInfo, { installed: false, enabled: false });
+  await updateRecConfig(extensionInfo.id, {
+    activated: false,
+    ctaLabel: 'install',
+    enabled: false,
+    installed: false,
+    instructions: undefined,
+  });
 };
 
 const onEnable = async (extensionInfo: ExtensionInfo) => {
-  await updateExtConfig(extensionInfo, { enabled: true, ignored: false });
+  await updateRecConfig(extensionInfo.id, {
+    activated: true,
+    ctaLabel: undefined,
+    enabled: true,
+    ignored: false,
+    instructions: undefined,
+  });
 };
 
 const onDisable = async (extensionInfo: ExtensionInfo) => {
-  await updateExtConfig(extensionInfo, { enabled: false });
-};
+  const instructions = 'To Enable an extension, do this and that';
 
-export const initExtensions = () => {
-  // Add listener on extension action
-  addExtListeners();
-
-  // Load extensions settings
-  loadExtConfigs();
+  await updateRecConfig(extensionInfo.id, {
+    activated: false,
+    ctaLabel: 'enable',
+    enabled: false,
+    instructions,
+  });
 };

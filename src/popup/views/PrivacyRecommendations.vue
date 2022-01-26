@@ -2,8 +2,7 @@
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-import PrivacyExtensions from '@/components/PrivacyExtensions/PrivacyExtensions.vue';
-import PrivacySettings from '@/components/PrivacySettings.vue';
+import PrivacyRecommendations from '@/components/PrivacyRecommendations/PrivacyRecommendations.vue';
 
 // Scroll to anchor, if one is provided
 // Workaround for scrollBehavior router method not mixing well with `overflow: auto` css property
@@ -21,6 +20,5 @@ if (hash.value) {
 </script>
 
 <template>
-  <privacy-extensions />
-  <privacy-settings />
+  <privacy-recommendations />
 </template>

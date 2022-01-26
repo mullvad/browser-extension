@@ -1,18 +1,18 @@
-import { Extension } from '@/composables/useExtensions/Extension.types';
+import { Recommendation } from './Recommendation.types';
 
 /**
  * Sort in the following order:
  * 1. to install
  * 2. disabled
  * 3. ignored
- * 4. installed
+ * 4. activated
  * 5. by name
- * @param extensions
+ * @param recommendations
  */
-const sortExtensions = (extensions: Extension[]) => {
+const sortRecommendations = (recommendations: Recommendation[]) => {
   // Make sure we don't mutate the original array!
-  return [...extensions].sort((a, b) => {
-    if (a.installed === b.installed) {
+  return [...recommendations].sort((a, b) => {
+    if (a.activated === b.activated) {
       if (a.enabled === b.enabled) {
         if (a.ignored === b.ignored) {
           return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
@@ -23,8 +23,8 @@ const sortExtensions = (extensions: Extension[]) => {
         return a.enabled ? 1 : -1;
       }
     }
-    return a.installed ? 1 : -1;
+    return a.activated ? 1 : -1;
   });
 };
 
-export default sortExtensions;
+export default sortRecommendations;

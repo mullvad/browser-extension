@@ -8,7 +8,7 @@ const setWebRTC = (isDisabled: boolean) => {
   browser.privacy.network.webRTCIPHandlingPolicy.set({
     value: !isDisabled ? 'default' : 'disable_non_proxied_udp',
   });
-  
+
   // Save webRTC config to storage
   webrtcDisabled.value = isDisabled;
 };
