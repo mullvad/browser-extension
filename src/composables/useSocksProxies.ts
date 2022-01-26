@@ -74,7 +74,7 @@ const useSocksProxies = () => {
     return sortProxiesByCountryAndCity(grouped);
   };
   
-  return useQuery<Country[], AxiosError>('socksProxies', getSocksProxies);
+  return  useQuery<Country[], AxiosError>('socksProxies', getSocksProxies);
 };
 
 export default useSocksProxies;
