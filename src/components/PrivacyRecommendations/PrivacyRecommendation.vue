@@ -20,7 +20,7 @@ const props = defineProps<{
 }>();
 
 const { recommendation } = toRefs(props);
-const { webrtcDisabled, setWebRTC } = useWebRtc();
+const { setWebRTC } = useWebRtc();
 
 // Toggle Ignore recommendation
 const toggleIgnore = () => {
@@ -30,8 +30,7 @@ const toggleIgnore = () => {
 // Toggle WebRTC
 watchEffect(() => {
   if (recommendation.value.id === 'disable-webrtc') {
-    recommendation.value.ctaLabel = webrtcDisabled.value ? 'disable' : 'enable';
-    recommendation.value.activated = !webrtcDisabled.value;
+    recommendation.value.ctaLabel = recommendation.value.activated ? 'disable' : 'enable';
   }
 });
 
@@ -76,7 +75,7 @@ const tooltip = computed(() => {
         <div v-if="recommendation.id === 'disable-webrtc' && !recommendation.ignored">
           <n-tooltip>
             <template #trigger>
-              <n-switch v-model:value="webrtcDisabled" @update-value="setWebRTC" />
+              <n-switch v-model:value="recommendation.activated" @update-value="setWebRTC" />
             </template>
             <span>{{ tooltip.text }}</span>
           </n-tooltip>
