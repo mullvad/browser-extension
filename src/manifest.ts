@@ -5,7 +5,7 @@ import { isDev, port, r } from '../scripts/utils';
 
 export async function getManifest() {
   const pkg = (await fs.readJSON(r('package.json'))) as typeof PkgType;
-  
+
   // update this file to update this manifest.json
   // can also be conditional based on your need
   const manifest: Manifest.WebExtensionManifest = {
@@ -16,11 +16,6 @@ export async function getManifest() {
     browser_action: {
       default_icon: './assets/icon.svg',
       default_popup: './dist/popup/index.html',
-    },
-    options_ui: {
-      page: './dist/options/index.html',
-      open_in_tab: true,
-      chrome_style: false,
     },
     background: {
       page: './dist/background/index.html',
@@ -34,26 +29,13 @@ export async function getManifest() {
       '256': './assets/icon.svg',
     },
     permissions: ['*://*.mullvad.net/*', 'management', 'storage', 'privacy', 'proxy'],
-    content_scripts: [
-      {
-        matches: ['http://*/*', 'https://*/*'],
-        js: ['./dist/contentScripts/index.global.js'],
-      },
-    ],
-    web_accessible_resources: ['dist/contentScripts/style.css'],
   };
-  
+
   if (isDev) {
-    // for content script, as browsers will cache them for each reload,
-    // we use a background script to always inject the latest version
-    // see src/background/contentScriptHMR.ts
-    delete manifest.content_scripts;
-    manifest.permissions?.push('webNavigation');
-    
     // this is required on dev for Vite script to load
     // eslint-disable-next-line no-useless-escape
     manifest.content_security_policy = `script-src \'self\' http://localhost:${port}; object-src \'self\'`;
   }
-  
+
   return manifest;
 }
