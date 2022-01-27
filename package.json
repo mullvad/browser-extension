@@ -13,7 +13,7 @@
     "dev:prepare": "esno scripts/prepare.ts",
     "dev:web": "vite",
     "dev:js": "npm run build:js -- --mode development",
-    "build": "cross-env NODE_ENV=production run-s clear build:web build:prepare build:js",
+    "build": "cross-env NODE_ENV=production run-s clear build:web build:prepare build:copy build:js",
     "build:prepare": "esno scripts/prepare.ts",
     "build:copy": "esno scripts/copyFilesToExtensionFolder.ts",
     "build:web": "vite build",
