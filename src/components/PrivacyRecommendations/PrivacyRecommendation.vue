@@ -2,17 +2,18 @@
 import { computed, toRefs, watchEffect } from 'vue';
 import { NAvatar, NCard, NSwitch, NTooltip } from 'naive-ui';
 
-import FeCheckCircle from '~icons/fe/check-circle';
 import FeWarning from '~icons/fe/warning';
 import FeInfo from '~icons/fe/info';
 
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
-import SplitButton from '@/components/Buttons/SplitButton.vue';
 import IconLabel from '@/components/IconLabel.vue';
+import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
+import SplitButton from '@/components/Buttons/SplitButton.vue';
 
-import { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
+import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
+import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import useWebRtc from '@/composables/useWebRtc';
 
 const props = defineProps<{
@@ -35,25 +36,7 @@ watchEffect(() => {
 });
 
 const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enable' : 'Install'));
-const tooltip = computed(() => {
-  const tooltip = { text: 'Active', status: 'success' };
-  if (recommendation.value.ignored) {
-    tooltip.text = 'Ignored';
-    tooltip.status = 'info';
-  } else if (recommendation.value.id === 'disable-webrtc') {
-    tooltip.text = recommendation.value.activated ? 'WebRTC disabled' : 'WebRTC enabled';
-  } else if (recommendation.value.installed && !recommendation.value.enabled) {
-    tooltip.text = 'Disabled';
-    tooltip.status = 'error';
-  } else if (!recommendation.value.activated && recommendation.value.type === 'extension') {
-    tooltip.text = 'Not installed';
-    tooltip.status = 'error';
-  } else if (!recommendation.value.activated && recommendation.value.type === 'setting') {
-    tooltip.text = 'Not set';
-    tooltip.status = 'error';
-  }
-  return tooltip;
-});
+const tooltip = useRecommendationIconTooltip(recommendation);
 </script>
 
 <template>
@@ -81,14 +64,7 @@ const tooltip = computed(() => {
           </n-tooltip>
         </div>
 
-        <n-tooltip v-else>
-          <template #trigger>
-            <FeInfo v-if="tooltip.status === 'info'" class="text-info" />
-            <FeWarning v-if="tooltip.status === 'error'" class="text-error" />
-            <FeCheckCircle v-if="tooltip.status === 'success'" class="text-success" />
-          </template>
-          <span>{{ tooltip.text }}</span>
-        </n-tooltip>
+        <RecommendationIconWithTooltip v-else :recommendation="recommendation" />
       </div>
     </template>
 
