@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
-import { NAvatar, NCard, NTooltip } from 'naive-ui';
+import { computed, toRefs, watchEffect } from 'vue';
+import { NAvatar, NCard, NSwitch, NTooltip } from 'naive-ui';
 
 import FeCheckCircle from '~icons/fe/check-circle';
 import FeWarning from '~icons/fe/warning';
@@ -11,7 +11,6 @@ import { closePopup } from '@/helpers/closePopup';
 import Button from '@/components/Buttons/Button.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 import IconLabel from '@/components/IconLabel.vue';
-import Switch from '@/components/Switch.vue';
 
 import { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import useWebRtc from '@/composables/useWebRtc';
@@ -20,25 +19,20 @@ const props = defineProps<{
   recommendation: Recommendation;
 }>();
 
-const recommendation = toRefs(props).recommendation;
-const { webrtcDisabled, setWebRTC } = useWebRtc();
+const { recommendation } = toRefs(props);
+const { setWebRTC } = useWebRtc();
 
 // Toggle Ignore recommendation
 const toggleIgnore = () => {
-  const ignored = !recommendation.value.ignored;
-  recommendation.value.ignored = ignored;
+  recommendation.value.ignored = !recommendation.value.ignored;
 };
 
 // Toggle WebRTC
-const toggleSetting = () => {
+watchEffect(() => {
   if (recommendation.value.id === 'disable-webrtc') {
-    const webrtcCta = webrtcDisabled.value ? 'disable' : 'enable';
-
-    recommendation.value.ctaLabel = webrtcCta;
-    recommendation.value.activated = !webrtcDisabled.value;
-    setWebRTC(!webrtcDisabled.value);
+    recommendation.value.ctaLabel = recommendation.value.activated ? 'disable' : 'enable';
   }
-};
+});
 
 const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enable' : 'Install'));
 const tooltip = computed(() => {
@@ -81,7 +75,7 @@ const tooltip = computed(() => {
         <div v-if="recommendation.id === 'disable-webrtc' && !recommendation.ignored">
           <n-tooltip>
             <template #trigger>
-              <Switch :toggled="webrtcDisabled" @on-update="toggleSetting" />
+              <n-switch v-model:value="recommendation.activated" @update-value="setWebRTC" />
             </template>
             <span>{{ tooltip.text }}</span>
           </n-tooltip>

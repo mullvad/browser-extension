@@ -3,7 +3,6 @@ import { management } from 'webextension-polyfill';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
 import useHttpsOnly from '@/composables/useHttpsOnly';
-import useWebRtc from '@/composables/useWebRtc';
 import { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import {
   defaultRecommendations,
@@ -16,12 +15,16 @@ const recommendations = useBrowserStorageLocal<Recommendation[]>(
   defaultRecommendations,
 );
 
-const updateRecConfig = async (id: string, modification: Partial<Recommendation>) => {
+const updateRecConfig = (id: string, modification: Partial<Recommendation>) => {
   if (defaultRecommendationsIds.includes(id)) {
     recommendations.value = recommendations.value.map((recommendation) =>
       recommendation.id === id ? { ...recommendation, ...modification } : recommendation,
     );
   }
+};
+
+const getRecConfigById = (id: string) => {
+  return recommendations.value.find((rec) => rec.id === id);
 };
 
 const updateHttpsOnly = async () => {
@@ -31,15 +34,8 @@ const updateHttpsOnly = async () => {
   updateRecConfig('https-only-mode', { activated: httpsOnly, instructions });
 };
 
-const updateWebrtc = async () => {
-  const { webrtcDisabled } = useWebRtc();
-
-  updateRecConfig('https-only-mode', { activated: webrtcDisabled.value });
-};
-
-const updateSettings = async () => {
+const updateSettings = () => {
   updateHttpsOnly();
-  updateWebrtc();
 };
 
 export const loadRecConfigs = async (): Promise<void> => {
@@ -86,6 +82,7 @@ const useRecommendations = () => {
     updateRecConfig,
     loadRecConfigs,
     updateSettings,
+    getRecConfigById,
   };
 };
 

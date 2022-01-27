@@ -56,7 +56,7 @@ export const settings: Recommendation[] = [
     warning:
       'WebRTC is needed by some websites, for example some browser based videoconference tools.',
     homeUrl: 'https://mullvad.net/en/help/webrtc/',
-    activated: false,
+    activated: true,
     ignored: false,
     ctaLabel: 'disable',
   },

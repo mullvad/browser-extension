@@ -20,6 +20,10 @@ const themeOverrides: GlobalThemeOverrides = {
   Drawer: {
     color: 'var(--dark-blue)',
   },
+  Switch: {
+    railColorActive: 'var(--success)',
+    railColor: 'var(--error)'
+  }
 };
 </script>
 <template>
