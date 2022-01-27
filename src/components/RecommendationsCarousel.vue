@@ -91,7 +91,7 @@ const { activeRecommendations } = useRecommendations();
   </div>
 </template>
 
-<style scoped>
+<style>
 .custom-arrow {
   display: flex;
   position: absolute;
@@ -112,5 +112,9 @@ const { activeRecommendations } = useRecommendations();
 .custom-arrow .n-icon:active {
   transform: scale(0.95);
   transform-origin: center;
+}
+
+.n-carousel.n-carousel--bottom .n-carousel__dots {
+  display: none !important;
 }
 </style>
