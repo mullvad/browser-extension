@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Button from '@/components/Button/Button.vue';
+import Button from '@/components/Buttons/Button.vue';
 import useSocksProxy from '@/composables/useSocksProxy';
 
 const { disableProxy } = useSocksProxy();

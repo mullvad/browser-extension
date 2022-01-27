@@ -1,6 +1,4 @@
-import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
-
-const webrtcDisabled = useBrowserStorageLocal('webrtcDisabled', true);
+import useRecommendations from './useRecommendations/useRecommendations';
 
 const setWebRTC = (isDisabled: boolean) => {
   // Disable WebRTC in Firefox
@@ -8,18 +6,19 @@ const setWebRTC = (isDisabled: boolean) => {
   browser.privacy.network.webRTCIPHandlingPolicy.set({
     value: !isDisabled ? 'default' : 'disable_non_proxied_udp',
   });
-  
-  // Save webRTC config to storage
-  webrtcDisabled.value = isDisabled;
+
+  const { updateRecConfig } = useRecommendations();
+  updateRecConfig('disable-webrtc', { activated: isDisabled });
 };
 
 const initWebRTC = () => {
-  setWebRTC(webrtcDisabled.value ?? true);
+  const { getRecConfigById } = useRecommendations();
+  const webRtcRecommendation = getRecConfigById('disable-webrtc');
+  setWebRTC(webRtcRecommendation?.activated ?? true);
 };
 
 const useWebRtc = () => {
   return {
-    webrtcDisabled,
     setWebRTC,
     initWebRTC,
   };

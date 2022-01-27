@@ -4,12 +4,12 @@ import { NButtonGroup } from 'naive-ui';
 import LaSpinner from '~icons/la/spinner';
 import IcLocation from '~icons/ic/baseline-location-on';
 
-import Button from '@/components/Button/Button.vue';
-import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
+import Button from '@/components/Buttons/Button.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useLocations from '@/composables/useLocations';
 import useSocksProxy from '@/composables/useSocksProxy';
+import useLocations from '@/composables/useLocations';
+import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
 
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 
@@ -31,7 +31,9 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
   </div>
   <div v-else>
     <ProxyDisconnectMessage v-if="!canUseProxy && socksEnabled" />
-    <p v-else-if="!canUseProxy">To be able to use a proxy, please <em>connect to Mullvad VPN</em></p>
+    <p v-else-if="!canUseProxy">
+      To be able to use a proxy, please <em>connect to Mullvad VPN</em>
+    </p>
     <div v-else class="flex">
       <n-button-group v-if="isWireGuard">
         <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>

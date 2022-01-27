@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Button from '@/components/Button/Button.vue';
+import Button from '@/components/Buttons/Button.vue';
 import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
 import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
 

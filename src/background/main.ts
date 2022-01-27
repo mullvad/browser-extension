@@ -1,4 +1,6 @@
-import { initExtensions } from '@/helpers/extensions';
+import { addExtListeners } from '@/helpers/extensions';
+
+import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useWebRtc from '@/composables/useWebRtc';
 
@@ -10,13 +12,15 @@ if (import.meta.hot) {
   import('./contentScriptHMR');
 }
 
-// Uncomment to open the popup in a tab on extension start
-// browser.runtime.openOptionsPage();
-
+const { loadRecConfigs } = useRecommendations();
 const { socksEnabled } = useSocksProxy();
+const { initWebRTC } = useWebRtc();
 
-// Add listener on extension action & load extensions settings
-initExtensions();
+// Add listeners on extension actions
+addExtListeners();
+
+// Load recommendations settings
+loadRecConfigs();
 
 // Load socks settings
 const initSocks = async () => {
@@ -28,5 +32,7 @@ const initSocks = async () => {
 initSocks();
 
 // Load webRTC settings
-const { initWebRTC } = useWebRtc();
 initWebRTC();
+
+// Uncomment to open the popup in a tab on extension start
+// browser.runtime.openOptionsPage();
