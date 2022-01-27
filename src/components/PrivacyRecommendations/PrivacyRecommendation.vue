@@ -11,7 +11,6 @@ import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
-import Switch from '@/components/Switch.vue';
 
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
