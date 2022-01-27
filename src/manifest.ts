@@ -17,11 +17,6 @@ export async function getManifest() {
       default_icon: './assets/icon.svg',
       default_popup: './dist/popup/index.html',
     },
-    options_ui: {
-      page: './dist/options/index.html',
-      open_in_tab: true,
-      chrome_style: false,
-    },
     background: {
       page: './dist/background/index.html',
       persistent: false,
