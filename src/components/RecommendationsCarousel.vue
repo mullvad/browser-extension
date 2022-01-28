@@ -27,7 +27,7 @@ const { activeRecommendations } = useRecommendations();
   </div>
 
   <div v-else class="-mb-1">
-    <n-carousel show-arrow>
+    <n-carousel show-arrow :show-dots="false">
       <template #arrow="{ prev, next }">
         <div class="custom-arrow">
           <n-icon class="arrow-icon" size="25" @click="prev"><MdiArrowLeft /></n-icon>
@@ -115,9 +115,5 @@ const { activeRecommendations } = useRecommendations();
 .custom-arrow .n-icon:active {
   transform: scale(0.95);
   transform-origin: center;
-}
-
-.n-carousel.n-carousel--bottom .n-carousel__dots {
-  display: none !important;
 }
 </style>
