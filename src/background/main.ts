@@ -8,8 +8,6 @@ import useWebRtc from '@/composables/useWebRtc';
 if (import.meta.hot) {
   // @ts-expect-error for background HMR
   import('/@vite/client');
-  // load latest content script
-  import('./contentScriptHMR');
 }
 
 const { loadRecConfigs } = useRecommendations();
