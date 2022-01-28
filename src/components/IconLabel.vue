@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import FeWarning from '@/components/Icons/FeWarning.vue';
+import { NIcon } from 'naive-ui';
+
 import FeCheckCircle from '@/components/Icons/FeCheckCircle.vue';
 import FeInfo from '@/components/Icons/FeInfo.vue';
-import LaSpinner from '@/components/Icons/LaSpinner.vue';
 import FeLinkExternal from '@/components/Icons/FeLinkExternal.vue';
+import FeWarning from '@/components/Icons/FeWarning.vue';
+import LaSpinner from '@/components/Icons/LaSpinner.vue';
 
 type IconType = 'warning' | 'success' | 'info' | 'spinner' | 'external';
 
@@ -11,11 +13,40 @@ defineProps<{ text: string; type: IconType }>();
 </script>
 
 <template>
-  <span v-if="type === 'success'" class="text-success"><FeCheckCircle class="mr-2" />{{ text }}</span>
-  <span v-if="type === 'warning'" class="text-warning"><FeWarning class="mr-2" />{{ text }}</span>
-  <span v-if="type === 'info'" class="text-info"><FeInfo class="mr-2" />{{ text }}</span>
-  <span v-if="type === 'spinner'" class="text-info"><LaSpinner class="mr-2 animate-spin" />{{ text }}</span>
-  <span v-if="type === 'external'" class="text-info">{{ text }}<FeLinkExternal class="ml-2" /></span>
+  <span v-if="type === 'success'" class="text-success">
+    <n-icon size="25" class="mr-2">
+      <FeCheckCircle />
+    </n-icon>
+    {{ text }}
+  </span>
+
+  <span v-if="type === 'warning'" class="text-warning">
+    <n-icon size="25" class="mr-2">
+      <FeWarning />
+    </n-icon>
+    {{ text }}
+  </span>
+
+  <span v-if="type === 'info'" class="text-info">
+    <n-icon size="25" class="mr-2">
+      <FeInfo />
+    </n-icon>
+    {{ text }}
+  </span>
+
+  <span v-if="type === 'spinner'" class="text-info">
+    <n-icon size="25" class="mr-2 animate-spin">
+      <LaSpinner />
+    </n-icon>
+    {{ text }}
+  </span>
+
+  <span v-if="type === 'external'" class="text-info">
+    <n-icon size="25" class="mr-2">
+      <FeLinkExternal />
+    </n-icon>
+    {{ text }}
+  </span>
 </template>
 
 <style scoped>
