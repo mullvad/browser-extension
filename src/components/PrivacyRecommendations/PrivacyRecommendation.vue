@@ -70,13 +70,11 @@ const tooltip = useRecommendationIconTooltip(recommendation);
     <p>{{ recommendation.description }}</p>
 
     <div v-if="recommendation.instructions" class="pt-4 flex items-center">
-      <FeInfo class="text-info mr-2 text-lg" />
-      <p>{{ recommendation.instructions }}</p>
+      <IconLabel :text="recommendation.instructions" type="warning" />
     </div>
 
-    <div v-if="recommendation.warning" class="warning pt-4 flex items-center">
-      <FeWarning class="text-warning mr-2 text-lg" />
-      <p>{{ recommendation.warning }}</p>
+    <div v-if="recommendation.warning" class="pt-4 flex items-center">
+      <IconLabel :text="recommendation.warning" type="info" />
     </div>
 
     <template #action>
@@ -113,9 +111,3 @@ const tooltip = useRecommendationIconTooltip(recommendation);
     </template>
   </n-card>
 </template>
-
-<style scoped>
-.warning {
-  color: var(--light-grey);
-}
-</style>
