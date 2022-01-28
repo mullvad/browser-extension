@@ -22,7 +22,7 @@ const settings = computed(() => {
     </div>
   </section>
 
-  <section>
+  <section class="pb-4">
     <TitleCategory title="Extensions" class="mt-8 -mb-2" />
     <div v-for="extension in extensions" :id="extension.id" :key="extension.id" class="pt-4">
       <PrivacyRecommendation :recommendation="extension" />
