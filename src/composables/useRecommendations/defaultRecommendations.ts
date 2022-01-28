@@ -52,7 +52,7 @@ export const settings: Recommendation[] = [
     type: 'setting',
     id: 'disable-webrtc',
     name: 'Disable webRTC',
-    description: `Disable WebRTC to stop websites using that technology from leaking you IP address, even when you're behind a VPN or TOR.`,
+    description: `Disable WebRTC to stop websites using that technology from leaking you IP address, even when you're behind a VPN or Tor.`,
     warning:
       'WebRTC is needed by some websites, for example some browser based videoconference tools.',
     homeUrl: 'https://mullvad.net/en/help/webrtc/',
