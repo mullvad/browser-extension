@@ -8,6 +8,7 @@ import DetailsCollapse from '@/components/ConnectionDetails/DetailsCollapse.vue'
 import IconLabel from '@/components/IconLabel.vue';
 import ProxyCollapse from '@/components/ConnectionDetails/ProxyCollapse.vue';
 import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
+import TitleCategory from '@/components/TitleCategory.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useSocksProxy from '@/composables/useSocksProxy';
@@ -18,7 +19,7 @@ const { socksEnabled } = useSocksProxy();
 </script>
 
 <template>
-  <h1 class="text-sm pb-1 pt-4">Connection status</h1>
+  <TitleCategory title="Connection" />
   <n-card :bordered="false">
     <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />

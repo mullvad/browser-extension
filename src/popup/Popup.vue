@@ -30,7 +30,7 @@ const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Priva
             </router-link>
           </n-avatar>
           <div class="mx-4">
-            <h1 class="text-2xl font-bold">{{ pageTitle }}</h1>
+            <h1 class="text-2xl font-semibold">{{ pageTitle }}</h1>
           </div>
         </div>
         <router-link to="/about" class="flex">
@@ -40,7 +40,7 @@ const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Priva
     </header>
 
     <n-scrollbar :x-scrollable="false" class="max-h-543px px-4">
-      <div class="py-1.5rem">
+      <div class="py-1rem">
         <router-view />
       </div>
     </n-scrollbar>
