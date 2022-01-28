@@ -16,7 +16,7 @@ const themeOverrides: GlobalThemeOverrides = {
   },
   Card: {
     actionColor: 'transparent',
-    borderRadius: '9px',
+    borderRadius: '8px',
   },
   Drawer: {
     color: 'var(--dark-blue)',

@@ -7,6 +7,7 @@ import Button from '@/components/Buttons/Button.vue';
 import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
 import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
 import IconLabel from '@/components/IconLabel.vue';
+import TitleCategory from '@/components/TitleCategory.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 
@@ -14,7 +15,7 @@ const { activeRecommendations } = useRecommendations();
 </script>
 
 <template>
-  <h1 class="text-sm pb-1">Privacy recommendations</h1>
+  <TitleCategory title="Privacy recommendations" class="mt-2" />
 
   <div v-if="activeRecommendations.length === 0">
     <p class="text-white text-lg" data-test="success-message">
@@ -25,7 +26,7 @@ const { activeRecommendations } = useRecommendations();
     </router-link>
   </div>
 
-  <div v-else>
+  <div v-else class="-mb-1">
     <n-carousel show-arrow>
       <template #arrow="{ prev, next }">
         <div class="custom-arrow">

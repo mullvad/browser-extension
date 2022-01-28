@@ -2,6 +2,7 @@
 import PrivacyRecommendation from '@/components/PrivacyRecommendations/PrivacyRecommendation.vue';
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import { computed } from 'vue';
+import TitleCategory from '../TitleCategory.vue';
 
 const { recommendations } = useRecommendations();
 
@@ -15,9 +16,8 @@ const settings = computed(() => {
 
 <template>
   <section>
-    <h1>Privacy Browser Settings</h1>
-    <p>Here's a list of recommended browser settings.</p>
-    <div class="space-y-4 mt-4">
+    <TitleCategory title="Settings" class="mt-2" />
+    <div class="space-y-4">
       <PrivacyRecommendation
         v-for="setting in settings"
         :key="setting.id"
@@ -27,9 +27,8 @@ const settings = computed(() => {
   </section>
 
   <section>
-    <h1>Privacy Extensions</h1>
-    <p>Here's a list of recommended third party extensions.</p>
-    <div class="space-y-4 mt-4">
+    <TitleCategory title="Extensions" class="mt-8" />
+    <div class="space-y-4">
       <PrivacyRecommendation
         v-for="extension in extensions"
         :key="extension.id"
