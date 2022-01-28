@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RecommendationsCarousel should show an "Show all" link when there are recommendations 1`] = `
+<div
+  data-v-app=""
+>
+  
+  <h1
+    class="text-sm pb-1"
+  >
+    Privacy recommendations
+  </h1>
+  <div>
+    <carousel-stub
+      autoplay="false"
+      centeredslides="false"
+      defaultindex="0"
+      direction="horizontal"
+      dotplacement="bottom"
+      dottype="dot"
+      draggable="false"
+      effect="slide"
+      interval="5000"
+      keyboard="false"
+      loop="true"
+      mousewheel="false"
+      showarrow="true"
+      showdots="true"
+      slidesperview="1"
+      spacebetween="0"
+      touchable="true"
+      transitionstyle="[object Object]"
+      trigger="click"
+    />
+    <div
+      class="text-right pt-2 mr-2"
+    >
+      <a
+        class="hover:text-white"
+        data-test="show-all-link"
+      >
+        Show all
+      </a>
+    </div>
+  </div>
+  
+</div>
+`;
+
+exports[`RecommendationsCarousel should show an success message when no more recommendations are left 1`] = `
+<div
+  data-v-app=""
+>
+  
+  <h1
+    class="text-sm pb-1"
+  >
+    Privacy recommendations
+  </h1>
+  <div>
+    <p
+      class="text-white text-lg"
+      data-test="success-message"
+    >
+      Sweet! You have taken action on all recommendations.
+    </p>
+    <a
+      class="hover:text-white"
+    >
+       See all Privacy Recommendations 
+    </a>
+  </div>
+  
+</div>
+`;
