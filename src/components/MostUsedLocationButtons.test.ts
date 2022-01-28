@@ -19,7 +19,7 @@ describe('MostUsedLocationButtons', () => {
     const buttons = wrapper.findAllComponents(Button);
 
     expect(buttons).toHaveLength(1);
-    expect(buttons.at(0)?.text()).toMatch(/argentina/i);
+    expect(buttons[0]?.text()).toMatch(/argentina/i);
 
     expect(wrapper.element).toMatchSnapshot();
   });
@@ -40,9 +40,9 @@ describe('MostUsedLocationButtons', () => {
     const buttons = wrapper.findAllComponents(Button);
 
     expect(buttons).toHaveLength(3);
-    expect(buttons.at(0)?.text()).toMatch(/sweden/i);
-    expect(buttons.at(1)?.text()).toMatch(/norway/i);
-    expect(buttons.at(2)?.text()).toMatch(/iceland/i);
+    expect(buttons[0]?.text()).toMatch(/sweden/i);
+    expect(buttons[1]?.text()).toMatch(/norway/i);
+    expect(buttons[2]?.text()).toMatch(/iceland/i);
 
     expect(wrapper.element).toMatchSnapshot();
   });

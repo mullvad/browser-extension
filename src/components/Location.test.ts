@@ -40,8 +40,8 @@ describe('Location', () => {
 
     const countries = wrapper.findAllComponents(NCollapseItem);
     expect(countries).toHaveLength(2);
-    expect(countries.at(0)?.text()).toMatch(/australia/i);
-    expect(countries.at(1)?.text()).toMatch(/austria/i);
+    expect(countries[0]?.text()).toMatch(/australia/i);
+    expect(countries[1]?.text()).toMatch(/austria/i);
 
     expect(wrapper.element).toMatchSnapshot();
   });
