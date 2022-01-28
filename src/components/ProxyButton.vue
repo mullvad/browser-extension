@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
 import { NButtonGroup } from 'naive-ui';
-import LaSpinner from '~icons/la/spinner';
-import IcLocation from '~icons/ic/baseline-location-on';
 
 import Button from '@/components/Buttons/Button.vue';
 
@@ -10,6 +8,8 @@ import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
+import LaSpinner from '@/components/Icons/LaSpinner.vue';
+import IcBaselineLocationOn from '@/components/Icons/IcBaselineLocationOn.vue';
 
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 
@@ -38,7 +38,7 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
       <n-button-group v-if="isWireGuard">
         <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
         <Button class="flex items-center justify-center" @click="toggleLocations">
-          <IcLocation />
+          <IcBaselineLocationOn />
         </Button>
       </n-button-group>
       <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>

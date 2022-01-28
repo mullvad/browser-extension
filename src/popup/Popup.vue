@@ -3,8 +3,8 @@ import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { NAvatar, NIcon, NScrollbar } from 'naive-ui';
 
-import FeArrowLeft from '~icons/fe/arrow-left';
-import FeQuestion from '~icons/fe/question';
+import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
+import FeQuestion from '@/components/Icons/FeQuestion.vue';
 
 const logoUrl = '/assets/icon.svg';
 

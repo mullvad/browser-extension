@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import FeElipsisV from '~icons/fe/elipsis-v';
 import { NDropdown } from 'naive-ui';
+
+import FeElipsisV from '@/components/Icons/FeElipsisV.vue';
 
 const router = useRouter();
 

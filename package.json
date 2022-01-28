@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@ffflorian/jszip-cli": "^3.1.5",
-    "@iconify/json": "^1.1.451",
     "@types/firefox-webext-browser": "^94.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.4.0",
@@ -71,7 +70,6 @@
     "stylelint-config-standard": "^24.0.0",
     "ts-jest": "^27.1.2",
     "typescript": "^4.5.4",
-    "unplugin-icons": "^0.12.23",
     "unplugin-vue-components": "^0.15.4",
     "vite": "^2.7.10",
     "vite-plugin-windicss": "^1.6.1",

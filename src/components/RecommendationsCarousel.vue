@@ -1,15 +1,14 @@
 <script lang="ts" setup>
 import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 
-import ArrowForward from '~icons/mdi/arrow-right';
-import ArrowBack from '~icons/mdi/arrow-left';
-
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
+import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
+import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
 
 const { activeRecommendations } = useRecommendations();
 </script>
@@ -28,8 +27,8 @@ const { activeRecommendations } = useRecommendations();
     <n-carousel show-arrow>
       <template #arrow="{ prev, next }">
         <div class="custom-arrow">
-          <n-icon class="arrow-icon" size="25" @click="prev"><ArrowBack /></n-icon>
-          <n-icon class="arrow-icon" size="25" @click="next"><ArrowForward /></n-icon>
+          <n-icon class="arrow-icon" size="25" @click="prev"><MdiArrowLeft /></n-icon>
+          <n-icon class="arrow-icon" size="25" @click="next"><MdiArrowRight /></n-icon>
         </div>
       </template>
 

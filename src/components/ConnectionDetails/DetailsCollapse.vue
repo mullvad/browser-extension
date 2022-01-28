@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
-import LaSpinner from '~icons/la/spinner';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import Collapse from '@/components/Collapse.vue';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 import useStore from '@/composables/useStore';
+import LaSpinner from '@/components/Icons/LaSpinner.vue';
 
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 const { dnsServers, isLoading: isGettingDns, isError } = useCheckDnsLeaks();

@@ -2,12 +2,11 @@
 import { toRefs } from 'vue';
 import { NTooltip } from 'naive-ui';
 
-import FeCheckCircle from '~icons/fe/check-circle';
-import FeWarning from '~icons/fe/warning';
-import FeInfo from '~icons/fe/info';
-
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
+import FeInfo from '@/components/Icons/FeInfo.vue';
+import FeWarning from '@/components/Icons/FeWarning.vue';
+import FeCheckCircle from '@/components/Icons/FeCheckCircle.vue';
 
 const props = defineProps<{ recommendation: Recommendation }>();
 const { recommendation } = toRefs(props);
