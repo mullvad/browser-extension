@@ -8,7 +8,6 @@ import {
   defaultRecommendations,
   defaultRecommendationsIds,
 } from '@/composables/useRecommendations/defaultRecommendations';
-import sortRecommendations from './sortRecommendations';
 
 const recommendations = useBrowserStorageLocal<Recommendation[]>(
   'recommendations',
@@ -70,14 +69,14 @@ export const loadRecConfigs = async (): Promise<void> => {
 
 const useRecommendations = () => {
   // sortRecommendations MUST NOT mutate the original list
-  const sortedRecommendations = computed(() => sortRecommendations(recommendations.value));
+  // const sortedRecommendations = computed(() => sortRecommendations(recommendations.value));
 
   const activeRecommendations = computed(() =>
     recommendations.value.filter((rec) => !rec.activated && !rec.ignored),
   );
 
   return {
-    recommendations: sortedRecommendations,
+    recommendations,
     activeRecommendations,
     updateRecConfig,
     loadRecConfigs,
