@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { NDrawer, NDrawerContent } from 'naive-ui';
 import useLocations from '@/composables/useLocations';
-import Location from '@/popup/views/Location.vue';
+import Location from '@/components/Location.vue';
 
 const { showLocations } = useLocations();
 </script>
