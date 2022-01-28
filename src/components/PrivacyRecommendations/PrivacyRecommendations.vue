@@ -16,24 +16,16 @@ const settings = computed(() => {
 
 <template>
   <section>
-    <TitleCategory title="Settings" class="mt-2" />
-    <div class="space-y-4">
-      <PrivacyRecommendation
-        v-for="setting in settings"
-        :key="setting.id"
-        :recommendation="setting"
-      />
+    <TitleCategory title="Settings" class="mt-2 -mb-3" />
+    <div v-for="setting in settings" :id="setting.id" :key="setting.id" class="pt-4">
+      <PrivacyRecommendation :recommendation="setting" />
     </div>
   </section>
 
   <section>
-    <TitleCategory title="Extensions" class="mt-8" />
-    <div class="space-y-4">
-      <PrivacyRecommendation
-        v-for="extension in extensions"
-        :key="extension.id"
-        :recommendation="extension"
-      />
+    <TitleCategory title="Extensions" class="mt-8 -mb-3" />
+    <div v-for="extension in extensions" :id="extension.id" :key="extension.id" class="pt-4">
+      <PrivacyRecommendation :recommendation="extension" />
     </div>
   </section>
 </template>

@@ -39,7 +39,7 @@ const tooltip = useRecommendationIconTooltip(recommendation);
 </script>
 
 <template>
-  <n-card :id="recommendation.id" :bordered="false">
+  <n-card :bordered="false">
     <template #header>
       <div class="flex">
         <n-avatar

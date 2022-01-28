@@ -14,7 +14,8 @@ if (hash.value) {
   onMounted(() => {
     const anchor = hash.value.replace('#', '');
     const el = document.getElementById(anchor);
-    el!.scrollIntoView();
+
+    el!.scrollIntoView({ behavior: 'smooth' });
   });
 }
 </script>
