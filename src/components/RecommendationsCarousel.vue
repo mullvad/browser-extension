@@ -56,30 +56,32 @@ const { activeRecommendations } = useRecommendations();
           <p>{{ index + 1 }} / {{ activeRecommendations.length }}</p>
         </template>
 
-        <p>
-          {{ recommendation.description }}
-        </p>
+        <div class="flex flex-col justify-start h-30">
+          <p>
+            {{ recommendation.description }}
+          </p>
 
-        <template #footer>
-          <Button
-            v-if="recommendation.ctaUrl"
-            :href="recommendation.ctaUrl"
-            class="mr-4"
-            @click="closePopup"
-          >
-            <IconLabel
-              v-if="recommendation.ctaLabel"
-              type="external"
-              :text="recommendation.ctaLabel"
-            />
-          </Button>
-          <router-link
-            :to="`/privacy-recommendations#${recommendation.id}`"
-            class="hover:text-white underline"
-          >
-            Learn more
-          </router-link>
-        </template>
+          <div class="mt-3 flex items-center">
+            <Button
+              v-if="recommendation.ctaUrl"
+              :href="recommendation.ctaUrl"
+              class="mr-4"
+              @click="closePopup"
+            >
+              <IconLabel
+                v-if="recommendation.ctaLabel"
+                type="external"
+                :text="recommendation.ctaLabel"
+              />
+            </Button>
+            <router-link
+              :to="`/privacy-recommendations#${recommendation.id}`"
+              class="hover:text-white underline"
+            >
+              Learn more
+            </router-link>
+          </div>
+        </div>
       </n-card>
     </n-carousel>
 
