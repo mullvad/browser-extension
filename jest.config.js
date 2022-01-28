@@ -10,4 +10,5 @@ module.exports = {
   },
   moduleFileExtensions: ['json', 'js', 'jsx', 'ts', 'tsx', 'vue'],
   setupFiles: ['jest-webextension-mock'],
+  collectCoverageFrom: ['src/{components,composables,helpers,popup}/**/*.{ts,vue}'],
 };

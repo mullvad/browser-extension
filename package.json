@@ -30,6 +30,7 @@
     "tsc": "vue-tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "prepare": "husky install"
   },
   "devDependencies": {
