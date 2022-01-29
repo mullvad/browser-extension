@@ -31,6 +31,3 @@ initSocks();
 
 // Load webRTC settings
 initWebRTC();
-
-// Uncomment to open the popup in a tab on extension start
-// browser.runtime.openOptionsPage();
