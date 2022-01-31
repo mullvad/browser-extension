@@ -14,15 +14,16 @@ exports[`Location should show a loading message 1`] = `
     class="text-lg flex items-center"
   >
     <span>
-      <!--v-if-->
-      <!--v-if-->
-      <!--v-if-->
       <i
-        class="text-info mr-2 animate-spin n-icon"
+        class="mr-2 n-icon"
         role="img"
         style="--n-bezier: cubic-bezier(.4, 0, .2, 1); font-size: 25px;"
       >
+        <!--v-if-->
+        <!--v-if-->
+        <!--v-if-->
         <svg
+          class="text-info animate-spin"
           height="1em"
           viewBox="0 0 32 32"
           width="1em"
@@ -32,8 +33,8 @@ exports[`Location should show a loading message 1`] = `
             fill="currentColor"
           />
         </svg>
+        <!--v-if-->
       </i>
-      <!--v-if-->
        Loading proxy servers list
     </span>
   </p>
