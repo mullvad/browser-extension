@@ -6,7 +6,6 @@ import { closePopup } from '@/helpers/closePopup';
 import Button from '@/components/Buttons/Button.vue';
 import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
 import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
-import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
