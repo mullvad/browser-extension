@@ -29,6 +29,7 @@
     "lint:style:fix": "npm run lint:style -- --fix",
     "tsc": "vue-tsc --noEmit",
     "test": "jest",
+    "test:update": "jest --updateSnapshot",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "prepare": "husky install"
