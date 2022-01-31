@@ -2,9 +2,8 @@
 import { ref } from 'vue';
 import { NButtonGroup, NPopover } from 'naive-ui';
 
-import FeDropDown from '~icons/fe/drop-down';
-
 import Button from '@/components/Buttons/Button.vue';
+import FeDropDown from '@/components/Icons/FeDropDown.vue';
 
 const popoverRef = ref<typeof NPopover>();
 const rotateDropDown = ref(false);

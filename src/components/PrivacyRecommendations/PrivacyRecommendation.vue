@@ -2,12 +2,11 @@
 import { computed, toRefs, watchEffect } from 'vue';
 import { NAvatar, NCard, NSwitch, NTooltip } from 'naive-ui';
 
-import FeWarning from '~icons/fe/warning';
-import FeInfo from '~icons/fe/info';
-
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
+import FeInfo from '@/components/Icons/FeInfo.vue';
+import FeWarning from '@/components/Icons/FeWarning.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';

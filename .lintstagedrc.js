@@ -1,5 +1,5 @@
 module.exports = {
-  '*.{js,ts,vue}': ['eslint', 'jest --bail --findRelatedTests'],
+  '*.{js,ts,vue}': ['eslint', 'prettier --write', 'jest --bail --findRelatedTests'],
   '*.{ts,vue}': [() => 'tsc --noEmit'],
-  '*.{css,scss,vue}': 'stylelint'
+  '*.{css,scss,vue}': 'stylelint',
 };

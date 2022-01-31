@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
-import LaSpinner from '~icons/la/spinner';
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+
 import Collapse from '@/components/Collapse.vue';
+import LaSpinner from '@/components/Icons/LaSpinner.vue';
+
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 import useStore from '@/composables/useStore';
 
@@ -13,6 +15,7 @@ const toggleDetails = (open: boolean) => {
   detailsExpanded.value = open ?? false;
 };
 </script>
+
 <template>
   <Collapse
     title="Connection details"
@@ -60,6 +63,7 @@ const toggleDetails = (open: boolean) => {
     </table>
   </Collapse>
 </template>
+
 <style scoped>
 td:first-child {
   color: var(--light-grey);

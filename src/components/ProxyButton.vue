@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
 import { NButtonGroup } from 'naive-ui';
-import LaSpinner from '~icons/la/spinner';
-import IcLocation from '~icons/ic/baseline-location-on';
 
 import Button from '@/components/Buttons/Button.vue';
+import IcBaselineLocationOn from '@/components/Icons/IcBaselineLocationOn.vue';
+import LaSpinner from '@/components/Icons/LaSpinner.vue';
+import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
-import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
 
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 
@@ -24,6 +24,7 @@ const isWireGuard = computed(() => connection.value.protocol?.includes('WireGuar
 const color = computed(() => (socksEnabled.value ? 'error' : 'success'));
 const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
 </script>
+
 <template>
   <div v-if="isLoading">
     <p class="flex items-center mb-2">Connecting<LaSpinner class="ml-2 animate-spin" /></p>
@@ -38,7 +39,7 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
       <n-button-group v-if="isWireGuard">
         <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
         <Button class="flex items-center justify-center" @click="toggleLocations">
-          <IcLocation />
+          <IcBaselineLocationOn />
         </Button>
       </n-button-group>
       <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
