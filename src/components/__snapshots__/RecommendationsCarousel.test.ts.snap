@@ -5,12 +5,13 @@ exports[`RecommendationsCarousel should show a "Show all" link when there are re
   data-v-app=""
 >
   
-  <h1
-    class="text-sm pb-1"
+  <title-category-stub
+    class="my-2"
+    title="Privacy recommendations"
+  />
+  <div
+    class="-mb-1"
   >
-    Privacy recommendations
-  </h1>
-  <div>
     <carousel-stub
       autoplay="false"
       centeredslides="false"
@@ -25,7 +26,7 @@ exports[`RecommendationsCarousel should show a "Show all" link when there are re
       loop="true"
       mousewheel="false"
       showarrow="true"
-      showdots="true"
+      showdots="false"
       slidesperview="1"
       spacebetween="0"
       touchable="true"
@@ -52,11 +53,10 @@ exports[`RecommendationsCarousel should show a success message when no more reco
   data-v-app=""
 >
   
-  <h1
-    class="text-sm pb-1"
-  >
-    Privacy recommendations
-  </h1>
+  <title-category-stub
+    class="my-2"
+    title="Privacy recommendations"
+  />
   <div>
     <p
       class="text-white text-lg"
