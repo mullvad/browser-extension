@@ -13,38 +13,27 @@ defineProps<{ text: string; type: IconType }>();
 </script>
 
 <template>
-  <span v-if="type === 'success'" class="text-success">
-    <n-icon size="25" class="mr-2">
+  <span>
+    <n-icon v-if="type === 'success'" class="text-success mr2" size="25">
       <FeCheckCircle />
     </n-icon>
-    {{ text }}
-  </span>
 
-  <span v-if="type === 'warning'" class="text-warning">
-    <n-icon size="25" class="mr-2">
+    <n-icon v-if="type === 'warning'" class="text-warning mr-2" size="25">
       <FeWarning />
     </n-icon>
-    {{ text }}
-  </span>
 
-  <span v-if="type === 'info'" class="text-info">
-    <n-icon size="25" class="mr-2">
+    <n-icon v-if="type === 'info'" class="text-info mr-2" size="25">
       <FeInfo />
     </n-icon>
-    {{ text }}
-  </span>
 
-  <span v-if="type === 'spinner'" class="text-info">
-    <n-icon size="25" class="mr-2 animate-spin">
+    <n-icon v-if="type === 'spinner'" class="text-info mr-2 animate-spin" size="25">
       <LaSpinner />
     </n-icon>
-    {{ text }}
-  </span>
 
-  <span v-if="type === 'external'" class="text-info">
-    <n-icon size="25" class="mr-2">
+    <n-icon v-if="type === 'external'" class="text-info mr-2" size="25">
       <FeLinkExternal />
     </n-icon>
+
     {{ text }}
   </span>
 </template>
