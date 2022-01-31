@@ -21,7 +21,7 @@ const { socksEnabled } = useSocksProxy();
   <h1 class="text-sm pb-1 pt-4">Connection status</h1>
   <n-card :bordered="false">
     <p class="text-xl mb-2">
-      <IconLabel v-if="isLoading" text="Loading connection details" type="spinner" />
+      <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
       <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
       <ConnectionLocation v-else class="mb-2" />
       <ConnectionStatus v-if="connected" />
@@ -29,6 +29,6 @@ const { socksEnabled } = useSocksProxy();
     <DetailsCollapse v-if="!isLoading && !isError" />
 
     <ProxyCollapse v-if="connected" />
-    <ProxyDisconnectMessage v-else-if="socksEnabled && isError" />
+    <ProxyDisconnectMessage v-else-if="(socksEnabled && isLoading) || (socksEnabled && isError)" />
   </n-card>
 </template>
