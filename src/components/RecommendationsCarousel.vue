@@ -116,4 +116,8 @@ const { activeRecommendations } = useRecommendations();
   transform: scale(0.95);
   transform-origin: center;
 }
+
+.n-carousel {
+  border-radius: 8px;
+}
 </style>
