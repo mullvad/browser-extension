@@ -15,7 +15,7 @@ const { activeRecommendations } = useRecommendations();
 </script>
 
 <template>
-  <TitleCategory title="Privacy recommendations" class="my-2" />
+  <TitleCategory title="Privacy recommendations" />
 
   <div v-if="activeRecommendations.length === 0">
     <p class="text-white text-lg" data-test="success-message">
