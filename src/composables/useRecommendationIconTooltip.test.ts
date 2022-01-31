@@ -16,7 +16,7 @@ describe('useRecommendationIconTooltip', () => {
       expect(text).toMatch(/not installed/i);
       expect(status).toMatch(/error/);
     });
-  
+
     it('should handle installed, disabled extension', () => {
       const testee = ref({
         enabled: false,
@@ -29,7 +29,7 @@ describe('useRecommendationIconTooltip', () => {
       expect(text).toMatch(/disabled/i);
       expect(status).toMatch(/error/);
     });
-  
+
     it('should handle installed, enabled extension', () => {
       const testee = ref({
         enabled: true,
@@ -42,7 +42,7 @@ describe('useRecommendationIconTooltip', () => {
       expect(text).toMatch(/active/i);
       expect(status).toMatch(/success/);
     });
-  
+
     it('should handle installed, enabled, ignored extension', () => {
       const testee = ref({
         enabled: true,
@@ -55,10 +55,10 @@ describe('useRecommendationIconTooltip', () => {
       expect(text).toMatch(/ignored/i);
       expect(status).toMatch(/info/);
     });
-    
+
     // TODO: Add more permutations of flag combinations?
   });
-  
+
   describe('settings', () => {
     it('should handle default setting', () => {
       const testee = ref({
