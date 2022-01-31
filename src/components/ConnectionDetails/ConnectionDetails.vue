@@ -19,7 +19,7 @@ const { socksEnabled } = useSocksProxy();
 </script>
 
 <template>
-  <TitleCategory title="Connection" class="mb-2" />
+  <TitleCategory title="Connection" />
   <n-card :bordered="false">
     <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />

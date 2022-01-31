@@ -40,7 +40,7 @@ const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Priva
     </header>
 
     <n-scrollbar :x-scrollable="false" class="max-h-543px px-4">
-      <div class="pt-1rem">
+      <div class="py-1rem">
         <router-view />
       </div>
     </n-scrollbar>
