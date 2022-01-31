@@ -1,5 +1,6 @@
-import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import { ref } from 'vue';
+
+import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 
 describe('useRecommendationIconTooltip', () => {

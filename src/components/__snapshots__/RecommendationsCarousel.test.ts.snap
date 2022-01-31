@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RecommendationsCarousel should show an "Show all" link when there are recommendations 1`] = `
+exports[`RecommendationsCarousel should show a "Show all" link when there are recommendations 1`] = `
 <div
   data-v-app=""
 >
@@ -47,7 +47,7 @@ exports[`RecommendationsCarousel should show an "Show all" link when there are r
 </div>
 `;
 
-exports[`RecommendationsCarousel should show an success message when no more recommendations are left 1`] = `
+exports[`RecommendationsCarousel should show a success message when no more recommendations are left 1`] = `
 <div
   data-v-app=""
 >
@@ -62,7 +62,7 @@ exports[`RecommendationsCarousel should show an success message when no more rec
       class="text-white text-lg"
       data-test="success-message"
     >
-      Sweet! You have taken action on all recommendations.
+       Sweet! You have taken action on all recommendations. 
     </p>
     <a
       class="hover:text-white"
