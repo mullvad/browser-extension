@@ -5,6 +5,8 @@ import { NAvatar, NCard, NSwitch, NTooltip } from 'naive-ui';
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
+import FeInfo from '@/components/Icons/FeInfo.vue';
+import FeWarning from '@/components/Icons/FeWarning.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
@@ -12,8 +14,6 @@ import SplitButton from '@/components/Buttons/SplitButton.vue';
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import useWebRtc from '@/composables/useWebRtc';
-import FeInfo from '@/components/Icons/FeInfo.vue';
-import FeWarning from '@/components/Icons/FeWarning.vue';
 
 const props = defineProps<{
   recommendation: Recommendation;

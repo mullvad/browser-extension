@@ -4,11 +4,11 @@ import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
+import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
+import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
-import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
-import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
 
 const { activeRecommendations } = useRecommendations();
 </script>
@@ -17,7 +17,9 @@ const { activeRecommendations } = useRecommendations();
   <h1 class="text-sm pb-1">Privacy recommendations</h1>
 
   <div v-if="activeRecommendations.length === 0">
-    <p class="text-white text-lg" data-test="success-message">Sweet! You have taken action on all recommendations.</p>
+    <p class="text-white text-lg" data-test="success-message">
+      Sweet! You have taken action on all recommendations.
+    </p>
     <router-link class="hover:text-white" to="privacy-recommendations">
       See all Privacy Recommendations
     </router-link>
@@ -82,7 +84,9 @@ const { activeRecommendations } = useRecommendations();
     </n-carousel>
 
     <div class="text-right pt-2 mr-2">
-      <router-link class="hover:text-white" to="privacy-recommendations" data-test="show-all-link">Show all</router-link>
+      <router-link class="hover:text-white" to="privacy-recommendations" data-test="show-all-link"
+        >Show all</router-link
+      >
     </div>
   </div>
 </template>
