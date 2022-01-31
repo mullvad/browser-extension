@@ -1,12 +1,18 @@
 <script lang="ts" setup>
 defineProps<{ isOpen?: boolean; disabled?: boolean; title: string }>();
+
 const emit = defineEmits<{ (e: 'toggle', open: boolean): void }>();
 const toggleCollapse = (open: boolean) => {
   emit('toggle', open);
 };
 </script>
 <template>
-  <details :class="{ disabled }" class="collapse" :open="isOpen" @toggle="toggleCollapse($event.target.open)">
+  <details
+    :class="{ disabled }"
+    class="collapse"
+    :open="isOpen"
+    @toggle="toggleCollapse($event.target.open)"
+  >
     <summary>{{ title }}</summary>
     <div class="mt-4 mb-4">
       <slot></slot>

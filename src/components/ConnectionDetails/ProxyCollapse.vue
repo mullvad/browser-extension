@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
+import { asyncComputed } from '@vueuse/core';
 
 import Collapse from '@/components/Collapse.vue';
 import IcRoundMenu from '@/components/Icons/IcRoundMenu.vue';
@@ -10,7 +10,9 @@ import ProxyButton from '@/components/ProxyButton.vue';
 import useStore from '@/composables/useStore';
 
 const { proxyExpanded } = useStore();
+
 const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess());
+
 const toggleProxy = (open: boolean) => {
   proxyExpanded.value = open ?? false;
 };
