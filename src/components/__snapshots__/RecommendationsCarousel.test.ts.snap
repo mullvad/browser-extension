@@ -6,7 +6,6 @@ exports[`RecommendationsCarousel should show a "Show all" link when there are re
 >
   
   <title-category-stub
-    class="my-2"
     title="Privacy recommendations"
   />
   <div
@@ -54,7 +53,6 @@ exports[`RecommendationsCarousel should show a success message when no more reco
 >
   
   <title-category-stub
-    class="my-2"
     title="Privacy recommendations"
   />
   <div>
