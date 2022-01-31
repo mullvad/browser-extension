@@ -12,6 +12,7 @@ import SplitButton from '@/components/Buttons/SplitButton.vue';
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import useWebRtc from '@/composables/useWebRtc';
+import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 
 const props = defineProps<{
   recommendation: Recommendation;
@@ -78,7 +79,7 @@ const tooltip = useRecommendationIconTooltip(recommendation);
     <template #action>
       <div class="flex justify-between">
         <Button :href="recommendation.homeUrl" @click="closePopup">
-          <IconLabel text="Learn More" type="external" />
+          <ExternalLinkIconLabel text="Learn More" />
         </Button>
 
         <Button v-if="recommendation.ignored" color="success" @click="toggleIgnore">

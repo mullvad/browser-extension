@@ -10,6 +10,7 @@ import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
+import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 
 const { activeRecommendations } = useRecommendations();
 </script>
@@ -69,9 +70,8 @@ const { activeRecommendations } = useRecommendations();
               class="mr-4"
               @click="closePopup"
             >
-              <IconLabel
+              <ExternalLinkIconLabel
                 v-if="recommendation.ctaLabel"
-                type="external"
                 :text="recommendation.ctaLabel"
               />
             </Button>
