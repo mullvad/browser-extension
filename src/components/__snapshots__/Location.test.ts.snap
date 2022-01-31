@@ -33,7 +33,6 @@ exports[`Location should show a loading message 1`] = `
             fill="currentColor"
           />
         </svg>
-        <!--v-if-->
       </i>
        Loading proxy servers list
     </span>
