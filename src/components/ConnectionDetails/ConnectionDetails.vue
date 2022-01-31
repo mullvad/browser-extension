@@ -29,6 +29,6 @@ const { socksEnabled } = useSocksProxy();
     <DetailsCollapse v-if="!isLoading && !isError" />
 
     <ProxyCollapse v-if="connected" />
-    <ProxyDisconnectMessage v-else-if="(socksEnabled && isLoading) || (socksEnabled && isError)" />
+    <ProxyDisconnectMessage v-else-if="socksEnabled && (isLoading || isError)" />
   </n-card>
 </template>
