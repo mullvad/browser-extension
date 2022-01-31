@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { extension } from 'webextension-polyfill';
+import { asyncComputed } from '@vueuse/core';
 
 import Collapse from '@/components/Collapse.vue';
 import IcRoundMenu from '@/components/Icons/IcRoundMenu.vue';
