@@ -44,7 +44,7 @@ const useSocksProxy = () => {
       socksEnabled.value = !!value.socks;
     });
   } catch (e) {
-    // TODO: Fix `proxy.settings.get` for Chrome
+    // FIXME: Fix `proxy.settings.get` for Chromium
     console.log(e);
   }
 
@@ -59,7 +59,7 @@ const useSocksProxy = () => {
       socksEnabled.value = true;
       updateConnection();
     } catch (e) {
-      // TODO: Fix `proxy.settings.set` for Chrome
+      // FIXME: Fix `proxy.settings.set` for Chromium
       console.log(e);
     }
   };
