@@ -6,15 +6,16 @@ import { closePopup } from '@/helpers/closePopup';
 import Button from '@/components/Buttons/Button.vue';
 import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
 import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
-import IconLabel from '@/components/IconLabel.vue';
+import TitleCategory from '@/components/TitleCategory.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
+import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 
 const { activeRecommendations } = useRecommendations();
 </script>
 
 <template>
-  <h1 class="text-sm pb-1">Privacy recommendations</h1>
+  <TitleCategory title="Privacy recommendations" />
 
   <div v-if="activeRecommendations.length === 0">
     <p class="text-white text-lg" data-test="success-message">
@@ -25,8 +26,8 @@ const { activeRecommendations } = useRecommendations();
     </router-link>
   </div>
 
-  <div v-else>
-    <n-carousel show-arrow>
+  <div v-else class="-mb-1">
+    <n-carousel show-arrow :show-dots="false">
       <template #arrow="{ prev, next }">
         <div class="custom-arrow">
           <n-icon class="arrow-icon" size="25" @click="prev"><MdiArrowLeft /></n-icon>
@@ -56,30 +57,31 @@ const { activeRecommendations } = useRecommendations();
           <p>{{ index + 1 }} / {{ activeRecommendations.length }}</p>
         </template>
 
-        <p>
-          {{ recommendation.description }}
-        </p>
+        <div class="flex flex-col justify-start h-30">
+          <p>
+            {{ recommendation.description }}
+          </p>
 
-        <template #footer>
-          <Button
-            v-if="recommendation.ctaUrl"
-            :href="recommendation.ctaUrl"
-            class="mr-4"
-            @click="closePopup"
-          >
-            <IconLabel
-              v-if="recommendation.ctaLabel"
-              type="external"
-              :text="recommendation.ctaLabel"
-            />
-          </Button>
-          <router-link
-            :to="`/privacy-recommendations#${recommendation.id}`"
-            class="hover:text-white underline"
-          >
-            Learn more
-          </router-link>
-        </template>
+          <div class="mt-3 flex items-center">
+            <Button
+              v-if="recommendation.ctaUrl"
+              :href="recommendation.ctaUrl"
+              class="mr-4"
+              @click="closePopup"
+            >
+              <ExternalLinkIconLabel
+                v-if="recommendation.ctaLabel"
+                :text="recommendation.ctaLabel"
+              />
+            </Button>
+            <router-link
+              :to="`/privacy-recommendations#${recommendation.id}`"
+              class="hover:text-white underline"
+            >
+              Learn more
+            </router-link>
+          </div>
+        </div>
       </n-card>
     </n-carousel>
 
@@ -91,7 +93,7 @@ const { activeRecommendations } = useRecommendations();
   </div>
 </template>
 
-<style scoped>
+<style>
 .custom-arrow {
   display: flex;
   position: absolute;
@@ -112,5 +114,9 @@ const { activeRecommendations } = useRecommendations();
 .custom-arrow .n-icon:active {
   transform: scale(0.95);
   transform-origin: center;
+}
+
+.n-carousel {
+  border-radius: 8px;
 }
 </style>

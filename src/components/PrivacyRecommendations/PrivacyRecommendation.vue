@@ -5,8 +5,6 @@ import { NAvatar, NCard, NSwitch, NTooltip } from 'naive-ui';
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
-import FeInfo from '@/components/Icons/FeInfo.vue';
-import FeWarning from '@/components/Icons/FeWarning.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
@@ -14,6 +12,7 @@ import SplitButton from '@/components/Buttons/SplitButton.vue';
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import useWebRtc from '@/composables/useWebRtc';
+import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 
 const props = defineProps<{
   recommendation: Recommendation;
@@ -70,19 +69,17 @@ const tooltip = useRecommendationIconTooltip(recommendation);
     <p>{{ recommendation.description }}</p>
 
     <div v-if="recommendation.instructions" class="pt-4 flex items-center">
-      <FeInfo class="text-info mr-2 text-lg" />
-      <p>{{ recommendation.instructions }}</p>
+      <IconLabel :text="recommendation.instructions" type="warning" />
     </div>
 
-    <div v-if="recommendation.warning" class="warning pt-4 flex items-center">
-      <FeWarning class="text-warning mr-2 text-lg" />
-      <p>{{ recommendation.warning }}</p>
+    <div v-if="recommendation.warning" class="pt-4 flex items-center">
+      <IconLabel :text="recommendation.warning" type="info" />
     </div>
 
     <template #action>
       <div class="flex justify-between">
         <Button :href="recommendation.homeUrl" @click="closePopup">
-          <IconLabel text="Learn More" type="external" />
+          <ExternalLinkIconLabel text="Learn More" />
         </Button>
 
         <Button v-if="recommendation.ignored" color="success" @click="toggleIgnore">
@@ -115,7 +112,7 @@ const tooltip = useRecommendationIconTooltip(recommendation);
 </template>
 
 <style scoped>
-.warning {
-  color: var(--light-grey);
+.n-card {
+  scroll-margin-top: 15px;
 }
 </style>

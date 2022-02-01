@@ -16,14 +16,15 @@ const themeOverrides: GlobalThemeOverrides = {
   },
   Card: {
     actionColor: 'transparent',
+    borderRadius: '8px',
   },
   Drawer: {
     color: 'var(--dark-blue)',
   },
   Switch: {
     railColorActive: 'var(--success)',
-    railColor: 'var(--error)'
-  }
+    railColor: 'var(--error)',
+  },
 };
 </script>
 <template>
