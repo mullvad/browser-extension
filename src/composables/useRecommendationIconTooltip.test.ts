@@ -75,7 +75,7 @@ describe('useRecommendationIconTooltip', () => {
     it('should handle default setting', () => {
       const testee = ref({
         activated: false,
-        ignorded: false,
+        ignored: false,
         type: 'setting',
       } as unknown as Recommendation);
       const { text, status } = useRecommendationIconTooltip(testee).value;
@@ -86,7 +86,7 @@ describe('useRecommendationIconTooltip', () => {
     it('should handle activated setting', () => {
       const testee = ref({
         activated: true,
-        ignorded: false,
+        ignored: false,
         type: 'setting',
       } as unknown as Recommendation);
       const { text, status } = useRecommendationIconTooltip(testee).value;
@@ -97,24 +97,12 @@ describe('useRecommendationIconTooltip', () => {
     it('should handle ignored setting', () => {
       const testee = ref({
         activated: false,
-        ignorded: true,
+        ignored: true,
         type: 'setting',
       } as unknown as Recommendation);
       const { text, status } = useRecommendationIconTooltip(testee).value;
-      expect(text).toMatch(/not set/i);
-      expect(status).toMatch(/error/);
-    });
-
-    // TODO: Is this a valid test case?
-    it('should handle activated, ignored setting', () => {
-      const testee = ref({
-        activated: true,
-        ignorded: true,
-        type: 'setting',
-      } as unknown as Recommendation);
-      const { text, status } = useRecommendationIconTooltip(testee).value;
-      expect(text).toMatch(/active/i);
-      expect(status).toMatch(/success/);
+      expect(text).toMatch(/ignored/i);
+      expect(status).toMatch(/info/);
     });
   });
 });
