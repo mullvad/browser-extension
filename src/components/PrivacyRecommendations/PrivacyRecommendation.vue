@@ -109,8 +109,9 @@ const tooltip = useRecommendationIconTooltip(recommendation);
     </template>
   </n-card>
 </template>
+
 <style scoped>
 .n-card {
-  scroll-margin-top: 10px;
+  scroll-margin-top: 15px;
 }
 </style>
