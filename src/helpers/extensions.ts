@@ -14,44 +14,38 @@ export const addExtListeners = () => {
 };
 
 // Listeners
-const onInstall = async (extensionInfo: ExtensionInfo) => {
-  await updateRecConfig(extensionInfo.id, {
+const onInstall = (extensionInfo: ExtensionInfo) => {
+  updateRecConfig(extensionInfo.id, {
     activated: true,
     ctaLabel: undefined,
     enabled: true,
     ignored: false,
     installed: true,
-    instructions: undefined,
   });
 };
 
-const onUninstall = async (extensionInfo: ExtensionInfo) => {
-  await updateRecConfig(extensionInfo.id, {
+const onUninstall = (extensionInfo: ExtensionInfo) => {
+  updateRecConfig(extensionInfo.id, {
     activated: false,
     ctaLabel: 'install',
     enabled: false,
     installed: false,
-    instructions: undefined,
   });
 };
 
-const onEnable = async (extensionInfo: ExtensionInfo) => {
-  await updateRecConfig(extensionInfo.id, {
+const onEnable = (extensionInfo: ExtensionInfo) => {
+  updateRecConfig(extensionInfo.id, {
     activated: true,
     ctaLabel: undefined,
     enabled: true,
     ignored: false,
-    instructions: undefined,
   });
 };
 
-const onDisable = async (extensionInfo: ExtensionInfo) => {
-  const instructions = 'To Enable an extension, do this and that';
-
-  await updateRecConfig(extensionInfo.id, {
+const onDisable = (extensionInfo: ExtensionInfo) => {
+  updateRecConfig(extensionInfo.id, {
     activated: false,
     ctaLabel: 'enable',
     enabled: false,
-    instructions,
   });
 };

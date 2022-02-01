@@ -28,9 +28,8 @@ const getRecConfigById = (id: string) => {
 
 const updateHttpsOnly = async () => {
   const httpsOnly = await useHttpsOnly();
-  const instructions = httpsOnly ? undefined : 'To set HTTPS-Only mode, do this and that.';
 
-  updateRecConfig('https-only-mode', { activated: httpsOnly, instructions });
+  updateRecConfig('https-only-mode', { activated: httpsOnly });
 };
 
 const updateSettings = () => {
@@ -52,7 +51,6 @@ export const loadRecConfigs = async (): Promise<void> => {
     const installed = installedAddonsIds.includes(extension.id);
 
     const partialUpdate: Partial<Recommendation> = {
-      instructions: installed && disabled ? 'To Enable an extension, do this and that' : undefined,
       ctaLabel: installed ? (disabled ? 'enable' : undefined) : 'install',
       enabled: disabled,
       installed,

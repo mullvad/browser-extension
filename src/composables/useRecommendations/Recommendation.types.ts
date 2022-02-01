@@ -6,7 +6,6 @@ export interface Recommendation {
   icon?: string;
   homeUrl?: string;
   warning?: string;
-  instructions?: string;
   ctaLabel: 'install' | 'enable' | 'disable' | undefined;
   ctaUrl?: string;
   installed?: boolean;

@@ -66,7 +66,6 @@ export const settings: Recommendation[] = [
     name: 'Use HTTPS-only mode',
     description:
       'Enabling this security enhancing mode provides a guarantee that all of your connections to websites are upgraded to use HTTPS, and warn you if only HTTP unsafe mode is available.',
-    instructions: 'To set HTTPS-Only mode, do this and that.',
     homeUrl:
       'https://support.mozilla.org/en-US/kb/https-only-prefs#w_enabledisable-https-only-mode',
     activated: false,
