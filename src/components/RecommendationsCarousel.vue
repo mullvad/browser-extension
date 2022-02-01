@@ -66,7 +66,7 @@ const { activeRecommendations } = useRecommendations();
             <Button
               v-if="recommendation.ctaUrl"
               :href="recommendation.ctaUrl"
-              class="mr-4"
+              class="mr-4 capitalize"
               @click="closePopup"
             >
               <ExternalLinkIconLabel
