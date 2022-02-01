@@ -11,7 +11,6 @@ if (import.meta.hot) {
 }
 
 const { loadRecConfigs } = useRecommendations();
-const { socksEnabled } = useSocksProxy();
 const { initWebRTC } = useWebRtc();
 
 // Add listeners on extension actions
@@ -21,13 +20,7 @@ addExtListeners();
 loadRecConfigs();
 
 // Load socks settings
-const initSocks = async () => {
-  if (socksEnabled) {
-    // TODO: Fix initial enable proxy again
-    // enableProxy();
-  }
-};
-initSocks();
+useSocksProxy();
 
 // Load webRTC settings
 initWebRTC();
