@@ -6,6 +6,7 @@ import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
+import Instructions from '@/components/PrivacyRecommendations/Instructions.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 
@@ -68,8 +69,11 @@ const tooltip = useRecommendationIconTooltip(recommendation);
 
     <p>{{ recommendation.description }}</p>
 
-    <div v-if="recommendation.instructions" class="pt-4 flex items-center">
-      <IconLabel :text="recommendation.instructions" type="warning" />
+    <div
+      v-if="!recommendation.activated && recommendation.id === 'https-only-mode'"
+      class="pt-4 flex items-center"
+    >
+      <Instructions :recommendation="recommendation" />
     </div>
 
     <div v-if="recommendation.warning" class="pt-4 flex items-center">
