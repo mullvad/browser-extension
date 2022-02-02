@@ -34,7 +34,9 @@ const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Priva
           </div>
         </div>
         <router-link to="/about" class="flex">
-          <FeQuestion />
+          <n-icon size="24">
+            <FeQuestion />
+          </n-icon>
         </router-link>
       </div>
     </header>
