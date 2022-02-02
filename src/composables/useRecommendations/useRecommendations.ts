@@ -6,6 +6,7 @@ import useHttpsOnly from '@/composables/useHttpsOnly';
 import { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import {
   defaultRecommendations,
+  isRecommended,
   defaultRecommendationsIds,
 } from '@/composables/useRecommendations/defaultRecommendations';
 
@@ -15,7 +16,7 @@ const recommendations = useBrowserStorageLocal<Recommendation[]>(
 );
 
 const updateRecConfig = (id: string, modification: Partial<Recommendation>) => {
-  if (defaultRecommendationsIds.includes(id)) {
+  if (isRecommended(id)) {
     recommendations.value = recommendations.value.map((recommendation) =>
       recommendation.id === id ? { ...recommendation, ...modification } : recommendation,
     );
@@ -36,7 +37,7 @@ const updateSettings = () => {
   updateHttpsOnly();
 };
 
-export const loadRecConfigs = async (): Promise<void> => {
+export const initRecommendations = async (): Promise<void> => {
   // Update browser extensions recommendations
   const installedAddons = await management.getAll();
   const installedAddonsIds = installedAddons
@@ -77,7 +78,7 @@ const useRecommendations = () => {
     recommendations,
     activeRecommendations,
     updateRecConfig,
-    loadRecConfigs,
+    initRecommendations,
     updateSettings,
     getRecConfigById,
   };
