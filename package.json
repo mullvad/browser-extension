@@ -21,7 +21,7 @@
     "pack:crx": "crx pack extension -o ./extension.crx",
     "pack:xpi": "cross-env WEB_EXT_ARTIFACTS_DIR=./ web-ext build --source-dir ./extension --filename extension.xpi --overwrite-dest",
     "start:chromium": "web-ext run --source-dir ./extension --target=chromium",
-    "start": "web-ext run --source-dir ./extension --target=firefox-desktop",
+    "start": "web-ext run --source-dir ./extension --target=firefox-desktop --start-url=about:debugging#/runtime/this-firefox",
     "clear": "rimraf extension/dist extension/manifest.json extension/README.md extension/LICENSE.md extension.* key.pem",
     "lint": "npm run eslint && npm run lint:style",
     "eslint": "eslint . --ext=.ts,.js,.vue",
