@@ -1,4 +1,4 @@
-import { computed, shallowRef, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { management } from 'webextension-polyfill';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
@@ -63,20 +63,12 @@ export const getCurrentUserRecommendations = async () => {
   updateSettings();
 };
 
-const isInitialized = shallowRef(false);
 // Once recommendations has been returned from localStorage,
 // we need to update to match what the user has installed
-watch(
-  () => recommendations.value,
-  () => {
-    if (isInitialized.value) {
-      return;
-    }
-
-    isInitialized.value = true;
-    getCurrentUserRecommendations();
-  },
-);
+const stop = watch(recommendations, () => {
+  getCurrentUserRecommendations();
+  stop();
+});
 
 const useRecommendations = () => {
   const activeRecommendations = computed(() =>
