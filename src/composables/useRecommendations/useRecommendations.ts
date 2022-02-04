@@ -35,7 +35,7 @@ const updateSettings = () => {
 };
 
 // Update browser extensions recommendations
-export const getCurrentUserRecommendations = async () => {
+const getCurrentUserRecommendations = async () => {
   const installedAddons = (await management.getAll()).filter((extension) =>
     defaultRecommendationsIds.includes(extension.id),
   );
