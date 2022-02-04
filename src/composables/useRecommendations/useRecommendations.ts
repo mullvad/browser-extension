@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, watchEffect } from 'vue';
 import { management } from 'webextension-polyfill';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
@@ -17,11 +17,19 @@ const recommendations = useBrowserStorageLocal<Recommendation[]>(
 
 const updateRecConfig = (id: string, modification: Partial<Recommendation>) => {
   if (isRecommended(id)) {
+    console.log(`${id} updating`);
+    // console.log('recommendations before update :>> ', recommendations.value);
+
     recommendations.value = recommendations.value.map((recommendation) =>
       recommendation.id === id ? { ...recommendation, ...modification } : recommendation,
     );
+    // console.log('recommendations after update :>> ', recommendations.value);
   }
 };
+
+watchEffect(() => {
+  console.log('recommendations.value :>> ', recommendations.value);
+});
 
 const getRecConfigById = (id: string) => {
   return recommendations.value.find((rec) => rec.id === id);
@@ -29,6 +37,7 @@ const getRecConfigById = (id: string) => {
 
 const updateHttpsOnly = async () => {
   const httpsOnly = await useHttpsOnly();
+  console.log('httpsOnly :>> ', httpsOnly);
 
   updateRecConfig('https-only-mode', { activated: httpsOnly });
 };
@@ -51,12 +60,16 @@ export const initRecommendations = async (): Promise<void> => {
     const disabled = disabledIDs.includes(extension.id);
     const installed = installedAddonsIds.includes(extension.id);
 
+    // console.log(`${extension.id} disabled :>> `, disabled);
+
     const partialUpdate: Partial<Recommendation> = {
       ctaLabel: installed ? (disabled ? 'enable' : undefined) : 'install',
-      enabled: disabled,
+      enabled: !disabled,
       installed,
       activated: installed && !disabled,
     };
+
+    console.log({ id: extension.id, partialUpdate });
 
     // Update recommendation
     updateRecConfig(extension.id, partialUpdate);
