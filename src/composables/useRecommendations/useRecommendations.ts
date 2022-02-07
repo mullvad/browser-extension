@@ -39,20 +39,19 @@ const getCurrentUserRecommendations = async () => {
   const installedAddons = (await management.getAll()).filter((extension) =>
     defaultRecommendationsIds.includes(extension.id),
   );
-  const installedAddonsIds = installedAddons.map((addons) => addons.id);
 
-  // Create a disabled extensions ID list
-  const disabledIDs = installedAddons.filter((addon) => !addon.enabled).map((addons) => addons.id);
+  const enabledExtensionIds = installedAddons
+    .filter((addon) => addon.enabled)
+    .map((addons) => addons.id);
 
   installedAddons.forEach((extension) => {
-    const enabled = !disabledIDs.includes(extension.id);
-    const installed = installedAddonsIds.includes(extension.id);
+    const enabled = enabledExtensionIds.includes(extension.id);
 
     const partialUpdate: Partial<Recommendation> = {
-      ctaLabel: installed ? (!enabled ? 'enable' : undefined) : 'install',
+      ctaLabel: enabled ? undefined : 'enable',
       enabled,
-      installed,
-      activated: installed && enabled,
+      installed: true,
+      activated: enabled,
     };
 
     // Update recommendation
