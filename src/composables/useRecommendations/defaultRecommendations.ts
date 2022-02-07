@@ -74,6 +74,10 @@ export const settings: Recommendation[] = [
   },
 ];
 
+export const isRecommended = (id: string) => {
+  return defaultRecommendationsIds.includes(id);
+};
+
 export const defaultRecommendations = [...settings, ...extensions];
 
 export const defaultRecommendationsIds = defaultRecommendations.map((rec) => rec.id);

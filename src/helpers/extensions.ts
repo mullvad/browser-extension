@@ -1,5 +1,6 @@
 import { management } from 'webextension-polyfill';
 
+import { isRecommended } from '@/composables/useRecommendations/defaultRecommendations';
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 
 const { updateRecommendation } = useRecommendations();
@@ -15,37 +16,45 @@ export const addExtListeners = () => {
 
 // Listeners
 const onInstall = (extensionInfo: ExtensionInfo) => {
-  updateRecommendation(extensionInfo.id, {
-    activated: true,
-    ctaLabel: undefined,
-    enabled: true,
-    ignored: false,
-    installed: true,
-  });
+  if (isRecommended(extensionInfo.id)) {
+    updateRecommendation(extensionInfo.id, {
+      activated: true,
+      ctaLabel: undefined,
+      enabled: true,
+      ignored: false,
+      installed: true,
+    });
+  }
 };
 
 const onUninstall = (extensionInfo: ExtensionInfo) => {
-  updateRecommendation(extensionInfo.id, {
-    activated: false,
-    ctaLabel: 'install',
-    enabled: false,
-    installed: false,
-  });
+  if (isRecommended(extensionInfo.id)) {
+    updateRecommendation(extensionInfo.id, {
+      activated: false,
+      ctaLabel: 'install',
+      enabled: false,
+      installed: false,
+    });
+  }
 };
 
 const onEnable = (extensionInfo: ExtensionInfo) => {
-  updateRecommendation(extensionInfo.id, {
-    activated: true,
-    ctaLabel: undefined,
-    enabled: true,
-    ignored: false,
-  });
+  if (isRecommended(extensionInfo.id)) {
+    updateRecommendation(extensionInfo.id, {
+      activated: true,
+      ctaLabel: undefined,
+      enabled: true,
+      ignored: false,
+    });
+  }
 };
 
 const onDisable = (extensionInfo: ExtensionInfo) => {
-  updateRecommendation(extensionInfo.id, {
-    activated: false,
-    ctaLabel: 'enable',
-    enabled: false,
-  });
+  if (isRecommended(extensionInfo.id)) {
+    updateRecommendation(extensionInfo.id, {
+      activated: false,
+      ctaLabel: 'enable',
+      enabled: false,
+    });
+  }
 };
