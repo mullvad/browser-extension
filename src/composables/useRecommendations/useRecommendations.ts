@@ -14,20 +14,20 @@ const recommendations = useBrowserStorageLocal<Recommendation[]>(
   defaultRecommendations,
 );
 
-const updateRecConfig = (id: string, modification: Partial<Recommendation>) => {
+const updateRecommendation = (id: string, modification: Partial<Recommendation>) => {
   recommendations.value = recommendations.value.map((recommendation) =>
     recommendation.id === id ? { ...recommendation, ...modification } : recommendation,
   );
 };
 
-const getRecConfigById = (id: string) => {
+const getRecommendationById = (id: string) => {
   return recommendations.value.find((rec) => rec.id === id);
 };
 
 const updateHttpsOnly = async () => {
   const httpsOnly = await useHttpsOnly();
 
-  updateRecConfig('https-only-mode', { activated: httpsOnly });
+  updateRecommendation('https-only-mode', { activated: httpsOnly });
 };
 
 const updateSettings = () => {
@@ -54,8 +54,7 @@ const getCurrentUserRecommendations = async () => {
       activated: enabled,
     };
 
-    // Update recommendation
-    updateRecConfig(extension.id, partialUpdate);
+    updateRecommendation(extension.id, partialUpdate);
   });
 
   // Update settings recommendations
@@ -77,9 +76,9 @@ const useRecommendations = () => {
   return {
     recommendations,
     activeRecommendations,
-    updateRecConfig,
+    updateRecommendation,
     updateSettings,
-    getRecConfigById,
+    getRecommendationById,
   };
 };
 

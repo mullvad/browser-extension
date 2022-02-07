@@ -7,13 +7,13 @@ const setWebRTC = (isDisabled: boolean) => {
     value: !isDisabled ? 'default' : 'disable_non_proxied_udp',
   });
 
-  const { updateRecConfig } = useRecommendations();
-  updateRecConfig('disable-webrtc', { activated: isDisabled });
+  const { updateRecommendation } = useRecommendations();
+  updateRecommendation('disable-webrtc', { activated: isDisabled });
 };
 
 const initWebRTC = () => {
-  const { getRecConfigById } = useRecommendations();
-  const webRtcRecommendation = getRecConfigById('disable-webrtc');
+  const { getRecommendationById } = useRecommendations();
+  const webRtcRecommendation = getRecommendationById('disable-webrtc');
   setWebRTC(webRtcRecommendation?.activated ?? true);
 };
 

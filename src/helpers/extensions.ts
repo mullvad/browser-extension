@@ -2,7 +2,7 @@ import { management } from 'webextension-polyfill';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 
-const { updateRecConfig } = useRecommendations();
+const { updateRecommendation } = useRecommendations();
 
 type ExtensionInfo = browser.management.ExtensionInfo;
 
@@ -15,7 +15,7 @@ export const addExtListeners = () => {
 
 // Listeners
 const onInstall = (extensionInfo: ExtensionInfo) => {
-  updateRecConfig(extensionInfo.id, {
+  updateRecommendation(extensionInfo.id, {
     activated: true,
     ctaLabel: undefined,
     enabled: true,
@@ -25,7 +25,7 @@ const onInstall = (extensionInfo: ExtensionInfo) => {
 };
 
 const onUninstall = (extensionInfo: ExtensionInfo) => {
-  updateRecConfig(extensionInfo.id, {
+  updateRecommendation(extensionInfo.id, {
     activated: false,
     ctaLabel: 'install',
     enabled: false,
@@ -34,7 +34,7 @@ const onUninstall = (extensionInfo: ExtensionInfo) => {
 };
 
 const onEnable = (extensionInfo: ExtensionInfo) => {
-  updateRecConfig(extensionInfo.id, {
+  updateRecommendation(extensionInfo.id, {
     activated: true,
     ctaLabel: undefined,
     enabled: true,
@@ -43,7 +43,7 @@ const onEnable = (extensionInfo: ExtensionInfo) => {
 };
 
 const onDisable = (extensionInfo: ExtensionInfo) => {
-  updateRecConfig(extensionInfo.id, {
+  updateRecommendation(extensionInfo.id, {
     activated: false,
     ctaLabel: 'enable',
     enabled: false,
