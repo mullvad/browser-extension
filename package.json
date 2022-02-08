@@ -1,7 +1,7 @@
 {
   "name": "mullvad-privacy-companion",
   "displayName": "Mullvad Privacy Companion",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Easily improve your privacy",
   "private": true,
   "engines": {
