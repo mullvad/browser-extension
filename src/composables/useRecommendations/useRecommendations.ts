@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { management } from 'webextension-polyfill';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
@@ -14,61 +14,61 @@ const recommendations = useBrowserStorageLocal<Recommendation[]>(
   defaultRecommendations,
 );
 
-const updateRecConfig = (id: string, modification: Partial<Recommendation>) => {
-  if (defaultRecommendationsIds.includes(id)) {
-    recommendations.value = recommendations.value.map((recommendation) =>
-      recommendation.id === id ? { ...recommendation, ...modification } : recommendation,
-    );
-  }
+const updateRecommendation = (id: string, modification: Partial<Recommendation>) => {
+  recommendations.value = recommendations.value.map((recommendation) =>
+    recommendation.id === id ? { ...recommendation, ...modification } : recommendation,
+  );
 };
 
-const getRecConfigById = (id: string) => {
+const getRecommendationById = (id: string) => {
   return recommendations.value.find((rec) => rec.id === id);
 };
 
 const updateHttpsOnly = async () => {
   const httpsOnly = await useHttpsOnly();
 
-  updateRecConfig('https-only-mode', { activated: httpsOnly });
+  updateRecommendation('https-only-mode', { activated: httpsOnly });
 };
 
 const updateSettings = () => {
   updateHttpsOnly();
 };
 
-export const loadRecConfigs = async (): Promise<void> => {
-  // Update browser extensions recommendations
-  const installedAddons = await management.getAll();
-  const installedAddonsIds = installedAddons
-    .map((addons) => addons.id)
-    .filter((id) => defaultRecommendationsIds.includes(id));
+// Update browser extensions recommendations
+const getCurrentUserRecommendations = async () => {
+  const installedAddons = (await management.getAll()).filter((extension) =>
+    defaultRecommendationsIds.includes(extension.id),
+  );
 
-  // Create a disabled extensions ID list
-  const disabledIDs = installedAddons.filter((addon) => !addon.enabled).map((addons) => addons.id);
+  const enabledExtensionIds = installedAddons
+    .filter((addon) => addon.enabled)
+    .map((addons) => addons.id);
 
   installedAddons.forEach((extension) => {
-    const disabled = disabledIDs.includes(extension.id);
-    const installed = installedAddonsIds.includes(extension.id);
+    const enabled = enabledExtensionIds.includes(extension.id);
 
     const partialUpdate: Partial<Recommendation> = {
-      ctaLabel: installed ? (disabled ? 'enable' : undefined) : 'install',
-      enabled: disabled,
-      installed,
-      activated: installed && !disabled,
+      ctaLabel: enabled ? undefined : 'enable',
+      enabled,
+      installed: true,
+      activated: enabled,
     };
 
-    // Update recommendation
-    updateRecConfig(extension.id, partialUpdate);
+    updateRecommendation(extension.id, partialUpdate);
   });
 
   // Update settings recommendations
   updateSettings();
 };
 
-const useRecommendations = () => {
-  // sortRecommendations MUST NOT mutate the original list
-  // const sortedRecommendations = computed(() => sortRecommendations(recommendations.value));
+// Once recommendations has been returned from localStorage,
+// we need to update to match what the user has installed
+const stop = watch(recommendations, () => {
+  getCurrentUserRecommendations();
+  stop();
+});
 
+const useRecommendations = () => {
   const activeRecommendations = computed(() =>
     recommendations.value.filter((rec) => !rec.activated && !rec.ignored),
   );
@@ -76,10 +76,9 @@ const useRecommendations = () => {
   return {
     recommendations,
     activeRecommendations,
-    updateRecConfig,
-    loadRecConfigs,
+    updateRecommendation,
     updateSettings,
-    getRecConfigById,
+    getRecommendationById,
   };
 };
 

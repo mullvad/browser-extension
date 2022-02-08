@@ -10,14 +10,13 @@ if (import.meta.hot) {
   import('/@vite/client');
 }
 
-const { loadRecConfigs } = useRecommendations();
 const { initWebRTC } = useWebRtc();
 
 // Add listeners on extension actions
 addExtListeners();
 
 // Load recommendations settings
-loadRecConfigs();
+useRecommendations();
 
 // Load socks settings
 useSocksProxy();
