@@ -8,7 +8,7 @@ exports[`Location should show a loading message 1`] = `
   <p
     class="mb-8"
   >
-     While connected through the proxy, your real location and your VPN location are masked with a private and secure location in the selected region. 
+     Select the location where you want to have all your browser traffic routed through. 
   </p>
   <p
     class="text-lg flex items-center"
@@ -49,7 +49,7 @@ exports[`Location should show an error message 1`] = `
   <p
     class="mb-8"
   >
-     While connected through the proxy, your real location and your VPN location are masked with a private and secure location in the selected region. 
+     Select the location where you want to have all your browser traffic routed through. 
   </p>
   <p>
     Network error
@@ -66,7 +66,7 @@ exports[`Location should show two countries 1`] = `
   <p
     class="mb-8"
   >
-     While connected through the proxy, your real location and your VPN location are masked with a private and secure location in the selected region. 
+     Select the location where you want to have all your browser traffic routed through. 
   </p>
   <div>
     <!--v-if-->
