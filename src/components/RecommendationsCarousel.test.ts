@@ -1,4 +1,4 @@
-import { RouterLinkStub, shallowMount } from '@vue/test-utils';
+import { RouterLinkStub, mount } from '@vue/test-utils';
 
 import RecommendationsCarousel from '@/components/RecommendationsCarousel.vue';
 
@@ -12,21 +12,14 @@ jest.mock('@/composables/useRecommendations/useRecommendations', () => ({
 describe('RecommendationsCarousel', () => {
   it('should show a success message when no more recommendations are left', () => {
     (useRecommendations as jest.Mock).mockReturnValueOnce({ activeRecommendations: [] });
-    const wrapper = shallowMount(RecommendationsCarousel, {
+    const wrapper = mount(RecommendationsCarousel, {
       global: { stubs: { RouterLink: RouterLinkStub } },
     });
-    expect(wrapper.find('[data-test="success-message"]').exists()).toBe(true);
-    expect(wrapper.text()).toMatch(/see all privacy recommendations$/i);
-    expect(wrapper.element).toMatchSnapshot();
-  });
 
-  it('should show a "Show all" link when there are recommendations', () => {
-    (useRecommendations as jest.Mock).mockReturnValueOnce({ activeRecommendations: [{}, {}] });
-    const wrapper = shallowMount(RecommendationsCarousel, {
-      global: { stubs: { RouterLink: RouterLinkStub } },
-    });
-    expect(wrapper.find('[data-test="show-all-link"]').exists()).toBe(true);
-    expect(wrapper.find('[data-test="success-message"]').exists()).toBe(false);
+    const spanTag = wrapper.find('[data-test="success-message"]');
+    expect(spanTag.exists()).toBe(true);
+    // the reg exp flag "i" means case-insensitive, so you can ignore casing in the test
+    expect(spanTag.text()).toMatch(/sweet! you have taken action on all recommendations.$/i);
     expect(wrapper.element).toMatchSnapshot();
   });
 });
