@@ -7,6 +7,7 @@ import Button from '@/components/Buttons/Button.vue';
 import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
 import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
+import IconLabel from '@/components/IconLabel.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
@@ -17,14 +18,13 @@ const { activeRecommendations } = useRecommendations();
 <template>
   <TitleCategory title="Privacy recommendations" />
 
-  <div v-if="activeRecommendations.length === 0">
-    <p class="text-white text-lg" data-test="success-message">
-      Sweet! You have taken action on all recommendations.
-    </p>
-    <router-link class="hover:text-white" to="privacy-recommendations">
-      See all Privacy Recommendations
-    </router-link>
-  </div>
+  <n-card v-if="activeRecommendations.length === 0" class="space-y-4">
+    <IconLabel
+      text="Sweet! You have taken action on all recommendations."
+      type="success"
+      data-test="success-message"
+    />
+  </n-card>
 
   <div v-else class="-mb-1">
     <n-carousel show-arrow :show-dots="false">
@@ -84,12 +84,10 @@ const { activeRecommendations } = useRecommendations();
         </div>
       </n-card>
     </n-carousel>
+  </div>
 
-    <div class="text-right pt-2 mr-2">
-      <router-link class="hover:text-white" to="privacy-recommendations" data-test="show-all-link"
-        >Show all</router-link
-      >
-    </div>
+  <div class="text-right pt-2 mr-2">
+    <router-link class="hover:text-white" to="privacy-recommendations"> Show all </router-link>
   </div>
 </template>
 
