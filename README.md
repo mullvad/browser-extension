@@ -24,38 +24,37 @@ For:
 
 ### **Developing**
 
-The first time, run `npm install` to install the necessary packages.
+The first time, use `npm install` to install the necessary packages.
 
-Then:
+To start the extension in a a temporary and clean browser:
 
-- run `npm run dev` to automatically rebuild the extension when changes are saved.
-- run `npm run start` in another terminal to start a development instance of Firefox with the
-  extension loaded. The extension will automatically reload when changes are saved.
+- use `npm run dev` to automatically rebuild the extension when changes are saved.
+- use `npm start` in another terminal to start a development instance of Firefox with the extension
+  loaded. The extension will automatically reload when changes are saved.
 
 The developer tools can be started by clicking on the `inspect` in the debugging tab (automatically
 opened).
 
 ### **Building**
 
-Run `npm run pack:xpi` to create the extension in the root folder. There are other build options
-which you can view in `package.json`.
+- use `npm run pack:xpi` to create the extension in the root folder.
 
-### **Testing**
+_There are other build options which you can view in `package.json`._
 
-The extension can be installed alongside current extensions. The extension will automatically unload
-when Firefox is closed.
+### **Testing the extension in your browser**
 
-To install an extension temporarily:
+You can only install the extension temporarily when it is not signed by Mozilla. To do so:
 
 - open Firefox
 - enter "about:debugging#/runtime/this-firefox" in the URL bar
 - click "Load Temporary Add-on"
 - open `extension.xpi` file.
 
-## Permissions required
+The extension will automatically unload when Firefox is closed.
 
-Permissions are automatically accepted when testing the extension (see `Resources` below). This
-extension needs access to the following permissions:
+## Permissions
+
+Mullvad Privacy Companion requires the following permissions:
 
 - `management` to be able to recommend third party extensions
 - `privacy` to disable webRTC
@@ -63,6 +62,8 @@ extension needs access to the following permissions:
 - `storage` to save preferences
 - `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
   `Network requests` for details)
+
+_Permissions are automatically accepted when testing the extension._
 
 ## Network requests
 
@@ -73,5 +74,5 @@ Two external network requests are made by the extension:
 - `am.i.mullvad.net` to get the connection information (Frequency: each time the popup is started
   and each time the proxy is connected/disconnected)
 
-External links are marked with the following icon:
+_External links are marked with this icon_
 ![External Link icon](https://github.com/feathericon/feathericon/blob/master/src/svg/link-external.svg)
