@@ -45,8 +45,7 @@ const selectLocation = (connection: HistoricConnection) => {
 
 <template>
   <p class="mb-8">
-    While connected through the proxy, your real location and your VPN location are masked with a
-    private and secure location in the selected region.
+    Select the location where you want to have all your browser traffic routed through.
   </p>
   <p v-if="isLoading" class="text-lg flex items-center">
     <IconLabel text="Loading proxy servers list" type="spinner" />
