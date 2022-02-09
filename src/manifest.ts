@@ -28,7 +28,7 @@ export async function getManifest() {
       '128': './assets/icon.svg',
       '256': './assets/icon.svg',
     },
-    permissions: ['*://*.mullvad.net/*', 'management', 'storage', 'privacy', 'proxy'],
+    permissions: ['management', 'privacy', 'proxy', 'storage', '*://*.mullvad.net/*'],
   };
 
   if (isDev) {
