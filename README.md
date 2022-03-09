@@ -37,7 +37,8 @@ opened).
 
 ### **Building**
 
-- use `npm run pack:xpi` to create the extension in the root folder.
+- use `npm run build` to build the extension **first**
+- use `npm run pack:xpi` to create `.xpi` file in the root folder
 
 _There are other build options which you can view in `package.json`._
 
