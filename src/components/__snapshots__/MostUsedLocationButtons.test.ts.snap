@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MostUsedLocationButtons should render one button 1`] = `
+<div
+  class="space-y-2"
+>
+  
+  <button
+    class="btn block"
+  >
+    
+    Argentina
+    
+  </button>
+  
+</div>
+`;
+
+exports[`MostUsedLocationButtons should render three buttons 1`] = `
+<div
+  class="space-y-2"
+>
+  
+  <button
+    class="btn block"
+  >
+    
+    Sweden
+    
+  </button>
+  <button
+    class="btn block"
+  >
+    
+    Norway
+    
+  </button>
+  <button
+    class="btn block"
+  >
+    
+    Iceland
+    
+  </button>
+  
+</div>
+`;

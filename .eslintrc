@@ -1,0 +1,25 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "vue/setup-compiler-macros": true
+  },
+  "extends": ["plugin:vue/vue3-recommended", "eslint:recommended", "@vue/typescript/recommended", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "plugins": ["unused-imports"],
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "semi": ["error", "always"],
+    "unused-imports/no-unused-imports": "error",
+    "vue/attribute-hyphenation": "off",
+    "vue/html-self-closing": "off",
+    "vue/multi-word-component-names": "off",
+    "vue/script-setup-uses-vars": "error"
+  }
+}

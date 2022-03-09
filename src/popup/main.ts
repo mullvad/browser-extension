@@ -1,9 +1,15 @@
-import Vue from 'vue';
-import Popup from './Popup.vue';
-import router from './router';
+import { createApp } from 'vue';
+import { createRouter, createMemoryHistory } from 'vue-router';
 
-new Vue({
-  router,
-  el: '#app',
-  render: (h) => h(Popup),
+import routes from '@/popup/routes';
+import App from './App.vue';
+import '../styles';
+
+const router = createRouter({
+  history: createMemoryHistory(),
+  routes,
 });
+
+const app = createApp(App);
+app.use(router);
+app.mount('#app');

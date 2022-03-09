@@ -1,0 +1,66 @@
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue: rgb(41 77 115 / 100%);
+  --dark-blue: rgb(25 46 69 / 100%);
+  --light-grey: rgb(162 189 218);
+  --white: rgb(255 255 255 / 100%);
+  --yellow: rgb(255 213 36 / 100%);
+  --success: #44ad4d;
+  --error: #e34039;
+}
+
+body {
+  background-color: var(--dark-blue);
+  color: var(--light-grey);
+  font-size: 16px;
+}
+
+img {
+  max-width: 100%;
+}
+
+header {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+em {
+  color: rgb(157 227 255);
+}
+
+.text-success {
+  color: var(--success);
+}
+
+.text-warning {
+  color: var(--yellow);
+}
+
+.text-error {
+  color: var(--error);
+}
+
+.btn {
+  @apply px-4 py-1 rounded inline-block
+    bg-teal-600 text-white cursor-pointer
+    hover:bg-teal-700
+    disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;
+}
+
+.icon-btn {
+  @apply inline-block cursor-pointer select-none
+    opacity-75 transition duration-200 ease-in-out
+    hover:opacity-100 hover:text-teal-600;
+
+  font-size: 0.9em;
+}
+
+.n-drawer-mask {
+  background-color: rgb(0 0 0 / 60%);
+}
