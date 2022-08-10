@@ -36,7 +36,6 @@ export type Country = {
 
 const groupByCountryAndCity = (data: SocksProxy[]) =>
   data
-    .filter((socksProxy) => socksProxy.location.city !== 'System Transparency [BETA]')
     .filter((proxy: SocksProxy) => proxy.online)
     .reduce((acc: Servers, proxy: SocksProxy) => {
       const { country, city } = proxy.location;
@@ -74,8 +73,8 @@ const useSocksProxies = () => {
     const grouped = groupByCountryAndCity(data);
     return sortProxiesByCountryAndCity(grouped);
   };
-  
-  return  useQuery<Country[], AxiosError>('socksProxies', getSocksProxies);
+
+  return useQuery<Country[], AxiosError>('socksProxies', getSocksProxies);
 };
 
 export default useSocksProxies;
