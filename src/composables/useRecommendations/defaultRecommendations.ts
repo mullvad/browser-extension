@@ -15,36 +15,6 @@ export const extensions: Recommendation[] = [
     ctaLabel: 'install',
     ctaUrl: 'https://addons.mozilla.org/firefox/addon/ublock-origin/',
   },
-  {
-    type: 'extension',
-    id: 'CookieAutoDelete@kennydo.com',
-    name: 'Cookie AutoDelete',
-    description:
-      'This extension allows you to granularly delete cookies and other browsing site data as soon as the tab closes, domain changes or browser restarts.',
-    homeUrl: 'https://github.com/Cookie-AutoDelete/Cookie-AutoDelete',
-    icon: 'cad128.png',
-    enabled: false,
-    installed: false,
-    activated: false,
-    ignored: false,
-    ctaLabel: 'install',
-    ctaUrl: 'https://addons.mozilla.org/firefox/addon/cookie-autodelete/',
-  },
-  {
-    type: 'extension',
-    id: 'jid1-MnnxcxisBPnSXQ@jetpack',
-    name: 'Privacy Badger',
-    description:
-      'Privacy Badger stops advertisers and other third-party trackers from secretly tracking where you go and what pages you look at on the web.',
-    homeUrl: 'https://privacybadger.org/',
-    icon: 'pb64.png',
-    enabled: false,
-    installed: false,
-    activated: false,
-    ignored: false,
-    ctaLabel: 'install',
-    ctaUrl: 'https://addons.mozilla.org/firefox/addon/privacy-badger17/',
-  },
 ];
 
 export const settings: Recommendation[] = [
