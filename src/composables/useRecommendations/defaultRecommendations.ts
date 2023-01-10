@@ -42,6 +42,16 @@ export const settings: Recommendation[] = [
     ignored: false,
     ctaLabel: undefined,
   },
+  {
+    type: 'setting',
+    id: 'disable-doh',
+    name: 'Disable Mullvad DoH (Encrypted DNS)',
+    description: `When you're connected to Mullvad, it's better to use the DNS from the same exit server configured.`,
+    homeUrl: 'https://mullvad.net/en/help/webrtc/',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
+  },
 ];
 
 export const isRecommended = (id: string) => {
