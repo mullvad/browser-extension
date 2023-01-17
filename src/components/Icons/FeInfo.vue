@@ -1,9 +1,16 @@
 <template>
-  <svg width="1em" height="1em" viewBox="0 0 24 24">
-    <path
-      d="M12 20a8 8 0 1 0 0-16a8 8 0 0 0 0 16zm0 2C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4h2v2h-2V7z"
-      fill="currentColor"
-      fillRule="nonzero"
-    ></path>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="16" x2="12" y2="12"></line>
+    <line x1="12" y1="8" x2="12.01" y2="8"></line>
   </svg>
 </template>

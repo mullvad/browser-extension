@@ -1,8 +1,49 @@
 <template>
-  <svg width="1em" height="1em" viewBox="0 0 32 32">
-    <path
-      d="M16 3a3 3 0 1 0 .002 6.002A3 3 0 0 0 16 3zM8.937 6.438a2.502 2.502 0 0 0-2.5 2.5c0 1.378 1.122 2.5 2.5 2.5c1.38 0 2.5-1.122 2.5-2.5c0-1.38-1.12-2.5-2.5-2.5zm14.126 1.5c-.551 0-1 .449-1 1c0 .55.449 1 1 1c.55 0 1-.45 1-1c0-.551-.45-1-1-1zM6 13.75a2.25 2.25 0 1 0 .001 4.501A2.25 2.25 0 0 0 6 13.75zm20 1c-.691 0-1.25.559-1.25 1.25s.559 1.25 1.25 1.25s1.25-.559 1.25-1.25s-.559-1.25-1.25-1.25zM8.937 21.063c-1.105 0-2 .894-2 2a1.999 1.999 0 1 0 4 0c0-1.106-.894-2-2-2zm14.126.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3zM16 24.25c-.965 0-1.75.785-1.75 1.75s.785 1.75 1.75 1.75s1.75-.785 1.75-1.75s-.785-1.75-1.75-1.75z"
-      fill="currentColor"
-    ></path>
+  <svg
+    width="24"
+    height="24"
+    stroke="#ffffff"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g class="spinner">
+      <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="2"></circle>
+    </g>
   </svg>
 </template>
+
+<style>
+.spinner {
+  transform-origin: center;
+  animation: spinner-a 5s linear infinite;
+}
+
+.spinner circle {
+  stroke-linecap: round;
+  animation: spinner-b 3s ease-in-out infinite;
+}
+
+@keyframes spinner-a {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-b {
+  0% {
+    stroke-dasharray: 0 150;
+    stroke-dashoffset: 0;
+  }
+
+  47.5% {
+    stroke-dasharray: 42 150;
+    stroke-dashoffset: -16;
+  }
+
+  95%,
+  100% {
+    stroke-dasharray: 42 150;
+    stroke-dashoffset: -59;
+  }
+}
+</style>
