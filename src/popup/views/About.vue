@@ -38,18 +38,6 @@ const { version } = runtime.getManifest();
         </a>
       </li>
       <li>
-        Material Design Icons -
-        <a href="https://raw.githubusercontent.com/Templarian/MaterialDesign/master/LICENSE">
-          Pictogrammers Free License
-        </a>
-      </li>
-      <li>
-        Line Awesome -
-        <a href="https://github.com/icons8/line-awesome/blob/master/LICENSE.md">
-          Good Boy License
-        </a>
-      </li>
-      <li>
         Feather Icon -
         <a href="https://github.com/feathericon/feathericon/blob/master/LICENSE"> MIT </a>
       </li>
