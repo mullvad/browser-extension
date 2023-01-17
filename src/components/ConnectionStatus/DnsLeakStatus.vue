@@ -7,7 +7,7 @@ import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 
 const { isLeaking, isLoading, isError } = useCheckDnsLeaks();
 const labelText = computed(() => (isLeaking.value ? 'Leaking DNS servers' : 'No DNS Leaks'));
-const iconType = computed(() => (isLeaking.value ? 'warning' : 'success'));
+const iconType = computed(() => (isLeaking.value ? 'leak' : 'success'));
 </script>
 
 <template>
