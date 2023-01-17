@@ -8,6 +8,7 @@ import useRecommendations from '@/composables/useRecommendations/useRecommendati
 import useConnection from '@/composables/useConnection';
 
 export type DnsServer = {
+  hostname: string;
   ip: string;
   mullvad_dns: boolean;
   mullvad_dns_hostname: string;

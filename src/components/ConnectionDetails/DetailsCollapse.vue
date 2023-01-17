@@ -56,7 +56,18 @@ const toggleDetails = (open: boolean) => {
           </td>
           <td v-else-if="isError" class="pl-2">Could not determine DNS servers</td>
           <td v-else class="text-white pl-2">
-            <div v-for="dnsServer in dnsServers" :key="dnsServer.ip">{{ dnsServer.ip }}</div>
+            <div v-for="dnsServer in dnsServers" :key="dnsServer.ip">
+              {{ dnsServer.ip }}
+              <span
+                v-if="
+                  dnsServer.mullvad_dns_hostname || dnsServer.hostname || dnsServer.organization
+                "
+              >
+                ({{
+                  dnsServer.mullvad_dns_hostname || dnsServer.hostname || dnsServer.organization
+                }})
+              </span>
+            </div>
           </td>
         </tr>
       </tbody>
