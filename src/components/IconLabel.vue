@@ -18,7 +18,7 @@ defineProps<{ text: string; type: IconType }>();
       <FeCheckCircle v-if="type === 'success'" class="text-success" />
       <FeWarning v-if="type === 'warning'" class="text-warning" />
       <FeInfo v-if="type === 'info'" class="text-info" />
-      <LaSpinner v-if="type === 'spinner'" class="text-info animate-spin" />
+      <LaSpinner v-if="type === 'spinner'" class="text-info" />
       <FeDrop v-if="type === 'leak'" class="text-error" />
     </n-icon>
 

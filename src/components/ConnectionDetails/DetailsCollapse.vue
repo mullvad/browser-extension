@@ -50,9 +50,7 @@ const toggleDetails = (open: boolean) => {
         <tr>
           <td class="text-right align-top">DNS Servers</td>
           <td v-if="isGettingDns" class="pl-2">
-            <div class="flex items-center">
-              Getting DNS Servers<LaSpinner class="ml-2 animate-spin" />
-            </div>
+            <div class="flex items-center">Getting DNS Servers<LaSpinner class="ml-2" /></div>
           </td>
           <td v-else-if="isError" class="pl-2">Could not determine DNS servers</td>
           <td v-else class="text-white pl-2">

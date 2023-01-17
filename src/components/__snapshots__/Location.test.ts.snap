@@ -23,7 +23,7 @@ exports[`Location should show a loading message 1`] = `
         <!--v-if-->
         <!--v-if-->
         <svg
-          class="text-info animate-spin"
+          class="text-info"
           height="24"
           stroke="#ffffff"
           viewBox="0 0 24 24"

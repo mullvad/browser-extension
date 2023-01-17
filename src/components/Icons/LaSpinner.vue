@@ -15,12 +15,12 @@
 <style>
 .spinner {
   transform-origin: center;
-  animation: spinner-a 5s linear infinite;
+  animation: spinner-a 2s linear infinite;
 }
 
 .spinner circle {
   stroke-linecap: round;
-  animation: spinner-b 3s ease-in-out infinite;
+  animation: spinner-b 1.5s ease-in-out infinite;
 }
 
 @keyframes spinner-a {
