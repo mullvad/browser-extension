@@ -30,40 +30,7 @@ const updateHttpsOnly = async () => {
   updateRecommendation('https-only-mode', { activated: httpsOnly });
 };
 
-const updateDohRecommentations = (
-  isMullvad: boolean,
-  isMullvadDoh: boolean,
-  isthirdPartyDns: boolean,
-) => {
-  if (isMullvad && isMullvadDoh) {
-    // Mullvad DoH should be disabled
-    updateRecommendation('doh-disable', { activated: false });
-  }
-
-  if (!isMullvad && !isMullvadDoh) {
-    // Mullvad DoH should be enabled
-    updateRecommendation('doh-enable', { activated: false });
-  }
-
-  if (isMullvadDoh && isthirdPartyDns) {
-    // Mullvad DoH is not the only active DNS. Firefox is not properly configured:
-    // `network.trr.mode` should be set to`3` in `about:config`.
-    updateRecommendation('doh-leak', { activated: false });
-  }
-
-  if (isMullvad && isthirdPartyDns) {
-    // Mullvad VPN is connected, but DNS are leaking
-    updateRecommendation('dns-leak', { activated: false });
-  }
-};
-
 const updateSettings = () => {
-  // Reset DNS recommendations while the DNS check is being made
-  updateRecommendation('doh-enable', { activated: true });
-  updateRecommendation('doh-disable', { activated: true });
-  updateRecommendation('doh-leak', { activated: true });
-  updateRecommendation('dns-leak', { activated: true });
-
   updateHttpsOnly();
 };
 
@@ -109,7 +76,6 @@ const useRecommendations = () => {
   return {
     recommendations,
     activeRecommendations,
-    updateDohRecommentations,
     updateRecommendation,
     getRecommendationById,
   };
