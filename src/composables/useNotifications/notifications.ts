@@ -4,14 +4,14 @@ export const notifications: Notification[] = [
   {
     id: 'doh-disable',
     name: 'Disable Mullvad DoH (encrypted DNS)',
-    description: `When you're connected to Mullvad VPN, it's better to use the DNS from the server for geolocation and performance.`,
+    description: `When you're connected to Mullvad VPN, it's better to use the DNS from the server for geolocation and performance reasons.`,
     ctaUrl: 'https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/#when-to-use',
     icon: 'warning',
   },
   {
     id: 'doh-enable',
     name: 'Enable Mullvad DoH (encrypted DNS)',
-    description: `When you're not connected to Mullvad VPN, it's better to use an encrypted DNS.`,
+    description: `When you're not connected to Mullvad VPN, it's better to encrypt your DNS requests with Mullvad DoH.`,
     ctaUrl: 'https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/#how-to-use',
     icon: 'warning',
   },
