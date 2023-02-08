@@ -31,13 +31,13 @@ exports[`RecommendationsCarousel should show a success message when no more reco
           <svg
             class="text-success"
             fill="none"
-            height="24"
+            height="1em"
             stroke="currentColor"
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
             viewBox="0 0 24 24"
-            width="24"
+            width="1em"
           >
             <path
               d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
