@@ -7,7 +7,7 @@ import ConnectionStatus from '@/components/ConnectionStatus/ConnectionStatus.vue
 import DetailsCollapse from '@/components/ConnectionDetails/DetailsCollapse.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
-import WarningsCarousel from '@/components/WarningsCarousel.vue';
+import WarningNotifications from '@/components/WarningNotifications.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 
@@ -18,7 +18,7 @@ const connected = computed(() => connection.value.isMullvad);
 <template>
   <TitleCategory title="Connection" />
 
-  <WarningsCarousel />
+  <WarningNotifications />
 
   <n-card :bordered="false" class="mb-4">
     <p class="text-xl mb-2">
