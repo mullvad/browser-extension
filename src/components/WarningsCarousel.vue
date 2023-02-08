@@ -14,7 +14,7 @@ const { activeWarnings } = useWarnings();
 </script>
 
 <template>
-  <div v-if="activeWarnings.length !== 0" class="-mb-1">
+  <div v-if="activeWarnings.length !== 0" class="mt-3 mb-4">
     <n-carousel :show-arrow="activeWarnings.length > 1" :show-dots="false">
       <template #arrow="{ prev, next }">
         <div class="custom-arrow">

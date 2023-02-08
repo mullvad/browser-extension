@@ -6,21 +6,21 @@ import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocati
 import ConnectionStatus from '@/components/ConnectionStatus/ConnectionStatus.vue';
 import DetailsCollapse from '@/components/ConnectionDetails/DetailsCollapse.vue';
 import IconLabel from '@/components/IconLabel.vue';
-import ProxyCollapse from '@/components/ConnectionDetails/ProxyCollapse.vue';
-import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
+import WarningsCarousel from '@/components/WarningsCarousel.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useSocksProxy from '@/composables/useSocksProxy';
 
 const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
 const connected = computed(() => connection.value.isMullvad);
-const { socksEnabled } = useSocksProxy();
 </script>
 
 <template>
   <TitleCategory title="Connection" />
-  <n-card :bordered="false">
+
+  <WarningsCarousel />
+
+  <n-card :bordered="false" class="mb-4">
     <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
       <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
@@ -28,8 +28,5 @@ const { socksEnabled } = useSocksProxy();
       <ConnectionStatus v-if="connected" />
     </p>
     <DetailsCollapse v-if="!isLoading && !isError" />
-
-    <ProxyCollapse v-if="connected" />
-    <ProxyDisconnectMessage v-else-if="socksEnabled && (isLoading || isError)" />
   </n-card>
 </template>

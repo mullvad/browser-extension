@@ -5,7 +5,7 @@ import { NButtonGroup } from 'naive-ui';
 import Button from '@/components/Buttons/Button.vue';
 import IcBaselineLocationOn from '@/components/Icons/IcBaselineLocationOn.vue';
 import LaSpinner from '@/components/Icons/LaSpinner.vue';
-import ProxyDisconnectMessage from '@/components/ProxyDisconnectMessage.vue';
+import ProxyDisconnectMessage from '@/components/ProxyDetails/ProxyDisconnectMessage.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useSocksProxy from '@/composables/useSocksProxy';
