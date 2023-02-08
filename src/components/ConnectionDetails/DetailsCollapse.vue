@@ -2,6 +2,7 @@
 import { inject } from 'vue';
 
 import Collapse from '@/components/Collapse.vue';
+import IconLabel from '@/components/IconLabel.vue';
 import LaSpinner from '@/components/Icons/LaSpinner.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
@@ -11,6 +12,7 @@ import useStore from '@/composables/useStore';
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 const { dnsServers, isLoading: isGettingDns, isError } = useCheckDnsLeaks();
 const { detailsExpanded } = useStore();
+
 const toggleDetails = (open: boolean) => {
   detailsExpanded.value = open ?? false;
 };
@@ -55,16 +57,15 @@ const toggleDetails = (open: boolean) => {
           <td v-else-if="isError" class="pl-2">Could not determine DNS servers</td>
           <td v-else class="text-white pl-2">
             <div v-for="dnsServer in dnsServers" :key="dnsServer.ip">
-              {{ dnsServer.ip }}
-              <span
-                v-if="
-                  dnsServer.mullvad_dns_hostname || dnsServer.hostname || dnsServer.organization
-                "
-              >
-                ({{
-                  dnsServer.mullvad_dns_hostname || dnsServer.hostname || dnsServer.organization
-                }})
-              </span>
+              <IconLabel
+                :text="`${dnsServer.ip} (${
+                  dnsServer.mullvad_dns_hostname ||
+                  dnsServer.hostname ||
+                  dnsServer.organization ||
+                  'unknown'
+                })`"
+                :type="dnsServer.mullvad_dns_hostname ? 'success' : 'leak'"
+              />
             </div>
           </td>
         </tr>
