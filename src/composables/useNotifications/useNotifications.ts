@@ -2,7 +2,7 @@ import { computed } from 'vue';
 
 import useConnection from '@/composables/useConnection';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
-import { warnings } from '@/composables/useWarnings/warnings';
+import { notifications } from '@/composables/useNotifications/notifications';
 
 const { isMullvadDoh, isthirdPartyDns } = useCheckDnsLeaks();
 const { connection } = useConnection();
@@ -12,29 +12,29 @@ const dohEnable = computed(() => !connection.value.isMullvad && !isMullvadDoh.va
 const dohLeak = computed(() => isMullvadDoh.value && isthirdPartyDns.value);
 const dnsLeak = computed(() => connection.value.isMullvad && isthirdPartyDns.value);
 
-const activeWarnings = computed(() => {
-  const activeWarningIds: string[] = [];
+const activeNotifications = computed(() => {
+  const activeNotificationsIds: string[] = [];
 
   if (dohDisable.value) {
-    activeWarningIds.push('doh-disable');
+    activeNotificationsIds.push('doh-disable');
   }
   if (dohEnable.value) {
-    activeWarningIds.push('doh-enable');
+    activeNotificationsIds.push('doh-enable');
   }
   if (dohLeak.value) {
-    activeWarningIds.push('doh-leak');
+    activeNotificationsIds.push('doh-leak');
   }
   if (dnsLeak.value) {
-    activeWarningIds.push('dns-leak');
+    activeNotificationsIds.push('dns-leak');
   }
 
-  return warnings.filter((warning) => activeWarningIds.includes(warning.id));
+  return notifications.filter((notification) => activeNotificationsIds.includes(notification.id));
 });
 
-const useWarnings = () => {
+const useNotifications = () => {
   return {
-    activeWarnings,
+    activeNotifications,
   };
 };
 
-export default useWarnings;
+export default useNotifications;

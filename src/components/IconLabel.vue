@@ -7,7 +7,7 @@ import FeWarning from '@/components/Icons/FeWarning.vue';
 import LaSpinner from '@/components/Icons/LaSpinner.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
 
-type IconType = 'warning' | 'success' | 'info' | 'spinner' | 'leak';
+export type IconType = 'warning' | 'success' | 'info' | 'spinner' | 'leak';
 
 defineProps<{ text: string; type: IconType }>();
 </script>

@@ -1,44 +1,34 @@
 <script lang="ts" setup>
-// import { computed } from 'vue';
-import { NCard, NImage } from 'naive-ui';
+import { NCard } from 'naive-ui';
 
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
+import IconLabel from '@/components/IconLabel.vue';
 
-import useWarnings from '@/composables/useWarnings/useWarnings';
+import useNotifications from '@/composables/useNotifications/useNotifications';
 
-const { activeWarnings } = useWarnings();
+const { activeNotifications } = useNotifications();
 </script>
 
-<template v-if="activeWarnings.length !== 0">
+<template v-if="activeNotifications.length !== 0">
   <n-card
-    v-for="(warning, index) in activeWarnings"
+    v-for="(notification, index) in activeNotifications"
     :key="index"
     :bordered="false"
     class="mt-3 mb-4"
   >
     <template #header>
-      <div class="flex">
-        <n-image
-          v-if="warning.icon"
-          class="mr-4"
-          width="20"
-          :src="`/assets/icons/${warning.icon}`"
-          object-fit="contain"
-          preview-disabled
-        />
-        <h3>{{ warning.name }}</h3>
-      </div>
+      <IconLabel :text="notification.name" :type="notification.icon || 'info'" />
     </template>
 
     <div class="flex flex-col justify-start">
-      <p>{{ warning.description }}</p>
+      <p>{{ notification.description }}</p>
 
       <div class="mt-3 flex items-center">
         <Button
-          v-if="warning.ctaUrl"
-          :href="warning.ctaUrl"
+          v-if="notification.ctaUrl"
+          :href="notification.ctaUrl"
           class="mr-4 capitalize"
           @click="closePopup"
         >
