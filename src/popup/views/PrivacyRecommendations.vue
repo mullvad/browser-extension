@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 
 import PrivacyRecommendations from '@/components/PrivacyRecommendations/PrivacyRecommendations.vue';
 
-// Scroll to anchor, if one is provided
+// Scroll to anchor (if one is provided), or scroll to top
 // Workaround for scrollBehavior router method not mixing well with `overflow: auto` css property
 // See the non-explanation in the following issue: https://github.com/vuejs/vue-router/issues/1459#issuecomment-466235189
 const { currentRoute } = useRouter();
@@ -17,6 +17,8 @@ if (hash.value) {
 
     el!.scrollIntoView({ behavior: 'smooth' });
   });
+} else {
+  document.body.scrollTo(0, 0);
 }
 </script>
 
