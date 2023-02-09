@@ -1,4 +1,4 @@
-Mullvad Privacy Companion as a whole is presently Licensed GPL v3+, except for the parts specified
+Mullvad Browser Extension as a whole is presently Licensed GPL v3+, except for the parts specified
 below:
 
 - Open Sans | [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)

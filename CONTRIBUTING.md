@@ -1,6 +1,6 @@
-# How to contribute to the Mullvad Privacy Companion extension
+# How to contribute to the Mullvad Browser Extension extension
 
-The Mullvad Privacy Companion is open sourced for many reasons, but primarily
+The Mullvad Browser Extension is open sourced for many reasons, but primarily
 
 - we believe the sharing of knowledge will advance the world more quickly and help it to become a
   better place
@@ -28,10 +28,10 @@ If you would like to suggest a feature:
 
 ## Submitting changes
 
-If you would like to contribute to the development of the Mullvad Privacy Companion, please
+If you would like to contribute to the development of the Mullvad Browser Extension, please
 carefully read the following sections first and then feel free to submit a pull request.
 
-> While we appreciate your interest in helping us to improve Mullvad Privacy Companion, please
+> While we appreciate your interest in helping us to improve Mullvad Browser Extension, please
 > understand that choosing which submitted changes to merge is fully at our discretion, based upon
 > our development plans for the extension.
 

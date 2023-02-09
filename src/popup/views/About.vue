@@ -21,7 +21,7 @@ const { version } = runtime.getManifest();
   <TitleCategory title="License" class="pt-4" />
   <n-card>
     <p>
-      Mullvad Privacy Companion as a whole is licensed
+      Mullvad Browser Extension as a whole is licensed
       <a href="https://github.com/mullvad/browser-extension/blob/master/LICENSE.md"> GPLv3+</a>
       except for the parts specified below:
     </p>

@@ -24,7 +24,7 @@ const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess()
       </li>
       <li>Click <em>Add-ons and themes</em></li>
       <li>Click <em>Extensions</em> in the left hand sidebar</li>
-      <li>Click <em>Mullvad Privacy Companion</em></li>
+      <li>Click <em>Mullvad Browser Extension</em></li>
       <li>Make sure that <em>Run in Private Windows</em> is set to <em>Allow</em></li>
     </ol>
   </div>

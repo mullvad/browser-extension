@@ -13,7 +13,7 @@ const path = computed(() => {
 });
 const { currentRoute } = useRouter();
 
-const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Privacy Companion');
+const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Browser Extension');
 </script>
 
 <template>

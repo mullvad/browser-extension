@@ -1,11 +1,10 @@
 ![ci](https://github.com/mullvad/browser-extension/actions/workflows/ci.yml/badge.svg)
 
-# Mullvad Privacy Companion
+# Mullvad Browser Extension
 
-Mullvad Privacy Companion is a Firefox extension helping you improve your online privacy by
-recommending extensions and browser settings. It also displays information about the connection.
-When using Mullvad, it provides a one-click access to
-[proxy servers](https://mullvad.net/en/help/socks5-proxy/).
+Mullvad Browser Extension is a Firefox extension improving your browser experience while using
+Mullvad VPN. It also displays information about the connection, recommends optimal DNS settings, and
+a one-click access to [proxy servers](https://mullvad.net/en/help/socks5-proxy/).
 
 ## Development
 
@@ -55,7 +54,7 @@ The extension will automatically unload when Firefox is closed.
 
 ## Permissions
 
-Mullvad Privacy Companion requires the following permissions:
+Mullvad Browser Extension requires the following permissions:
 
 - `management` to be able to recommend third party extensions
 - `privacy` to disable webRTC
