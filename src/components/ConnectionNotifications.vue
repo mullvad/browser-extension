@@ -38,31 +38,3 @@ const { activeNotifications } = useNotifications();
     </div>
   </n-card>
 </template>
-
-<style>
-.custom-arrow {
-  display: flex;
-  position: absolute;
-  align-items: center;
-  bottom: 9px;
-  right: 11px;
-}
-
-.custom-arrow .n-icon {
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-.custom-arrow .n-icon:hover {
-  color: white;
-}
-
-.custom-arrow .n-icon:active {
-  transform: scale(0.95);
-  transform-origin: center;
-}
-
-.n-carousel {
-  border-radius: 8px;
-}
-</style>
