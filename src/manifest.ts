@@ -34,6 +34,14 @@ export async function getManifest() {
         strict_min_version: '91.1.0',
       },
     },
+    chrome_settings_overrides: {
+      search_provider: {
+        name: 'Mullvad Leta',
+        search_url: 'https://leta.mullvad.net/?q={searchTerms}',
+        keyword: 'm',
+        favicon_url: './assets/icon.svg',
+      },
+    },
   };
 
   if (isDev) {
