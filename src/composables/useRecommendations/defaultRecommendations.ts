@@ -1,6 +1,6 @@
 import { Recommendation } from './Recommendation.types';
 
-export const extensions: Recommendation[] = [
+export const defaultRecommendations: Recommendation[] = [
   {
     type: 'extension',
     id: 'uBlock0@raymondhill.net',
@@ -15,9 +15,6 @@ export const extensions: Recommendation[] = [
     ctaLabel: 'install',
     ctaUrl: 'https://addons.mozilla.org/firefox/addon/ublock-origin/',
   },
-];
-
-export const settings: Recommendation[] = [
   {
     type: 'setting',
     id: 'disable-webrtc',
@@ -42,12 +39,20 @@ export const settings: Recommendation[] = [
     ignored: false,
     ctaLabel: undefined,
   },
+  {
+    type: 'setting',
+    id: 'default-search',
+    name: 'Change your default search engine',
+    description:
+      'Your default search engine is not respectful of your privacy. We recommend you switch to a more private one.',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
+  },
 ];
 
 export const isRecommended = (id: string) => {
   return defaultRecommendationsIds.includes(id);
 };
-
-export const defaultRecommendations = [...settings, ...extensions];
 
 export const defaultRecommendationsIds = defaultRecommendations.map((rec) => rec.id);
