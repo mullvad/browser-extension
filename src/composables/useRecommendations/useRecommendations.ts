@@ -30,8 +30,23 @@ const updateHttpsOnly = async () => {
   updateRecommendation('https-only-mode', { activated: httpsOnly });
 };
 
+const updateDefaultSearch = async () => {
+  const searchEngines = await browser.search.get();
+
+  const defaultSearchEngine = searchEngines
+    .filter((search) => search.isDefault === true)[0]
+    .name.toLowerCase();
+
+  const isNotPrivacyFriendly = ['google', 'bing', 'yahoo', 'yandex', 'baidu', 'amazon'].some(
+    (search) => defaultSearchEngine.includes(search),
+  );
+
+  updateRecommendation('default-search', { activated: !isNotPrivacyFriendly });
+};
+
 const updateSettings = () => {
   updateHttpsOnly();
+  updateDefaultSearch();
 };
 
 // Update browser extensions recommendations
