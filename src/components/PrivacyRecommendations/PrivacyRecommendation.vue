@@ -14,6 +14,9 @@ import type { Recommendation } from '@/composables/useRecommendations/Recommenda
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import useWebRtc from '@/composables/useWebRtc';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
+import useConnection from '@/composables/useConnection';
+
+const { connection } = useConnection();
 
 const props = defineProps<{
   recommendation: Recommendation;
@@ -74,6 +77,21 @@ const tooltip = useRecommendationIconTooltip(recommendation);
       class="pt-4 flex items-center"
     >
       <Instructions :recommendation="recommendation" />
+    </div>
+
+    <div
+      v-if="!recommendation.activated && recommendation.id === 'default-search'"
+      class="pt-4 flex items-center"
+    >
+      <IconLabel
+        :text="
+          connection.isMullvad
+            ? 'As you\'re connected to Mullvad VPN, we recommend you set Mullvad Leta as your default search engine.'
+            : 'As you\'re not connected to Mullvad VPN, we recommend you use DuckDuckGo or a similar privacy focused search engine.'
+        "
+        type="info"
+        class="mb-2"
+      />
     </div>
 
     <div v-if="recommendation.warning" class="pt-4 flex items-center">
