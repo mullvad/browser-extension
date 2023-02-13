@@ -86,8 +86,8 @@ const tooltip = useRecommendationIconTooltip(recommendation);
       <IconLabel
         :text="
           connection.isMullvad
-            ? 'As you\'re connected to Mullvad VPN, we recommend you set Mullvad Leta as your default search engine.'
-            : 'As you\'re not connected to Mullvad VPN, we recommend you use DuckDuckGo or a similar privacy focused search engine.'
+            ? 'As you\'re using Mullvad VPN, we recommend you set Mullvad Leta as your default search engine.'
+            : 'As you\'re not using Mullvad VPN, we recommend you change your default search engine to a privacy focused one (for example, DuckDuckGo).'
         "
         type="info"
         class="mb-2"
@@ -100,7 +100,19 @@ const tooltip = useRecommendationIconTooltip(recommendation);
 
     <template #action>
       <div class="flex justify-between">
-        <Button :href="recommendation.homeUrl" @click="closePopup">
+        <Button
+          v-if="!recommendation.activated && recommendation.id === 'default-search'"
+          :href="connection.isMullvad ? `https://leta.mullvad.net` : `https://duckduckgo.com`"
+          @click="closePopup"
+        >
+          <ExternalLinkIconLabel
+            :text="
+              connection.isMullvad ? `Learn more about Mullvad Leta` : `Learn more about DuckDuckGo`
+            "
+          />
+        </Button>
+
+        <Button v-else :href="recommendation.homeUrl" @click="closePopup">
           <ExternalLinkIconLabel text="Learn More" />
         </Button>
 
