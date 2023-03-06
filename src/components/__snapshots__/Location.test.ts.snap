@@ -102,7 +102,12 @@ exports[`Location should show two countries 1`] = `
               type="button"
             >
               <!---->
-              <transition-stub>
+              <transition-stub
+                appear="false"
+                css="true"
+                name="fade-in-width-expand-transition"
+                persisted="false"
+              >
                 <!---->
               </transition-stub>
               <span
@@ -142,7 +147,12 @@ exports[`Location should show two countries 1`] = `
             class="n-collapse-item__header-extra"
           />
         </div>
-        <transition-stub>
+        <transition-stub
+          appear="false"
+          css="true"
+          name="fade-in-height-expand-transition"
+          persisted="false"
+        >
           <!---->
         </transition-stub>
       </div>
@@ -163,7 +173,12 @@ exports[`Location should show two countries 1`] = `
               type="button"
             >
               <!---->
-              <transition-stub>
+              <transition-stub
+                appear="false"
+                css="true"
+                name="fade-in-width-expand-transition"
+                persisted="false"
+              >
                 <!---->
               </transition-stub>
               <span
@@ -203,7 +218,12 @@ exports[`Location should show two countries 1`] = `
             class="n-collapse-item__header-extra"
           />
         </div>
-        <transition-stub>
+        <transition-stub
+          appear="false"
+          css="true"
+          name="fade-in-height-expand-transition"
+          persisted="false"
+        >
           <!---->
         </transition-stub>
       </div>
