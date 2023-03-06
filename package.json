@@ -38,7 +38,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
     "@ffflorian/jszip-cli": "^3.1.9",
-    "@types/firefox-webext-browser": "^94.0.1",
+    "@types/firefox-webext-browser": "^111.0.0",
     "@types/fs-extra": "^11.0.1",
     "@types/jest": "^29.4.0",
     "@types/node": "^16.10.2",
