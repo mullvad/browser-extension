@@ -87,7 +87,7 @@
     "webextension-polyfill": "^0.8.0"
   },
   "dependencies": {
-    "axios": "^0.25.0",
+    "axios": "^1.3.4",
     "naive-ui": "^2.34.3",
     "uuid": "^9.0.0",
     "vue-query": "^1.26.0",
