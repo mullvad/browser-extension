@@ -14,6 +14,9 @@ import type { Recommendation } from '@/composables/useRecommendations/Recommenda
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import useWebRtc from '@/composables/useWebRtc';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
+import useConnection from '@/composables/useConnection';
+
+const { connection } = useConnection();
 
 const props = defineProps<{
   recommendation: Recommendation;
@@ -76,13 +79,40 @@ const tooltip = useRecommendationIconTooltip(recommendation);
       <Instructions :recommendation="recommendation" />
     </div>
 
+    <div
+      v-if="!recommendation.activated && recommendation.id === 'default-search'"
+      class="pt-4 flex items-center"
+    >
+      <IconLabel
+        :text="
+          connection.isMullvad
+            ? 'As you\'re using Mullvad VPN, we recommend you set Mullvad Leta as your default search engine.'
+            : 'As you\'re not using Mullvad VPN, we recommend you change your default search engine to a privacy focused one (for example, DuckDuckGo).'
+        "
+        type="info"
+        class="mb-2"
+      />
+    </div>
+
     <div v-if="recommendation.warning" class="pt-4 flex items-center">
       <IconLabel :text="recommendation.warning" type="info" />
     </div>
 
     <template #action>
       <div class="flex justify-between">
-        <Button :href="recommendation.homeUrl" @click="closePopup">
+        <Button
+          v-if="!recommendation.activated && recommendation.id === 'default-search'"
+          :href="connection.isMullvad ? `https://leta.mullvad.net` : `https://duckduckgo.com`"
+          @click="closePopup"
+        >
+          <ExternalLinkIconLabel
+            :text="
+              connection.isMullvad ? `Learn more about Mullvad Leta` : `Learn more about DuckDuckGo`
+            "
+          />
+        </Button>
+
+        <Button v-else :href="recommendation.homeUrl" @click="closePopup">
           <ExternalLinkIconLabel text="Learn More" />
         </Button>
 

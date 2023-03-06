@@ -19,6 +19,6 @@ const { socksEnabled } = useSocksProxy();
   <n-card :bordered="false" class="mb-4">
     <ProxyConnect v-if="connected" />
     <ProxyDisconnectMessage v-else-if="socksEnabled && (isLoading || isError)" />
-    <div v-else>You need to be connected to Mullvad to be able to use the proxy.</div>
+    <div v-else>Connect first to Mullvad VPN to use the proxy.</div>
   </n-card>
 </template>
