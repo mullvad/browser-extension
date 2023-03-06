@@ -82,7 +82,7 @@ exports[`Location should show two countries 1`] = `
     <!--v-if-->
     <div
       class="n-collapse"
-      style="--n-font-size: 14px; --n-bezier: cubic-bezier(.4, 0, .2, 1); --n-text-color: rgb(51, 54, 57); --n-divider-color: rgb(239, 239, 245); --n-title-font-size: 14px; --n-title-text-color: rgb(31, 34, 37); --n-title-font-weight: 400; --n-arrow-color: rgb(51, 54, 57);"
+      style="--n-font-size: 14px; --n-bezier: cubic-bezier(.4, 0, .2, 1); --n-text-color: rgb(51, 54, 57); --n-divider-color: rgb(239, 239, 245); --n-title-font-size: 14px; --n-title-text-color: rgb(31, 34, 37); --n-title-text-color-disabled: rgba(194, 194, 194, 1); --n-title-font-weight: 400; --n-arrow-color: rgb(51, 54, 57); --n-arrow-color-disabled: rgba(194, 194, 194, 1); --n-item-margin: 16px 0 0 0;"
     >
       
       <div
@@ -138,7 +138,9 @@ exports[`Location should show two countries 1`] = `
             </div>
             <!---->
           </div>
-          <!---->
+          <div
+            class="n-collapse-item__header-extra"
+          />
         </div>
         <transition-stub>
           <!---->
@@ -197,7 +199,9 @@ exports[`Location should show two countries 1`] = `
             </div>
             <!---->
           </div>
-          <!---->
+          <div
+            class="n-collapse-item__header-extra"
+          />
         </div>
         <transition-stub>
           <!---->
