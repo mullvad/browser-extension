@@ -87,8 +87,8 @@
   "dependencies": {
     "axios": "^0.25.0",
     "naive-ui": "^2.24.7",
-    "uuid": "^8.3.2",
-    "vue-query": "^1.19.0",
-    "vue-router": "^4.0.12"
+    "uuid": "^9.0.0",
+    "vue-query": "^1.26.0",
+    "vue-router": "^4.1.6"
   }
 }
