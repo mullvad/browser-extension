@@ -12,7 +12,7 @@ const { version } = runtime.getManifest();
   <router-link to="/privacy-recommendations">
     <div class="flex flex-grow items-center justify-between">
       <div class="flex items-center">
-        <h1 class="text-2xl font-semibold">Recommendations</h1>
+        <h1 class="text-2xl font-semibold">Privacy recommendations</h1>
       </div>
       <n-icon size="30">
         <FeArrowRight />

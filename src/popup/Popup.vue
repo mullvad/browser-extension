@@ -1,44 +1,23 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { NAvatar, NIcon, NScrollbar } from 'naive-ui';
+import { useRoute } from 'vue-router';
+import { NScrollbar } from 'naive-ui';
 
-import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
-import FeCog from '@/components/Icons/FeCog.vue';
-
-const logoUrl = '/assets/icon.svg';
+import HomeHeader from '@/popup/headers/HomeHeader.vue';
+import RecommendationsHeader from '@/popup/headers/RecommendationsHeader.vue';
+import SettingsHeader from '@/popup/headers/SettingsHeader.vue';
 
 const path = computed(() => {
   return useRoute().path;
 });
-const { currentRoute } = useRouter();
-
-const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Browser Extension');
 </script>
 
 <template>
   <main class="w-[500px] h-[600px]">
     <header class="px-4 py-2 min-h-14 flex items-center sticky top-0 z-1">
-      <div class="flex flex-grow items-center justify-between">
-        <div class="flex items-center">
-          <n-avatar v-if="path === '/'" :src="logoUrl" alt="Mullvad Logo" />
-          <n-avatar v-else>
-            <router-link to="/">
-              <n-icon>
-                <FeArrowLeft />
-              </n-icon>
-            </router-link>
-          </n-avatar>
-          <div class="mx-4">
-            <h1 class="text-2xl font-semibold">{{ pageTitle }}</h1>
-          </div>
-        </div>
-        <router-link to="/settings" class="flex">
-          <n-icon size="24">
-            <FeCog />
-          </n-icon>
-        </router-link>
-      </div>
+      <HomeHeader v-if="path === '/'" />
+      <RecommendationsHeader v-if="path === '/privacy-recommendations'" />
+      <SettingsHeader v-if="path === '/settings'" />
     </header>
 
     <n-scrollbar :x-scrollable="false" class="max-h-543px px-4">
