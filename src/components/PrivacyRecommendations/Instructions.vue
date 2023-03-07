@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import IconLabel from '@/components/IconLabel.vue';
-import IcRoundMenu from '@/components/Icons/IcRoundMenu.vue';
+import FeMenu from '@/components/Icons/FeMenu.vue';
 
 import { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import { computed } from 'vue';
@@ -18,8 +18,9 @@ const title = computed(() => {
     <ol class="ml-4 list-decimal">
       <li>
         <p class="flex items-center">
-          Click the&nbsp;<em class="inline-flex"><IcRoundMenu /></em>&nbsp;icon in the top right
-          corner of the browser
+          Click the&nbsp;<em class="inline-flex">
+            <FeMenu /> </em
+          >&nbsp;icon in the top right corner of the browser
         </p>
       </li>
       <li>Click <em>Settings</em></li>

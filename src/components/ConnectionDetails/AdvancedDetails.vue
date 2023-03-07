@@ -2,7 +2,7 @@
 import { inject } from 'vue';
 
 import IconLabel from '@/components/IconLabel.vue';
-import LaSpinner from '@/components/Icons/LaSpinner.vue';
+import MuSpinner from '@/components/Icons/MuSpinner.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
@@ -40,7 +40,10 @@ const { dnsServers, isLoading: isGettingDns, isError } = useCheckDnsLeaks();
         <tr>
           <td class="text-right align-top">DNS Servers</td>
           <td v-if="isGettingDns" class="pl-2">
-            <div class="flex items-center">Getting DNS Servers<LaSpinner class="ml-2" /></div>
+            <div class="flex items-center">
+              Getting DNS Servers
+              <MuSpinner class="ml-2" />
+            </div>
           </td>
           <td v-else-if="isError" class="pl-2">Could not determine DNS servers</td>
           <td v-else class="text-white pl-2">

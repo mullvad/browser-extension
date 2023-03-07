@@ -3,7 +3,7 @@ import { computed, inject } from 'vue';
 import { NButtonGroup } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
-import LaSpinner from '@/components/Icons/LaSpinner.vue';
+import MuSpinner from '@/components/Icons/MuSpinner.vue';
 import ProxyDisconnectMessage from '@/components/ProxyDetails/ProxyDisconnectMessage.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
@@ -26,7 +26,10 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
 
 <template>
   <div v-if="isLoading">
-    <p class="flex items-center mb-2">Connecting<LaSpinner class="ml-2 animate-spin" /></p>
+    <p class="flex items-center mb-2">
+      Connecting
+      <MuSpinner class="ml-2 animate-spin" />
+    </p>
     <ProxyDisconnectMessage v-if="!canUseProxy && socksEnabled" />
   </div>
   <div v-else>

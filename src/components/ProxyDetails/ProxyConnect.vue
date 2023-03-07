@@ -2,7 +2,7 @@
 import { asyncComputed } from '@vueuse/core';
 import { extension } from 'webextension-polyfill';
 
-import IcRoundMenu from '@/components/Icons/IcRoundMenu.vue';
+import FeMenu from '@/components/Icons/FeMenu.vue';
 import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
 import ProxyButton from '@/components/ProxyDetails/ProxyButton.vue';
 
@@ -18,8 +18,9 @@ const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess()
     <ol class="ml-4 list-decimal">
       <li>
         <p class="flex items-center">
-          Click the&nbsp;<em class="inline-flex"><IcRoundMenu /></em>&nbsp;icon in the top right
-          corner of the browser
+          Click the&nbsp;<em class="inline-flex">
+            <FeMenu /> </em
+          >&nbsp;icon in the top right corner of the browser
         </p>
       </li>
       <li>Click <em>Add-ons and themes</em></li>
