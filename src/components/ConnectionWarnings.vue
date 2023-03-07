@@ -6,29 +6,29 @@ import { closePopup } from '@/helpers/closePopup';
 import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import useNotifications from '@/composables/useNotifications/useNotifications';
+import useWarnings from '@/composables/useWarnings/useWarnings';
 
-const { activeNotifications } = useNotifications();
+const { activeWarnings } = useWarnings();
 </script>
 
-<template v-if="activeNotifications.length !== 0">
+<template v-if="activeWarnings.length !== 0">
   <n-card
-    v-for="(notification, index) in activeNotifications"
+    v-for="(warning, index) in activeWarnings"
     :key="index"
     :bordered="false"
     class="mt-3 mb-4"
   >
     <template #header>
-      <IconLabel :text="notification.name" :type="notification.icon || 'info'" />
+      <IconLabel :text="warning.name" :type="warning.iconType || 'info'" />
     </template>
 
     <div class="flex flex-col justify-start">
-      <p>{{ notification.description }}</p>
+      <p>{{ warning.description }}</p>
 
       <div class="mt-3 flex items-center">
         <Button
-          v-if="notification.ctaUrl"
-          :href="notification.ctaUrl"
+          v-if="warning.ctaUrl"
+          :href="warning.ctaUrl"
           class="mr-4 capitalize"
           @click="closePopup"
         >

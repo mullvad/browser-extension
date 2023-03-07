@@ -1,6 +1,6 @@
 import { Recommendation } from '../useRecommendations/Recommendation.types';
 
-export const notifications: Recommendation[] = [
+export const warnings: Recommendation[] = [
   {
     id: 'doh-disable',
     type: 'warning',
