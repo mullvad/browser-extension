@@ -1,93 +1,79 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 
 import { closePopup } from '@/helpers/closePopup';
 
 import Button from '@/components/Buttons/Button.vue';
+import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
+import IconLabel from '@/components/IconLabel.vue';
 import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
 import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
-import TitleCategory from '@/components/TitleCategory.vue';
-import IconLabel from '@/components/IconLabel.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
-import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
+import useWarnings from '@/composables/useWarnings/useWarnings';
 
 const { activeRecommendations } = useRecommendations();
+const { activeWarnings } = useWarnings();
+
+const activeNotifications = computed(() => {
+  return [...activeWarnings.value, ...activeRecommendations.value];
+});
 </script>
 
 <template>
-  <TitleCategory title="Privacy recommendations" />
-
-  <n-card v-if="activeRecommendations.length === 0" class="space-y-4">
-    <IconLabel
-      text="Sweet! You have taken action on all recommendations."
-      type="success"
-      data-test="success-message"
-    />
-  </n-card>
-
-  <div v-else class="-mb-1">
+  <div v-if="activeNotifications.length > 0" class="mb-4">
     <n-carousel show-arrow :show-dots="false">
       <template #arrow="{ prev, next }">
-        <div class="custom-arrow">
+        <div v-if="activeNotifications.length > 1" class="custom-arrow">
           <n-icon class="arrow-icon" size="25" @click="prev"><MdiArrowLeft /></n-icon>
           <n-icon class="arrow-icon" size="25" @click="next"><MdiArrowRight /></n-icon>
         </div>
       </template>
 
-      <n-card
-        v-for="(recommendation, index) in activeRecommendations"
-        :key="index"
-        :bordered="false"
-      >
+      <n-card v-for="(notification, index) in activeNotifications" :key="index" :bordered="false">
         <template #header>
-          <div class="flex">
+          <div v-if="!(notification.type === 'warning')" class="flex">
             <n-image
-              v-if="recommendation.icon"
+              v-if="notification.icon"
               class="mr-4"
               width="20"
-              :src="`/assets/icons/${recommendation.icon}`"
+              :src="`/assets/icons/${notification.icon}`"
               object-fit="contain"
               preview-disabled
             />
-            <h3>{{ recommendation.name }}</h3>
+            <h3>{{ notification.name }}</h3>
           </div>
+          <IconLabel v-else :text="notification.name" :type="notification.iconType || 'info'" />
         </template>
         <template #header-extra>
-          <p>{{ index + 1 }} / {{ activeRecommendations.length }}</p>
+          <p v-if="activeNotifications.length > 1">
+            {{ index + 1 }} / {{ activeNotifications.length }}
+          </p>
         </template>
 
         <div class="flex flex-col justify-start h-30">
           <p>
-            {{ recommendation.description }}
+            {{ notification.description }}
           </p>
 
-          <div class="mt-3 flex items-center">
+          <div v-if="!(notification.type === 'warning')" class="mt-3 flex items-center">
             <Button
-              v-if="recommendation.ctaUrl"
-              :href="recommendation.ctaUrl"
+              v-if="notification.ctaUrl"
+              :href="notification.ctaUrl"
               class="mr-4 capitalize"
               @click="closePopup"
             >
-              <ExternalLinkIconLabel
-                v-if="recommendation.ctaLabel"
-                :text="recommendation.ctaLabel"
-              />
+              <ExternalLinkIconLabel v-if="notification.ctaLabel" :text="notification.ctaLabel" />
             </Button>
-            <router-link
-              :to="`/privacy-recommendations#${recommendation.id}`"
-              class="hover:text-white underline"
-            >
-              Learn more
-            </router-link>
+            <Button :to="`/privacy-recommendations#${notification.id}`"> Learn more </Button>
+          </div>
+          <div v-else class="mt-3 flex items-center">
+            <Button :href="notification.ctaUrl" @click="closePopup"> Read more </Button>
           </div>
         </div>
       </n-card>
     </n-carousel>
-  </div>
-
-  <div class="text-right pt-2 mr-2">
-    <router-link class="hover:text-white" to="privacy-recommendations"> Show all </router-link>
   </div>
 </template>
 
