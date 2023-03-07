@@ -38,7 +38,11 @@ const activeNotifications = computed(() => {
       <n-card v-for="(notification, index) in activeNotifications" :key="index" :bordered="false">
         <template #header>
           <div v-if="!(notification.type === 'warning')" class="flex">
-            <n-image v-if="notification.icon" class="mr-4" width="20" :src="`/assets/icons/${notification.icon}`"
+            <n-image
+              v-if="notification.icon"
+              class="mr-4"
+              width="20"
+              :src="`/assets/icons/${notification.icon}`"
               object-fit="contain" preview-disabled />
             <h3>{{ notification.name }}</h3>
           </div>
