@@ -24,6 +24,29 @@ const getRecommendationById = (id: string) => {
   return recommendations.value.find((rec) => rec.id === id);
 };
 
+const updateExtensions = async () => {
+  const installedAddons = (await management.getAll()).filter((extension) =>
+    defaultRecommendationsIds.includes(extension.id),
+  );
+
+  const enabledExtensionIds = installedAddons
+    .filter((addon) => addon.enabled)
+    .map((addons) => addons.id);
+
+  installedAddons.forEach((extension) => {
+    const enabled = enabledExtensionIds.includes(extension.id);
+
+    const partialUpdate: Partial<Recommendation> = {
+      ctaLabel: enabled ? undefined : 'enable',
+      enabled,
+      installed: true,
+      activated: enabled,
+    };
+
+    updateRecommendation(extension.id, partialUpdate);
+  });
+};
+
 const updateHttpsOnly = async () => {
   const httpsOnly = await useHttpsOnly();
 
@@ -50,29 +73,8 @@ const updateSettings = () => {
 };
 
 // Update browser extensions recommendations
-const getCurrentUserRecommendations = async () => {
-  const installedAddons = (await management.getAll()).filter((extension) =>
-    defaultRecommendationsIds.includes(extension.id),
-  );
-
-  const enabledExtensionIds = installedAddons
-    .filter((addon) => addon.enabled)
-    .map((addons) => addons.id);
-
-  installedAddons.forEach((extension) => {
-    const enabled = enabledExtensionIds.includes(extension.id);
-
-    const partialUpdate: Partial<Recommendation> = {
-      ctaLabel: enabled ? undefined : 'enable',
-      enabled,
-      installed: true,
-      activated: enabled,
-    };
-
-    updateRecommendation(extension.id, partialUpdate);
-  });
-
-  // Update settings recommendations
+const getCurrentUserRecommendations = () => {
+  updateExtensions();
   updateSettings();
 };
 

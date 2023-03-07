@@ -1,6 +1,6 @@
 import { Recommendation } from './Recommendation.types';
 
-export const defaultRecommendations: Recommendation[] = [
+export const defaultExtensions: Recommendation[] = [
   {
     type: 'extension',
     id: 'uBlock0@raymondhill.net',
@@ -15,6 +15,9 @@ export const defaultRecommendations: Recommendation[] = [
     ctaLabel: 'install',
     ctaUrl: 'https://addons.mozilla.org/firefox/addon/ublock-origin/',
   },
+];
+
+export const defaultSettings: Recommendation[] = [
   {
     type: 'setting',
     id: 'disable-webrtc',
@@ -50,6 +53,8 @@ export const defaultRecommendations: Recommendation[] = [
     ctaLabel: undefined,
   },
 ];
+
+export const defaultRecommendations = [...defaultExtensions, ...defaultSettings];
 
 export const isRecommended = (id: string) => {
   return defaultRecommendationsIds.includes(id);
