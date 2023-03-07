@@ -1,30 +1,18 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
 
-import Collapse from '@/components/Collapse.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import LaSpinner from '@/components/Icons/LaSpinner.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
-import useStore from '@/composables/useStore';
 
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 const { dnsServers, isLoading: isGettingDns, isError } = useCheckDnsLeaks();
-const { detailsExpanded } = useStore();
-
-const toggleDetails = (open: boolean) => {
-  detailsExpanded.value = open ?? false;
-};
 </script>
 
 <template>
-  <Collapse
-    title="Connection details"
-    :open="detailsExpanded"
-    :disabled="isLoading"
-    @toggle="toggleDetails"
-  >
+  <div :disabled="isLoading">
     <table>
       <tbody>
         <tr>
@@ -71,7 +59,7 @@ const toggleDetails = (open: boolean) => {
         </tr>
       </tbody>
     </table>
-  </Collapse>
+  </div>
 </template>
 
 <style scoped>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
-import { NCard } from 'naive-ui';
 
 import ProxyConnect from '@/components/ProxyDetails/ProxyConnect.vue';
 import ProxyDisconnectMessage from '@/components/ProxyDetails/ProxyDisconnectMessage.vue';
@@ -16,9 +15,7 @@ const { socksEnabled } = useSocksProxy();
 
 <template>
   <TitleCategory title="Proxy" />
-  <n-card :bordered="false" class="mb-4">
-    <ProxyConnect v-if="connected" />
-    <ProxyDisconnectMessage v-else-if="socksEnabled && (isLoading || isError)" />
-    <div v-else>Connect first to Mullvad VPN to use the proxy.</div>
-  </n-card>
+  <ProxyConnect v-if="connected" />
+  <ProxyDisconnectMessage v-else-if="socksEnabled && (isLoading || isError)" />
+  <div v-else>Connect first to Mullvad VPN to use the proxy.</div>
 </template>
