@@ -68,7 +68,7 @@ const classes = computed(() => {
   border-bottom-right-radius: 0;
 }
 
-.n-button-group .btn:not(:first-child):not(:last-child) {
+.n-button-group .btn:not(:first-child, :last-child) {
   border-radius: 0;
 }
 
