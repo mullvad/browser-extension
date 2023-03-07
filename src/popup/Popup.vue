@@ -13,7 +13,7 @@ const path = computed(() => {
 </script>
 
 <template>
-  <main class="w-[500px] h-[600px]">
+  <main class="w-[450px]">
     <header class="px-4 py-2 min-h-14 flex items-center sticky top-0 z-1">
       <HomeHeader v-if="path === '/'" />
       <RecommendationsHeader v-if="path === '/privacy-recommendations'" />

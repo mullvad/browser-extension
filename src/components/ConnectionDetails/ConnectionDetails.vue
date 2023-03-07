@@ -18,7 +18,7 @@ const connected = computed(() => connection.value.isMullvad);
 <template>
   <TitleCategory title="Connection" />
 
-  <n-card :bordered="false" class="mb-4">
+  <n-card :bordered="false">
     <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
       <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
