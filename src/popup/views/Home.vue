@@ -3,7 +3,6 @@ import { provide } from 'vue';
 
 import RecommendationsCarousel from '@/components/RecommendationsCarousel.vue';
 import ConnectionDetails from '@/components/ConnectionDetails/ConnectionDetails.vue';
-import ProxyDetails from '@/components/ProxyDetails/ProxyDetails.vue';
 
 import useConnection, { ConnectionKey } from '@/composables/useConnection';
 
@@ -12,7 +11,6 @@ provide(ConnectionKey, { connection, isLoading, isError });
 </script>
 
 <template>
-  <ConnectionDetails />
-  <ProxyDetails />
   <RecommendationsCarousel />
+  <ConnectionDetails />
 </template>

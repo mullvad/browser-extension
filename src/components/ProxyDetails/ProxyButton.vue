@@ -3,7 +3,6 @@ import { computed, inject } from 'vue';
 import { NButtonGroup } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
-import IcBaselineLocationOn from '@/components/Icons/IcBaselineLocationOn.vue';
 import LaSpinner from '@/components/Icons/LaSpinner.vue';
 import ProxyDisconnectMessage from '@/components/ProxyDetails/ProxyDisconnectMessage.vue';
 
@@ -37,10 +36,10 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
     </p>
     <div v-else class="flex">
       <n-button-group v-if="isWireGuard">
-        <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
         <Button class="flex items-center justify-center" @click="toggleLocations">
-          <IcBaselineLocationOn />
+          Switch location
         </Button>
+        <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
       </n-button-group>
       <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
     </div>

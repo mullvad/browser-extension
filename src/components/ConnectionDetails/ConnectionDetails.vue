@@ -4,10 +4,10 @@ import { NCard } from 'naive-ui';
 
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import ConnectionStatus from '@/components/ConnectionStatus/ConnectionStatus.vue';
-import DetailsCollapse from '@/components/ConnectionDetails/DetailsCollapse.vue';
+import AdvancedDetails from '@/components/ConnectionDetails/AdvancedDetails.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
-import ConnectionNotifications from '@/components/ConnectionNotifications.vue';
+import ProxyDetails from '@/components/ProxyDetails/ProxyDetails.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 
@@ -18,15 +18,16 @@ const connected = computed(() => connection.value.isMullvad);
 <template>
   <TitleCategory title="Connection" />
 
-  <ConnectionNotifications />
-
   <n-card :bordered="false" class="mb-4">
     <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
       <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
       <ConnectionLocation v-else class="mb-2" />
-      <ConnectionStatus v-if="connected" />
     </p>
-    <DetailsCollapse v-if="!isLoading && !isError" />
+
+    <AdvancedDetails v-if="!isLoading && !isError" />
+    <ConnectionStatus v-if="connected" />
+
+    <ProxyDetails />
   </n-card>
 </template>
