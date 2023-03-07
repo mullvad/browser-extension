@@ -12,6 +12,6 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   moduleFileExtensions: ['json', 'js', 'jsx', 'ts', 'tsx', 'vue'],
-  setupFiles: ['jest-webextension-mock'],
+  setupFiles: ['jest-webextension-mock', './jest.setup.js'],
   collectCoverageFrom: ['src/{components,composables,helpers,popup}/**/*.{ts,vue}'],
 };
