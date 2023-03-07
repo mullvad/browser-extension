@@ -1,32 +1,48 @@
-import { Notification } from './Notification.types';
+import { Recommendation } from '../useRecommendations/Recommendation.types';
 
-export const notifications: Notification[] = [
+export const notifications: Recommendation[] = [
   {
     id: 'doh-disable',
+    type: 'warning',
     name: 'Disable Mullvad DoH (encrypted DNS)',
     description: `When you're connected to Mullvad VPN, it's better to use the DNS from the server for geolocation and performance reasons.`,
     ctaUrl: 'https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/#when-to-use',
     icon: 'warning',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
   },
   {
     id: 'doh-enable',
+    type: 'warning',
     name: 'Enable Mullvad DoH (encrypted DNS)',
     description: `When you're not connected to Mullvad VPN, it's better to encrypt your DNS requests with Mullvad DoH.`,
     ctaUrl: 'https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/#how-to-use',
     icon: 'warning',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
   },
   {
     id: 'doh-leak',
+    type: 'warning',
     name: 'DoH leaks have been detected',
     description: `Mullvad DoH (encrypted DNS) is set, but your browser still allows unencrypted DNS requests.`,
     ctaUrl: 'https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/#how-to-use',
     icon: 'leak',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
   },
   {
     id: 'dns-leak',
+    type: 'warning',
     name: 'DNS leaks have been detected',
     description: `You're connected to Mullvad VPN, but some DNS requests are leaking outside the VPN tunnel.`,
     ctaUrl: 'https://mullvad.net/en/help/dns-leaks/',
     icon: 'leak',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
   },
 ];

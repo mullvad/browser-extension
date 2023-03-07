@@ -1,5 +1,5 @@
 export interface Recommendation {
-  type: 'extension' | 'setting';
+  type: 'extension' | 'setting' | 'warning';
   id: string;
   name: string;
   description: string;
