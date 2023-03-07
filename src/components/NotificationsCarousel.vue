@@ -23,9 +23,9 @@ const activeNotifications = computed(() => {
 
 <template>
   <div v-if="activeNotifications.length > 0" class="mb-4">
-    <n-carousel show-arrow :show-dots="false">
+    <n-carousel :show-arrow="activeNotifications.length > 1" :show-dots="false">
       <template #arrow="{ prev, next }">
-        <div v-if="activeNotifications.length > 1" class="custom-arrow">
+        <div v-if="activeNotifications.length > 1" class="'arrows-custom">
           <n-icon class="arrow-icon" size="25" @click="prev">
             <FeArrowLeft />
           </n-icon>
@@ -38,14 +38,8 @@ const activeNotifications = computed(() => {
       <n-card v-for="(notification, index) in activeNotifications" :key="index" :bordered="false">
         <template #header>
           <div v-if="!(notification.type === 'warning')" class="flex">
-            <n-image
-              v-if="notification.icon"
-              class="mr-4"
-              width="20"
-              :src="`/assets/icons/${notification.icon}`"
-              object-fit="contain"
-              preview-disabled
-            />
+            <n-image v-if="notification.icon" class="mr-4" width="20" :src="`/assets/icons/${notification.icon}`"
+              object-fit="contain" preview-disabled />
             <h3>{{ notification.name }}</h3>
           </div>
           <IconLabel v-else :text="notification.name" :type="notification.iconType || 'info'" />
@@ -62,12 +56,7 @@ const activeNotifications = computed(() => {
           </p>
 
           <div v-if="!(notification.type === 'warning')" class="mt-3 flex items-center">
-            <Button
-              v-if="notification.ctaUrl"
-              :href="notification.ctaUrl"
-              class="mr-4 capitalize"
-              @click="closePopup"
-            >
+            <Button v-if="notification.ctaUrl" :href="notification.ctaUrl" class="mr-4 capitalize" @click="closePopup">
               <ExternalLinkIconLabel v-if="notification.ctaLabel" :text="notification.ctaLabel" />
             </Button>
             <Button :to="`/privacy-recommendations#${notification.id}`"> Learn more </Button>
@@ -82,7 +71,7 @@ const activeNotifications = computed(() => {
 </template>
 
 <style>
-.custom-arrow {
+.arrows-custom {
   display: flex;
   position: absolute;
   align-items: center;
@@ -90,16 +79,16 @@ const activeNotifications = computed(() => {
   right: 11px;
 }
 
-.custom-arrow .n-icon {
+.arrows-custom .n-icon {
   margin-left: 5px;
   cursor: pointer;
 }
 
-.custom-arrow .n-icon:hover {
+.arrows-custom .n-icon:hover {
   color: white;
 }
 
-.custom-arrow .n-icon:active {
+.arrows-custom .n-icon:active {
   transform: scale(0.95);
   transform-origin: center;
 }
