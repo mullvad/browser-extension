@@ -9,18 +9,20 @@ const { version } = runtime.getManifest();
 </script>
 
 <template>
-  <router-link to="/privacy-recommendations">
-    <div class="flex flex-grow items-center justify-between">
-      <div class="flex items-center">
-        <h1 class="text-2xl font-semibold">Privacy recommendations</h1>
+  <router-link to="/privacy-recommendations" class="category">
+    <n-card>
+      <div class="flex flex-grow items-center justify-between">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-semibold">Privacy recommendations</h1>
+        </div>
+        <n-icon size="30">
+          <FeArrowRight />
+        </n-icon>
       </div>
-      <n-icon size="30">
-        <FeArrowRight />
-      </n-icon>
-    </div>
+    </n-card>
   </router-link>
 
-  <TitleCategory title="Version" />
+  <TitleCategory title="Version" class="pt-4" />
   <n-card>
     <n-tag
       :color="{ color: 'var(--yellow)', textColor: 'black', borderColor: 'var(--yellow)' }"
@@ -64,7 +66,7 @@ const { version } = runtime.getManifest();
 </template>
 
 <style scoped>
-a {
+a:not(.category) {
   text-decoration: underline;
 }
 
