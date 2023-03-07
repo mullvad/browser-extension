@@ -1,13 +1,25 @@
 <script lang="ts" setup>
 import { runtime } from 'webextension-polyfill';
-import { NTag, NCard } from 'naive-ui';
+import { NIcon, NTag, NCard } from 'naive-ui';
 
 import TitleCategory from '@/components/TitleCategory.vue';
+import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
 
 const { version } = runtime.getManifest();
 </script>
 
 <template>
+  <router-link to="/privacy-recommendations">
+    <div class="flex flex-grow items-center justify-between">
+      <div class="flex items-center">
+        <h1 class="text-2xl font-semibold">Recommendations</h1>
+      </div>
+      <n-icon size="30">
+        <FeArrowRight />
+      </n-icon>
+    </div>
+  </router-link>
+
   <TitleCategory title="Version" />
   <n-card>
     <n-tag

@@ -6,7 +6,7 @@ import PrivacyRecommendations from '@/popup/views/PrivacyRecommendations.vue';
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', component: Home, meta: { title: 'Mullvad Browser Extension' } },
-  { path: '/about', component: About, meta: { title: 'About Mullvad Browser Extension' } },
+  { path: '/settings', component: About, meta: { title: 'Settings' } },
   {
     path: '/privacy-recommendations',
     component: PrivacyRecommendations,
