@@ -4,7 +4,7 @@ import { NIcon } from 'naive-ui';
 import FeCheckCircle from '@/components/Icons/FeCheckCircle.vue';
 import FeInfo from '@/components/Icons/FeInfo.vue';
 import FeWarning from '@/components/Icons/FeWarning.vue';
-import LaSpinner from '@/components/Icons/LaSpinner.vue';
+import MuSpinner from '@/components/Icons/MuSpinner.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
 
 export type IconType = 'warning' | 'success' | 'info' | 'spinner' | 'leak';
@@ -18,7 +18,7 @@ defineProps<{ text: string; type: IconType }>();
       <FeCheckCircle v-if="type === 'success'" class="text-success" />
       <FeWarning v-if="type === 'warning'" class="text-warning" />
       <FeInfo v-if="type === 'info'" class="text-info" />
-      <LaSpinner v-if="type === 'spinner'" class="text-info" />
+      <MuSpinner v-if="type === 'spinner'" class="text-info" />
       <FeDrop v-if="type === 'leak'" class="text-error" />
     </n-icon>
 

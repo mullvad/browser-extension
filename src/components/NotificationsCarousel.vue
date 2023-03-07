@@ -7,8 +7,8 @@ import { closePopup } from '@/helpers/closePopup';
 import Button from '@/components/Buttons/Button.vue';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 import IconLabel from '@/components/IconLabel.vue';
-import MdiArrowLeft from '@/components/Icons/MdiArrowLeft.vue';
-import MdiArrowRight from '@/components/Icons/MdiArrowRight.vue';
+import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
+import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import useWarnings from '@/composables/useWarnings/useWarnings';
@@ -26,8 +26,12 @@ const activeNotifications = computed(() => {
     <n-carousel show-arrow :show-dots="false">
       <template #arrow="{ prev, next }">
         <div v-if="activeNotifications.length > 1" class="custom-arrow">
-          <n-icon class="arrow-icon" size="25" @click="prev"><MdiArrowLeft /></n-icon>
-          <n-icon class="arrow-icon" size="25" @click="next"><MdiArrowRight /></n-icon>
+          <n-icon class="arrow-icon" size="25" @click="prev">
+            <FeArrowLeft />
+          </n-icon>
+          <n-icon class="arrow-icon" size="25" @click="next">
+            <FeArrowRight />
+          </n-icon>
         </div>
       </template>
 
