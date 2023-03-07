@@ -25,7 +25,7 @@ const activeNotifications = computed(() => {
   <div v-if="activeNotifications.length > 0" class="mb-4">
     <n-carousel :show-arrow="activeNotifications.length > 1" :show-dots="false">
       <template #arrow="{ prev, next }">
-        <div v-if="activeNotifications.length > 1" class="'arrows-custom">
+        <div v-if="activeNotifications.length > 1" class="arrows-custom">
           <n-icon class="arrow-icon" size="25" @click="prev">
             <FeArrowLeft />
           </n-icon>
