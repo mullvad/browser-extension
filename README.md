@@ -12,8 +12,8 @@ a one-click access to [proxy servers](https://mullvad.net/en/help/socks5-proxy/)
 
 Build with:
 
-- Node 16.13.0
-- Npm 8.3.0
+- Node 18.14.2
+- Npm 9.5.0
 
 _If you use `nvm`, run `nvm use` to automatically set these versions._
 
