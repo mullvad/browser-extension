@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { NAvatar, NIcon, NScrollbar } from 'naive-ui';
 
 import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
-import FeQuestion from '@/components/Icons/FeQuestion.vue';
+import FeCog from '@/components/Icons/FeCog.vue';
 
 const logoUrl = '/assets/icon.svg';
 
@@ -33,9 +33,9 @@ const pageTitle = computed(() => currentRoute.value.meta.title ?? 'Mullvad Brows
             <h1 class="text-2xl font-semibold">{{ pageTitle }}</h1>
           </div>
         </div>
-        <router-link to="/about" class="flex">
+        <router-link to="/settings" class="flex">
           <n-icon size="24">
-            <FeQuestion />
+            <FeCog />
           </n-icon>
         </router-link>
       </div>
