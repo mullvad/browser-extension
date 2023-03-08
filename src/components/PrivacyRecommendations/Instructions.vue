@@ -18,9 +18,9 @@ const title = computed(() => {
     <ol class="ml-4 list-decimal">
       <li>
         <p class="flex items-center">
-          Click the&nbsp;<em class="inline-flex">
-            <FeMenu /> </em
-          >&nbsp;icon in the top right corner of the browser
+          Click the
+          <FeMenu />
+          &nbsp;icon in the top right corner of the browser
         </p>
       </li>
       <li>Click <em>Settings</em></li>
