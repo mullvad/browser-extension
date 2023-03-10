@@ -22,6 +22,7 @@ exports[`Location should show a loading message 1`] = `
         <!--v-if-->
         <!--v-if-->
         <!--v-if-->
+        <!--v-if-->
         <svg
           class="text-info"
           height="1em"
