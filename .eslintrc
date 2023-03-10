@@ -25,6 +25,13 @@
     "vue/attribute-hyphenation": "off",
     "vue/html-self-closing": "off",
     "vue/multi-word-component-names": "off",
-    "vue/script-setup-uses-vars": "error"
+    "vue/script-setup-uses-vars": "error",
+    "vue/first-attribute-linebreak": [
+      "error",
+      {
+        "singleline": "ignore",
+        "multiline": "ignore"
+      }
+    ]
   }
 }
