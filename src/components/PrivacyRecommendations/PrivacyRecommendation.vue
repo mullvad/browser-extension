@@ -45,7 +45,12 @@ const tooltip = useRecommendationIconTooltip(recommendation);
   <n-card :id="recommendation.id" :bordered="false">
     <template #header>
       <div class="flex">
-        <n-avatar v-if="recommendation.icon" size="small" :src="`/assets/icons/${recommendation.icon}`" class="mr-2" />
+        <n-avatar
+          v-if="recommendation.icon"
+          size="small"
+          :src="`/assets/icons/${recommendation.icon}`"
+          class="mr-2"
+        />
         <h2>{{ recommendation.name }}</h2>
       </div>
     </template>
@@ -67,17 +72,26 @@ const tooltip = useRecommendationIconTooltip(recommendation);
 
     <p>{{ recommendation.description }}</p>
 
-    <div v-if="!recommendation.activated && recommendation.id === 'https-only-mode'" class="pt-4 flex items-center">
+    <div
+      v-if="!recommendation.activated && recommendation.id === 'https-only-mode'"
+      class="pt-4 flex items-center"
+    >
       <Instructions :recommendation="recommendation" />
     </div>
 
-    <div v-if="!recommendation.activated && recommendation.id === 'default-search'" class="pt-4 flex items-center">
+    <div
+      v-if="!recommendation.activated && recommendation.id === 'default-search'"
+      class="pt-4 flex items-center"
+    >
       <IconLabel
-:text="
-        connection.isMullvad
-          ? 'As you\'re using Mullvad VPN, we recommend you set Mullvad Leta as your default search engine.'
-          : 'As you\'re not using Mullvad VPN, we recommend you change your default search engine to a privacy focused one (for example, DuckDuckGo).'
-      " type="info" class="mb-2" />
+        :text="
+          connection.isMullvad
+            ? 'As you\'re using Mullvad VPN, we recommend you set Mullvad Leta as your default search engine.'
+            : 'As you\'re not using Mullvad VPN, we recommend you change your default search engine to a privacy focused one (for example, DuckDuckGo).'
+        "
+        type="info"
+        class="mb-2"
+      />
     </div>
 
     <div v-if="recommendation.warning" class="pt-4 flex items-center">
@@ -87,12 +101,11 @@ const tooltip = useRecommendationIconTooltip(recommendation);
     <template #action>
       <div class="flex justify-between">
         <Button
-v-if="!recommendation.activated && recommendation.id === 'default-search'"
-          :href="connection.isMullvad ? `https://leta.mullvad.net` : `https://duckduckgo.com`" @click="closePopup">
-          <ExternalLinkIconLabel
-:text="
-            connection.isMullvad ? `Mullvad Leta` : `DuckDuckGo`
-          " />
+          v-if="!recommendation.activated && recommendation.id === 'default-search'"
+          :href="connection.isMullvad ? `https://leta.mullvad.net` : `https://duckduckgo.com`"
+          @click="closePopup"
+        >
+          <ExternalLinkIconLabel :text="connection.isMullvad ? `Mullvad Leta` : `DuckDuckGo`" />
         </Button>
 
         <Button v-else :href="recommendation.homeUrl" @click="closePopup">
@@ -105,14 +118,24 @@ v-if="!recommendation.activated && recommendation.id === 'default-search'"
 
         <div v-else-if="recommendation.type === 'extension'">
           <SplitButton
-v-if="!recommendation.activated" main-color="success" :main-text="mainTextExtension"
-            sub-color="error" sub-text="Ignore recommendation" :href="recommendation.ctaUrl" @sub-click="toggleIgnore"
-            @main-click="closePopup" />
+            v-if="!recommendation.activated"
+            main-color="success"
+            :main-text="mainTextExtension"
+            sub-color="error"
+            sub-text="Ignore recommendation"
+            :href="recommendation.ctaUrl"
+            @sub-click="toggleIgnore"
+            @main-click="closePopup"
+          />
         </div>
 
         <SplitButton
-v-else-if="recommendation.type === 'setting' && !recommendation.activated" sub-color="error"
-          sub-text="Ignore recommendation" :href="recommendation.ctaUrl" @sub-click="toggleIgnore" />
+          v-else-if="recommendation.type === 'setting' && !recommendation.activated"
+          sub-color="error"
+          sub-text="Ignore recommendation"
+          :href="recommendation.ctaUrl"
+          @sub-click="toggleIgnore"
+        />
       </div>
     </template>
   </n-card>
