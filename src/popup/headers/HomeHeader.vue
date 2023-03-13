@@ -5,6 +5,8 @@ import { NAvatar, NIcon } from 'naive-ui';
 
 import FeCog from '@/components/Icons/FeCog.vue';
 
+import { closePopup } from '@/helpers/closePopup';
+
 const logoUrl = '/assets/icon.svg';
 
 const { currentRoute } = useRouter();
@@ -15,7 +17,9 @@ const pageTitle = computed(() => currentRoute.value.meta.title);
 <template>
   <div class="flex flex-grow items-center justify-between">
     <div class="flex items-center">
-      <n-avatar :src="logoUrl" alt="Mullvad Logo" />
+      <a href="https://mullvad.net" @click="closePopup">
+        <n-avatar :src="logoUrl" alt="Mullvad Logo" />
+      </a>
     </div>
     <div class="mx-4">
       <h1 class="text-2xl font-semibold">{{ pageTitle }}</h1>

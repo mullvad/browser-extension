@@ -15,9 +15,9 @@ const { dnsServers, isLoading, isError } = useCheckDnsLeaks();
     </div>
   </div>
 
-  <div v-else-if="isError" class="pl-2">Could not determine DNS servers</div>
+  <div v-else-if="isError">Could not determine DNS servers</div>
 
-  <div v-else class="text-white ml-35px">
+  <div v-else class="text-white">
     <div v-for="dnsServer in dnsServers" :key="dnsServer.ip">
       <IconLabel
         :text="`${dnsServer.ip} (${
