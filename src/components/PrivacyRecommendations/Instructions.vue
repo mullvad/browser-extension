@@ -17,9 +17,9 @@ const title = computed(() => {
     <IconLabel :text="title" type="info" class="mb-2" />
     <ol class="ml-4 list-decimal">
       <li>
-        <p class="flex items-center">
-          Click the
-          <FeMenu />
+        <p>
+          Click the&nbsp;
+          <FeMenu class="inline-block" />
           &nbsp;icon in the top right corner of the browser
         </p>
       </li>
