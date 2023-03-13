@@ -17,9 +17,9 @@ const showProxyButton = asyncComputed(() => extension.isAllowedIncognitoAccess()
     <p>Please allow <em>Run in Private Windows</em>:</p>
     <ol class="ml-4 list-decimal">
       <li>
-        <p class="flex items-center">
-          Click the
-          <FeMenu />
+        <p>
+          Click the&nbsp;
+          <FeMenu class="inline-block" />
           &nbsp;icon in the top right corner of the browser
         </p>
       </li>
