@@ -3,7 +3,7 @@ import { runtime } from 'webextension-polyfill';
 import { NIcon, NTag, NCard } from 'naive-ui';
 
 import TitleCategory from '@/components/TitleCategory.vue';
-import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
+import FeChevronRight from '@/components/Icons/FeChevronRight.vue';
 
 const { version } = runtime.getManifest();
 </script>
@@ -16,7 +16,7 @@ const { version } = runtime.getManifest();
           <h1 class="text-2xl font-semibold">Privacy recommendations</h1>
         </div>
         <n-icon size="30">
-          <FeArrowRight />
+          <FeChevronRight />
         </n-icon>
       </div>
     </n-card>
