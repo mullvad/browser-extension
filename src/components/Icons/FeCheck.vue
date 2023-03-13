@@ -9,7 +9,6 @@
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="feather feather-chevron-down"
   >
     <polyline points="20 6 9 17 4 12"></polyline>
   </svg>
