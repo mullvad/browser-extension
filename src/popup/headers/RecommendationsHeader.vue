@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { NAvatar, NIcon } from 'naive-ui';
 
-import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
+import FeChevronLeft from '@/components/Icons/FeChevronLeft.vue';
 
 const { currentRoute } = useRouter();
 
@@ -16,7 +16,7 @@ const pageTitle = computed(() => currentRoute.value.meta.title);
       <n-avatar>
         <router-link to="/">
           <n-icon>
-            <FeArrowLeft />
+            <FeChevronLeft />
           </n-icon>
         </router-link>
       </n-avatar>
