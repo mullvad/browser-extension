@@ -9,8 +9,6 @@ import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 import ProxyDetails from '@/components/ProxyDetails/ProxyDetails.vue';
 
-import FeChevronDown from '@/components/Icons/FeChevronDown.vue';
-
 import UsingMullvadConnectionStatus from '@/components/ConnectionStatus/UsingMullvadConnectionStatus.vue';
 import DnsLeakStatus from '@/components/ConnectionStatus/DnsLeakStatus.vue';
 
@@ -24,7 +22,9 @@ const connected = computed(() => connection.value.isMullvad);
   <TitleCategory title="Connection" />
 
   <n-card :bordered="false">
-    <p class="text-xl">
+    <IconLabel v-if="!connected && !isLoading" text="Not using Mullvad" type="info" class="my-2" />
+
+    <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
       <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
       <ConnectionLocation v-else />
@@ -32,41 +32,32 @@ const connected = computed(() => connection.value.isMullvad);
 
     <div v-if="!isLoading && !isError">
       <div v-if="connected" class="my-2">
-        <div class="inline-flex items-center">
-          <UsingMullvadConnectionStatus />
-          <p class="text-size-20px ml-1">
-            <FeChevronDown />
-          </p>
-        </div>
-        <AdvancedInfo :disabled="isLoading" />
+        <UsingMullvadConnectionStatus />
+        <AdvancedInfo :disabled="isLoading" class="mb-2" />
 
-        <div class="inline-flex items-center">
+        <div class="flex items-center">
           <DnsLeakStatus />
-          <p class="text-size-20px ml-1">
-            <FeChevronDown />
-          </p>
+          <p class="text-size-20px ml-1"></p>
         </div>
-        <AdvancedDns :disabled="isLoading" class="mb-2" />
+        <AdvancedDns :disabled="isLoading" class="mb-2 ml-35px" />
       </div>
 
-      <div v-else class="mb-4">
-        <div>
-          <h4 class="font-semibold inline-block">IP</h4>
-          <span class="ml-2">{{ connection.ip }}</span>
+      <div v-else class="mb-4 mt-1">
+        <div class="flex">
+          <h4 class="font-semibold">IP</h4>
+          <div class="ml-2">{{ connection.ip }}</div>
         </div>
-        <div v-if="connection.ipv6">
-          <h4 class="font-semibold inline-block">IPv6</h4>
-          <span class="ml-2">{{ connection.ipv6 }}</span>
+        <div v-if="connection.ipv6" class="flex">
+          <h4 class="font-semibold">IPv6</h4>
+          <div class="ml-2">{{ connection.ipv6 }}</div>
         </div>
-        <div>
-          <h4 class="font-semibold inline-block">Provider</h4>
-          <span class="ml-2">{{ connection.provider }}</span>
+        <div class="flex">
+          <h4 class="font-semibold">Provider</h4>
+          <div class="ml-2">{{ connection.provider }}</div>
         </div>
-        <div class="inline-flex">
+        <div class="flex">
           <h4 class="font-semibold">DNS Server(s)</h4>
-          <span class="ml-2">
-            <AdvancedDns />
-          </span>
+          <AdvancedDns class="ml-2" />
         </div>
       </div>
     </div>
