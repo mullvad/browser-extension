@@ -48,12 +48,12 @@ const useSocksProxy = () => {
     console.log(e);
   }
 
-  const connectToSocksProxy = (hostname: string, port = DEFAULT_PORT) => {
+  const connectToSocksProxy = (ipv4_address: string, port = DEFAULT_PORT) => {
     try {
       proxy.settings.set({
         value: {
           ...baseConfig,
-          socks: `${hostname}:${port}`,
+          socks: `${ipv4_address}:${port}`,
         },
       });
       socksEnabled.value = true;

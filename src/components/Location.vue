@@ -16,27 +16,33 @@ const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
 const { connectToSocksProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useHistoricConnections();
 
-const clickSocksProxy = (country: string, city: string, hostname: string, port?: number) => {
-  storeSocksProxyUsage({ country, city, hostname });
-  connectToSocksProxy(hostname, port);
+const clickSocksProxy = (
+  country: string,
+  city: string,
+  hostname: string,
+  ipv4_address: string,
+  port?: number,
+) => {
+  storeSocksProxyUsage({ country, city, hostname, ipv4_address });
+  connectToSocksProxy(ipv4_address, port);
   toggleLocations();
 };
 
 const clickCountryOrCity = (country: string, city?: string) => {
-  const { hostname, port } = getRandomSocksProxy({
+  const { ipv4_address, port } = getRandomSocksProxy({
     socksProxies: socksProxies.value,
     country,
     city,
   });
   storeSocksProxyUsage({ country, city });
-  connectToSocksProxy(hostname, port);
+  connectToSocksProxy(ipv4_address, port);
   toggleLocations();
 };
 
 const selectLocation = (connection: HistoricConnection) => {
-  const { country, city, hostname } = connection;
+  const { country, city, hostname, ipv4_address } = connection;
   if (hostname) {
-    clickSocksProxy(country, city, hostname);
+    clickSocksProxy(country, city, hostname, ipv4_address);
   } else {
     clickCountryOrCity(country, city);
   }
@@ -78,7 +84,9 @@ const selectLocation = (connection: HistoricConnection) => {
                 :key="proxy.hostname"
                 secondary
                 medium
-                @click="clickSocksProxy(country, city, proxy.hostname, proxy.port)"
+                @click="
+                  clickSocksProxy(country, city, proxy.hostname, proxy.ipv4_address, proxy.port)
+                "
               >
                 {{ proxy.hostname }}
               </n-button>
