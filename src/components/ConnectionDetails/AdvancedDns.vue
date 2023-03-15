@@ -3,8 +3,11 @@ import IconLabel from '@/components/IconLabel.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
 
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import { inject } from 'vue';
 
 const { dnsServers, isLoading, isError } = useCheckDnsLeaks();
+const { connection } = inject(ConnectionKey, defaultConnection);
 </script>
 
 <template>
@@ -20,6 +23,7 @@ const { dnsServers, isLoading, isError } = useCheckDnsLeaks();
   <div v-else class="text-white">
     <div v-for="dnsServer in dnsServers" :key="dnsServer.ip">
       <IconLabel
+        v-if="connection.isMullvad"
         :text="`${dnsServer.ip} (${
           dnsServer.mullvad_dns_hostname ||
           dnsServer.hostname ||
@@ -28,6 +32,14 @@ const { dnsServers, isLoading, isError } = useCheckDnsLeaks();
         })`"
         :type="dnsServer.mullvad_dns_hostname ? 'check' : 'leak'"
       />
+      <span v-else>
+        {{ dnsServer.ip }} ({{
+          dnsServer.mullvad_dns_hostname ||
+          dnsServer.hostname ||
+          dnsServer.organization ||
+          'unknown'
+        }})
+      </span>
     </div>
   </div>
 </template>

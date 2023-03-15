@@ -22,7 +22,12 @@ const connected = computed(() => connection.value.isMullvad);
   <TitleCategory title="Connection" />
 
   <n-card :bordered="false">
-    <IconLabel v-if="!connected && !isLoading" text="Not using Mullvad" type="info" class="my-2" />
+    <IconLabel
+      v-if="!connected && !isLoading"
+      text="Not using Mullvad"
+      type="info"
+      class="my-2 text-lg"
+    />
 
     <p class="text-xl mb-2">
       <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
@@ -32,11 +37,11 @@ const connected = computed(() => connection.value.isMullvad);
 
     <div v-if="!isLoading && !isError">
       <div v-if="connected" class="my-2">
-        <UsingMullvadConnectionStatus />
+        <UsingMullvadConnectionStatus class="text-lg" />
         <AdvancedInfo :disabled="isLoading" class="mb-2" />
 
         <div class="flex items-center">
-          <DnsLeakStatus />
+          <DnsLeakStatus class="text-lg" />
           <p class="text-size-20px ml-1"></p>
         </div>
         <AdvancedDns :disabled="isLoading" class="mb-2 ml-35px" />
