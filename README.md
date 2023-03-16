@@ -19,7 +19,7 @@ _If you use `nvm`, run `nvm use` to automatically set these versions._
 
 For:
 
-- Firefox: last version (>89)
+- Firefox: last version (>91.1.0)
 
 ### **Developing**
 
