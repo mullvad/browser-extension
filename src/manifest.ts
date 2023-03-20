@@ -32,7 +32,7 @@ export async function getManifest() {
     browser_specific_settings: {
       gecko: {
         strict_min_version: '91.1.0',
-        update_url: 'https://cdn.mullvad.net.com/browser-extension/updates.json',
+        update_url: 'https://cdn.mullvad.net/browser-extension/updates.json',
       },
     },
     chrome_settings_overrides: {
