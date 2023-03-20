@@ -60,6 +60,7 @@ Mullvad Browser Extension requires the following permissions:
 - `privacy` to disable webRTC
 - `proxy` to configure and use Mullvad proxy servers
 - `storage` to save preferences
+- `search` to recommend other search engines
 - `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
   `Network requests` for details)
 
@@ -76,3 +77,7 @@ Two external network requests are made by the extension:
 
 _External links are marked with this icon_
 ![External Link icon](https://github.com/feathericon/feathericon/blob/master/src/svg/link-external.svg)
+
+## Source code
+
+Source code is available in the [Github repo](https://github.com/mullvad/browser-extension).
