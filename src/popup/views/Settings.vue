@@ -35,8 +35,6 @@ if (hash.value) {
   <TitleCategory title="Privacy Recommendations" />
   <privacy-recommendations />
 
-  <TitleCategory title="Settings" class="pt-4" />
-
   <TitleCategory title="About" class="pt-4" />
   <n-card>
     <div class="flex items-center justify-between">
