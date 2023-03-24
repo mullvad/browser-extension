@@ -24,6 +24,6 @@ const pageTitle = computed(() => currentRoute.value.meta.title);
     <div class="mx-4">
       <h1 class="text-2xl font-semibold">{{ pageTitle }}</h1>
     </div>
-    <div></div>
+    <div class="pl-10"></div>
   </div>
 </template>
