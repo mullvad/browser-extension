@@ -3,9 +3,11 @@ import { computed } from 'vue';
 import useConnection from '@/composables/useConnection';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 import { warnings } from '@/composables/useWarnings/warnings';
+import useWebRtc from '@/composables/useWebRtc';
 
 const { isMullvadDoh, isthirdPartyDns } = useCheckDnsLeaks();
 const { connection } = useConnection();
+const { webRTCLeaking } = useWebRtc();
 
 const dohDisable = computed(() => connection.value.isMullvad && isMullvadDoh.value);
 const dohEnable = computed(() => !connection.value.isMullvad && !isMullvadDoh.value);
@@ -26,6 +28,9 @@ const activeWarnings = computed(() => {
   }
   if (dnsLeak.value) {
     activeWarningsIds.push('dns-leak');
+  }
+  if (webRTCLeaking.value) {
+    activeWarningsIds.push('webrtc-leak');
   }
 
   return warnings.filter((warning) => activeWarningsIds.includes(warning.id));

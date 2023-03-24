@@ -8,13 +8,14 @@ import useConnection, { ConnectionKey } from '@/composables/useConnection';
 import useWebRtc from '@/composables/useWebRtc';
 
 const { isLoading, connection, isError } = useConnection();
-const { isLeaking, leakedInternalIPs } = useWebRtc();
+const { webRTCLeaking, webRTCLeakedIPs } = useWebRtc();
+
 provide(ConnectionKey, { connection, isLoading, isError });
 </script>
 
 <template>
-  <div v-if="isLeaking()">
-    <p v-for="ip in leakedInternalIPs" :key="ip">
+  <div v-if="webRTCLeaking">
+    <p v-for="ip in webRTCLeakedIPs" :key="ip">
       {{ ip }}
     </p>
   </div>
