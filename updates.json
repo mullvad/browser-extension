@@ -1,0 +1,22 @@
+{
+  "addons": {
+    "{d19a89b9-76c1-4a61-bcd4-49e8de916403}": {
+      "updates": [
+        {
+          "version": "0.7.7",
+          "update_link": "https://cdn.mullvad.net/browser-extension/0.7.7/mullvad-browser-extension-0.7.7.xpi",
+          "applications": {
+            "gecko": { "strict_min_version": "91.1.0" }
+          }
+        },
+        {
+          "version": "0.7.8",
+          "update_link": "https://cdn.mullvad.net/browser-extension/latest/mullvad-browser-extension-0.7.8.xpi",
+          "applications": {
+            "gecko": { "strict_min_version": "91.1.0" }
+          }
+        }
+      ]
+    }
+  }
+}
