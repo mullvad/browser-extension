@@ -45,4 +45,15 @@ export const warnings: Recommendation[] = [
     ignored: false,
     ctaLabel: undefined,
   },
+  {
+    id: 'webrtc-leak',
+    type: 'warning',
+    name: 'WebRTC leaks have been detected',
+    description: `WebRTC is leaking some internal IPs.`,
+    ctaUrl: '',
+    iconType: 'leak',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
+  },
 ];
