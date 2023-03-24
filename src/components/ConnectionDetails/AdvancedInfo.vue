@@ -7,7 +7,7 @@ const { connection } = inject(ConnectionKey, defaultConnection);
 </script>
 
 <template>
-  <div class="ml-35px">
+  <div class="mb-2 ml-35px">
     <div>
       <h4 class="font-semibold inline-block">IP</h4>
       <span class="ml-2">{{ connection.ip }}</span>

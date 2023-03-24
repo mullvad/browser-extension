@@ -4,6 +4,7 @@ import { computed, inject } from 'vue';
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import AdvancedDns from '@/components/ConnectionDetails/AdvancedDns.vue';
 import AdvancedInfo from '@/components/ConnectionDetails/AdvancedInfo.vue';
+import AdvancedWebRTC from '@/components/ConnectionDetails/AdvancedWebTRC.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import ProxyDetails from '@/components/ProxyDetails/ProxyDetails.vue';
 
@@ -34,13 +35,12 @@ const connected = computed(() => connection.value.isMullvad);
     <div v-if="!isLoading && !isError">
       <div v-if="connected" class="my-2">
         <UsingMullvadConnectionStatus class="text-lg" />
-        <AdvancedInfo :disabled="isLoading" class="mb-2" />
+        <AdvancedInfo :disabled="isLoading" />
 
-        <div class="flex items-center">
-          <DnsLeakStatus class="text-lg" />
-          <p class="text-size-20px ml-1"></p>
-        </div>
-        <AdvancedDns :disabled="isLoading" class="mb-2 ml-35px" />
+        <DnsLeakStatus class="text-lg" />
+        <AdvancedDns :disabled="isLoading" />
+
+        <AdvancedWebRTC />
       </div>
 
       <div v-else class="mb-4 mt-1">
