@@ -14,7 +14,7 @@ const pageTitle = computed(() => currentRoute.value.meta.title);
   <div class="flex flex-grow items-center justify-between">
     <div class="flex items-center">
       <n-avatar>
-        <router-link to="/">
+        <router-link to="/settings">
           <n-icon>
             <FeChevronLeft />
           </n-icon>
@@ -24,6 +24,6 @@ const pageTitle = computed(() => currentRoute.value.meta.title);
     <div class="mx-4">
       <h1 class="text-2xl font-semibold">{{ pageTitle }}</h1>
     </div>
-    <div></div>
+    <div class="pl-10"></div>
   </div>
 </template>

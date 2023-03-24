@@ -43,7 +43,9 @@ const activeNotifications = computed(() => {
               class="mr-4"
               width="20"
               :src="`/assets/icons/${notification.icon}`"
-              object-fit="contain" preview-disabled />
+              object-fit="contain"
+              preview-disabled
+            />
             <h3>{{ notification.name }}</h3>
           </div>
           <IconLabel v-else :text="notification.name" :type="notification.iconType || 'info'" />
@@ -60,10 +62,15 @@ const activeNotifications = computed(() => {
           </p>
 
           <div v-if="!(notification.type === 'warning')" class="mt-3 flex items-center">
-            <Button v-if="notification.ctaUrl" :href="notification.ctaUrl" class="mr-4 capitalize" @click="closePopup">
+            <Button
+              v-if="notification.ctaUrl"
+              :href="notification.ctaUrl"
+              class="mr-4 capitalize"
+              @click="closePopup"
+            >
               <ExternalLinkIconLabel v-if="notification.ctaLabel" :text="notification.ctaLabel" />
             </Button>
-            <Button :to="`/privacy-recommendations#${notification.id}`"> Learn more </Button>
+            <Button :to="`/settings#${notification.id}`"> Learn more </Button>
           </div>
           <div v-else class="mt-3 flex items-center">
             <Button :href="notification.ctaUrl" @click="closePopup"> Read more </Button>
