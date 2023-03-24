@@ -1,73 +1,63 @@
 <script lang="ts" setup>
+import { computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { runtime } from 'webextension-polyfill';
-import { NIcon, NTag, NCard } from 'naive-ui';
+import { NTag, NCard } from 'naive-ui';
 
+import FeGithub from '@/components/Icons/FeGithub.vue';
+import FeFileText from '@/components/Icons/FeFileText.vue';
+import PrivacyRecommendations from '@/components/PrivacyRecommendations/PrivacyRecommendations.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
-import FeChevronRight from '@/components/Icons/FeChevronRight.vue';
+
+import { closePopup } from '@/helpers/closePopup';
 
 const { version } = runtime.getManifest();
+
+// Scroll to anchor (if one is provided), or scroll to top
+// Workaround for scrollBehavior router method not mixing well with `overflow: auto` css property
+// See the non-explanation in the following issue: https://github.com/vuejs/vue-router/issues/1459#issuecomment-466235189
+const { currentRoute } = useRouter();
+const hash = computed(() => currentRoute.value.hash);
+
+if (hash.value) {
+  onMounted(() => {
+    const anchor = hash.value.replace('#', '');
+    const el = document.getElementById(anchor);
+
+    el!.scrollIntoView({ behavior: 'smooth' });
+  });
+} else {
+  document.body.scrollTo(0, 0);
+}
 </script>
 
 <template>
-  <router-link to="/privacy-recommendations" class="category">
-    <n-card>
-      <div class="flex flex-grow items-center justify-between">
-        <div class="flex items-center">
-          <h1 class="text-2xl font-semibold">Privacy recommendations</h1>
-        </div>
-        <n-icon size="30">
-          <FeChevronRight />
-        </n-icon>
-      </div>
-    </n-card>
-  </router-link>
+  <TitleCategory title="Privacy Recommendations" />
+  <privacy-recommendations />
 
-  <TitleCategory title="Version" class="pt-4" />
+  <TitleCategory title="About" class="pt-4" />
   <n-card>
-    <n-tag
-      :color="{ color: 'var(--yellow)', textColor: 'black', borderColor: 'var(--yellow)' }"
-      round
-    >
-      Beta {{ version }}
-    </n-tag>
-  </n-card>
-
-  <TitleCategory title="License" class="pt-4" />
-  <n-card>
-    <p>
-      Mullvad Browser Extension as a whole is licensed
-      <a href="https://github.com/mullvad/browser-extension/blob/master/LICENSE.md"> GPLv3+</a>
-      except for the parts specified below:
-    </p>
-
-    <ul list="disc inside" class="py-2">
-      <li>
-        Open Sans -
-        <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
-      </li>
-      <li>
-        Source Sans Pro -
-        <a href="https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL">
-          Open Font License
-        </a>
-      </li>
-      <li>
-        Feather Icon -
-        <a href="https://github.com/feathericon/feathericon/blob/master/LICENSE"> MIT </a>
-      </li>
-    </ul>
-    <p>Third party extensions logos are the property of their respective owners.</p>
-
-    <p class="pt-4">
-      <span class="text-lg font-semibold">Source code </span>
-      <a href="https://github.com/mullvad/browser-extension">Github</a>
-    </p>
+    <div class="flex items-center justify-between">
+      <span>Version {{ version }} (beta)</span>
+      <n-tag round :bordered="false" type="info">
+        <a href="https://github.com/mullvad/browser-extension" @click="closePopup"> Source code </a>
+        <template #icon>
+          <FeGithub />
+        </template>
+      </n-tag>
+      <n-tag round :bordered="false" type="info">
+        <router-link to="/license"> License </router-link>
+        <template #icon>
+          <FeFileText />
+        </template>
+      </n-tag>
+    </div>
   </n-card>
 </template>
 
 <style scoped>
-a:not(.category) {
-  text-decoration: underline;
+a {
+  text-decoration: none;
 }
 
 a:hover {

@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
-import { NCard } from 'naive-ui';
 
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import AdvancedDns from '@/components/ConnectionDetails/AdvancedDns.vue';
 import AdvancedInfo from '@/components/ConnectionDetails/AdvancedInfo.vue';
 import IconLabel from '@/components/IconLabel.vue';
-import TitleCategory from '@/components/TitleCategory.vue';
 import ProxyDetails from '@/components/ProxyDetails/ProxyDetails.vue';
 
 import UsingMullvadConnectionStatus from '@/components/ConnectionStatus/UsingMullvadConnectionStatus.vue';
@@ -19,9 +17,7 @@ const connected = computed(() => connection.value.isMullvad);
 </script>
 
 <template>
-  <TitleCategory title="Connection" />
-
-  <n-card :bordered="false">
+  <div class="p-2 pt-0">
     <IconLabel
       v-if="!connected && !isLoading"
       text="Not using Mullvad"
@@ -68,5 +64,5 @@ const connected = computed(() => connection.value.isMullvad);
     </div>
 
     <ProxyDetails />
-  </n-card>
+  </div>
 </template>

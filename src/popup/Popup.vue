@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 import { NScrollbar } from 'naive-ui';
 
 import HomeHeader from '@/popup/headers/HomeHeader.vue';
-import RecommendationsHeader from '@/popup/headers/RecommendationsHeader.vue';
+import LicenseHeader from '@/popup/headers/LicenseHeader.vue';
 import SettingsHeader from '@/popup/headers/SettingsHeader.vue';
 
 const path = computed(() => {
@@ -16,7 +16,7 @@ const path = computed(() => {
   <main class="w-[450px]">
     <header class="px-4 py-2 min-h-14 flex items-center sticky top-0 z-1">
       <HomeHeader v-if="path === '/'" />
-      <RecommendationsHeader v-if="path === '/privacy-recommendations'" />
+      <LicenseHeader v-if="path === '/license'" />
       <SettingsHeader v-if="path === '/settings'" />
     </header>
 

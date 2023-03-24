@@ -30,9 +30,13 @@ const classes = computed(() => {
   return colors;
 });
 </script>
+
 <template>
-  <component :is="type" :href="href" :to="to" class="btn" :class="classes"><slot></slot></component>
+  <component :is="type" :href="href" :to="to" class="btn" :class="classes">
+    <slot></slot>
+  </component>
 </template>
+
 <style scoped>
 .btn {
   --green: #44ad4de6;
