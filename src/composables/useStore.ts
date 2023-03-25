@@ -2,15 +2,12 @@ import { Ref } from 'vue';
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
 
 export type Store = {
-  detailsExpanded: Ref<boolean>;
-  proxyExpanded: Ref<boolean>;
+  webRTCStatus: Ref<boolean>;
 };
 
 const useStore = (): Store => {
-  const detailsExpanded = useBrowserStorageLocal('detailsExpanded', false);
-  const proxyExpanded = useBrowserStorageLocal('proxyExpanded', false);
-
-  return { detailsExpanded, proxyExpanded };
+  const webRTCStatus = useBrowserStorageLocal('webrtc-status', true);
+  return { webRTCStatus };
 };
 
 export default useStore;

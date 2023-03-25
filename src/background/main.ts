@@ -11,17 +11,17 @@ if (import.meta.hot) {
   import('/@vite/client');
 }
 
-const { initWebRTC } = useWebRtc();
+const { toggleWebRTC, webRTCStatus } = useWebRtc();
 const { cleanOutdated } = useRecommendations();
 
 // Add listeners on extension actions
 addExtListeners();
 
-// Load socks settings
+// Load socks settings from storage
 useSocksProxy();
 
-// Load webRTC settings
-initWebRTC();
+// Load webRTC settings from storage
+toggleWebRTC(webRTCStatus.value);
 
 // Cleanup outdated settings from storage from the 0.6.x series
 // TO REMOVE IN THE 0.8.x versions

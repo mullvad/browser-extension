@@ -23,7 +23,6 @@ const themeOverrides: GlobalThemeOverrides = {
   },
   Switch: {
     railColorActive: 'var(--success)',
-    railColor: 'var(--error)',
   },
 };
 </script>
