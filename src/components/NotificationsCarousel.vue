@@ -61,7 +61,10 @@ const activeNotifications = computed(() => {
             {{ notification.description }}
           </p>
 
-          <div v-if="!(notification.type === 'warning')" class="mt-3 flex items-center">
+          <div
+            v-if="!(notification.type === 'warning') || notification.id === 'webrtc-leak'"
+            class="mt-3 flex items-center"
+          >
             <Button
               v-if="notification.ctaUrl"
               :href="notification.ctaUrl"

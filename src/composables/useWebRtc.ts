@@ -27,7 +27,6 @@ const checkRTCLeaks = async () => {
     const pc = new RTCPeerConnection();
     const leakedHosts = new Set<string>();
     pc.onicecandidate = (e) => {
-      console.log(e);
       if (e.candidate) {
         const host = e.candidate.candidate.split(' ')[4];
         const isObfuscated = !host || host.endsWith('.local');

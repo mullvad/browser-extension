@@ -18,7 +18,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <n-card :bordered="false">
+  <n-card id="webrtc-leak" :bordered="false">
     <div class="flex justify-between">
       <h2 class="text-lg">WebRTC</h2>
       <n-tooltip>
