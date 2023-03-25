@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, toRefs, watchEffect } from 'vue';
-import { NAvatar, NCard, NSwitch, NTooltip } from 'naive-ui';
+import { NAvatar, NCard } from 'naive-ui';
 
 import { closePopup } from '@/helpers/closePopup';
 
@@ -11,8 +11,6 @@ import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTo
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
-import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
-import useWebRtc from '@/composables/useWebRtc';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 import useConnection from '@/composables/useConnection';
 
@@ -23,7 +21,6 @@ const props = defineProps<{
 }>();
 
 const { recommendation } = toRefs(props);
-const { setWebRTC } = useWebRtc();
 
 // Toggle Ignore recommendation
 const toggleIgnore = () => {
@@ -38,7 +35,6 @@ watchEffect(() => {
 });
 
 const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enable' : 'Install'));
-const tooltip = useRecommendationIconTooltip(recommendation);
 </script>
 
 <template>
@@ -57,16 +53,7 @@ const tooltip = useRecommendationIconTooltip(recommendation);
 
     <template #header-extra>
       <div class="text-2xl flex">
-        <div v-if="recommendation.id === 'disable-webrtc' && !recommendation.ignored">
-          <n-tooltip>
-            <template #trigger>
-              <n-switch v-model:value="recommendation.activated" @update-value="setWebRTC" />
-            </template>
-            <span>{{ tooltip.text }}</span>
-          </n-tooltip>
-        </div>
-
-        <RecommendationIconWithTooltip v-else :recommendation="recommendation" />
+        <RecommendationIconWithTooltip :recommendation="recommendation" />
       </div>
     </template>
 

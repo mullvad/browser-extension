@@ -8,6 +8,7 @@ import FeGithub from '@/components/Icons/FeGithub.vue';
 import FeFileText from '@/components/Icons/FeFileText.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations/PrivacyRecommendations.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
+import WebRTCToggle from '@/components/PrivacyRecommendations/WebRTCToggle.vue';
 
 import { closePopup } from '@/helpers/closePopup';
 
@@ -32,10 +33,7 @@ if (hash.value) {
 </script>
 
 <template>
-  <TitleCategory title="Privacy Recommendations" />
-  <privacy-recommendations />
-
-  <TitleCategory title="About" class="pt-4" />
+  <TitleCategory title="About" />
   <n-card>
     <div class="flex items-center justify-between">
       <span>Version {{ version }} (beta)</span>
@@ -53,6 +51,12 @@ if (hash.value) {
       </n-tag>
     </div>
   </n-card>
+
+  <TitleCategory title="Settings" class="pt-4" />
+  <WebRTCToggle />
+
+  <TitleCategory title="Privacy Recommendations" class="pt-4" />
+  <privacy-recommendations />
 </template>
 
 <style scoped>
