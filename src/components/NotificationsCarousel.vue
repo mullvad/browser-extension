@@ -56,14 +56,10 @@ const activeNotifications = computed(() => {
           </p>
         </template>
 
-        <div class="flex flex-col justify-start h-30">
-          <p>
-            {{ notification.description }}
-          </p>
-
+        <div class="flex flex-col justify-start">
           <div
             v-if="!(notification.type === 'warning') || notification.id === 'webrtc-leak'"
-            class="mt-3 flex items-center"
+            class="flex items-center"
           >
             <Button
               v-if="notification.ctaUrl"
@@ -89,8 +85,8 @@ const activeNotifications = computed(() => {
   display: flex;
   position: absolute;
   align-items: center;
-  bottom: 9px;
-  right: 11px;
+  bottom: 20px;
+  right: 13px;
 }
 
 .arrows-custom .n-icon {
