@@ -2,7 +2,6 @@ import { runtime, storage } from 'webextension-polyfill';
 import { addExtListeners } from '@/helpers/extensions';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
-import useSocksProxy from '@/composables/useSocksProxy';
 import useWebRtc from '@/composables/useWebRtc';
 
 // only on dev mode
@@ -16,9 +15,6 @@ const { cleanOutdated } = useRecommendations();
 
 // Add listeners on extension actions
 addExtListeners();
-
-// Load socks settings from storage
-useSocksProxy();
 
 // Load webRTC settings from storage
 toggleWebRTC(webRTCStatus.value);
