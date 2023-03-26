@@ -29,7 +29,7 @@ watchEffect(() => {
       </n-tooltip>
     </div>
 
-    <div class="pt-4 flex items-center">
+    <div class="py-4 flex items-center">
       <IconLabel
         text="If a webRTC leak is reported, read the guide before disabling it."
         type="info"

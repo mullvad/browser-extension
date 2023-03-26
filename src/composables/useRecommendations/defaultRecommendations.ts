@@ -4,7 +4,7 @@ export const defaultExtensions: Recommendation[] = [
   {
     type: 'extension',
     id: 'uBlock0@raymondhill.net',
-    name: 'uBlock Origin',
+    name: 'Install uBlock Origin',
     description: `uBlock Origin is not just a free and open-source “ad blocker“, it's a very efficient content blocker consuming minimal resources.`,
     homeUrl: 'https://ublockorigin.com/',
     icon: 'ubo64.png',
