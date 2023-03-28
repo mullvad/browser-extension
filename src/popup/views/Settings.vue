@@ -2,10 +2,11 @@
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { runtime } from 'webextension-polyfill';
-import { NTag, NCard } from 'naive-ui';
+import { NTag } from 'naive-ui';
 
-import FeGithub from '@/components/Icons/FeGithub.vue';
 import FeFileText from '@/components/Icons/FeFileText.vue';
+import FeGithub from '@/components/Icons/FeGithub.vue';
+import FeInfo from '@/components/Icons/FeInfo.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations/PrivacyRecommendations.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 import WebRTCToggle from '@/components/PrivacyRecommendations/WebRTCToggle.vue';
@@ -33,24 +34,28 @@ if (hash.value) {
 </script>
 
 <template>
-  <TitleCategory title="About" />
-  <n-card>
-    <div class="flex items-center justify-between">
-      <span>Version {{ version }} (beta)</span>
-      <n-tag round :bordered="false" type="info">
-        <a href="https://github.com/mullvad/browser-extension" @click="closePopup"> Source code </a>
-        <template #icon>
-          <FeGithub />
-        </template>
-      </n-tag>
-      <n-tag round :bordered="false" type="info">
-        <router-link to="/license"> License </router-link>
-        <template #icon>
-          <FeFileText />
-        </template>
-      </n-tag>
-    </div>
-  </n-card>
+  <div class="flex items-center justify-between p-3 pb-1">
+    <n-tag round :bordered="false" type="info">
+      <a href="https://github.com/mullvad/browser-extension/releases" @click="closePopup">
+        {{ version }} | Changelog
+      </a>
+      <template #icon>
+        <FeInfo />
+      </template>
+    </n-tag>
+    <n-tag round :bordered="false" type="info">
+      <a href="https://github.com/mullvad/browser-extension" @click="closePopup"> Source code </a>
+      <template #icon>
+        <FeGithub />
+      </template>
+    </n-tag>
+    <n-tag round :bordered="false" type="info">
+      <router-link to="/license"> License </router-link>
+      <template #icon>
+        <FeFileText />
+      </template>
+    </n-tag>
+  </div>
 
   <TitleCategory title="Settings" class="pt-4" />
   <WebRTCToggle />
@@ -62,6 +67,8 @@ if (hash.value) {
 <style scoped>
 a {
   text-decoration: none;
+  color: rgba(255 255 255 / 80%);
+  font-weight: 600;
 }
 
 a:hover {
