@@ -36,6 +36,8 @@ export const defaultSettings: Recommendation[] = [
     name: 'Change your default search engine',
     description:
       'Your default search engine is not respectful of your privacy. We recommend you switch to a more private one.',
+    homeUrl:
+      'https://mullvad.net/en/blog/2021/2/24/dont-duck-the-issue-consider-your-privacy-and-search-engines/',
     activated: false,
     ignored: false,
     ctaLabel: undefined,
