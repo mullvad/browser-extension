@@ -11,7 +11,21 @@
         },
         {
           "version": "0.7.8",
-          "update_link": "https://cdn.mullvad.net/browser-extension/latest/mullvad-browser-extension-0.7.8.xpi",
+          "update_link": "https://cdn.mullvad.net/browser-extension/0.7.8/mullvad-browser-extension-0.7.8.xpi",
+          "applications": {
+            "gecko": { "strict_min_version": "91.1.0" }
+          }
+        },
+        {
+          "version": "0.7.9",
+          "update_link": "https://cdn.mullvad.net/browser-extension/0.7.9/mullvad-browser-extension-0.7.9.xpi",
+          "applications": {
+            "gecko": { "strict_min_version": "91.1.0" }
+          }
+        },
+        {
+          "version": "0.8.0",
+          "update_link": "https://cdn.mullvad.net/browser-extension/0.8.0/mullvad-browser-extension-0.8.0.xpi",
           "applications": {
             "gecko": { "strict_min_version": "91.1.0" }
           }
