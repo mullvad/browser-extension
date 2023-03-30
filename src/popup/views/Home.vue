@@ -12,6 +12,6 @@ provide(ConnectionKey, { connection, isLoading, isError });
 </script>
 
 <template>
-  <NotificationsCarousel />
+  <NotificationsCarousel v-if="!isLoading" />
   <ConnectionDetails />
 </template>
