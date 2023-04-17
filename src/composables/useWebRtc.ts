@@ -44,7 +44,7 @@ const checkRTCLeaks = async () => {
   }
 };
 
-const toggleWebRTC = (value: boolean) => {
+const setWebRTC = (value: boolean) => {
   browser.privacy.network.peerConnectionEnabled.set({ value: value });
 };
 
@@ -52,7 +52,7 @@ const useWebRtc = () => {
   checkRTCLeaks();
 
   return {
-    toggleWebRTC,
+    setWebRTC,
     webRTCLeaking,
     webRTCLeakedIPs,
     webRTCStatus,
