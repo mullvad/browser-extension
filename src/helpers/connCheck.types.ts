@@ -28,8 +28,8 @@ export type Connection = {
   country?: string;
   ip?: string;
   ipv6?: string;
-  isMullvad: boolean;
+  isMullvad: boolean | null;
   protocol?: string;
   provider?: string;
   server?: string;
-}
+};

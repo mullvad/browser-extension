@@ -10,7 +10,7 @@ const { connection } = useConnection();
 const { webRTCLeaking } = useWebRtc();
 
 const dohDisable = computed(() => connection.value.isMullvad && isMullvadDoh.value);
-const dohEnable = computed(() => !connection.value.isMullvad && !isMullvadDoh.value);
+const dohEnable = computed(() => connection.value.isMullvad === false && !isMullvadDoh.value);
 const dohLeak = computed(() => isMullvadDoh.value && isthirdPartyDns.value);
 const dnsLeak = computed(() => connection.value.isMullvad && isthirdPartyDns.value);
 

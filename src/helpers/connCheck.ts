@@ -1,5 +1,9 @@
 import axios from 'axios';
-import type { AmIMullvadServerResponse, Connection, Ipv4ServerResponse } from '@/helpers/connCheck.types';
+import type {
+  AmIMullvadServerResponse,
+  Connection,
+  Ipv4ServerResponse,
+} from '@/helpers/connCheck.types';
 
 /*
 n is an optional parameter to retry the connCheck any number of time.
@@ -17,7 +21,9 @@ export const connCheck = async (n = 3): Promise<Connection> => {
 
     let ipv6;
     try {
-      const { data: ipv6Data} = await axios.get<AmIMullvadServerResponse>('https://ipv6.am.i.mullvad.net/json');
+      const { data: ipv6Data } = await axios.get<AmIMullvadServerResponse>(
+        'https://ipv6.am.i.mullvad.net/json',
+      );
       ipv6 = ipv6Data.ip;
     } catch (e) {
       if (__DEV__) {
@@ -33,7 +39,7 @@ export const connCheck = async (n = 3): Promise<Connection> => {
       server: data.mullvad_exit_ip_hostname,
       protocol: data.mullvad_server_type,
       provider: data.organization,
-      isMullvad: data.mullvad_exit_ip ?? false,
+      isMullvad: data.mullvad_exit_ip ?? null,
     };
   } catch (error) {
     if (n === 1) throw new Error('Connection check failed.');
