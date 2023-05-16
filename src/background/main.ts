@@ -14,7 +14,9 @@ const { cleanOutdated } = useRecommendations();
 addExtListeners();
 
 // Load webRTC settings from storage
-setWebRTC(webRTCStatus.value);
+watch(webRTCStatus, () => {
+  setWebRTC(webRTCStatus.value);
+});
 
 // Cleanup outdated settings from storage from the 0.6.x series
 // TO REMOVE IN THE 0.8.x versions
