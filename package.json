@@ -22,6 +22,7 @@
     "pack:xpi": "cross-env WEB_EXT_ARTIFACTS_DIR=./ web-ext build --source-dir ./extension --filename mullvad-browser-extension-$npm_package_version.xpi --overwrite-dest",
     "start:chromium": "web-ext run --source-dir ./extension --target=chromium",
     "start": "web-ext run --source-dir ./extension --target=firefox-desktop --start-url=about:debugging#/runtime/this-firefox",
+    "restart": "web-ext run --firefox-profile ~/.cache/mozilla/firefox/md0hl4g1.MBE-Testing-Profile --keep-profile-changes --source-dir ./extension --target=firefox-desktop --start-url=about:debugging#/runtime/this-firefox",
     "clear": "rimraf extension/dist extension/manifest.json extension/README.md extension/LICENSE.md mullvad-browser-extension* key.pem",
     "lint": "npm run eslint && npm run lint:style",
     "eslint": "eslint . --ext=.ts,.js,.vue",
