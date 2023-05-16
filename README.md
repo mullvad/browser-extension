@@ -6,6 +6,14 @@ Mullvad Browser Extension is a Firefox extension improving your browser experien
 Mullvad VPN. It also displays information about the connection, recommends optimal DNS settings, and
 a one-click access to [proxy servers](https://mullvad.net/en/help/socks5-proxy/).
 
+## Download
+
+You can visit our [download page](https://mullvad.net/en/download/browser/extension) to get the
+latest release.
+
+The extension is also available here on Github in the
+[Releases](https://github.com/mullvad/browser-extension/releases).
+
 ## Development
 
 ### **Environment**
