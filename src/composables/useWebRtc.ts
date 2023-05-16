@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import useStore from './useStore';
 
@@ -47,6 +47,10 @@ const checkRTCLeaks = async () => {
 const setWebRTC = (value: boolean) => {
   browser.privacy.network.peerConnectionEnabled.set({ value: value });
 };
+
+watch(webRTCStatus, () => {
+  setWebRTC(webRTCStatus.value);
+});
 
 const useWebRtc = () => {
   checkRTCLeaks();

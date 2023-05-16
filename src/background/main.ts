@@ -1,5 +1,7 @@
+import { runtime, storage } from 'webextension-polyfill';
 import { addExtListeners } from '@/helpers/extensions';
-import useWebRtc from '@/composables/useWebRtc';
+
+import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -7,16 +9,10 @@ if (import.meta.hot) {
   import('/@vite/client');
 }
 
-const { setWebRTC, webRTCStatus } = useWebRtc();
 const { cleanOutdated } = useRecommendations();
 
 // Add listeners on extension actions
 addExtListeners();
-
-// Load webRTC settings from storage
-watch(webRTCStatus, () => {
-  setWebRTC(webRTCStatus.value);
-});
 
 // Cleanup outdated settings from storage from the 0.6.x series
 // TO REMOVE IN THE 0.8.x versions
