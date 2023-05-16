@@ -52,6 +52,18 @@ You can only install the extension temporarily when it is not signed by Mozilla.
 
 The extension will automatically unload when Firefox is closed.
 
+### **Testing restart and persisting features**
+
+You can use the `restart` script to test restart and persisting features (like settings saved to
+local storage). It will require some manual configuration:
+
+- go to `about:profiles` and create a new Firefox profile
+- go to `package.json` and change the `restart` script with your own Firefox profile path
+- go to `about:config` and set both `extensions.webextensions.keepStorageOnUninstall` and
+  `extensions.webextensions.keepUuidOnUninstall` to `true`.
+
+[Learn more](https://extensionworkshop.com/documentation/develop/testing-persistent-and-restart-features/)
+
 ## Permissions
 
 Mullvad Browser Extension requires the following permissions:
