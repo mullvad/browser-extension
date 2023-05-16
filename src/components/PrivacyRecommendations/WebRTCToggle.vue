@@ -9,7 +9,7 @@ import IconLabel from '@/components/IconLabel.vue';
 import { closePopup } from '@/helpers/closePopup';
 import useWebRtc from '@/composables/useWebRtc';
 
-const { toggleWebRTC, webRTCStatus } = useWebRtc();
+const { setWebRTC, webRTCStatus } = useWebRtc();
 const webRTCLabel = ref('Enabled');
 
 watchEffect(() => {
@@ -23,7 +23,7 @@ watchEffect(() => {
       <h2 class="text-lg">WebRTC</h2>
       <n-tooltip>
         <template #trigger>
-          <n-switch v-model:value="webRTCStatus" @update-value="toggleWebRTC(webRTCStatus)" />
+          <n-switch v-model:value="webRTCStatus" @update-value="setWebRTC(webRTCStatus)" />
         </template>
         <span>{{ webRTCLabel }}</span>
       </n-tooltip>
