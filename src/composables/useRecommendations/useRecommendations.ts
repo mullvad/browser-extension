@@ -20,10 +20,9 @@ const updateRecommendation = (id: string, modification: Partial<Recommendation>)
   );
 };
 
-const cleanOutdated = () => {
+const cleanOutdated = (outdatedRecommendations: string[]) => {
   recommendations.value = recommendations.value.filter(
-    (recommendation) =>
-      !['Privacy Badger', 'Cookie AutoDelete', 'Disable webRTC'].includes(recommendation.name),
+    (recommendation) => !outdatedRecommendations.includes(recommendation.name),
   );
 };
 
