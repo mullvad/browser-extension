@@ -8,7 +8,9 @@ import FeEyeOff from '@/components/Icons/FeEyeOff.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
 import useStore from '@/composables/useStore';
+import useLeta from '@/composables/useLeta';
 
+const { letaLogin, letaLogout } = useLeta();
 const { accountNumber } = useStore();
 
 const invalidAccount = ref(false);
@@ -17,28 +19,30 @@ const password = ref('');
 
 const isValidAccount = (value: string): boolean => {
   // Matches numbers  in group of 4 with spaces or dashes
-  const isSixteenDigits = /^\d{4}([- ]?)\d{4}\1\d{4}\1\d{4}$/;
-  return isSixteenDigits.test(value);
+  const containsSixteenDigits = /^(\d[\s-]*){16}$/;
+  return containsSixteenDigits.test(value);
 };
 
-const handleSaveAccount = () => {
+const handleLogin = () => {
   if (isValidAccount(password.value)) {
     invalidAccount.value = false;
-    accountNumber.value = password.value;
-    //TODO add cookie mecanism
+    const sanitizedAccount = password.value.replace(/-|\s/g, '');
+    accountNumber.value = sanitizedAccount;
+
+    letaLogin();
   } else {
     invalidAccount.value = true;
     console.log('Error: not a 16 digits password!');
   }
 };
 
-const toggleAccount = () => {
-  isAccountVisible.value = !isAccountVisible.value;
+const handleLogout = () => {
+  accountNumber.value = '';
+  letaLogout();
 };
 
-const clearAccount = () => {
-  accountNumber.value = '';
-  // TODO Should delete the cookie as well
+const toggleAccount = () => {
+  isAccountVisible.value = !isAccountVisible.value;
 };
 
 // TODO Check where prettifying makes more sense to do
@@ -62,7 +66,7 @@ const accountString = computed(() =>
     <div v-if="accountNumber === ''">
       <div class="flex">
         <input v-model="password" type="password" placeholder="Enter your account number" />
-        <Button class="ml-2" @click="handleSaveAccount"> Login </Button>
+        <Button class="ml-2" @click="handleLogin"> Login </Button>
       </div>
       <div v-if="invalidAccount" class="py-4 flex items-center">
         <IconLabel text="The account entered is not a valid 16 digits number" type="warning" />
@@ -77,7 +81,7 @@ const accountString = computed(() =>
         <FeEyeOff v-if="isAccountVisible" />
         <FeEye v-else />
       </button>
-      <Button class="ml-2" @click="clearAccount"> Logout </Button>
+      <Button class="ml-2" @click="handleLogout"> Logout </Button>
     </div>
   </n-card>
 </template>
@@ -89,5 +93,9 @@ const accountString = computed(() =>
 
 .account-number {
   font-family: monospace;
+}
+
+input {
+  padding-left: 10px;
 }
 </style>

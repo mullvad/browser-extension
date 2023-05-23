@@ -76,6 +76,7 @@ local storage). It will require some manual configuration:
 
 Mullvad Browser Extension requires the following permissions:
 
+- `cookies` to be able to autologin to Mullvad Leta
 - `management` to be able to recommend third party extensions
 - `privacy` to disable webRTC
 - `proxy` to configure and use Mullvad proxy servers
