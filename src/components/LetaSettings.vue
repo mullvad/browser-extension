@@ -29,6 +29,9 @@ const handleLogin = () => {
     const sanitizedAccount = password.value.replace(/-|\s/g, '');
     accountNumber.value = sanitizedAccount;
 
+    // TODO  Should we contac the server to check is the account number
+    // is a valid Mullvad VPN account with time before saving it?
+
     letaLogin();
   } else {
     invalidAccount.value = true;

@@ -6,7 +6,9 @@ const { accountNumber } = useStore();
 const letaLogin = async () => {
   await fetch('https://api.mullvad.net/auth/v1/webtoken', {
     method: 'POST',
-    body: JSON.stringify({ account_number: '2664097547496549' }),
+    body: JSON.stringify({
+      account_number: accountNumber.value,
+    }),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -25,7 +27,10 @@ const letaLogin = async () => {
         'background',
       );
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      // TODO Handle server error codes
+      console.error(error);
+    });
 };
 
 const letaLogout = () => {
@@ -34,7 +39,6 @@ const letaLogout = () => {
 
 const useLeta = () => {
   return {
-    accountNumber,
     letaLogin,
     letaLogout,
   };
