@@ -3,15 +3,27 @@ import { removeCookie, setCookie } from '@/background/main';
 export type CookieData = {
   expiry: string;
   accessToken: string;
+  isFPI: boolean;
 };
 
+export type FPIStatus = {
+  isFPI: boolean;
+};
 export const setLetaCookies = (data: CookieData) => {
-  const { expiry, accessToken } = data;
-  const expirationDate = new Date(expiry).getTime() / 1000; // Convert to UNIX epoch in seconds
+  const { expiry, accessToken, isFPI } = data;
+
+  // Convert to required format:  UNIX epoch in seconds
+  const expirationDate = new Date(expiry).getTime() / 1000;
+
+  // if FPI is set, it is required to add the firstPartyDomain ('eTLD+1')
+  // If it's not set, an empty string is an accepted value
+  // Reference: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/cookies/set#firstpartydomain
+  // See also: https://bugzilla.mozilla.org/show_bug.cgi?id=1669716#c10
+  const firstPartyDomain = isFPI ? 'mullvad.net' : '';
 
   const accessCookie = {
+    firstPartyDomain,
     expirationDate,
-    // firstPartyDomain: 'leta.mullvad.net',
     httpOnly: true,
     name: `accessToken`,
     sameSite: 'strict',
@@ -22,25 +34,29 @@ export const setLetaCookies = (data: CookieData) => {
 
   const expiryCookie = {
     expirationDate,
-    // firstPartyDomain: 'leta.mullvad.net',
+    firstPartyDomain,
     name: `letaCookieExpiry`,
     url: 'https://leta.mullvad.net',
     value: expiry,
   };
 
-  setCookie(expiryCookie);
   setCookie(accessCookie);
+  setCookie(expiryCookie);
 };
 
-export const removeLetaCookies = () => {
+export const removeLetaCookies = (data: FPIStatus) => {
+  const { isFPI } = data;
+
+  const firstPartyDomain = isFPI ? 'mullvad.net' : '';
+
   removeCookie({
     name: 'accessToken',
     url: 'https://leta.mullvad.net',
-    // firstPartyDomain: 'leta.mullvad.net',
+    firstPartyDomain,
   });
   removeCookie({
     name: 'letaCookieExpiry',
     url: 'https://leta.mullvad.net',
-    // firstPartyDomain: 'leta.mullvad.net',
+    firstPartyDomain,
   });
 };

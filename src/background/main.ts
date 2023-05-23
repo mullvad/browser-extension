@@ -1,6 +1,6 @@
 import { onMessage } from 'webext-bridge/background';
 import { addExtListeners } from '@/helpers/extensions';
-import { CookieData, removeLetaCookies, setLetaCookies } from '@/helpers/cookies';
+import { CookieData, FPIStatus, removeLetaCookies, setLetaCookies } from '@/helpers/cookies';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -17,8 +17,8 @@ onMessage<CookieData>('leta-login', ({ data }) => {
   setLetaCookies(data);
 });
 
-onMessage('leta-logout', () => {
-  removeLetaCookies();
+onMessage<FPIStatus>('leta-logout', ({ data }) => {
+  removeLetaCookies(data);
 });
 
 export const setCookie = async (cookie: browser.cookies._SetDetails) => {
