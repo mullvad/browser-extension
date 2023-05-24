@@ -7,9 +7,10 @@ import FeEye from '@/components/Icons/FeEye.vue';
 import FeEyeOff from '@/components/Icons/FeEyeOff.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import useLeta, { FormatType } from '@/composables/useLeta';
+import { checkFormat, formatAccount, FormatType } from '@/helpers/account';
+import useLeta from '@/composables/useLeta';
 
-const { checkFormat, formatAccount, letaLogin, letaLogout, mullvadAccount } = useLeta();
+const { letaLogin, letaLogout, mullvadAccount } = useLeta();
 
 const invalidAccount = ref(false);
 const isAccountVisible = ref(false);
