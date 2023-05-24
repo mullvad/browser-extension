@@ -1,7 +1,7 @@
-import { sendMessage } from 'webext-bridge/popup';
+import { removeLetaCookies, setLetaCookies } from '@/helpers/cookies';
 
-import useFPI from './useFPI';
-import useStore from './useStore';
+import useFPI from '@/composables/useFPI';
+import useStore from '@/composables/useStore';
 
 const { isFPI } = useFPI();
 const { mullvadAccount } = useStore();
@@ -18,20 +18,14 @@ const letaLogin = async () => {
       },
     };
 
-    console.log('letaLogin: ', { requestData });
-
     const response = await fetch('https://api.mullvad.net/auth/v1/webtoken', requestData);
     const { expiry, access_token: accessToken } = await response.json();
 
-    sendMessage(
-      'leta-login',
-      {
-        expiry,
-        accessToken,
-        isFPI: isFPI.value,
-      },
-      'background',
-    );
+    setLetaCookies({
+      expiry,
+      accessToken,
+      isFPI: isFPI.value,
+    });
   } catch (error) {
     // TODO Handle server error codes
     console.error(error);
@@ -39,7 +33,7 @@ const letaLogin = async () => {
 };
 
 const letaLogout = async () => {
-  sendMessage('leta-logout', { isFPI: isFPI.value }, 'background');
+  removeLetaCookies({ isFPI: isFPI.value });
   mullvadAccount.value = '';
 };
 

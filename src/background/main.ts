@@ -1,6 +1,5 @@
-import { onMessage } from 'webext-bridge/background';
 import { addExtListeners } from '@/helpers/extensions';
-import { CookieData, FPIStatus, removeLetaCookies, setLetaCookies } from '@/helpers/cookies';
+import { initLetaLogin } from '@/helpers/initLeta';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -11,15 +10,19 @@ if (import.meta.hot) {
 // Add listeners on extension actions
 addExtListeners();
 
-// Cookie set/remove
-// `browser.cookies` operations are only available in the background context
-onMessage<CookieData>('leta-login', ({ data }) => {
-  setLetaCookies(data);
-});
+// Mullvad Leta Auto Login on extension start
+initLetaLogin();
 
-onMessage<FPIStatus>('leta-logout', ({ data }) => {
-  removeLetaCookies(data);
-});
+// Add cookie messaging listeners
+// `browser.cookies` operations are only available in the background context
+// onMessage<CookieData>('set-leta-cookies', ({ data }) => {
+//   console.log('onMessage set-leta-cookies', data);
+//   setLetaCookies(data);
+// });
+
+// onMessage<FPIStatus>('remove-leta-cookies', ({ data }) => {
+//   removeLetaCookies(data);
+// });
 
 export const setCookie = async (cookie: browser.cookies._SetDetails) => {
   console.log('setCookie: ', cookie);

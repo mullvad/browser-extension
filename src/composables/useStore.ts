@@ -7,8 +7,8 @@ export type Store = {
 };
 
 const useStore = (): Store => {
-  const webRTCStatus = useBrowserStorageLocal('webrtc-status', true);
-  const mullvadAccount = useBrowserStorageLocal('mullvad-account', '');
+  const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
+  const mullvadAccount = useBrowserStorageLocal('mullvadAccount', '');
   return { mullvadAccount, webRTCStatus };
 };
 
