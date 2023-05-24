@@ -7,53 +7,37 @@ import FeEye from '@/components/Icons/FeEye.vue';
 import FeEyeOff from '@/components/Icons/FeEyeOff.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import useStore from '@/composables/useStore';
-import useLeta from '@/composables/useLeta';
+import useLeta, { FormatType } from '@/composables/useLeta';
 
-const { letaLogin, letaLogout } = useLeta();
-const { accountNumber } = useStore();
+const { checkFormat, formatAccount, letaLogin, letaLogout, mullvadAccount } = useLeta();
 
 const invalidAccount = ref(false);
 const isAccountVisible = ref(false);
 const password = ref('');
 
-const isValidAccount = (value: string): boolean => {
-  // Matches numbers  in group of 4 with spaces or dashes
-  const containsSixteenDigits = /^(\d[\s-]*){16}$/;
-  return containsSixteenDigits.test(value);
-};
-
 const handleLogin = () => {
-  if (isValidAccount(password.value)) {
-    invalidAccount.value = false;
-    const sanitizedAccount = password.value.replace(/-|\s/g, '');
-    accountNumber.value = sanitizedAccount;
+  const isValidAccount = checkFormat(password.value);
+  invalidAccount.value = false;
 
-    // TODO  Should we contac the server to check is the account number
-    // is a valid Mullvad VPN account with time before saving it?
-
+  if (isValidAccount) {
+    mullvadAccount.value = formatAccount(password.value, FormatType.clean);
     letaLogin();
   } else {
     invalidAccount.value = true;
-    console.log('Error: not a 16 digits password!');
   }
-};
-
-const handleLogout = () => {
-  accountNumber.value = '';
-  letaLogout();
 };
 
 const toggleAccount = () => {
   isAccountVisible.value = !isAccountVisible.value;
 };
 
-// TODO Check where prettifying makes more sense to do
-const prettifyAccount = (accountNumber: string) => accountNumber.match(/.{1,4}/g)!.join(' ');
-
-const accountString = computed(() =>
-  isAccountVisible.value ? prettifyAccount(accountNumber.value) : '•••• •••• •••• ••••',
-);
+const accountString = computed(() => {
+  if (isAccountVisible.value) {
+    return formatAccount(mullvadAccount.value, FormatType.prettify);
+  } else {
+    return formatAccount(mullvadAccount.value, FormatType.hidden);
+  }
+});
 </script>
 
 <template>
@@ -66,7 +50,7 @@ const accountString = computed(() =>
       <IconLabel text="Only works when connected to Mullvad VPN" type="info" />
     </div>
 
-    <div v-if="accountNumber === ''">
+    <div v-if="mullvadAccount === ''">
       <div class="flex">
         <input v-model="password" type="password" placeholder="Enter your account number" />
         <Button class="ml-2" @click="handleLogin"> Login </Button>
@@ -84,7 +68,7 @@ const accountString = computed(() =>
         <FeEyeOff v-if="isAccountVisible" />
         <FeEye v-else />
       </button>
-      <Button class="ml-2" @click="handleLogout"> Logout </Button>
+      <Button class="ml-2" @click="letaLogout"> Logout </Button>
     </div>
   </n-card>
 </template>

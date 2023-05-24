@@ -49,14 +49,17 @@ export const removeLetaCookies = (data: FPIStatus) => {
 
   const firstPartyDomain = isFPI ? 'mullvad.net' : '';
 
+  console.log('removeLetaCookies: ', { isFPI }, { firstPartyDomain });
+
   removeCookie({
+    firstPartyDomain,
     name: 'accessToken',
     url: 'https://leta.mullvad.net',
-    firstPartyDomain,
   });
+
   removeCookie({
+    firstPartyDomain,
     name: 'letaCookieExpiry',
     url: 'https://leta.mullvad.net',
-    firstPartyDomain,
   });
 };

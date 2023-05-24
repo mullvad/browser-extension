@@ -3,13 +3,13 @@ import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
 
 export type Store = {
   webRTCStatus: Ref<boolean>;
-  accountNumber: Ref<string>;
+  mullvadAccount: Ref<string>;
 };
 
 const useStore = (): Store => {
   const webRTCStatus = useBrowserStorageLocal('webrtc-status', true);
-  const accountNumber = useBrowserStorageLocal('mullvad-account', '');
-  return { accountNumber, webRTCStatus };
+  const mullvadAccount = useBrowserStorageLocal('mullvad-account', '');
+  return { mullvadAccount, webRTCStatus };
 };
 
 export default useStore;
