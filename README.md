@@ -96,6 +96,11 @@ Two external network requests are made by the extension:
 - `am.i.mullvad.net` to get the connection information (Frequency: each time the popup is started
   and each time the proxy is connected/disconnected)
 
+  **Optional**
+
+- `api.mullvad.net` to login to Mullvad Leta (Frequency: on extension start if auto login is enabled
+  in the settings)
+
 _External links are marked with this icon_
 ![External Link icon](https://github.com/feathericon/feathericon/blob/master/src/svg/link-external.svg)
 
