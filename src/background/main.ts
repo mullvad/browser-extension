@@ -31,3 +31,28 @@ export const removeCookie = async (cookieDetails: browser.cookies._RemoveDetails
     console.error(error);
   }
 };
+
+const logURL = (details: browser.webRequest._OnBeforeRequestDetails) => {
+  console.log(`Intercepted request to: ${details.url}`, details.requestId);
+
+  browser.cookies.getAll({ url: 'https://leta.mullvad.net' }).then((cookies) => {
+    const expiry = cookies
+      .filter((cookie) => cookie.name === 'letaCookieExpiry')
+      .map((cookie) => cookie.value)[0];
+
+    console.log('logURL: ', expiry);
+
+    if (expiry && new Date(expiry) > new Date()) {
+      // If not, forward request
+      console.log('Session valid');
+      return { cancel: true };
+    } else {
+      console.log('Session expired');
+      return { cancel: false };
+    }
+  });
+};
+
+browser.webRequest.onBeforeRequest.addListener(logURL, { urls: ['https://leta.mullvad.net/*'] }, [
+  'blocking',
+]);

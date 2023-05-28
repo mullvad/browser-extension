@@ -85,6 +85,11 @@ Mullvad Browser Extension requires the following permissions:
 - `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
   `Network requests` for details)
 
+  **Optional**
+
+- `webRequest` to automatically login to Mullvad Leta (optional)
+- `webRequestBlocking` to automatically login to Mullvad Leta (optional)
+
 _Permissions are automatically accepted when testing the extension._
 
 ## Network requests
@@ -98,8 +103,8 @@ Two external network requests are made by the extension:
 
   **Optional**
 
-- `api.mullvad.net` to login to Mullvad Leta (Frequency: on extension start if auto login is enabled
-  in the settings)
+- `api.mullvad.net` when Mullvad Leta auto login is used (Frequency: on extension start and/or when
+  auth cookie expires)
 
 _External links are marked with this icon_
 ![External Link icon](https://github.com/feathericon/feathericon/blob/master/src/svg/link-external.svg)

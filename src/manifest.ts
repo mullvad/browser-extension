@@ -36,6 +36,8 @@ export async function getManifest() {
       'search',
       'storage',
       '*://*.mullvad.net/*',
+      'webRequest',
+      'webRequestBlocking',
     ],
     browser_specific_settings: {
       gecko: {
