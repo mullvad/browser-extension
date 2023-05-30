@@ -14,7 +14,7 @@ import { closePopup } from '@/helpers/closePopup';
 import useLeta from '@/composables/useLeta';
 import useConnection from '@/composables/useConnection';
 
-const { letaLogin, letaLogout, mullvadAccount } = useLeta();
+const { account, login, logout } = useLeta();
 
 const { connection } = useConnection();
 
@@ -29,8 +29,8 @@ const handleLogin = () => {
   invalidAccount.value = false;
 
   if (isValidAccount) {
-    mullvadAccount.value = formatAccount(password.value, FormatType.clean);
-    letaLogin();
+    account.value = formatAccount(password.value, FormatType.clean);
+    login();
   } else {
     invalidAccount.value = true;
   }
@@ -42,9 +42,9 @@ const toggleAccount = () => {
 
 const accountString = computed(() => {
   if (isAccountVisible.value) {
-    return formatAccount(mullvadAccount.value, FormatType.prettify);
+    return formatAccount(account.value, FormatType.prettify);
   } else {
-    return formatAccount(mullvadAccount.value, FormatType.hidden);
+    return formatAccount(account.value, FormatType.hidden);
   }
 });
 </script>
@@ -58,7 +58,7 @@ const accountString = computed(() => {
     <p>Enter your Mullvad VPN account number to automatically login to Mullvad Leta.</p>
 
     <div v-if="connected" class="pt-4">
-      <div v-if="mullvadAccount === ''">
+      <div v-if="account === ''">
         <div class="flex">
           <input v-model="password" type="password" placeholder="Enter your account number" />
         </div>
@@ -90,8 +90,8 @@ const accountString = computed(() => {
         <ExternalLinkIconLabel text="Mullvad Leta" />
       </Button>
 
-      <Button v-if="mullvadAccount === ''" color="success" @click="handleLogin"> Login </Button>
-      <Button v-else color="error" @click="letaLogout"> Logout </Button>
+      <Button v-if="account === ''" color="success" @click="handleLogin"> Login </Button>
+      <Button v-else color="error" @click="logout"> Logout </Button>
     </div>
   </n-card>
 </template>

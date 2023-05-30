@@ -1,5 +1,7 @@
+import { onMessage } from 'webext-bridge/background';
+
 import { addExtListeners } from '@/helpers/extensions';
-import { initLetaLogin } from '@/helpers/initLeta';
+import { getMullvadAccount, initLetaLogin, letaLogin, letaLogout } from '@/helpers/leta';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -14,8 +16,16 @@ addExtListeners();
 initLetaLogin();
 
 // Add cookie messaging listeners
-// `browser.cookies` operations are only available in the background context
+onMessage('leta-login', async () => {
+  const account = await getMullvadAccount();
+  letaLogin(account);
+});
 
+onMessage('leta-logout', () => {
+  letaLogout();
+});
+
+// `browser.cookies` operations are only available in the background context
 export const setCookie = async (cookie: browser.cookies._SetDetails) => {
   try {
     await browser.cookies.set(cookie);
@@ -32,27 +42,33 @@ export const removeCookie = async (cookieDetails: browser.cookies._RemoveDetails
   }
 };
 
-const logURL = (details: browser.webRequest._OnBeforeRequestDetails) => {
-  console.log(`Intercepted request to: ${details.url}`, details.requestId);
+// const logURL = (details: browser.webRequest._OnBeforeRequestDetails) => {
+//   console.log(`Intercepted request to: ${details.url}`, details.requestId);
 
-  browser.cookies.getAll({ url: 'https://leta.mullvad.net' }).then((cookies) => {
-    const expiry = cookies
-      .filter((cookie) => cookie.name === 'letaCookieExpiry')
-      .map((cookie) => cookie.value)[0];
+//   // Check if there's an account number available
 
-    console.log('logURL: ', expiry);
+//   browser.cookies.getAll({ url: 'https://leta.mullvad.net' }).then((cookies) => {
+//     const expiry = cookies
+//       .filter((cookie) => cookie.name === 'letaCookieExpiry')
+//       .map((cookie) => cookie.value)[0];
 
-    if (expiry && new Date(expiry) > new Date()) {
-      // If not, forward request
-      console.log('Session valid');
-      return { cancel: true };
-    } else {
-      console.log('Session expired');
-      return { cancel: false };
-    }
-  });
-};
+//     console.log('logURL: ', expiry);
 
-browser.webRequest.onBeforeRequest.addListener(logURL, { urls: ['https://leta.mullvad.net/*'] }, [
-  'blocking',
-]);
+//     if (expiry && new Date(expiry) > new Date()) {
+//       // There's a cookie and it expires in the future
+//       console.log('Session valid');
+//       return { cancel: true };
+//     } else {
+//       // There's no auth cookie
+//       // Create an auth cookie
+//       letaLogin();
+//       // continue
+//       console.log('Session expired');
+//       return { cancel: false };
+//     }
+//   });
+// };
+
+// browser.webRequest.onBeforeRequest.addListener(logURL, { urls: ['https://leta.mullvad.net/*'] }, [
+//   'blocking',
+// ]);

@@ -1,14 +1,12 @@
 import { removeCookie, setCookie } from '@/background/main';
+import { IsFPI } from './fpi';
 
-export type CookieData = {
+type CookieData = {
   expiry: string;
   accessToken: string;
   isFPI: boolean;
 };
 
-export type FPIStatus = {
-  isFPI: boolean;
-};
 export const setLetaCookies = (data: CookieData) => {
   const { expiry, accessToken, isFPI } = data;
 
@@ -44,9 +42,7 @@ export const setLetaCookies = (data: CookieData) => {
   setCookie(expiryCookie);
 };
 
-export const removeLetaCookies = (data: FPIStatus) => {
-  const { isFPI } = data;
-
+export const removeLetaCookies = (isFPI: IsFPI) => {
   const firstPartyDomain = isFPI ? 'mullvad.net' : '';
 
   removeCookie({
