@@ -30,6 +30,7 @@ const handleLogin = () => {
 
   if (isValidAccount) {
     account.value = formatAccount(password.value, FormatType.clean);
+    // TODO check if account is really valid?
     login();
   } else {
     invalidAccount.value = true;

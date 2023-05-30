@@ -33,7 +33,7 @@ export const letaLogin = async (account: string) => {
     });
   } catch (error) {
     // TODO Handle server error codes
-    // For example when accoutn submitted is incorrect
+    // For example when account submitted is incorrect
     console.error(error);
   }
 };
