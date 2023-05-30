@@ -19,8 +19,6 @@ export const initLetaLogin = async () => {
     },
   };
 
-  console.log('initLetaLogin: ', { requestData });
-
   const response = await fetch('https://api.mullvad.net/auth/v1/webtoken', requestData);
   const { expiry, access_token: accessToken } = await response.json();
 
