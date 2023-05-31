@@ -28,7 +28,17 @@ export async function getManifest() {
       '128': './assets/icon.svg',
       '256': './assets/icon.svg',
     },
-    permissions: ['management', 'privacy', 'proxy', 'search', 'storage', '*://*.mullvad.net/*'],
+    permissions: [
+      'cookies',
+      'management',
+      'privacy',
+      'proxy',
+      'search',
+      'storage',
+      '*://*.mullvad.net/*',
+      'webRequest',
+      'webRequestBlocking',
+    ],
     browser_specific_settings: {
       gecko: {
         strict_min_version: '91.1.0',
