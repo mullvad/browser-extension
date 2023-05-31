@@ -6,15 +6,21 @@ import { FormatType, formatAccount } from '@/helpers/account';
 import useStore from '@/composables/useStore';
 
 const { mullvadAccount } = useStore();
-const invalidError = ref(false);
+const loginError = ref({ error: false, message: '' });
 
-onMessage('invalid-account', async () => {
-  invalidError.value = true;
+type DataError = {
+  error: boolean;
+  message: string;
+};
+
+onMessage<DataError>('login-error', async ({ data }) => {
+  const { message } = data;
+  loginError.value = { error: true, message };
 });
 
 onMessage<DataAccount>('login-success', async ({ data }) => {
   const { account } = data;
-  invalidError.value = false;
+  loginError.value = { error: false, message: '' };
   // Save account to extension storage
   mullvadAccount.value = formatAccount(account, FormatType.clean);
 });
@@ -31,7 +37,7 @@ const logout = async () => {
 const useLeta = () => {
   return {
     account: mullvadAccount,
-    invalidError,
+    loginError,
     login,
     logout,
   };

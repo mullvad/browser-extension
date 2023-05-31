@@ -14,7 +14,7 @@ import { closePopup } from '@/helpers/closePopup';
 import useLeta from '@/composables/useLeta';
 import useConnection from '@/composables/useConnection';
 
-const { account, login, logout, invalidError } = useLeta();
+const { account, login, logout, loginError } = useLeta();
 const { connection } = useConnection();
 
 const invalidNumber = ref(false);
@@ -24,7 +24,7 @@ const password = ref('');
 const connected = computed(() => connection.value.isMullvad);
 
 const handleLogin = () => {
-  invalidError.value = false;
+  loginError.value = { error: false, message: '' };
   invalidNumber.value = false;
 
   const isValidNumber = checkFormat(password.value);
@@ -66,8 +66,8 @@ const accountString = computed(() => {
         <div v-if="invalidNumber" class="py-4 flex items-center">
           <IconLabel text="The account entered is not a 16 digits number." type="warning" />
         </div>
-        <div v-if="invalidError" class="py-4 flex items-center">
-          <IconLabel text="Invalid account number" type="warning" />
+        <div v-if="loginError.error" class="py-4 flex items-center">
+          <IconLabel :text="loginError.message" type="warning" />
         </div>
       </div>
 
@@ -94,8 +94,8 @@ const accountString = computed(() => {
         <ExternalLinkIconLabel text="Mullvad Leta" />
       </Button>
 
-      <Button v-if="account === ''" color="success" @click="handleLogin"> Login </Button>
-      <Button v-else color="error" @click="logout"> Logout </Button>
+      <Button v-if="account === ''" color="success" @click="handleLogin"> Save </Button>
+      <Button v-else color="error" @click="logout"> Delete </Button>
     </div>
   </n-card>
 </template>

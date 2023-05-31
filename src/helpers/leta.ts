@@ -26,11 +26,20 @@ export const letaLogin = async (account: string) => {
     };
 
     const response = await fetch('https://api.mullvad.net/auth/v1/webtoken', requestData);
+
     const data = await response.json();
 
-    if (data.code === 'INVALID_ACCOUNT') {
-      sendMessage('invalid-account', {}, 'popup');
-      throw new Error(`Account provided is invalid.`);
+    if (!response.ok) {
+      const accountError = `Invalid account`;
+      const serverError = `Server error, please try again later.`;
+
+      if (data.code === 'INVALID_ACCOUNT') {
+        sendMessage('login-error', { message: accountError }, 'popup');
+        throw new Error(accountError);
+      } else {
+        sendMessage('login-error', { message: serverError }, 'popup');
+        throw new Error(serverError);
+      }
     }
 
     sendMessage('login-success', { account }, 'popup');
