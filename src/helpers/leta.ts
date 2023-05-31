@@ -30,16 +30,13 @@ export const letaLogin = async (account: string) => {
     const data = await response.json();
 
     if (!response.ok) {
-      const accountError = `Invalid account`;
-      const serverError = `Server error, please try again later.`;
+      const error =
+        data.code === 'INVALID_ACCOUNT'
+          ? `Invalid account`
+          : `Server error, please try again later.`;
 
-      if (data.code === 'INVALID_ACCOUNT') {
-        sendMessage('login-error', { message: accountError }, 'popup');
-        throw new Error(accountError);
-      } else {
-        sendMessage('login-error', { message: serverError }, 'popup');
-        throw new Error(serverError);
-      }
+      sendMessage('login-error', { message: error }, 'popup');
+      throw new Error(error);
     }
 
     sendMessage('login-success', { account }, 'popup');
