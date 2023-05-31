@@ -1,11 +1,15 @@
+import { sendMessage } from 'webext-bridge/background';
+
 import { removeLetaCookies, setLetaCookies } from './cookies';
 import { checkFPI } from './fpi';
 
 export type MullvadAccount = string;
+export type DataAccount = {
+  account: MullvadAccount;
+};
 
 export const getMullvadAccount = async (): Promise<MullvadAccount> => {
   const { mullvadAccount } = await browser.storage.local.get('mullvadAccount');
-  console.log(mullvadAccount);
   return mullvadAccount;
 };
 
@@ -22,8 +26,16 @@ export const letaLogin = async (account: string) => {
     };
 
     const response = await fetch('https://api.mullvad.net/auth/v1/webtoken', requestData);
-    const { expiry, access_token: accessToken } = await response.json();
+    const data = await response.json();
 
+    if (data.code === 'INVALID_ACCOUNT') {
+      sendMessage('invalid-account', {}, 'popup');
+      throw new Error(`Account provided is invalid.`);
+    }
+
+    sendMessage('login-success', { account }, 'popup');
+
+    const { expiry, access_token: accessToken } = data;
     const isFPI = await checkFPI();
 
     setLetaCookies({
@@ -32,8 +44,6 @@ export const letaLogin = async (account: string) => {
       isFPI,
     });
   } catch (error) {
-    // TODO Handle server error codes
-    // For example when account submitted is incorrect
     console.error(error);
   }
 };
@@ -48,7 +58,6 @@ export const initLetaLogin = async () => {
   if (!mullvadAccount) {
     throw new Error('No Mullvad VPN account found in extension storage.');
   } else {
-    console.log('initLetaLogin');
     letaLogin(mullvadAccount);
   }
 };

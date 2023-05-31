@@ -1,7 +1,7 @@
 import { onMessage } from 'webext-bridge/background';
 
 import { addExtListeners } from '@/helpers/extensions';
-import { getMullvadAccount, initLetaLogin, letaLogin, letaLogout } from '@/helpers/leta';
+import { DataAccount, initLetaLogin, letaLogin, letaLogout } from '@/helpers/leta';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -16,8 +16,8 @@ addExtListeners();
 initLetaLogin();
 
 // Add cookie messaging listeners
-onMessage('leta-login', async () => {
-  const account = await getMullvadAccount();
+onMessage<DataAccount>('leta-login', async ({ data }) => {
+  const { account } = data;
   letaLogin(account);
 });
 
@@ -41,34 +41,3 @@ export const removeCookie = async (cookieDetails: browser.cookies._RemoveDetails
     console.error(error);
   }
 };
-
-// const logURL = (details: browser.webRequest._OnBeforeRequestDetails) => {
-//   console.log(`Intercepted request to: ${details.url}`, details.requestId);
-
-//   // Check if there's an account number available
-
-//   browser.cookies.getAll({ url: 'https://leta.mullvad.net' }).then((cookies) => {
-//     const expiry = cookies
-//       .filter((cookie) => cookie.name === 'letaCookieExpiry')
-//       .map((cookie) => cookie.value)[0];
-
-//     console.log('logURL: ', expiry);
-
-//     if (expiry && new Date(expiry) > new Date()) {
-//       // There's a cookie and it expires in the future
-//       console.log('Session valid');
-//       return { cancel: true };
-//     } else {
-//       // There's no auth cookie
-//       // Create an auth cookie
-//       letaLogin();
-//       // continue
-//       console.log('Session expired');
-//       return { cancel: false };
-//     }
-//   });
-// };
-
-// browser.webRequest.onBeforeRequest.addListener(logURL, { urls: ['https://leta.mullvad.net/*'] }, [
-//   'blocking',
-// ]);

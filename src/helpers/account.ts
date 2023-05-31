@@ -6,9 +6,6 @@ export enum FormatType {
 
 export const checkFormat = (value: string): boolean => {
   const containsSixteenDigits = /^(\d[\s-]*){16}$/;
-
-  // TODO  Should we contact the server to check is the account number
-  // is a valid Mullvad VPN account with time before saving it?
   return containsSixteenDigits.test(value);
 };
 

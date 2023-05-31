@@ -14,26 +14,26 @@ import { closePopup } from '@/helpers/closePopup';
 import useLeta from '@/composables/useLeta';
 import useConnection from '@/composables/useConnection';
 
-const { account, login, logout } = useLeta();
-
+const { account, login, logout, invalidError } = useLeta();
 const { connection } = useConnection();
 
-const invalidAccount = ref(false);
+const invalidNumber = ref(false);
 const isAccountVisible = ref(false);
 const password = ref('');
 
 const connected = computed(() => connection.value.isMullvad);
 
 const handleLogin = () => {
-  const isValidAccount = checkFormat(password.value);
-  invalidAccount.value = false;
+  invalidError.value = false;
+  invalidNumber.value = false;
 
-  if (isValidAccount) {
-    account.value = formatAccount(password.value, FormatType.clean);
-    // TODO check if account is really valid?
-    login();
+  const isValidNumber = checkFormat(password.value);
+
+  if (isValidNumber) {
+    invalidNumber.value = false;
+    login(password.value);
   } else {
-    invalidAccount.value = true;
+    invalidNumber.value = true;
   }
 };
 
@@ -63,8 +63,11 @@ const accountString = computed(() => {
         <div class="flex">
           <input v-model="password" type="password" placeholder="Enter your account number" />
         </div>
-        <div v-if="invalidAccount" class="py-4 flex items-center">
-          <IconLabel text="The account entered is not a valid 16 digits number" type="warning" />
+        <div v-if="invalidNumber" class="py-4 flex items-center">
+          <IconLabel text="The account entered is not a 16 digits number." type="warning" />
+        </div>
+        <div v-if="invalidError" class="py-4 flex items-center">
+          <IconLabel text="Invalid account number" type="warning" />
         </div>
       </div>
 
