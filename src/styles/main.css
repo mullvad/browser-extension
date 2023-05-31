@@ -30,6 +30,11 @@ header {
   color: var(--white);
 }
 
+input {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
 em {
   color: rgb(157 227 255);
 }
