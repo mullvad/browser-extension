@@ -31,7 +31,8 @@ const handleLogin = () => {
 
   if (isValidNumber) {
     invalidNumber.value = false;
-    login(password.value);
+    const account = formatAccount(password.value, FormatType.clean);
+    login(account);
   } else {
     invalidNumber.value = true;
   }
