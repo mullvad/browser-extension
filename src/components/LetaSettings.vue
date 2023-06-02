@@ -55,10 +55,12 @@ const accountString = computed(() => {
 <template>
   <n-card id="leta-settings" :bordered="false" class="mb-4">
     <div class="flex justify-between">
-      <h2 class="text-lg">Mullvad Leta Auto Login</h2>
+      <h2 class="text-lg">Mullvad Leta autologin</h2>
     </div>
 
-    <p>Enter your Mullvad VPN account number to automatically login to Mullvad Leta.</p>
+    <p class="pt-4">
+      Enter your Mullvad VPN account to automatically login when the browser starts.
+    </p>
 
     <div v-if="connected" class="pt-4">
       <div v-if="account === ''">
