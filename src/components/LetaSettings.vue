@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, Ref, ref } from 'vue';
 import { NCard } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -8,16 +8,17 @@ import FeEye from '@/components/Icons/FeEye.vue';
 import FeEyeOff from '@/components/Icons/FeEyeOff.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import { checkFormat, formatAccount, FormatType } from '@/helpers/account';
+import { checkAccountFormat, formatAccount, FormatType } from '@/helpers/account';
 import { closePopup } from '@/helpers/closePopup';
 
-import useLeta from '@/composables/useLeta';
+import useLeta, { ErrorMessage } from '@/composables/useLeta';
+
 import useConnection from '@/composables/useConnection';
 
 const { account, login, logout, loginError } = useLeta();
 const { connection } = useConnection();
 
-const invalidNumber = ref(false);
+const invalidAccount: Ref<ErrorMessage> = ref({ error: false, message: '' });
 const isAccountVisible = ref(false);
 const password = ref('');
 
@@ -25,16 +26,16 @@ const connected = computed(() => connection.value.isMullvad);
 
 const handleLogin = () => {
   loginError.value = { error: false, message: '' };
-  invalidNumber.value = false;
+  invalidAccount.value = { error: false, message: '' };
 
-  const isValidNumber = checkFormat(password.value);
+  const isValidAccount = checkAccountFormat(password.value);
 
-  if (isValidNumber) {
-    invalidNumber.value = false;
+  if (isValidAccount) {
+    invalidAccount.value = { error: false, message: '' };
     const account = formatAccount(password.value, FormatType.clean);
     login(account);
   } else {
-    invalidNumber.value = true;
+    invalidAccount.value = { error: true, message: 'Invalid account number' };
   }
 };
 
@@ -64,8 +65,8 @@ const accountString = computed(() => {
         <div class="flex">
           <input v-model="password" type="password" placeholder="Enter your account number" />
         </div>
-        <div v-if="invalidNumber" class="py-4 flex items-center">
-          <IconLabel text="The account entered is not a 16 digits number." type="warning" />
+        <div v-if="invalidAccount.error" class="py-4 flex items-center">
+          <IconLabel :text="invalidAccount.message" type="warning" />
         </div>
         <div v-if="loginError.error" class="py-4 flex items-center">
           <IconLabel :text="loginError.message" type="warning" />

@@ -32,7 +32,7 @@ export const letaLogin = async (account: string) => {
     if (!response.ok) {
       const error =
         data.code === 'INVALID_ACCOUNT'
-          ? `Invalid account`
+          ? `Invalid account number`
           : `Server error, please try again later.`;
 
       sendMessage('login-error', { message: error }, 'popup');

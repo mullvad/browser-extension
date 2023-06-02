@@ -4,9 +4,11 @@ export enum FormatType {
   'hidden',
 }
 
-export const checkFormat = (value: string): boolean => {
-  const containsSixteenDigits = /^(\d[\s-]*){16}$/;
-  return containsSixteenDigits.test(value);
+export const checkAccountFormat = (value: string): boolean => {
+  // The string contains between 9 and 16 digits.
+  // It can also contain spaces or dashes but no other characters.
+  const regex = /^(?=(?:\D*\d){9,16}\D*$)[\d -]+$/;
+  return regex.test(value);
 };
 
 export const formatAccount = (accountNumber: string, type: FormatType) => {

@@ -7,12 +7,12 @@ import useStore from '@/composables/useStore';
 const { mullvadAccount } = useStore();
 const loginError = ref({ error: false, message: '' });
 
-type DataError = {
+export type ErrorMessage = {
   error: boolean;
   message: string;
 };
 
-onMessage<DataError>('login-error', async ({ data }) => {
+onMessage<ErrorMessage>('login-error', async ({ data }) => {
   const { message } = data;
   loginError.value = { error: true, message };
 });
