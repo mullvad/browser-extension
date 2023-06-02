@@ -29,6 +29,7 @@ export async function getManifest() {
       '256': './assets/icon.svg',
     },
     permissions: [
+      'alarms',
       'cookies',
       'management',
       'privacy',
@@ -36,8 +37,6 @@ export async function getManifest() {
       'search',
       'storage',
       '*://*.mullvad.net/*',
-      'webRequest',
-      'webRequestBlocking',
     ],
     browser_specific_settings: {
       gecko: {

@@ -1,6 +1,6 @@
 import { sendMessage } from 'webext-bridge/background';
 
-import { removeLetaCookies, setLetaCookies } from './cookies';
+import { removeAuthCookie, setAuthCookie } from './cookies';
 import { checkFPI } from './fpi';
 
 export type MullvadAccount = string;
@@ -32,7 +32,7 @@ export const letaLogin = async (account: string) => {
     if (!response.ok) {
       const error =
         data.code === 'INVALID_ACCOUNT'
-          ? `Invalid account`
+          ? `Invalid account number`
           : `Server error, please try again later.`;
 
       sendMessage('login-error', { message: error }, 'popup');
@@ -44,7 +44,7 @@ export const letaLogin = async (account: string) => {
     const { expiry, access_token: accessToken } = data;
     const isFPI = await checkFPI();
 
-    setLetaCookies({
+    setAuthCookie({
       expiry,
       accessToken,
       isFPI,
@@ -56,7 +56,7 @@ export const letaLogin = async (account: string) => {
 
 export const letaLogout = async () => {
   const isFPI = await checkFPI();
-  removeLetaCookies(isFPI);
+  removeAuthCookie(isFPI);
 };
 
 export const initLetaLogin = async () => {
