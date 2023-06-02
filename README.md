@@ -87,8 +87,7 @@ Mullvad Browser Extension requires the following permissions:
 
   **Optional**
 
-- `webRequest` to automatically login to Mullvad Leta (optional)
-- `webRequestBlocking` to automatically login to Mullvad Leta (optional)
+- `alarms` to automatically renew Mullvad Leta cookie (optional)
 
 _Permissions are automatically accepted when testing the extension._
 
