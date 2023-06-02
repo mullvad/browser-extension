@@ -7,7 +7,7 @@ type CookieData = {
   isFPI: boolean;
 };
 
-export const setLetaCookies = (data: CookieData) => {
+export const setAuthCookie = (data: CookieData) => {
   const { expiry, accessToken, isFPI } = data;
 
   // Convert to required format:  UNIX epoch in seconds
@@ -30,30 +30,15 @@ export const setLetaCookies = (data: CookieData) => {
     value: accessToken,
   } as browser.cookies._SetDetails;
 
-  const expiryCookie = {
-    expirationDate,
-    firstPartyDomain,
-    name: `letaCookieExpiry`,
-    url: 'https://leta.mullvad.net',
-    value: expiry,
-  };
-
   setCookie(accessCookie);
-  setCookie(expiryCookie);
 };
 
-export const removeLetaCookies = (isFPI: IsFPI) => {
+export const removeAuthCookie = (isFPI: IsFPI) => {
   const firstPartyDomain = isFPI ? 'mullvad.net' : '';
 
   removeCookie({
     firstPartyDomain,
     name: 'accessToken',
-    url: 'https://leta.mullvad.net',
-  });
-
-  removeCookie({
-    firstPartyDomain,
-    name: 'letaCookieExpiry',
     url: 'https://leta.mullvad.net',
   });
 };
