@@ -59,11 +59,17 @@ export const letaLogout = async () => {
   removeAuthCookie(isFPI);
 };
 
-export const initLetaLogin = async () => {
+export const backgroundLetaLogin = async () => {
   const mullvadAccount = await getMullvadAccount();
   if (!mullvadAccount) {
     throw new Error('No Mullvad VPN account found in extension storage.');
   } else {
     letaLogin(mullvadAccount);
+  }
+};
+
+export const dailyLogin = async (alarm: browser.alarms.Alarm) => {
+  if (alarm.name === 'daily-login') {
+    await backgroundLetaLogin();
   }
 };

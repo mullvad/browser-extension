@@ -3,10 +3,10 @@ import { onMessage } from 'webext-bridge/background';
 import { addExtListeners } from '@/helpers/extensions';
 import {
   DataAccount,
-  getMullvadAccount,
-  initLetaLogin,
+  backgroundLetaLogin,
   letaLogin,
   letaLogout,
+  dailyLogin,
 } from '@/helpers/leta';
 
 // only on dev mode
@@ -18,8 +18,13 @@ if (import.meta.hot) {
 // Add listeners on extension actions
 addExtListeners();
 
-// Mullvad Leta Auto Login on extension start
-initLetaLogin();
+// Autologin to Leta on startup
+backgroundLetaLogin();
+
+// "New Identity" doesn't restart the extensions, so we need a workaround.
+// When a new window is created, we will automatically login again.
+// See: https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/41833
+browser.windows.onCreated.addListener(() => backgroundLetaLogin());
 
 // Add cookie messaging listeners
 onMessage<DataAccount>('leta-login', async ({ data }) => {
@@ -31,21 +36,14 @@ onMessage('leta-logout', () => {
   letaLogout();
 });
 
-// Alarm to refresh Mullvad Leta auth cookie
-// The cookie expires after 24h, so renewal is set for every 23h
-browser.alarms.create('leta-cookie-refresh', {
+// The cookie expires after 24h, so we use an alarm to relogin
+// in case a user keeps the browser open for more than a day
+browser.alarms.create('daily-login', {
   delayInMinutes: 1380,
   periodInMinutes: 1380,
 });
 
-const refreshCookie = async (alarm: browser.alarms.Alarm) => {
-  if (alarm.name === 'leta-cookie-refresh') {
-    const account = await getMullvadAccount();
-    await letaLogin(account);
-  }
-};
-
-browser.alarms.onAlarm.addListener(refreshCookie);
+browser.alarms.onAlarm.addListener(dailyLogin);
 
 // `browser.cookies` operations are only available in the background context
 export const setCookie = async (cookie: browser.cookies._SetDetails) => {
