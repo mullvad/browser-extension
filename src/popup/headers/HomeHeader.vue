@@ -7,7 +7,7 @@ import FeCog from '@/components/Icons/FeCog.vue';
 
 import { closePopup } from '@/helpers/closePopup';
 
-const logoUrl = '/assets/icon.svg';
+const logoUrl = '/assets/mullvad-logo.svg';
 
 const { currentRoute } = useRouter();
 

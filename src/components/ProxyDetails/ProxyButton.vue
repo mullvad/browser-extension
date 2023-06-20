@@ -42,9 +42,9 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
         <Button class="flex items-center justify-center" @click="toggleLocations">
           Switch location
         </Button>
-        <Button :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
+        <Button :color="color" @click="toggleProxy">{{ label }} proxy</Button>
       </n-button-group>
-      <Button v-else :color="color" @click="toggleProxy">{{ label }} Proxy</Button>
+      <Button v-else :color="color" @click="toggleProxy">{{ label }} proxy</Button>
     </div>
   </div>
 </template>

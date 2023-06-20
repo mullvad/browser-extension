@@ -14,19 +14,26 @@ export async function getManifest() {
     version: pkg.version,
     description: pkg.description,
     browser_action: {
-      default_icon: './assets/icon.svg',
+      default_icon: './assets/mullvad-logo.svg',
       default_popup: './dist/popup/index.html',
     },
     background: {
       page: './dist/background/index.html',
       persistent: false,
     },
+    page_action: {
+      default_icon: {
+        '16': './assets/route.svg',
+        '48': './assets/route.svg',
+        '96': './assets/route.svg',
+      },
+      default_title: 'Proxy details',
+      // show_matches: ['<all_urls>'],
+    },
     icons: {
-      '16': './assets/icon.svg',
-      '48': './assets/icon.svg',
-      '96': './assets/icon.svg',
-      '128': './assets/icon.svg',
-      '256': './assets/icon.svg',
+      '16': './assets/mullvad-logo.svg',
+      '48': './assets/mullvad-logo.svg',
+      '96': './assets/mullvad-logo.svg',
     },
     permissions: [
       'alarms',
@@ -50,7 +57,7 @@ export async function getManifest() {
         name: 'Mullvad Leta',
         search_url: 'https://leta.mullvad.net/?q={searchTerms}',
         keyword: 'm',
-        favicon_url: './assets/icon.svg',
+        favicon_url: './assets/mullvad-logo.svg',
       },
     },
   };
