@@ -9,8 +9,8 @@ export const updateTabIcon = async (tabId: number, socksEnabled: SocksEnabled) =
   }
 };
 
-// When first loaded, initialize the page action for all tabs.
-export const updateTabs = async () => {
+// Update the page action for all tabs
+export const updateTabsIcons = async () => {
   const tabs = browser.tabs.query({});
   const socksEnabled = await getsocksEnabled();
 

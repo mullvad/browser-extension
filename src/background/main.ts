@@ -8,7 +8,7 @@ import {
   letaLogout,
   refreshLetaDaily,
 } from '@/helpers/leta';
-import { addTabsListener, updateTabs } from '@/helpers/tabs';
+import { addTabsListener, updateTabsIcons } from '@/helpers/tabs';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -26,7 +26,7 @@ backgroundLetaLogin();
 addTabsListener();
 
 // Update socks icon in tabs
-updateTabs();
+updateTabsIcons();
 
 // Add listener to refresh Leta cookie daily
 refreshLetaDaily();
@@ -48,7 +48,7 @@ onMessage('leta-logout', () => {
 
 // On socks connect/disconnect update all tabs pageAction icons
 onMessage('update-socks', () => {
-  updateTabs();
+  updateTabsIcons();
 });
 
 // `browser.cookies` operations are only available in the background context
