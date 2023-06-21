@@ -28,7 +28,6 @@ export async function getManifest() {
         '96': './assets/route.svg',
       },
       default_title: 'Proxy details',
-      // show_matches: ['<all_urls>'],
     },
     icons: {
       '16': './assets/mullvad-logo.svg',

@@ -1,8 +1,10 @@
-import { ref } from 'vue';
 import { proxy } from 'webextension-polyfill';
+
+import useStore from './useStore';
 
 import useConnection from '@/composables/useConnection';
 import getSocksIpForProtocol from '@/composables/utils/getSocksIpForProtocol';
+import { sendMessage } from 'webext-bridge/popup';
 
 const { connection, updateConnection } = useConnection();
 
@@ -14,6 +16,8 @@ const baseConfig = {
   proxyType: 'manual',
 };
 
+const { socksEnabled } = useStore();
+
 const enableProxy = () => {
   const socksIp = getSocksIpForProtocol(connection.value.protocol);
   proxy.settings.set({
@@ -23,6 +27,7 @@ const enableProxy = () => {
     },
   });
   updateConnection();
+  sendMessage('update-socks', {}, 'background');
   socksEnabled.value = true;
 };
 
@@ -31,10 +36,9 @@ const disableProxy = () => {
     value: {},
   });
   updateConnection();
+  sendMessage('update-socks', {}, 'background');
   socksEnabled.value = false;
 };
-
-const socksEnabled = ref(false);
 
 const toggleProxy = () => (socksEnabled.value ? disableProxy() : enableProxy());
 

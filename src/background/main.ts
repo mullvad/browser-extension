@@ -8,6 +8,7 @@ import {
   letaLogout,
   dailyLogin,
 } from '@/helpers/leta';
+import { addTabsListener, updateTabs } from '@/helpers/tabs';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -20,6 +21,10 @@ addExtListeners();
 
 // Autologin to Leta on startup
 backgroundLetaLogin();
+
+// Update socks icon in tabs
+addTabsListener();
+updateTabs();
 
 // "New Identity" doesn't restart the extensions, so we need a workaround.
 // When a new window is created, we will automatically login again.
@@ -34,6 +39,11 @@ onMessage<DataAccount>('leta-login', async ({ data }) => {
 
 onMessage('leta-logout', () => {
   letaLogout();
+});
+
+// On socks connect/disconnect update all tabs pageAction icons
+onMessage('update-socks', () => {
+  updateTabs();
 });
 
 // The cookie expires after 24h, so we use an alarm to relogin
