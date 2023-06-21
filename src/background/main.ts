@@ -6,7 +6,7 @@ import {
   backgroundLetaLogin,
   letaLogin,
   letaLogout,
-  dailyLogin,
+  refreshLetaDaily,
 } from '@/helpers/leta';
 import { addTabsListener, updateTabs } from '@/helpers/tabs';
 
@@ -22,9 +22,14 @@ addExtListeners();
 // Autologin to Leta on startup
 backgroundLetaLogin();
 
-// Update socks icon in tabs
+// Add listener for tab updates
 addTabsListener();
+
+// Update socks icon in tabs
 updateTabs();
+
+// Add listener to refresh Leta cookie daily
+refreshLetaDaily();
 
 // "New Identity" doesn't restart the extensions, so we need a workaround.
 // When a new window is created, we will automatically login again.
@@ -46,18 +51,10 @@ onMessage('update-socks', () => {
   updateTabs();
 });
 
-// The cookie expires after 24h, so we use an alarm to relogin
-// in case a user keeps the browser open for more than a day
-browser.alarms.create('daily-login', {
-  delayInMinutes: 1380,
-  periodInMinutes: 1380,
-});
-
-browser.alarms.onAlarm.addListener(dailyLogin);
-
 // `browser.cookies` operations are only available in the background context
 export const setCookie = async (cookie: browser.cookies._SetDetails) => {
   try {
+    console.log('cookieSet: ', cookie);
     await browser.cookies.set(cookie);
   } catch (error) {
     console.error(error);

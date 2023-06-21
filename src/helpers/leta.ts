@@ -68,8 +68,19 @@ export const backgroundLetaLogin = async () => {
   }
 };
 
-export const dailyLogin = async (alarm: browser.alarms.Alarm) => {
+const dailyLogin = async (alarm: browser.alarms.Alarm) => {
   if (alarm.name === 'daily-login') {
     await backgroundLetaLogin();
   }
+};
+
+export const refreshLetaDaily = () => {
+  // The cookie expires after 24h, so we use an alarm to relogin
+  // in case a user keeps the browser open for more than a day
+  browser.alarms.create('daily-login', {
+    delayInMinutes: 0.5, // 1380
+    periodInMinutes: 0.5, // 1380
+  });
+
+  browser.alarms.onAlarm.addListener(dailyLogin);
 };
