@@ -78,8 +78,8 @@ export const refreshLetaDaily = () => {
   // The cookie expires after 24h, so we use an alarm to relogin
   // in case a user keeps the browser open for more than a day
   browser.alarms.create('daily-login', {
-    delayInMinutes: 0.5, // 1380
-    periodInMinutes: 0.5, // 1380
+    delayInMinutes: 1380,
+    periodInMinutes: 1380,
   });
 
   browser.alarms.onAlarm.addListener(dailyLogin);
