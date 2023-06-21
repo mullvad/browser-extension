@@ -1,4 +1,3 @@
-import { removeCookie, setCookie } from '@/background/main';
 import { IsFPI } from './fpi';
 
 type CookieData = {
@@ -41,4 +40,21 @@ export const removeAuthCookie = (isFPI: IsFPI) => {
     name: 'accessToken',
     url: 'https://leta.mullvad.net',
   });
+};
+
+const setCookie = async (cookie: browser.cookies._SetDetails) => {
+  try {
+    console.log('cookieSet: ', cookie);
+    await browser.cookies.set(cookie);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const removeCookie = async (cookieDetails: browser.cookies._RemoveDetails) => {
+  try {
+    await browser.cookies.remove(cookieDetails);
+  } catch (error) {
+    console.error(error);
+  }
 };

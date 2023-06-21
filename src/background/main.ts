@@ -36,7 +36,7 @@ refreshLetaDaily();
 // See: https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/41833
 browser.windows.onCreated.addListener(() => backgroundLetaLogin());
 
-// Add cookie messaging listeners
+// Add messages listeners
 onMessage<DataAccount>('leta-login', async ({ data }) => {
   const { account } = data;
   letaLogin(account);
@@ -46,25 +46,6 @@ onMessage('leta-logout', () => {
   letaLogout();
 });
 
-// On socks connect/disconnect update all tabs pageAction icons
 onMessage('update-socks', () => {
   updateTabsIcons();
 });
-
-// `browser.cookies` operations are only available in the background context
-export const setCookie = async (cookie: browser.cookies._SetDetails) => {
-  try {
-    console.log('cookieSet: ', cookie);
-    await browser.cookies.set(cookie);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const removeCookie = async (cookieDetails: browser.cookies._RemoveDetails) => {
-  try {
-    await browser.cookies.remove(cookieDetails);
-  } catch (error) {
-    console.error(error);
-  }
-};
