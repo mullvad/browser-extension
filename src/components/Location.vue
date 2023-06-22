@@ -24,8 +24,8 @@ const clickSocksProxy = async (
   port?: number,
 ) => {
   storeSocksProxyUsage({ country, city, hostname, ipv4_address });
-  await connectToSocksProxy(ipv4_address, port);
   toggleLocations();
+  await connectToSocksProxy(ipv4_address, port);
 };
 
 const clickCountryOrCity = async (country: string, city?: string) => {
@@ -35,8 +35,8 @@ const clickCountryOrCity = async (country: string, city?: string) => {
     city,
   });
   storeSocksProxyUsage({ country, city });
-  await connectToSocksProxy(ipv4_address, port);
   toggleLocations();
+  await connectToSocksProxy(ipv4_address, port);
 };
 
 const selectLocation = (connection: HistoricConnection) => {
