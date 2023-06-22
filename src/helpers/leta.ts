@@ -74,7 +74,9 @@ const dailyLogin = async (alarm: browser.alarms.Alarm) => {
   }
 };
 
-export const refreshLetaDaily = () => {
+export const initLeta = () => {
+  backgroundLetaLogin();
+
   // The cookie expires after 24h, so we use an alarm to relogin
   // in case a user keeps the browser open for more than a day
   browser.alarms.create('daily-login', {
@@ -83,4 +85,9 @@ export const refreshLetaDaily = () => {
   });
 
   browser.alarms.onAlarm.addListener(dailyLogin);
+
+  // "New Identity" doesn't restart the extensions, so we need a workaround.
+  // When a new window is created, we will automatically login again.
+  // See: https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/41833
+  browser.windows.onCreated.addListener(() => backgroundLetaLogin());
 };

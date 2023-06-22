@@ -33,6 +33,15 @@ export const addTabsListener = () => {
   });
 };
 
+export const initPageAction = () => {
+  addTabsListener();
+  browser.pageAction.onClicked.addListener(() => {
+    browser.browserAction.openPopup();
+  });
+
+  updateTabs();
+};
+
 const updateTitle = (tabId: number, tooltip: string) => {
   browser.pageAction.setTitle({ tabId, title: tooltip });
 };
