@@ -1,10 +1,11 @@
+import { computed } from 'vue';
 import { proxy } from 'webextension-polyfill';
+import { sendMessage } from 'webext-bridge/popup';
 
 import useStore from './useStore';
 
 import useConnection from '@/composables/useConnection';
 import getSocksIpForProtocol from '@/composables/utils/getSocksIpForProtocol';
-import { sendMessage } from 'webext-bridge/popup';
 
 const { connection, updateConnection } = useConnection();
 
@@ -16,60 +17,81 @@ const baseConfig = {
   proxyType: 'manual',
 };
 
-const { socksEnabled } = useStore();
+const { socksDetails } = useStore();
 
-const enableProxy = () => {
+const enableProxy = async () => {
   const socksIp = getSocksIpForProtocol(connection.value.protocol);
 
-  const socksValue = {
-    ...baseConfig,
-    socks: `${socksIp}:${DEFAULT_PORT}`,
+  await proxy.settings.set({
+    value: {
+      ...baseConfig,
+      socks: `${socksIp}:${DEFAULT_PORT}`,
+    },
+  });
+
+  await updateConnection();
+
+  socksDetails.value = {
+    socksEnabled: true,
+    protocol: connection.value.protocol,
+    server: connection.value.server,
+    proxyDNS: baseConfig.proxyDNS,
   };
 
-  proxy.settings.set({
-    value: socksValue,
-  });
-  updateConnection();
   sendMessage('update-socks', {}, 'background');
-  socksEnabled.value = true;
 };
 
-const disableProxy = () => {
-  proxy.settings.set({
+const disableProxy = async () => {
+  await proxy.settings.set({
     value: {},
   });
-  updateConnection();
+
+  await updateConnection();
+
+  socksDetails.value = {
+    socksEnabled: false,
+  };
+
   sendMessage('update-socks', {}, 'background');
-  socksEnabled.value = false;
 };
 
 const toggleProxy = () => (socksEnabled.value ? disableProxy() : enableProxy());
 
-const useSocksProxy = () => {
+const socksEnabled = computed(() => socksDetails.value.socksEnabled);
+
+const connectToSocksProxy = async (ipv4_address: string, port = DEFAULT_PORT) => {
   try {
-    proxy.settings.get({}).then(({ value }) => {
-      socksEnabled.value = !!value.socks;
+    await proxy.settings.set({
+      value: {
+        ...baseConfig,
+        socks: `${ipv4_address}:${port}`,
+      },
     });
+
+    await updateConnection();
+
+    socksDetails.value = {
+      socksEnabled: true,
+      protocol: connection.value.protocol,
+      server: connection.value.server,
+      proxyDNS: baseConfig.proxyDNS,
+    };
+
+    sendMessage('update-socks', {}, 'background');
   } catch (e) {
-    // FIXME: Fix `proxy.settings.get` for Chromium
     console.log(e);
   }
+};
 
-  const connectToSocksProxy = (ipv4_address: string, port = DEFAULT_PORT) => {
-    try {
-      proxy.settings.set({
-        value: {
-          ...baseConfig,
-          socks: `${ipv4_address}:${port}`,
-        },
-      });
-      socksEnabled.value = true;
-      updateConnection();
-    } catch (e) {
-      // FIXME: Fix `proxy.settings.set` for Chromium
-      console.log(e);
-    }
-  };
+const useSocksProxy = () => {
+  // TODO Check if that part of the code is really needed
+  try {
+    proxy.settings.get({}).then(({ value }) => {
+      socksDetails.value = { ...socksDetails.value, socksEnabled: !!value.socks };
+    });
+  } catch (e) {
+    console.log(e);
+  }
 
   return { connectToSocksProxy, socksEnabled, toggleProxy, disableProxy };
 };

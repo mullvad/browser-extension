@@ -1,17 +1,18 @@
 import { Ref } from 'vue';
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
+import { SocksDetails } from '@/helpers/socks';
 
 export type Store = {
-  webRTCStatus: Ref<boolean>;
-  socksEnabled: Ref<boolean>;
+  socksDetails: Ref<SocksDetails>;
   mullvadAccount: Ref<string>;
+  webRTCStatus: Ref<boolean>;
 };
 
 const useStore = (): Store => {
-  const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
-  const socksEnabled = useBrowserStorageLocal('socksEnabled', false);
   const mullvadAccount = useBrowserStorageLocal('mullvadAccount', '');
-  return { mullvadAccount, socksEnabled, webRTCStatus };
+  const socksDetails = useBrowserStorageLocal('socksDetails', { socksEnabled: false });
+  const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
+  return { socksDetails, mullvadAccount, webRTCStatus };
 };
 
 export default useStore;

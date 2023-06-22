@@ -16,7 +16,7 @@ const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
 const { connectToSocksProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useHistoricConnections();
 
-const clickSocksProxy = (
+const clickSocksProxy = async (
   country: string,
   city: string,
   hostname: string,
@@ -24,18 +24,18 @@ const clickSocksProxy = (
   port?: number,
 ) => {
   storeSocksProxyUsage({ country, city, hostname, ipv4_address });
-  connectToSocksProxy(ipv4_address, port);
+  await connectToSocksProxy(ipv4_address, port);
   toggleLocations();
 };
 
-const clickCountryOrCity = (country: string, city?: string) => {
+const clickCountryOrCity = async (country: string, city?: string) => {
   const { ipv4_address, port } = getRandomSocksProxy({
     socksProxies: socksProxies.value,
     country,
     city,
   });
   storeSocksProxyUsage({ country, city });
-  connectToSocksProxy(ipv4_address, port);
+  await connectToSocksProxy(ipv4_address, port);
   toggleLocations();
 };
 

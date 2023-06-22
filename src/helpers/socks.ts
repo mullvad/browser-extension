@@ -1,7 +1,19 @@
 export type SocksEnabled = boolean;
 
-export const getsocksEnabled = async (): Promise<SocksEnabled> => {
-  const response = await browser.storage.local.get('socksEnabled');
+export type SocksDetails = {
+  socksEnabled: boolean;
+  protocol?: string;
+  server?: string;
+  proxyDNS?: boolean;
+};
 
-  return JSON.parse(response.socksEnabled);
+export const getSocksDetails = async (): Promise<SocksDetails> => {
+  const response = await browser.storage.local.get('socksDetails');
+
+  // TODO Check if there's an existing user set socks in use
+
+  if ('socksDetails' in response) {
+    return JSON.parse(response.socksDetails);
+  }
+  return { socksEnabled: false };
 };
