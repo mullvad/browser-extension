@@ -20,11 +20,14 @@ const { socksEnabled } = useStore();
 
 const enableProxy = () => {
   const socksIp = getSocksIpForProtocol(connection.value.protocol);
+
+  const socksValue = {
+    ...baseConfig,
+    socks: `${socksIp}:${DEFAULT_PORT}`,
+  };
+
   proxy.settings.set({
-    value: {
-      ...baseConfig,
-      socks: `${socksIp}:${DEFAULT_PORT}`,
-    },
+    value: socksValue,
   });
   updateConnection();
   sendMessage('update-socks', {}, 'background');

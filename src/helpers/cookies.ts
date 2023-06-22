@@ -44,7 +44,6 @@ export const removeAuthCookie = (isFPI: IsFPI) => {
 
 const setCookie = async (cookie: browser.cookies._SetDetails) => {
   try {
-    console.log('cookieSet: ', cookie);
     await browser.cookies.set(cookie);
   } catch (error) {
     console.error(error);
