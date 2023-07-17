@@ -4,6 +4,7 @@ import { NButtonGroup } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
+import TaRoute from '@/components/Icons/TaRoute.vue';
 import ProxyDisconnectMessage from '@/components/ProxyDetails/ProxyDisconnectMessage.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
@@ -42,9 +43,15 @@ const label = computed(() => (socksEnabled.value ? 'Disconnect' : 'Connect'));
         <Button class="flex items-center justify-center" @click="toggleLocations">
           Switch location
         </Button>
-        <Button :color="color" @click="toggleProxy">{{ label }} proxy</Button>
+        <Button :color="color" class="flex items-center justify-center" @click="toggleProxy">
+          <TaRoute />
+          <span class="ml-2">{{ label }} proxy</span>
+        </Button>
       </n-button-group>
-      <Button v-else :color="color" @click="toggleProxy">{{ label }} proxy</Button>
+      <Button v-else :color="color" class="flex items-center justify-center" @click="toggleProxy">
+        <TaRoute />
+        <span class="ml-2">{{ label }} proxy</span>
+      </Button>
     </div>
   </div>
 </template>
