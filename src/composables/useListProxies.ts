@@ -65,7 +65,7 @@ const sortProxiesByCountryAndCity = (grouped: Servers) =>
     })
     .sort(({ country: a }, { country: b }) => a.localeCompare(b));
 
-const useSocksProxies = () => {
+const useListProxies = () => {
   const getSocksProxies = async () => {
     const { data } = await axios.get<SocksProxy[]>(
       'https://api.mullvad.net/network/v1-beta1/socks-proxies',
@@ -77,4 +77,4 @@ const useSocksProxies = () => {
   return useQuery<Country[], AxiosError>('socksProxies', getSocksProxies);
 };
 
-export default useSocksProxies;
+export default useListProxies;

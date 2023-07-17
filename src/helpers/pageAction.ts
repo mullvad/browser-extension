@@ -1,47 +1,74 @@
-import { SocksDetails, getSocksDetails } from '@/helpers/socks';
-
-// Update a tab page action icon & title
-export const updateTabPA = async (tabId: number, socksDetails: SocksDetails) => {
-  const tooltip = `Server: ${socksDetails.server}\nProtocol: ${socksDetails.protocol}\nProxy DNS: ${socksDetails.proxyDNS}`;
-
-  if (socksDetails.socksEnabled) {
-    browser.pageAction.show(tabId);
-    updateTitle(tabId, tooltip);
-  } else {
-    browser.pageAction.hide(tabId);
-  }
-};
-
-// Update the page action for all tabs
-export const updateTabs = async () => {
-  const tabs = browser.tabs.query({});
-  const socksDetails = await getSocksDetails();
-
-  tabs.then((tabs) => {
-    for (const tab of tabs) {
-      updateTabPA(tab.id!, socksDetails);
-    }
-  });
-};
-
-export const addTabsListener = () => {
-  // Each time a tab is updated, reset the page action for that tab.
-  browser.tabs.onUpdated.addListener(async (tabId) => {
-    const socksDetails = await getSocksDetails();
-
-    updateTabPA(tabId, socksDetails);
-  });
-};
+import { SocksDetails, getSocksDetails } from '@/helpers/socksProxy';
+import { getHostname, isValidURL } from './url';
+import { getProxySettings } from './socksProxy';
 
 export const initPageAction = () => {
-  addTabsListener();
+  // Open main popup when clicking on proxy icon in the URL bar
   browser.pageAction.onClicked.addListener(() => {
     browser.browserAction.openPopup();
   });
 
-  updateTabs();
+  // Each time a tab is updated, reset the page action for that tab.
+  browser.tabs.onUpdated.addListener(updatedTabListener);
+
+  updateTabsProxyIcons();
 };
 
-const updateTitle = (tabId: number, tooltip: string) => {
-  browser.pageAction.setTitle({ tabId, title: tooltip });
+// Update state of the proxy icon for all tabs
+export const updateTabsProxyIcons = async () => {
+  const tabs = browser.tabs.query({});
+  const socksDetails = await getSocksDetails();
+  const { passthrough } = await getProxySettings();
+
+  tabs.then((tabs) => {
+    for (const tab of tabs) {
+      if (tab.id && tab.url && isValidURL(tab.url)) {
+        const hostname = getHostname(tab.url);
+        let showPageAction = true;
+
+        if (passthrough.includes(hostname)) {
+          showPageAction = false;
+        }
+
+        updateTabProxyIcon(tab.id, socksDetails, showPageAction);
+      }
+    }
+  });
+};
+
+const updatedTabListener = async (
+  tabId: number,
+  changeInfo: browser.tabs._OnUpdatedChangeInfo,
+  tab: browser.tabs.Tab,
+) => {
+  const socksDetails = await getSocksDetails();
+  const { passthrough } = await getProxySettings();
+
+  let showPageAction = true;
+
+  if (tab.url && isValidURL(tab.url)) {
+    const hostname = getHostname(tab.url);
+
+    if (passthrough.includes(hostname)) {
+      showPageAction = false;
+    }
+
+    updateTabProxyIcon(tabId, socksDetails, showPageAction);
+  }
+};
+
+// Update a tab page action icon & title
+const updateTabProxyIcon = async (
+  tabId: number,
+  socksDetails: SocksDetails,
+  showPageAction: boolean,
+) => {
+  const tooltip = `Server: ${socksDetails.server}\nProtocol: ${socksDetails.protocol}\nProxy DNS: ${socksDetails.proxyDNS}`;
+
+  if (showPageAction) {
+    browser.pageAction.show(tabId);
+    browser.pageAction.setTitle({ tabId, title: tooltip });
+  } else {
+    browser.pageAction.hide(tabId);
+  }
 };

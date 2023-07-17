@@ -1,4 +1,4 @@
-import type { Country } from '@/composables/useSocksProxies';
+import type { Country } from '@/composables/useListProxies';
 
 type Props = {
   socksProxies: Country[] | undefined;

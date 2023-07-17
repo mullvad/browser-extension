@@ -84,6 +84,7 @@ Mullvad Browser Extension requires the following permissions:
 - `search` to recommend other search engines
 - `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
   `Network requests` for details)
+- `<all_urls>` to hide proxy icon for non proxied websites
 
   **Optional**
 

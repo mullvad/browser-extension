@@ -4,7 +4,7 @@ import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 import IconLabel from '@/components/IconLabel.vue';
 import LocationTabs from '@/components/LocationTabs.vue';
 
-import useSocksProxies from '@/composables/useSocksProxies';
+import useListProxies from '@/composables/useListProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
@@ -12,7 +12,7 @@ import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
 
 const { toggleLocations } = useLocations();
-const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
+const { data: socksProxies, isLoading, isError, error } = useListProxies();
 const { connectToSocksProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useHistoricConnections();
 

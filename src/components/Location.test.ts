@@ -2,9 +2,9 @@ import { mount } from '@vue/test-utils';
 import { NCollapseItem } from 'naive-ui';
 
 import Location from '@/components/Location.vue';
-import useSocksProxies from '@/composables/useSocksProxies';
+import useListProxies from '@/composables/useListProxies';
 
-jest.mock('@/composables/useSocksProxies', () => ({
+jest.mock('@/composables/useListProxies', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
@@ -16,25 +16,22 @@ jest.mock('@/composables/useSocksProxy', () => ({
 
 describe('Location', () => {
   it('should show a loading message', () => {
-    (useSocksProxies as jest.Mock).mockReturnValueOnce({ isLoading: true });
+    (useListProxies as jest.Mock).mockReturnValueOnce({ isLoading: true });
     const wrapper = mount(Location);
     expect(wrapper.text()).toMatch(/loading/i);
     expect(wrapper.element).toMatchSnapshot();
   });
 
   it('should show an error message', () => {
-    (useSocksProxies as jest.Mock).mockReturnValueOnce({ isError: true, error: 'Network error' });
+    (useListProxies as jest.Mock).mockReturnValueOnce({ isError: true, error: 'Network error' });
     const wrapper = mount(Location);
     expect(wrapper.text()).toMatch(/network error/i);
     expect(wrapper.element).toMatchSnapshot();
   });
 
-  it('should show two countries',  () => {
-    (useSocksProxies as jest.Mock).mockReturnValueOnce({
-      data: [
-        { country: 'Australia' },
-        { country: 'Austria' },
-      ],
+  it('should show two countries', () => {
+    (useListProxies as jest.Mock).mockReturnValueOnce({
+      data: [{ country: 'Australia' }, { country: 'Austria' }],
     });
     const wrapper = mount(Location);
 

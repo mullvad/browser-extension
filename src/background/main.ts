@@ -2,7 +2,7 @@ import { onMessage } from 'webext-bridge/background';
 
 import { addExtListeners } from '@/helpers/extensions';
 import { DataAccount, initLeta, letaLogin, letaLogout } from '@/helpers/leta';
-import { initPageAction, updateTabs } from '@/helpers/pageAction';
+import { initPageAction, updateTabsProxyIcons } from '@/helpers/pageAction';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -30,5 +30,5 @@ onMessage('leta-logout', () => {
 });
 
 onMessage('update-socks', () => {
-  updateTabs();
+  updateTabsProxyIcons();
 });

@@ -43,6 +43,7 @@ export async function getManifest() {
       'search',
       'storage',
       '*://*.mullvad.net/*',
+      '<all_urls>',
     ],
     browser_specific_settings: {
       gecko: {
