@@ -16,6 +16,7 @@ export async function getManifest() {
     browser_action: {
       default_icon: './assets/mullvad-logo.svg',
       default_popup: './dist/popup/index.html',
+      default_area: 'navbar',
     },
     background: {
       page: './dist/background/index.html',
