@@ -14,19 +14,13 @@ export type DnsServer = {
 };
 
 const DNSLEAK_URL = 'dnsleak.am.i.mullvad.net';
-const CONNCHECK_URL = 'am.i.mullvad.net';
 
 const dnsLeakRequest = async () => {
-  const uuid = uuidv4().replace(/-/g, '');
-  try {
-    await axios.get(`https://${uuid}.${DNSLEAK_URL}`, { timeout: 10000 });
-  } catch (_) {
-    // This request is intended to fail
-  }
-  const { data } = await axios.get<DnsServer[]>(`https://${CONNCHECK_URL}/dnsleak/${uuid}`, {
+  const uuid = uuidv4();
+  const { data } = await axios.get(`https://${uuid}.${DNSLEAK_URL}`, {
+    headers: { accept: 'application/json' },
     timeout: 10000,
   });
-
   return data;
 };
 
