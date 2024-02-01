@@ -77,12 +77,12 @@
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard": "^34.0.0",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.1.6",
+    "typescript": "^5.3.3",
     "vite": "^4.4.9",
     "vite-plugin-windicss": "^1.9.1",
     "vue": "^3.3.4",
     "vue-demi": "^0.14.5",
-    "vue-tsc": "^1.8.8",
+    "vue-tsc": "^1.8.27",
     "web-ext": "^7.6.2",
     "webext-bridge": "^6.0.1",
     "webextension-polyfill": "^0.10.0"
@@ -92,6 +92,6 @@
     "naive-ui": "^2.37.3",
     "uuid": "^9.0.1",
     "vue-query": "^1.26.0",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.5"
   }
 }
