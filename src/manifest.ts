@@ -35,16 +35,7 @@ export async function getManifest() {
       '48': './assets/mullvad-logo.svg',
       '96': './assets/mullvad-logo.svg',
     },
-    permissions: [
-      'alarms',
-      'cookies',
-      'management',
-      'privacy',
-      'proxy',
-      'search',
-      'storage',
-      '*://*.mullvad.net/*',
-    ],
+    permissions: ['management', 'privacy', 'proxy', 'search', 'storage', '*://*.mullvad.net/*'],
     browser_specific_settings: {
       gecko: {
         strict_min_version: '91.1.0',

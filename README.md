@@ -76,7 +76,6 @@ local storage). It will require some manual configuration:
 
 Mullvad Browser Extension requires the following permissions:
 
-- `cookies` to be able to autologin to Mullvad Leta
 - `management` to be able to recommend third party extensions
 - `privacy` to disable webRTC
 - `proxy` to configure and use Mullvad proxy servers
@@ -84,10 +83,6 @@ Mullvad Browser Extension requires the following permissions:
 - `search` to recommend other search engines
 - `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
   `Network requests` for details)
-
-  **Optional**
-
-- `alarms` to automatically renew Mullvad Leta cookie (optional)
 
 _Permissions are automatically accepted when testing the extension._
 
@@ -99,11 +94,6 @@ Two external network requests are made by the extension:
   `Select proxy server location` drawer is opened)
 - `am.i.mullvad.net` to get the connection information (Frequency: each time the popup is started
   and each time the proxy is connected/disconnected)
-
-  **Optional**
-
-- `api.mullvad.net` when Mullvad Leta auto login is used (Frequency: on extension start and/or when
-  auth cookie expires)
 
 _External links are marked with this icon_
 ![External Link icon](https://github.com/feathericon/feathericon/blob/master/src/svg/link-external.svg)

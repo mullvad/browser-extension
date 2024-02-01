@@ -7,7 +7,6 @@ import { NTag } from 'naive-ui';
 import FeFileText from '@/components/Icons/FeFileText.vue';
 import FeGithub from '@/components/Icons/FeGithub.vue';
 import FeInfo from '@/components/Icons/FeInfo.vue';
-import LetaSettings from '@/components/LetaSettings.vue';
 import PrivacyRecommendations from '@/components/PrivacyRecommendations/PrivacyRecommendations.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 import WebRTCToggle from '@/components/PrivacyRecommendations/WebRTCToggle.vue';
@@ -59,7 +58,6 @@ if (hash.value) {
   </div>
 
   <TitleCategory title="Settings" class="pt-4" />
-  <LetaSettings />
   <WebRTCToggle />
 
   <TitleCategory title="Privacy Recommendations" class="pt-4" />
