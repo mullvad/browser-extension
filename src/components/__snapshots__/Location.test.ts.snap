@@ -87,7 +87,7 @@ exports[`Location should show two countries 1`] = `
     >
       
       <div
-        class="n-collapse-item n-collapse-item--right-arrow-placement"
+        class="n-collapse-item n-collapse-item--right-arrow-placement n-collapse-item--trigger-area-main n-collapse-item--trigger-area-extra n-collapse-item--trigger-area-arrow"
       >
         <div
           class="n-collapse-item__header"
@@ -126,6 +126,7 @@ exports[`Location should show two countries 1`] = `
             
             <div
               class="n-collapse-item-arrow"
+              data-arrow="true"
             >
               <i
                 class="n-base-icon"
@@ -146,6 +147,7 @@ exports[`Location should show two countries 1`] = `
           </div>
           <div
             class="n-collapse-item__header-extra"
+            data-extra="true"
           />
         </div>
         <transition-stub
@@ -158,7 +160,7 @@ exports[`Location should show two countries 1`] = `
         </transition-stub>
       </div>
       <div
-        class="n-collapse-item n-collapse-item--right-arrow-placement"
+        class="n-collapse-item n-collapse-item--right-arrow-placement n-collapse-item--trigger-area-main n-collapse-item--trigger-area-extra n-collapse-item--trigger-area-arrow"
       >
         <div
           class="n-collapse-item__header"
@@ -197,6 +199,7 @@ exports[`Location should show two countries 1`] = `
             
             <div
               class="n-collapse-item-arrow"
+              data-arrow="true"
             >
               <i
                 class="n-base-icon"
@@ -217,6 +220,7 @@ exports[`Location should show two countries 1`] = `
           </div>
           <div
             class="n-collapse-item__header-extra"
+            data-extra="true"
           />
         </div>
         <transition-stub
