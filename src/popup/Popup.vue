@@ -7,9 +7,8 @@ import HomeHeader from '@/popup/headers/HomeHeader.vue';
 import LicenseHeader from '@/popup/headers/LicenseHeader.vue';
 import SettingsHeader from '@/popup/headers/SettingsHeader.vue';
 
-const path = computed(() => {
-  return useRoute().path;
-});
+const route = useRoute();
+const path = computed(() => route && route.path);
 </script>
 
 <template>
@@ -30,6 +29,9 @@ const path = computed(() => {
 
 <style scoped>
 header {
-  box-shadow: rgb(0 0 0 / 5%) 0 1px 2px 0, rgb(0 0 0 / 5%) 0 1px 4px 0, rgb(0 0 0 / 5%) 0 2px 8px 0;
+  box-shadow:
+    rgb(0 0 0 / 5%) 0 1px 2px 0,
+    rgb(0 0 0 / 5%) 0 1px 4px 0,
+    rgb(0 0 0 / 5%) 0 2px 8px 0;
 }
 </style>
