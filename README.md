@@ -20,8 +20,8 @@ The extension is also available here on Github in the
 
 Build with:
 
-- Node 18.14.2
-- Npm 9.5.0
+- Node 20.11.0
+- Npm 10.2.4
 
 _If you use `nvm`, run `nvm use` to automatically set these versions._
 
