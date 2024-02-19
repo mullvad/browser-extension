@@ -1,48 +1,73 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 
-import IconLabel from '@/components/IconLabel.vue';
+import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import LocationTabs from '@/components/LocationTabs.vue';
 
-import useSocksProxies from '@/composables/useSocksProxies';
+import useListProxies from '@/composables/useListProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
-import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
-import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
-import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
+import useActiveTab from '@/composables/useActiveTab';
+import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
+import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
 
-const { toggleLocations } = useLocations();
-const { data: socksProxies, isLoading, isError, error } = useSocksProxies();
-const { connectToSocksProxy } = useSocksProxy();
-const { storeSocksProxyUsage } = useHistoricConnections();
+const { activeTabHost } = useActiveTab();
+const { hostProxySelect, toggleLocations } = useLocations();
+const { proxiesList } = useListProxies();
+const { setCurrentHostProxy, setGlobalProxy } = useSocksProxy();
+const { storeSocksProxyUsage } = useProxyHistory();
 
-const clickSocksProxy = async (
+const currentOrAllWebsites = computed(() =>
+  hostProxySelect.value ? activeTabHost.value : 'all your browser traffic',
+);
+
+const setProxy = (
   country: string,
+  countryCode: string,
   city: string,
   hostname: string,
   ipv4_address: string,
   port?: number,
 ) => {
-  storeSocksProxyUsage({ country, city, hostname, ipv4_address });
+  storeSocksProxyUsage({ country, countryCode, city, hostname, ipv4_address });
   toggleLocations();
-  await connectToSocksProxy(ipv4_address, port);
+
+  if (hostProxySelect.value) {
+    setCurrentHostProxy(
+      { country, countryCode, city, hostname, ipv4_address, port },
+      activeTabHost.value,
+    );
+  } else {
+    setGlobalProxy({ country, countryCode, city, hostname, ipv4_address, port });
+  }
 };
 
-const clickCountryOrCity = async (country: string, city?: string) => {
-  const { ipv4_address, port } = getRandomSocksProxy({
-    socksProxies: socksProxies.value,
-    country,
-    city,
+const clickServer = (
+  country: string,
+  countryCode: string,
+  city: string,
+  hostname: string,
+  ipv4_address: string,
+  port?: number,
+) => {
+  setProxy(country, countryCode, city, hostname, ipv4_address, port);
+};
+
+const clickCountryOrCity = (selectedCountry: string, selectedCity?: string) => {
+  const { country, countryCode, city, hostname, ipv4_address, port } = getRandomSocksProxy({
+    socksProxies: proxiesList.value,
+    country: selectedCountry,
+    city: selectedCity,
   });
-  storeSocksProxyUsage({ country, city });
-  toggleLocations();
-  await connectToSocksProxy(ipv4_address, port);
+
+  setProxy(country, countryCode, city, hostname, ipv4_address, port);
 };
 
-const selectLocation = (connection: HistoricConnection) => {
-  const { country, city, hostname, ipv4_address } = connection;
+const selectLocation = (connection: HistoryEntry) => {
+  const { country, countryCode, city, hostname, ipv4_address } = connection;
   if (hostname) {
-    clickSocksProxy(country, city, hostname, ipv4_address);
+    clickServer(country, countryCode, city, hostname, ipv4_address!);
   } else {
     clickCountryOrCity(country, city);
   }
@@ -51,16 +76,12 @@ const selectLocation = (connection: HistoricConnection) => {
 
 <template>
   <p class="mb-8">
-    Select the location where you want to have all your browser traffic routed through.
+    Select the location where you want to have {{ currentOrAllWebsites }} routed through.
   </p>
-  <p v-if="isLoading" class="text-lg flex items-center">
-    <IconLabel text="Loading proxy servers list" type="spinner" />
-  </p>
-  <p v-else-if="isError">{{ error }}</p>
-  <div v-else>
+  <div>
     <LocationTabs :selectLocation="selectLocation" />
     <n-collapse arrow-placement="right">
-      <n-collapse-item v-for="{ country, cities } in socksProxies" :key="country" :name="country">
+      <n-collapse-item v-for="{ country, cities } in proxiesList" :key="country" :name="country">
         <template #header>
           <n-button quaternary @click.prevent="clickCountryOrCity(country)">
             {{ country }}
@@ -85,7 +106,14 @@ const selectLocation = (connection: HistoricConnection) => {
                 secondary
                 medium
                 @click="
-                  clickSocksProxy(country, city, proxy.hostname, proxy.ipv4_address, proxy.port)
+                  clickServer(
+                    country,
+                    proxy.location.countryCode,
+                    city,
+                    proxy.hostname,
+                    proxy.ipv4_address,
+                    proxy.port,
+                  )
                 "
               >
                 {{ proxy.hostname }}

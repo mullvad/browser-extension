@@ -13,7 +13,7 @@ const { setWebRTC, webRTCStatus } = useWebRtc();
 const webRTCLabel = ref('Enabled');
 
 watchEffect(() => {
-  webRTCLabel.value = webRTCStatus.value ? 'Enabled' : 'Disabled';
+  webRTCLabel.value = webRTCStatus.value ? 'WebRTC enabled' : 'WebRTC disabled';
 });
 </script>
 

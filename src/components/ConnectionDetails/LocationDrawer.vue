@@ -2,7 +2,6 @@
 import { NDrawer, NDrawerContent } from 'naive-ui';
 
 import Location from '@/components/Location.vue';
-
 import useLocations from '@/composables/useLocations';
 
 const { showLocations } = useLocations();

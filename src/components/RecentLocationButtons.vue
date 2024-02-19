@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import Button from '@/components/Buttons/Button.vue';
-import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
-import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
+import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
+import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
 
-defineProps<{ selectLocation: (connection: HistoricConnection) => void }>();
+defineProps<{ selectLocation: (connection: HistoryEntry) => void }>();
 
-const { mostRecent, getLabel } = useHistoricConnections();
+const { mostRecent, getLabel } = useProxyHistory();
 
-const buttons = mostRecent.slice(0, 3).map((connection) => {
+const buttons = mostRecent.value.slice(0, 3).map((connection: HistoryEntry) => {
   const label = getLabel(connection);
   return {
     label,

@@ -10,11 +10,11 @@ import FeDrop from '@/components/Icons/FeDrop.vue';
 
 export type IconType = 'warning' | 'success' | 'info' | 'spinner' | 'leak' | 'check';
 
-defineProps<{ text: string; type: IconType }>();
+defineProps<{ text?: string; type: IconType }>();
 </script>
 
 <template>
-  <span>
+  <div class="flex items-center">
     <n-icon class="mr-2" size="25">
       <FeCheckCircle v-if="type === 'success'" class="text-success" />
       <FeCheck v-if="type === 'check'" class="text-success" />
@@ -24,13 +24,9 @@ defineProps<{ text: string; type: IconType }>();
       <FeDrop v-if="type === 'leak'" class="text-error" />
     </n-icon>
 
-    {{ text }}
-  </span>
+    <span v-if="text">{{ text }}</span>
+    <span v-else>
+      <slot></slot>
+    </span>
+  </div>
 </template>
-
-<style scoped>
-span {
-  display: flex;
-  align-items: center;
-}
-</style>

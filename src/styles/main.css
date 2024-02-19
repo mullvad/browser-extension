@@ -26,8 +26,8 @@ img {
 }
 
 header {
-  background-color: var(--blue);
-  color: var(--white);
+  background-color: var(--dark-blue);
+  color: var(--light-grey);
 }
 
 input {

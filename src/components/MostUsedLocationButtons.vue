@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import Button from '@/components/Buttons/Button.vue';
-import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
-import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
+import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
+import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
 
-defineProps<{ selectLocation: (connection: HistoricConnection) => void }>();
+defineProps<{ selectLocation: (connection: HistoryEntry) => void }>();
 
-const { mostUsed, getLabel } = useHistoricConnections();
+const { mostUsed, getLabel } = useProxyHistory();
 
-const buttons = mostUsed.slice(0, 3).map((connection) => {
+const buttons = mostUsed.value.slice(0, 3).map((connection: HistoryEntry) => {
   const label = getLabel(connection);
   return {
     label,
@@ -23,7 +23,8 @@ const buttons = mostUsed.slice(0, 3).map((connection) => {
       :key="label"
       class="block"
       @click="selectLocation(connection)"
-      >{{ label }}</Button
     >
+      {{ label }}
+    </Button>
   </div>
 </template>

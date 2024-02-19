@@ -81,8 +81,10 @@ Mullvad Browser Extension requires the following permissions:
 - `proxy` to configure and use Mullvad proxy servers
 - `storage` to save preferences
 - `search` to recommend other search engines
+- `tabs` to be able to show proxy settings based on the active tab
 - `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
   `Network requests` for details)
+- `<all_urls>` to have granular proxy settings
 
 _Permissions are automatically accepted when testing the extension._
 

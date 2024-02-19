@@ -1,74 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Location should show a loading message 1`] = `
-<div
-  data-v-app=""
->
-  
-  <p
-    class="mb-8"
-  >
-     Select the location where you want to have all your browser traffic routed through. 
-  </p>
-  <p
-    class="text-lg flex items-center"
-  >
-    <span>
-      <i
-        class="mr-2 n-icon"
-        role="img"
-        style="--n-bezier: cubic-bezier(.4, 0, .2, 1); font-size: 25px;"
-      >
-        <!--v-if-->
-        <!--v-if-->
-        <!--v-if-->
-        <!--v-if-->
-        <svg
-          class="text-info"
-          height="1em"
-          stroke="#ffffff"
-          viewBox="0 0 24 24"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g
-            class="spinner"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              fill="none"
-              r="9.5"
-              stroke-width="2"
-            />
-          </g>
-        </svg>
-        <!--v-if-->
-      </i>
-       Loading proxy servers list
-    </span>
-  </p>
-  
-</div>
-`;
-
-exports[`Location should show an error message 1`] = `
-<div
-  data-v-app=""
->
-  
-  <p
-    class="mb-8"
-  >
-     Select the location where you want to have all your browser traffic routed through. 
-  </p>
-  <p>
-    Network error
-  </p>
-  
-</div>
-`;
-
 exports[`Location should show two countries 1`] = `
 <div
   data-v-app=""
@@ -114,7 +45,7 @@ exports[`Location should show two countries 1`] = `
               <span
                 class="n-button__content"
               >
-                Australia
+                Albania
               </span>
               <div
                 aria-hidden="true"
@@ -187,7 +118,7 @@ exports[`Location should show two countries 1`] = `
               <span
                 class="n-button__content"
               >
-                Austria
+                Australia
               </span>
               <div
                 aria-hidden="true"

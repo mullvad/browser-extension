@@ -22,20 +22,21 @@ export async function getManifest() {
       page: './dist/background/index.html',
       persistent: false,
     },
-    page_action: {
-      default_icon: {
-        '16': './assets/route.svg',
-        '48': './assets/route.svg',
-        '96': './assets/route.svg',
-      },
-      default_title: 'Proxy details',
-    },
     icons: {
       '16': './assets/mullvad-logo.svg',
       '48': './assets/mullvad-logo.svg',
       '96': './assets/mullvad-logo.svg',
     },
-    permissions: ['management', 'privacy', 'proxy', 'search', 'storage', '*://*.mullvad.net/*'],
+    permissions: [
+      'management',
+      'privacy',
+      'proxy',
+      'search',
+      'storage',
+      'tabs',
+      '*://*.mullvad.net/*',
+      '<all_urls>',
+    ],
     browser_specific_settings: {
       gecko: {
         strict_min_version: '91.1.0',

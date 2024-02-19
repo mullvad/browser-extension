@@ -1,7 +1,6 @@
-import { onMessage } from 'webext-bridge/background';
-
 import { addExtListeners } from '@/helpers/extensions';
-import { initPageAction, updateTabs } from '@/helpers/pageAction';
+import { initBrowserAction } from '@/helpers/browserAction';
+import { initProxyRequests } from '@/helpers/socksProxy';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -12,10 +11,8 @@ if (import.meta.hot) {
 // Add listeners on extension actions
 addExtListeners();
 
-// Update pageAction in tabs and add listeners
-initPageAction();
+// Update browserAction for tabs and add listeners
+initBrowserAction();
 
-// Add message listeners
-onMessage('update-socks', () => {
-  updateTabs();
-});
+// Add listener for proxy requests
+initProxyRequests();

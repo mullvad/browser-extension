@@ -1,99 +1,133 @@
 import { computed } from 'vue';
-import { proxy } from 'webextension-polyfill';
-import { sendMessage } from 'webext-bridge/popup';
 
-import useStore from './useStore';
+import {
+  ProxyDetails,
+  ProxyInfo,
+  ProxyInfoType,
+  ProxyOperationArgs,
+} from '@/helpers/socksProxy.types';
 
+import useActiveTab from '@/composables/useActiveTab';
 import useConnection from '@/composables/useConnection';
-import getSocksIpForProtocol from '@/composables/utils/getSocksIpForProtocol';
+import useStore from '@/composables/useStore';
 
-const { connection, updateConnection } = useConnection();
-
-const DEFAULT_PORT = 1080;
-
-const baseConfig = {
-  // FIXME: Allow disabling Proxy DNS in the settings
+const baseConfig: Partial<ProxyInfo> = {
+  port: 1080,
   proxyDNS: true,
-  proxyType: 'manual',
 };
 
-const { socksDetails } = useStore();
+const socksIp = '10.64.0.1';
 
-const enableProxy = async () => {
-  const socksIp = getSocksIpForProtocol(connection.value.protocol);
+const { activeTabHost } = useActiveTab();
+const { updateConnection } = useConnection();
+const { globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } = useStore();
 
-  await proxy.settings.set({
-    value: {
-      ...baseConfig,
-      socks: `${socksIp}:${DEFAULT_PORT}`,
-    },
-  });
+const currentHostProxyDetails = computed(
+  () => hostProxiesDetails.value[activeTabHost.value] || null,
+);
 
-  await updateConnection();
+const globalProxyEnabled = computed(() => globalProxyDetails.value.socksEnabled);
+const currentHostProxyEnabled = computed(
+  () => currentHostProxyDetails.value?.socksEnabled ?? false,
+);
 
-  socksDetails.value = {
+const globalProxyDNSEnabled = computed(() => globalProxy.value?.proxyDNS ?? false);
+const currentHostProxyDNSEnabled = computed(() => currentHostProxyDetails.value?.proxyDNS ?? false);
+
+const toggleGlobalProxy = () => {
+  globalProxyDetails.value.socksEnabled = !globalProxyDetails.value.socksEnabled;
+};
+const toggleCurrentHostProxy = () => {
+  hostProxiesDetails.value[activeTabHost.value].socksEnabled = !currentHostProxyEnabled.value;
+};
+
+const toggleGlobalProxyDNS = () => {
+  const updatedGlobalProxyDNS = !globalProxyDetails.value.proxyDNS;
+  globalProxyDetails.value.proxyDNS = updatedGlobalProxyDNS;
+  globalProxy.value.proxyDNS = updatedGlobalProxyDNS;
+};
+const toggleCurrentHostProxyDNS = () => {
+  const updatedCurrentHostProxyDNS = !currentHostProxyDetails.value.proxyDNS;
+  hostProxiesDetails.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
+  hostProxies.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
+};
+
+const setGlobalProxy = ({
+  country,
+  countryCode,
+  city,
+  hostname,
+  ipv4_address,
+  port = baseConfig.port,
+}: ProxyOperationArgs) => {
+  const newGlobalProxy: ProxyInfo = {
+    host: ipv4_address,
+    port: port || 1080,
+    proxyDNS: baseConfig.proxyDNS,
+    type: ProxyInfoType.socks,
+  };
+
+  const newGlobalProxyDetails: ProxyDetails = {
     socksEnabled: true,
-    protocol: connection.value.protocol,
-    server: connection.value.server,
+    server: hostname!.replace('socks5-', '')!.replace('.relays.mullvad.net', ''),
+    country: country,
+    countryCode: countryCode,
+    city: city,
     proxyDNS: baseConfig.proxyDNS,
   };
 
-  sendMessage('update-socks', {}, 'background');
+  globalProxy.value = newGlobalProxy;
+  globalProxyDetails.value = newGlobalProxyDetails;
+
+  updateConnection();
 };
 
-const disableProxy = async () => {
-  await proxy.settings.set({
-    value: {},
-  });
-
-  await updateConnection();
-
-  socksDetails.value = {
-    socksEnabled: false,
+const setCurrentHostProxy = (
+  {
+    country,
+    countryCode,
+    city,
+    hostname,
+    ipv4_address,
+    port = baseConfig.port,
+  }: Partial<ProxyOperationArgs>,
+  host: string,
+) => {
+  const newHostProxy: ProxyInfo = {
+    host: ipv4_address || socksIp,
+    port: port!,
+    proxyDNS: baseConfig.proxyDNS,
+    type: ProxyInfoType.socks,
   };
 
-  sendMessage('update-socks', {}, 'background');
-};
+  const newHostProxyDetails: ProxyDetails = {
+    socksEnabled: true,
+    server: hostname!.replace('socks5-', '')!.replace('.relays.mullvad.net', ''),
+    country: country,
+    countryCode: countryCode,
+    city: city,
+    proxyDNS: baseConfig.proxyDNS,
+  };
 
-const toggleProxy = () => (socksEnabled.value ? disableProxy() : enableProxy());
-
-const socksEnabled = computed(() => socksDetails.value.socksEnabled);
-
-const connectToSocksProxy = async (ipv4_address: string, port = DEFAULT_PORT) => {
-  try {
-    await proxy.settings.set({
-      value: {
-        ...baseConfig,
-        socks: `${ipv4_address}:${port}`,
-      },
-    });
-
-    await updateConnection();
-
-    socksDetails.value = {
-      socksEnabled: true,
-      protocol: connection.value.protocol,
-      server: connection.value.server,
-      proxyDNS: baseConfig.proxyDNS,
-    };
-
-    sendMessage('update-socks', {}, 'background');
-  } catch (e) {
-    console.log(e);
-  }
+  hostProxies.value = { ...hostProxies.value, [host]: newHostProxy };
+  hostProxiesDetails.value = { ...hostProxiesDetails.value, [host]: newHostProxyDetails };
 };
 
 const useSocksProxy = () => {
-  // TODO Check if that part of the code is really needed
-  try {
-    proxy.settings.get({}).then(({ value }) => {
-      socksDetails.value = { ...socksDetails.value, socksEnabled: !!value.socks };
-    });
-  } catch (e) {
-    console.log(e);
-  }
-
-  return { connectToSocksProxy, socksEnabled, toggleProxy, disableProxy };
+  return {
+    currentHostProxyDetails,
+    currentHostProxyDNSEnabled,
+    currentHostProxyEnabled,
+    globalProxyDetails,
+    globalProxyDNSEnabled,
+    globalProxyEnabled,
+    setCurrentHostProxy,
+    setGlobalProxy,
+    toggleCurrentHostProxy,
+    toggleCurrentHostProxyDNS,
+    toggleGlobalProxy,
+    toggleGlobalProxyDNS,
+  };
 };
 
 export default useSocksProxy;

@@ -1,20 +1,26 @@
 import { mount } from '@vue/test-utils';
 import MostUsedLocationButtons from '@/components/MostUsedLocationButtons.vue';
 
-import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
+import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import Button from '@/components/Buttons/Button.vue';
 
-jest.mock('@/composables/useHistoricConnections/useHistoricConnections', () => ({
+jest.mock('@/composables/useProxyHistory/useProxyHistory', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
 
 describe('MostUsedLocationButtons', () => {
   it('should render one button', () => {
-    (useHistoricConnections as jest.Mock).mockReturnValueOnce({
-      mostUsed: [{ country: 'Argentina' }],
+    (useProxyHistory as jest.Mock).mockReturnValueOnce({
+      mostUsed: {
+        value: [{ country: 'Argentina' }],
+      },
+      mostRecent: {
+        value: [{ country: 'Argentina' }],
+      },
       getLabel: ({ country }: { country: string }) => country,
     });
+
     const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: jest.fn() } });
     const buttons = wrapper.findAllComponents(Button);
 
@@ -25,15 +31,27 @@ describe('MostUsedLocationButtons', () => {
   });
 
   it('should render three buttons', () => {
-    (useHistoricConnections as jest.Mock).mockReturnValueOnce({
-      mostUsed: [
-        { country: 'Sweden' },
-        { country: 'Norway' },
-        { country: 'Iceland' },
-        { country: 'Denmark' },
-        { country: 'France' },
-        { country: 'Spain' },
-      ],
+    (useProxyHistory as jest.Mock).mockReturnValueOnce({
+      mostUsed: {
+        value: [
+          { country: 'Sweden' },
+          { country: 'Norway' },
+          { country: 'Iceland' },
+          { country: 'Denmark' },
+          { country: 'France' },
+          { country: 'Spain' },
+        ],
+      },
+      mostRecent: {
+        value: [
+          { country: 'Sweden' },
+          { country: 'Norway' },
+          { country: 'Iceland' },
+          { country: 'Denmark' },
+          { country: 'France' },
+          { country: 'Spain' },
+        ],
+      },
       getLabel: ({ country }: { country: string }) => country,
     });
     const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: jest.fn() } });

@@ -1,18 +1,46 @@
 import { Ref } from 'vue';
+
+import { ProxyDetails, ProxyInfoMap, ProxyInfo, ProxyDetailsMap } from '@/helpers/socksProxy.types';
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
-import { SocksDetails } from '@/helpers/socks';
+import type { HistoryEntriesMap } from './useProxyHistory/HistoryEntries.types';
+import { Country } from './useListProxies';
 
 export type Store = {
-  socksDetails: Ref<SocksDetails>;
+  excludedHosts: Ref<string[]>;
+  hostProxies: Ref<ProxyInfoMap>;
+  hostProxiesDetails: Ref<ProxyDetailsMap>;
+  globalProxy: Ref<ProxyInfo>;
+  globalProxyDetails: Ref<ProxyDetails>;
+  historyEntries: Ref<HistoryEntriesMap>;
   mullvadAccount: Ref<string>;
+  proxiesList: Ref<Country[]>;
+  randomProxyActive: Ref<boolean>;
   webRTCStatus: Ref<boolean>;
 };
 
 const useStore = (): Store => {
+  const excludedHosts = useBrowserStorageLocal('excludedHosts', []);
+  const globalProxy = useBrowserStorageLocal('globalProxy', {} as ProxyInfo);
+  const globalProxyDetails = useBrowserStorageLocal('globalProxyDetails', {} as ProxyDetails);
+  const hostProxies = useBrowserStorageLocal('hostProxies', {});
+  const hostProxiesDetails = useBrowserStorageLocal('hostProxiesDetails', {});
+  const historyEntries = useBrowserStorageLocal('historyEntries', {});
   const mullvadAccount = useBrowserStorageLocal('mullvadAccount', '');
-  const socksDetails = useBrowserStorageLocal('socksDetails', { socksEnabled: false });
+  const proxiesList = useBrowserStorageLocal('proxiesList', [] as Country[]);
+  const randomProxyActive = useBrowserStorageLocal('randomProxyActive', false);
   const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
-  return { socksDetails, mullvadAccount, webRTCStatus };
+  return {
+    excludedHosts,
+    globalProxy,
+    globalProxyDetails,
+    hostProxies,
+    hostProxiesDetails,
+    historyEntries,
+    mullvadAccount,
+    proxiesList,
+    randomProxyActive,
+    webRTCStatus,
+  };
 };
 
 export default useStore;

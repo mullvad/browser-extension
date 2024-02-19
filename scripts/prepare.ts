@@ -8,10 +8,7 @@ import { r, port, isDev, log } from './utils';
  * Stub index.html to use Vite in development
  */
 async function stubIndexHtml() {
-  const views = [
-    'popup',
-    'background',
-  ];
+  const views = ['popup', 'background'];
 
   for (const view of views) {
     await fs.ensureDir(r(`extension/dist/${view}`));
@@ -32,12 +29,10 @@ writeManifest();
 
 if (isDev) {
   stubIndexHtml();
-  chokidar.watch(r('src/**/*.html'))
-    .on('change', () => {
-      stubIndexHtml();
-    });
-  chokidar.watch([r('src/manifest.ts'), r('package.json')])
-    .on('change', () => {
-      writeManifest();
-    });
+  chokidar.watch(r('src/**/*.html')).on('change', () => {
+    stubIndexHtml();
+  });
+  chokidar.watch([r('src/manifest.ts'), r('package.json')]).on('change', () => {
+    writeManifest();
+  });
 }

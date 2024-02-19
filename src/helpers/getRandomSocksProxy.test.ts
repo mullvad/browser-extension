@@ -1,22 +1,22 @@
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
-import { Country } from '@/composables/useSocksProxies';
+import { Country } from '@/composables/useListProxies';
 
 const gothenburgProxies = [
-  { hostname: 'se3-wg.socks5.mullvad.net', port: 1080 },
-  { hostname: 'se5-wg.socks5.mullvad.net', port: 1080 },
-  { hostname: 'se9-wg.socks5.mullvad.net', port: 1080 },
+  { hostname: 'se3-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
+  { hostname: 'se5-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
+  { hostname: 'se9-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
 ];
 
 const malmoProxies = [
-  { hostname: 'se1-wg.socks5.mullvad.net', port: 1080 },
-  { hostname: 'se4-wg.socks5.mullvad.net', port: 1080 },
+  { hostname: 'se1-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
+  { hostname: 'se4-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
 ];
 
 const stockholmProxies = [
-  { hostname: 'se2-wg.socks5.mullvad.net', port: 1080 },
-  { hostname: 'se6-wg.socks5.mullvad.net', port: 1080 },
-  { hostname: 'se7-wg.socks5.mullvad.net', port: 1080 },
-  { hostname: 'se8-wg.socks5.mullvad.net', port: 1080 },
+  { hostname: 'se2-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
+  { hostname: 'se6-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
+  { hostname: 'se7-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
+  { hostname: 'se8-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },
 ];
 
 const mockSocksProxies = [
@@ -74,19 +74,17 @@ describe('getRandomSocksProxy', () => {
     expect(isGothenburgProxy).toBeDefined();
     expect(isMalmoProxy).toBeUndefined();
   });
-  
+
   it('should return a proxy in Malmö', () => {
     const { hostname, port } = getRandomSocksProxy({
       socksProxies: mockSocksProxies,
       country: 'Sweden',
       city: 'Malmo',
     });
-    const isMalmoProxy = malmoProxies.find(
-      (p) => p.hostname === hostname && p.port === port,
-    );
+    const isMalmoProxy = malmoProxies.find((p) => p.hostname === hostname && p.port === port);
     expect(isMalmoProxy).toBeDefined();
   });
-  
+
   it('should return a proxy in Stockholm', () => {
     const { hostname, port } = getRandomSocksProxy({
       socksProxies: mockSocksProxies,

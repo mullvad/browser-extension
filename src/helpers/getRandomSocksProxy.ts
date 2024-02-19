@@ -1,4 +1,4 @@
-import type { Country } from '@/composables/useSocksProxies';
+import type { Country } from '@/composables/useListProxies';
 
 type Props = {
   socksProxies: Country[] | undefined;
@@ -22,9 +22,18 @@ const getRandomSocksProxy = ({ socksProxies, country, city }: Props) => {
     proxies = proxyList;
   }
   const index = Math.floor(Math.random() * proxies.length);
-  const { hostname, ipv4_address, port } = proxies[index];
+  const { hostname, ipv4_address, port, location } = proxies[index];
 
-  return { hostname, ipv4_address, port };
+  const randomSocks = {
+    country: location.country,
+    city: location.city,
+    countryCode: location.countryCode,
+    hostname,
+    ipv4_address,
+    port,
+  };
+
+  return randomSocks;
 };
 
 export default getRandomSocksProxy;

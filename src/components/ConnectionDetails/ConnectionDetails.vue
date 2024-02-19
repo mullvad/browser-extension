@@ -1,39 +1,42 @@
 <script lang="ts" setup>
-import { computed, inject } from 'vue';
+import { inject } from 'vue';
 
-import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import AdvancedDns from '@/components/ConnectionDetails/AdvancedDns.vue';
 import AdvancedInfo from '@/components/ConnectionDetails/AdvancedInfo.vue';
 import AdvancedWebRTC from '@/components/ConnectionDetails/AdvancedWebTRC.vue';
+import Button from '@/components/Buttons/Button.vue';
+import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import IconLabel from '@/components/IconLabel.vue';
-import ProxyDetails from '@/components/ProxyDetails/ProxyDetails.vue';
 
 import UsingMullvadConnectionStatus from '@/components/ConnectionStatus/UsingMullvadConnectionStatus.vue';
 import DnsLeakStatus from '@/components/ConnectionStatus/DnsLeakStatus.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useSocksProxy from '@/composables/useSocksProxy';
 
+const { globalProxyEnabled } = useSocksProxy();
 const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
-const connected = computed(() => connection.value.isMullvad);
 </script>
 
 <template>
   <div class="p-2 pt-0">
-    <IconLabel
-      v-if="!connected && !isLoading"
-      text="Not using Mullvad"
-      type="info"
-      class="my-2 text-lg"
-    />
+    <div v-if="isLoading || isError">
+      <p class="mb-2">
+        <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
+        <IconLabel v-if="isError" text="Couldn't get connection details" type="warning" />
+      </p>
 
-    <p class="text-xl mb-2">
-      <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
-      <IconLabel v-else-if="isError" text="Couldn't get connection details" type="warning" />
-      <ConnectionLocation v-else />
-    </p>
+      <div v-if="globalProxyEnabled">
+        <p>Either disconnect the proxy for all websites or connect to Mullvad VPN.</p>
+        <router-link to="/proxy">
+          <Button color="info" class="mt-2">Review proxy settings</Button>
+        </router-link>
+      </div>
+    </div>
 
-    <div v-if="!isLoading && !isError">
-      <div v-if="connected" class="my-2">
+    <div v-else>
+      <ConnectionLocation />
+      <div v-if="connection.isMullvad" class="my-2">
         <UsingMullvadConnectionStatus class="text-lg" />
         <AdvancedInfo :disabled="isLoading" />
 
@@ -62,7 +65,5 @@ const connected = computed(() => connection.value.isMullvad);
         </div>
       </div>
     </div>
-
-    <ProxyDetails />
   </div>
 </template>

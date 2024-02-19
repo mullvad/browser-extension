@@ -1,10 +1,13 @@
-import axios, { AxiosError } from 'axios';
-import { useQuery } from 'vue-query';
+import axios from 'axios';
+import useStore from './useStore';
+
+const { proxiesList } = useStore();
 
 export type Location = {
   city: string;
   code: string;
   country: string;
+  countryCode: string;
   longitude: number;
   latitude: number;
 };
@@ -32,6 +35,22 @@ type City = {
 export type Country = {
   country: string;
   cities: City[];
+};
+
+const addCountryCode = (data: SocksProxy[]) => {
+  return data.map((proxy) => {
+    const { location } = proxy;
+
+    const countryCode = location.code.substring(0, 2);
+
+    return {
+      ...proxy,
+      location: {
+        ...location,
+        countryCode,
+      },
+    };
+  });
 };
 
 const groupByCountryAndCity = (data: SocksProxy[]) =>
@@ -65,16 +84,18 @@ const sortProxiesByCountryAndCity = (grouped: Servers) =>
     })
     .sort(({ country: a }, { country: b }) => a.localeCompare(b));
 
-const useSocksProxies = () => {
+const useListProxies = () => {
   const getSocksProxies = async () => {
     const { data } = await axios.get<SocksProxy[]>(
       'https://api.mullvad.net/network/v1-beta1/socks-proxies',
     );
-    const grouped = groupByCountryAndCity(data);
-    return sortProxiesByCountryAndCity(grouped);
+
+    const dataWithCountryCode = addCountryCode(data);
+    const grouped = groupByCountryAndCity(dataWithCountryCode);
+    proxiesList.value = sortProxiesByCountryAndCity(grouped);
   };
 
-  return useQuery<Country[], AxiosError>('socksProxies', getSocksProxies);
+  return { getSocksProxies, proxiesList };
 };
 
-export default useSocksProxies;
+export default useListProxies;

@@ -3,8 +3,8 @@ import { NTabPane, NTabs, TabsProps } from 'naive-ui';
 
 import RecentLocationButtons from '@/components/RecentLocationButtons.vue';
 import MostUsedLocationButtons from '@/components/MostUsedLocationButtons.vue';
-import useHistoricConnections from '@/composables/useHistoricConnections/useHistoricConnections';
-import type { HistoricConnection } from '@/composables/useHistoricConnections/HistoricConnections.types';
+import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
+import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
 
 type TabsThemeOverrides = NonNullable<TabsProps['themeOverrides']>;
 const tabsThemeOverrides: TabsThemeOverrides = {
@@ -14,13 +14,13 @@ const tabsThemeOverrides: TabsThemeOverrides = {
   tabTextColorLine: 'var(--light-grey)',
 };
 
-defineProps<{ selectLocation: (connection: HistoricConnection) => void }>();
+defineProps<{ selectLocation: (connection: HistoryEntry) => void }>();
 
-const { mostRecent } = useHistoricConnections();
+const { mostRecent } = useProxyHistory();
 </script>
 
 <template>
-  <div v-if="mostRecent" class="mb-8 tabs-card">
+  <div v-if="mostRecent.length > 0" class="mb-8 tabs-card">
     <n-tabs
       size="large"
       justify-content="space-evenly"

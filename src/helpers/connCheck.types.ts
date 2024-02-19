@@ -26,10 +26,11 @@ export interface Ipv4ServerResponse extends AmIMullvadServerResponse {
 export type Connection = {
   city?: string;
   country?: string;
+  countryCode?: string;
   ip?: string;
   ipv6?: string;
   isMullvad: boolean;
   protocol?: string;
   provider?: string;
   server?: string;
-}
+};

@@ -3,9 +3,10 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { NScrollbar } from 'naive-ui';
 
-import HomeHeader from '@/popup/headers/HomeHeader.vue';
-import LicenseHeader from '@/popup/headers/LicenseHeader.vue';
-import SettingsHeader from '@/popup/headers/SettingsHeader.vue';
+import HomeHeader from '@/components/Headers/HomeHeader.vue';
+import ProxyHeader from '@/components/Headers/ProxyHeader.vue';
+import LicenseHeader from '@/components/Headers/LicenseHeader.vue';
+import SettingsHeader from '@/components/Headers/SettingsHeader.vue';
 
 const route = useRoute();
 const path = computed(() => route && route.path);
@@ -13,10 +14,11 @@ const path = computed(() => route && route.path);
 
 <template>
   <main class="w-[450px]">
-    <header class="px-4 py-2 min-h-14 flex items-center sticky top-0 z-1">
+    <header class="sticky top-0 z-1">
       <HomeHeader v-if="path === '/'" />
-      <LicenseHeader v-if="path === '/license'" />
+      <ProxyHeader v-if="path === '/proxy'" />
       <SettingsHeader v-if="path === '/settings'" />
+      <LicenseHeader v-if="path === '/license'" />
     </header>
 
     <n-scrollbar :x-scrollable="false" class="max-h-543px px-4">
