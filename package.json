@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "axios": "^1.6.7",
+    "ipaddr.js": "^2.1.0",
     "naive-ui": "^2.37.3",
     "uuid": "^9.0.1",
     "vue-query": "^1.26.0",

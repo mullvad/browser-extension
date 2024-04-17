@@ -1,4 +1,5 @@
 import { RequestDetails, ProxyDetails } from './socksProxy.types';
+import ipaddr from 'ipaddr.js';
 
 const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
   const response = await browser.storage.local.get('globalProxyDetails');
@@ -59,13 +60,7 @@ const handleProxyRequest = async (details: browser.proxy._OnRequestDetails) => {
   const proxiedHosts = Object.keys(hostProxiesParsed);
   const currentHost = getCurrentHost(details);
 
-  if (excludedHostsParsed.includes(currentHost) || currentHost.includes('localhost')) {
-    // Disable logging for localhost
-    if (!currentHost.includes('localhost')) {
-      console.log('excluded: ', details.url);
-      console.log('proxy used: direct');
-      console.log('_____________________________');
-    }
+  if (excludedHostsParsed.includes(currentHost) || isLocalOrReservedIP(currentHost)) {
     return { type: 'direct' };
   } else if (
     proxiedHosts.includes(currentHost) &&
@@ -87,21 +82,38 @@ const getCurrentHost = (details: RequestDetails) => {
     // the host is determined from its top parent frame (frameID === 0)
     const frame = details.frameAncestors.find((frame) => frame.frameId === 0);
     if (frame) {
-      return new URL(frame.url).host;
+      return new URL(frame.url).hostname;
     }
-  } else if (
-    new URL(details.url).host.includes('localhost') ||
-    new URL(details.url).host.includes('::1') ||
-    new URL(details.url).host.includes('127.0.0.1')
-  ) {
-    // This is to make sure localhost traffic is not proxied
-    return new URL(details.url).host;
+  } else if (isLocalOrReservedIP(new URL(details.url).hostname)) {
+    // This is to handle localhost/reserved IP ranges
+    return new URL(details.url).hostname;
   } else if (details.documentUrl) {
     // when the request comes froms a a page(top level frame),
     // then the host is determined from the document URL
-    return new URL(details.documentUrl).host;
+    return new URL(details.documentUrl).hostname;
   }
   // When a request is initiated in the browser background,
   // the host is derived from the request URL itself
-  return new URL(details.url).host;
+  return new URL(details.url).hostname;
+};
+
+export const isLocalOrReservedIP = (hostname: string) => {
+  if (hostname.includes('localhost')) return true;
+  if (!ipaddr.isValid(hostname)) return false;
+
+  try {
+    const addr = ipaddr.parse(hostname);
+    const range = addr.range();
+
+    return (
+      range === 'private' ||
+      range === 'multicast' ||
+      range === 'linkLocal' ||
+      range === 'loopback' ||
+      range === 'uniqueLocal'
+    );
+  } catch (e: unknown) {
+    console.error('Invalid IP address:', e);
+    return false;
+  }
 };
