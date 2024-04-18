@@ -2,26 +2,30 @@ import { mount } from '@vue/test-utils';
 import { NCollapseItem } from 'naive-ui';
 
 import Location from '@/components/Location.vue';
-import useListProxies from '@/composables/useListProxies';
+
+jest.mock('@/composables/useActiveTab', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    activeTabHost: 'example.com',
+  })),
+}));
 
 jest.mock('@/composables/useListProxies', () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: jest.fn(() => ({
+    proxiesList: [
+      {
+        country: 'Albania',
+      },
+      {
+        country: 'Australia',
+      },
+    ],
+  })),
 }));
 
 describe('Location', () => {
   it('should show two countries', async () => {
-    (useListProxies as jest.Mock).mockReturnValueOnce({
-      proxiesList: [
-        {
-          country: 'Albania',
-        },
-        {
-          country: 'Australia',
-        },
-      ],
-    });
-
     const wrapper = mount(Location);
     await wrapper.vm.$nextTick();
 
