@@ -5,10 +5,11 @@ const isAboutPage = ref(false);
 
 const getActiveTab = async () => {
   try {
-    const activeTab = await browser.tabs.query({ active: true });
-    const activeTabURL = new URL(activeTab[0].url!);
+    const activeWindow = await browser.windows.getCurrent({ populate: true });
+    const activeTab = activeWindow.tabs!.find((tab) => tab.active);
 
-    activeTabHost.value = activeTabURL.host;
+    const activeTabURL = new URL(activeTab!.url!);
+    activeTabHost.value = activeTabURL.hostname;
     isAboutPage.value = activeTabURL.protocol === 'about:';
   } catch (error) {
     console.log('No active tab found');
