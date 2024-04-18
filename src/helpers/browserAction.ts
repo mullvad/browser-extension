@@ -33,7 +33,7 @@ const updateTabProxyBadge = async (tab: browser.tabs.Tab, activeProxyDetails: Pr
 };
 
 // Update state of the proxy badge & title, for all tabs
-const updateTabsProxyBadges = async () => {
+export const updateTabsProxyBadges = async () => {
   const tabs = await browser.tabs.query({});
   const activeProxyDetails = await getActiveProxyDetails();
 
