@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { NCard, NSwitch, NTooltip } from 'naive-ui';
+import { NCard, NCheckbox, NSwitch, NTooltip } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
@@ -56,16 +56,12 @@ const handleProxySelect = () => {
         <li>Proxy Server: {{ currentHostProxyDetails.server }}</li>
         <li>
           Proxy DNS
-          <n-tooltip v-if="currentHostProxyDetails && !currentHostExcluded">
-            <template #trigger>
-              <n-switch
-                :value="currentHostProxyDNSEnabled"
-                size="small"
-                @update-value="toggleCurrentHostProxyDNS"
-              />
-            </template>
-            <span> {{ currentHostProxyDNSEnabled ? 'DNS proxied' : 'DNS not proxied' }}</span>
-          </n-tooltip>
+          <n-checkbox
+            size="large"
+            :checked="currentHostProxyDNSEnabled"
+            :focusable="false"
+            @update-checked="toggleCurrentHostProxyDNS"
+          />
         </li>
       </ul>
     </div>

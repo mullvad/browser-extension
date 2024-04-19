@@ -39,6 +39,12 @@ const themeOverrides: GlobalThemeOverrides = {
   Switch: {
     railColorActive: 'var(--success)',
   },
+  Checkbox: {
+    colorChecked: 'var(--blue)',
+    checkMarkColor: 'var(--success)',
+    border: '1px solid var(--blue)',
+    borderChecked: '1px solid var(--blue)',
+  },
 };
 </script>
 
