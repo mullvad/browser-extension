@@ -1,4 +1,4 @@
-import { addExtListeners } from '@/helpers/extensions';
+import { addExtensionsListeners } from '@/helpers/extensions';
 import { initBrowserAction } from '@/helpers/browserAction';
 import { initProxyRequests } from '@/helpers/socksProxy';
 
@@ -9,7 +9,7 @@ if (import.meta.hot) {
 }
 
 // Add listeners on extension actions
-addExtListeners();
+addExtensionsListeners();
 
 // Update browserAction for tabs and add listeners
 initBrowserAction();
