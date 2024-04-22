@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject } from 'vue';
+import { computed, inject, onMounted } from 'vue';
 import { NCard } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -11,10 +11,13 @@ import TitleCategory from '@/components/TitleCategory.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useListProxies from '@/composables/useListProxies';
 import useProxyPermissions from '@/composables/useProxyPermissions';
 
-const { proxyPermissionsGranted, triggerProxyPermissions } = useProxyPermissions();
 const { isAboutPage } = useActiveTab();
+const { getSocksProxies } = useListProxies();
+const { proxyPermissionsGranted, triggerProxyPermissions } = useProxyPermissions();
+
 const { connection } = inject(ConnectionKey, defaultConnection);
 
 const isWireGuard = computed(
@@ -22,6 +25,12 @@ const isWireGuard = computed(
     connection.value.protocol === 'WireGuard' ||
     connection.value.protocol === 'SOCKS through WireGuard',
 );
+
+const loadProxies = async () => {
+  await getSocksProxies();
+};
+
+onMounted(loadProxies);
 </script>
 
 <template>
