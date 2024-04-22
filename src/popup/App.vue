@@ -1,23 +1,14 @@
 <script lang="ts" setup>
-import { provide, onMounted } from 'vue';
+import { provide } from 'vue';
 import { useQueryProvider } from 'vue-query';
 import { NConfigProvider, GlobalThemeOverrides, darkTheme } from 'naive-ui';
 
 import Popup from '@/popup/Popup.vue';
-
 import useConnection, { ConnectionKey } from '@/composables/useConnection';
-import useListProxies from '@/composables/useListProxies';
 
 const { isLoading, connection, isError } = useConnection();
-const { getSocksProxies } = useListProxies();
 
 provide(ConnectionKey, { connection, isLoading, isError });
-
-const loadProxies = async () => {
-  await getSocksProxies();
-};
-
-onMounted(loadProxies);
 
 useQueryProvider();
 const themeOverrides: GlobalThemeOverrides = {
