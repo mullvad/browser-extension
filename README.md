@@ -77,13 +77,16 @@ local storage). It will require some manual configuration:
 Mullvad Browser Extension requires the following permissions:
 
 - `management` to be able to recommend third party extensions
-- `privacy` to disable webRTC
-- `proxy` to configure and use Mullvad proxy servers
+- `privacy` to disable webRTC and check HTTPS-Only status
 - `storage` to save preferences
 - `search` to recommend other search engines
-- `tabs` to be able to show proxy settings based on the active tab
 - `*://*.mullvad.net/*` to get proxy servers list and display your connection information (See
   `Network requests` for details)
+
+The following permissions are optional, but are needed to use the proxy feature:
+
+- `proxy` to configure and use Mullvad proxy servers
+- `tabs` to show proxy settings from active tab
 - `<all_urls>` to have granular proxy settings
 
 _Permissions are automatically accepted when testing the extension._

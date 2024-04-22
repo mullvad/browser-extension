@@ -1,6 +1,5 @@
 import { addExtensionsListeners } from '@/helpers/extensions';
-import { initBrowserAction } from '@/helpers/browserAction';
-import { initProxyRequests } from '@/helpers/socksProxy';
+import { cleanProxyListeners, initProxyListeners } from '@/helpers/socksProxy';
 
 // only on dev mode
 if (import.meta.hot) {
@@ -11,8 +10,9 @@ if (import.meta.hot) {
 // Add listeners on extension actions
 addExtensionsListeners();
 
-// Update browserAction for tabs and add listeners
-initBrowserAction();
+// Init proxy listeners
+initProxyListeners();
 
-// Add listener for proxy requests
-initProxyRequests();
+// Listeners for permissions changes
+browser.permissions.onAdded.addListener(initProxyListeners);
+browser.permissions.onRemoved.addListener(cleanProxyListeners);

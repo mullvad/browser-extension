@@ -1,5 +1,8 @@
-import { RequestDetails, ProxyDetails } from './socksProxy.types';
 import ipaddr from 'ipaddr.js';
+
+import { RequestDetails, ProxyDetails } from './socksProxy.types';
+import { getProxyPermissions } from './permissions';
+import { initBrowserAction, updatedTabListener } from './browserAction';
 
 const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
   const response = await browser.storage.local.get('globalProxyDetails');
@@ -37,6 +40,32 @@ export const getActiveProxyDetails = async () => {
 
 export const initProxyRequests = () => {
   browser.proxy.onRequest.addListener(handleProxyRequest, { urls: ['<all_urls>'] });
+};
+
+export const initProxyListeners = async () => {
+  const proxyPermissionsGranted = await getProxyPermissions();
+  if (proxyPermissionsGranted) {
+    await removeProxyListeners();
+    await addProxyListeners();
+  }
+};
+
+export const cleanProxyListeners = async () => {
+  const proxyPermissionsGranted = await getProxyPermissions();
+
+  if (!proxyPermissionsGranted) {
+    await removeProxyListeners();
+  }
+};
+
+const addProxyListeners = async () => {
+  initBrowserAction();
+  initProxyRequests();
+};
+
+const removeProxyListeners = async () => {
+  browser.tabs.onUpdated.removeListener(updatedTabListener);
+  browser.proxy.onRequest.removeListener(handleProxyRequest);
 };
 
 // TODO decide what how to handle fallback proxy (if proxy is invalid, it will fallback to Firefox proxy if configured)
