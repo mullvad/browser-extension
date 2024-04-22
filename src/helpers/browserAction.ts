@@ -44,7 +44,7 @@ export const updateTabsProxyBadges = async () => {
   }
 };
 
-const updatedTabListener = async (
+export const updatedTabListener = async (
   _tabId: number,
   _changeInfo: browser.tabs._OnUpdatedChangeInfo,
   tab: browser.tabs.Tab,
