@@ -59,10 +59,8 @@ const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnecti
           <h4 class="font-semibold">Provider</h4>
           <div class="ml-2">{{ connection.provider }}</div>
         </div>
-        <div class="flex">
-          <h4 class="font-semibold">DNS Server(s)</h4>
-          <AdvancedDns class="ml-2" />
-        </div>
+        <DnsLeakStatus class="text-lg mt-2" />
+        <AdvancedDns class="ml-8" />
       </div>
     </div>
   </div>

@@ -1,13 +1,27 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 
 import IconLabel from '@/components/IconLabel.vue';
 
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 
-const { isLeaking, isLoading, isError } = useCheckDnsLeaks();
-const labelText = computed(() => (isLeaking.value ? 'Leaking DNS servers' : 'No DNS Leaks'));
-const iconType = computed(() => (isLeaking.value ? 'leak' : 'success'));
+const { isLeaking, isLoading, isError, isMullvadDoh } = useCheckDnsLeaks();
+const { connection } = inject(ConnectionKey, defaultConnection);
+
+const labelText = computed(() => {
+  if (isLeaking.value) {
+    return connection.value.isMullvad ? 'Leaking DNS servers' : 'Not using Mullvad Encrypted DNS';
+  }
+  return isMullvadDoh.value ? 'Using Mullvad Encrypted DNS' : 'Using Mullvad DNS';
+});
+
+const iconType = computed(() => {
+  if (isLeaking.value) {
+    return connection.value.isMullvad ? 'leak' : 'warning';
+  }
+  return 'success';
+});
 </script>
 
 <template>
