@@ -21,7 +21,7 @@ const getHostProxyDetails = async (): Promise<ProxyDetails> => {
     const proxiedHosts = Object.keys(hostProxiesDetailsParsed);
 
     const activeTab = await browser.tabs.query({ active: true });
-    const activeTabHost = new URL(activeTab[0].url!).host;
+    const activeTabHost = new URL(activeTab[0].url!).hostname;
     if (
       proxiedHosts.includes(activeTabHost) &&
       hostProxiesDetailsParsed[activeTabHost].socksEnabled
