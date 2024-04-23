@@ -11,6 +11,7 @@ n is an optional parameter to retry the connCheck any number of time.
 By default, it will retry twice because after connecting/disconnecting to/from Mullvad server, the first request results in a NetworkError and the second is successful.
 
 It's a workaround for the following bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1706377
+Workaround can be removed when Mullvad Browser 14.0 is released (the bug is fixed!).
 */
 
 export const connCheck = async (n = 3): Promise<Connection> => {

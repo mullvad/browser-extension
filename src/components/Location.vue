@@ -91,34 +91,23 @@ const selectLocation = (connection: HistoryEntry) => {
           </n-button>
         </template>
         <n-collapse arrow-placement="right">
-          <n-collapse-item
-            v-for="{ city, proxyList } in cities"
-            :key="city"
-            :name="city"
-            :title="city"
-          >
+          <n-collapse-item v-for="{ city, proxyList } in cities" :key="city" :name="city" :title="city">
             <template #header>
               <n-button quaternary @click.prevent="clickCountryOrCity(country, city)">
                 {{ city }}
               </n-button>
             </template>
             <n-space vertical>
-              <n-button
-                v-for="proxy in proxyList"
-                :key="proxy.hostname"
-                secondary
-                medium
-                @click="
-                  clickServer(
-                    country,
-                    proxy.location.countryCode,
-                    city,
-                    proxy.hostname,
-                    proxy.ipv4_address,
-                    proxy.port,
-                  )
-                "
-              >
+              <n-button v-for="proxy in proxyList" :key="proxy.hostname" secondary medium @click="
+      clickServer(
+        country,
+        proxy.location.countryCode,
+        city,
+        proxy.hostname,
+        proxy.ipv4_address,
+        proxy.port,
+      )
+      ">
                 {{ proxy.hostname }}
               </n-button>
             </n-space>

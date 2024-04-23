@@ -2,13 +2,13 @@
 import { computed } from 'vue';
 import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 
-import { closePopup } from '@/helpers/closePopup';
-
 import Button from '@/components/Buttons/Button.vue';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
 import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
+
+import { closePopup } from '@/helpers/closePopup';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import useWarnings from '@/composables/useWarnings/useWarnings';

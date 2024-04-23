@@ -1,5 +1,5 @@
-import { getActiveProxyDetails } from '@/helpers/socksProxy';
 import { ProxyDetails } from './socksProxy.types';
+import { getActiveProxyDetails } from '@/helpers/socksProxy';
 
 export const initBrowserAction = () => {
   // Each time a tab is updated, reset the browserAction for that tab

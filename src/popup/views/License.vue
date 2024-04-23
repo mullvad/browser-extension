@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { NCard } from 'naive-ui';
-
 import { closePopup } from '@/helpers/closePopup';
 </script>
 
