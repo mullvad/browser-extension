@@ -12,9 +12,9 @@ export const initBrowserAction = () => {
 const updateTabProxyBadge = async (tab: browser.tabs.Tab, activeProxyDetails: ProxyDetails) => {
   const { id: tabId, url } = tab;
   const { excludedHosts } = await browser.storage.local.get('excludedHosts');
-  const tabHost = new URL(url!).host;
+  const tabHost = new URL(url!).hostname;
 
-  const isExcluded = excludedHosts?.includes(tabHost);
+  const isExcluded = tabHost.length !== 0 && excludedHosts?.includes(tabHost);
 
   if (isExcluded) {
     browser.browserAction.setTitle({ tabId, title: `${tabHost} is set to never be proxied` });
