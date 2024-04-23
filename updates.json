@@ -50,6 +50,13 @@
           "applications": {
             "gecko": { "strict_min_version": "91.1.0" }
           }
+        },
+        {
+          "version": "0.9.1",
+          "update_link": "https://cdn.mullvad.net/browser-extension/0.8.5/mullvad-browser-extension-0.9.1.xpi",
+          "applications": {
+            "gecko": { "strict_min_version": "91.1.0" }
+          }
         }
       ]
     }
