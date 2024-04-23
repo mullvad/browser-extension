@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 import unique from '@/helpers/unique';
@@ -17,11 +16,14 @@ const DNSLEAK_URL = 'dnsleak.am.i.mullvad.net';
 
 const dnsLeakRequest = async () => {
   const uuid = uuidv4();
-  const { data } = await axios.get(`https://${uuid}.${DNSLEAK_URL}`, {
-    headers: { accept: 'application/json' },
-    timeout: 10000,
+  const response = await fetch(`https://${uuid}.${DNSLEAK_URL}`, {
+    headers: { Accept: 'application/json' },
+    method: 'GET',
   });
-  return data;
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
 };
 
 const dnsServers = ref([] as DnsServer[]);
