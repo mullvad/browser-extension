@@ -2,13 +2,13 @@
 import { computed, toRefs, watchEffect } from 'vue';
 import { NAvatar, NCard } from 'naive-ui';
 
-import { closePopup } from '@/helpers/closePopup';
-
 import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import Instructions from '@/components/PrivacyRecommendations/Instructions.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
+
+import { closePopup } from '@/helpers/closePopup';
 
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
