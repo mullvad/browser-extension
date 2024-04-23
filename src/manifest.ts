@@ -18,6 +18,10 @@ export async function getManifest() {
       default_popup: './dist/popup/index.html',
       default_area: 'navbar',
     },
+    options_ui: {
+      page: './dist/options/index.html',
+      open_in_tab: true,
+    },
     background: {
       page: './dist/background/index.html',
       persistent: false,

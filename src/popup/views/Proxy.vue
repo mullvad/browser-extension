@@ -13,6 +13,7 @@ import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useListProxies from '@/composables/useListProxies';
 import useProxyPermissions from '@/composables/useProxyPermissions';
+import { closePopup } from '@/helpers/closePopup';
 
 const { isAboutPage } = useActiveTab();
 const { getSocksProxies } = useListProxies();
@@ -28,6 +29,11 @@ const isWireGuard = computed(
 
 const loadProxies = async () => {
   await getSocksProxies();
+};
+
+const openOptionsPage = () => {
+  browser.runtime.openOptionsPage();
+  closePopup();
 };
 
 onMounted(loadProxies);
@@ -63,4 +69,6 @@ onMounted(loadProxies);
       <Button class="mt-3" @click="triggerProxyPermissions"> Grant permissions </Button>
     </n-card>
   </template>
+
+  <Button class="mt-3" @click="openOptionsPage"> List custom proxies </Button>
 </template>
