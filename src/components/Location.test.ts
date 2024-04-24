@@ -24,6 +24,17 @@ jest.mock('@/composables/useListProxies', () => ({
   })),
 }));
 
+jest.mock('@/helpers/connCheck', () => ({
+  connCheck: jest.fn().mockResolvedValue({
+    ip: '193.32.126.67',
+    city: 'Paris',
+    country: 'France',
+    mullvad_exit_ip: true,
+    mullvad_exit_ip_hostname: 'fr-par-wg-002.relays.mullvad.net',
+    mullvad_server_type: 'wireguard',
+  }),
+}));
+
 describe('Location', () => {
   it('should show two countries', async () => {
     const wrapper = mount(Location);

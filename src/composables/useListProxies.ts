@@ -1,4 +1,3 @@
-import axios from 'axios';
 import useStore from './useStore';
 
 const { proxiesList } = useStore();
@@ -86,9 +85,8 @@ const sortProxiesByCountryAndCity = (grouped: Servers) =>
 
 const useListProxies = () => {
   const getSocksProxies = async () => {
-    const { data } = await axios.get<SocksProxy[]>(
-      'https://api.mullvad.net/network/v1-beta1/socks-proxies',
-    );
+    const response = await fetch('https://api.mullvad.net/network/v1-beta1/socks-proxies');
+    const data: SocksProxy[] = await response.json();
 
     const dataWithCountryCode = addCountryCode(data);
     const grouped = groupByCountryAndCity(dataWithCountryCode);

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import type {
   AmIMullvadServerResponse,
   Connection,
@@ -16,15 +15,28 @@ Workaround can be removed when Mullvad Browser 14.0 is released (the bug is fixe
 
 export const connCheck = async (n = 3): Promise<Connection> => {
   try {
-    const { data } = await axios.get<Ipv4ServerResponse>('https://ipv4.am.i.mullvad.net/json', {
-      timeout: 6000, // with two tries, the max total time  will be over the 10s of the bug (see link above)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+    const response = await fetch('https://ipv4.am.i.mullvad.net/json', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
     });
+    clearTimeout(timeoutId);
+    const data: Ipv4ServerResponse = await response.json();
 
     let ipv6;
     try {
-      const { data: ipv6Data } = await axios.get<AmIMullvadServerResponse>(
-        'https://ipv6.am.i.mullvad.net/json',
-      );
+      const ipv6Response = await fetch('https://ipv6.am.i.mullvad.net/json', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const ipv6Data: AmIMullvadServerResponse = await ipv6Response.json();
       ipv6 = ipv6Data.ip;
     } catch (e) {
       if (__DEV__) {
