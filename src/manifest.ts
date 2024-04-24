@@ -44,6 +44,7 @@ export async function getManifest() {
         favicon_url: './assets/mullvad-logo.svg',
       },
     },
+    incognito: 'spanning',
   };
 
   if (isDev) {
