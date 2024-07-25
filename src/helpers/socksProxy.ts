@@ -1,8 +1,6 @@
 import ipaddr from 'ipaddr.js';
 
-import { RequestDetails, ProxyDetails } from './socksProxy.types';
-import { getProxyPermissions } from './permissions';
-import { initBrowserAction, updatedTabListener } from './browserAction';
+import { RequestDetails, ProxyDetails } from '@/helpers/socksProxy.types';
 
 const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
   const response = await browser.storage.local.get('globalProxyDetails');
@@ -19,9 +17,8 @@ const getHostProxyDetails = async (): Promise<ProxyDetails> => {
   if (hostProxiesDetails) {
     const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
     const proxiedHosts = Object.keys(hostProxiesDetailsParsed);
+    const activeTabHost = (await getActiveTabDetails()).host;
 
-    const activeTab = await browser.tabs.query({ active: true });
-    const activeTabHost = new URL(activeTab[0].url!).hostname;
     if (
       proxiedHosts.includes(activeTabHost) &&
       hostProxiesDetailsParsed[activeTabHost].socksEnabled
@@ -32,46 +29,27 @@ const getHostProxyDetails = async (): Promise<ProxyDetails> => {
   return { socksEnabled: false };
 };
 
+export const getActiveTabDetails = async () => {
+  const activeTab = await browser.tabs.query({ active: true });
+
+  return activeTab[0].url
+    ? {
+        host: new URL(activeTab[0].url).hostname,
+        protocol: new URL(activeTab[0].url).protocol,
+      }
+    : { host: '', protocol: '' };
+};
+
 export const getActiveProxyDetails = async () => {
   const globalProxyDetails = await getGlobalProxyDetails();
   const hostProxyDetails = await getHostProxyDetails();
   return hostProxyDetails.socksEnabled ? hostProxyDetails : globalProxyDetails;
 };
 
-export const initProxyRequests = () => {
-  browser.proxy.onRequest.addListener(handleProxyRequest, { urls: ['<all_urls>'] });
-};
-
-export const initProxyListeners = async () => {
-  const proxyPermissionsGranted = await getProxyPermissions();
-  if (proxyPermissionsGranted) {
-    await removeProxyListeners();
-    await addProxyListeners();
-  }
-};
-
-export const cleanProxyListeners = async () => {
-  const proxyPermissionsGranted = await getProxyPermissions();
-
-  if (!proxyPermissionsGranted) {
-    await removeProxyListeners();
-  }
-};
-
-const addProxyListeners = async () => {
-  initBrowserAction();
-  initProxyRequests();
-};
-
-const removeProxyListeners = async () => {
-  browser.tabs.onUpdated.removeListener(updatedTabListener);
-  browser.proxy.onRequest.removeListener(handleProxyRequest);
-};
-
 // TODO decide what how to handle fallback proxy (if proxy is invalid, it will fallback to Firefox proxy if configured)
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1750561
 
-const handleProxyRequest = async (details: browser.proxy._OnRequestDetails) => {
+export const handleProxyRequest = async (details: browser.proxy._OnRequestDetails) => {
   const { globalProxy } = await browser.storage.local.get('globalProxy');
   const { globalProxyDetails } = await browser.storage.local.get('globalProxyDetails');
   const { excludedHosts } = await browser.storage.local.get('excludedHosts');

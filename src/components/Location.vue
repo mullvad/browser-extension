@@ -4,8 +4,8 @@ import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 
 import LocationTabs from '@/components/LocationTabs.vue';
 
-import { updateTabsProxyBadges } from '@/helpers/browserAction';
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
+import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
 import useListProxies from '@/composables/useListProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
@@ -43,7 +43,7 @@ const setProxy = (
   } else {
     setGlobalProxy({ country, countryCode, city, hostname, ipv4_address, port });
   }
-  updateTabsProxyBadges();
+  updateCurrentTabProxyBadge();
 };
 
 const clickServer = (

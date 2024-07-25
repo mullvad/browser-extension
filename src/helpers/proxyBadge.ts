@@ -1,15 +1,18 @@
-import { ProxyDetails } from './socksProxy.types';
 import { getActiveProxyDetails } from '@/helpers/socksProxy';
+import { ProxyDetails } from '@/helpers/socksProxy.types';
 
-export const initBrowserAction = () => {
-  // Each time a tab is updated, reset the browserAction for that tab
-  browser.tabs.onUpdated.addListener(updatedTabListener);
+export const updateCurrentTabProxyBadge = async () => {
+  const activeTab = await browser.tabs.query({ active: true, currentWindow: true });
 
-  updateTabsProxyBadges();
+  if (activeTab[0]) {
+    await updateTabProxyBadge(activeTab[0], await getActiveProxyDetails());
+  }
 };
 
-// Update a tab browserAction badge & title
-const updateTabProxyBadge = async (tab: browser.tabs.Tab, activeProxyDetails: ProxyDetails) => {
+export const updateTabProxyBadge = async (
+  tab: browser.tabs.Tab,
+  activeProxyDetails: ProxyDetails,
+) => {
   const { id: tabId, url } = tab;
   const { excludedHosts } = await browser.storage.local.get('excludedHosts');
   const tabHost = new URL(url!).hostname;
@@ -30,27 +33,6 @@ const updateTabProxyBadge = async (tab: browser.tabs.Tab, activeProxyDetails: Pr
     browser.browserAction.setTitle({ tabId, title: 'Proxy not in use' });
     await setTabExtBadge(tab, false, isExcluded);
   }
-};
-
-// Update state of the proxy badge & title, for all tabs
-export const updateTabsProxyBadges = async () => {
-  const tabs = await browser.tabs.query({});
-  const activeProxyDetails = await getActiveProxyDetails();
-
-  for (const tab of tabs) {
-    if (tab.id !== undefined) {
-      updateTabProxyBadge(tab, activeProxyDetails);
-    }
-  }
-};
-
-export const updatedTabListener = async (
-  _tabId: number,
-  _changeInfo: browser.tabs._OnUpdatedChangeInfo,
-  tab: browser.tabs.Tab,
-) => {
-  const activeProxyDetails = await getActiveProxyDetails();
-  updateTabProxyBadge(tab, activeProxyDetails);
 };
 
 const setTabExtBadge = async (
