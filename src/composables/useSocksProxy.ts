@@ -6,7 +6,7 @@ import {
   ProxyInfoType,
   ProxyOperationArgs,
 } from '@/helpers/socksProxy.types';
-import { updateTabsProxyBadges } from '@/helpers/browserAction';
+import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
 import useActiveTab from '@/composables/useActiveTab';
 import useConnection from '@/composables/useConnection';
@@ -37,22 +37,24 @@ const currentHostProxyDNSEnabled = computed(() => currentHostProxyDetails.value?
 
 const toggleGlobalProxy = () => {
   globalProxyDetails.value.socksEnabled = !globalProxyDetails.value.socksEnabled;
-  updateTabsProxyBadges();
+  updateCurrentTabProxyBadge();
 };
 const toggleCurrentHostProxy = () => {
   hostProxiesDetails.value[activeTabHost.value].socksEnabled = !currentHostProxyEnabled.value;
-  updateTabsProxyBadges();
+  updateCurrentTabProxyBadge();
 };
 
 const toggleGlobalProxyDNS = () => {
   const updatedGlobalProxyDNS = !globalProxyDetails.value.proxyDNS;
   globalProxyDetails.value.proxyDNS = updatedGlobalProxyDNS;
   globalProxy.value.proxyDNS = updatedGlobalProxyDNS;
+  updateCurrentTabProxyBadge();
 };
 const toggleCurrentHostProxyDNS = () => {
   const updatedCurrentHostProxyDNS = !currentHostProxyDetails.value.proxyDNS;
   hostProxiesDetails.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
   hostProxies.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
+  updateCurrentTabProxyBadge();
 };
 
 const setGlobalProxy = ({

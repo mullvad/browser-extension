@@ -16,7 +16,7 @@ import useProxyPermissions from '@/composables/useProxyPermissions';
 
 const { isAboutPage } = useActiveTab();
 const { getSocksProxies } = useListProxies();
-const { proxyPermissionsGranted, triggerProxyPermissions } = useProxyPermissions();
+const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPermissions();
 
 const { connection } = inject(ConnectionKey, defaultConnection);
 
@@ -60,7 +60,7 @@ onMounted(loadProxies);
         </ul>
       </IconLabel>
 
-      <Button class="mt-3" @click="triggerProxyPermissions"> Grant permissions </Button>
+      <Button class="mt-3" @click="triggerRequestProxyPermissions"> Grant permissions </Button>
     </n-card>
   </template>
 </template>

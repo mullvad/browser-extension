@@ -8,13 +8,14 @@ const useProxyPermissions = () => {
     proxyPermissionsGranted.value = await getProxyPermissions();
   };
 
-  const triggerProxyPermissions = async () => {
+  const triggerRequestProxyPermissions = async () => {
     proxyPermissionsGranted.value = await requestProxyPermissions();
+    return proxyPermissionsGranted.value;
   };
 
   checkProxyPermissions();
 
-  return { proxyPermissionsGranted, triggerProxyPermissions };
+  return { proxyPermissionsGranted, triggerRequestProxyPermissions };
 };
 
 export default useProxyPermissions;
