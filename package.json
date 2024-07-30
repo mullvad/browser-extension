@@ -39,7 +39,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.25.2",
     "@ffflorian/jszip-cli": "^3.6.4",
-    "@types/firefox-webext-browser": "^120.0.3",
+    "@types/firefox-webext-browser": "^120.0.4",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.0.0",
@@ -82,9 +82,9 @@
     "vite-plugin-windicss": "^1.9.3",
     "vue": "^3.4.34",
     "vue-tsc": "^2.0.29",
-    "web-ext": "^7.11.0",
+    "web-ext": "^8.2.0",
     "webext-bridge": "^6.0.1",
-    "webextension-polyfill": "^0.11.0"
+    "webextension-polyfill": "^0.12.0"
   },
   "dependencies": {
     "ipaddr.js": "^2.2.0",
