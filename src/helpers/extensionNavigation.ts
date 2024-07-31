@@ -5,3 +5,8 @@ export const closePopup = () => {
     window.close();
   }, 100);
 };
+
+export const openOptions = () => {
+  closePopup();
+  browser.runtime.openOptionsPage();
+};
