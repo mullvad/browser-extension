@@ -4,6 +4,8 @@ import { NIcon } from 'naive-ui';
 import FeCog from '@/components/Icons/FeCog.vue';
 import FeGlobe from '@/components/Icons/FeGlobe.vue';
 import TaRoute from '@/components/Icons/TaRoute.vue';
+
+import { openOptions } from '@/helpers/extensionNavigation';
 </script>
 
 <template>
@@ -27,13 +29,13 @@ import TaRoute from '@/components/Icons/TaRoute.vue';
       </div>
     </div>
 
-    <router-link
-      to="/settings"
-      class="flex flex-row items-center justify-center px-4 hover:text-white bg-[var(--blue)]"
+    <div
+      class="flex flex-row items-center justify-center px-4 hover:text-white bg-[var(--blue)] cursor-pointer"
+      @click="openOptions"
     >
       <n-icon size="20">
         <FeCog />
       </n-icon>
-    </router-link>
+    </div>
   </div>
 </template>

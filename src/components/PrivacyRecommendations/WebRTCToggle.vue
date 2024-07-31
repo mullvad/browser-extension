@@ -6,7 +6,7 @@ import Button from '@/components/Buttons/Button.vue';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import { closePopup } from '@/helpers/closePopup';
+import { closePopup } from '@/helpers/extensionNavigation';
 import useWebRtc from '@/composables/useWebRtc';
 
 const { setWebRTC, webRTCStatus } = useWebRtc();

@@ -8,7 +8,7 @@ import IconLabel from '@/components/IconLabel.vue';
 import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
 import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
 
-import { closePopup } from '@/helpers/closePopup';
+import { closePopup } from '@/helpers/extensionNavigation';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import useWarnings from '@/composables/useWarnings/useWarnings';
