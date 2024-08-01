@@ -5,7 +5,7 @@ import FeCog from '@/components/Icons/FeCog.vue';
 import FeGlobe from '@/components/Icons/FeGlobe.vue';
 import TaRoute from '@/components/Icons/TaRoute.vue';
 
-import { openOptions } from '@/helpers/extensionNavigation';
+import { openOptions } from '@/helpers/browserExtension';
 </script>
 
 <template>
@@ -31,7 +31,7 @@ import { openOptions } from '@/helpers/extensionNavigation';
 
     <div
       class="flex flex-row items-center justify-center px-4 hover:text-white bg-[var(--blue)] cursor-pointer"
-      @click="openOptions"
+      @click="openOptions()"
     >
       <n-icon size="20">
         <FeCog />

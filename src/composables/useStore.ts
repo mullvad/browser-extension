@@ -2,8 +2,14 @@ import { Ref } from 'vue';
 
 import type { HistoryEntriesMap } from './useProxyHistory/HistoryEntries.types';
 import { Country } from './useListProxies';
+import type {
+  ProxyDetails,
+  ProxyInfoMap,
+  ProxyInfo,
+  ProxyDetailsMap,
+} from '@/helpers/socksProxy.types';
+import { Tab } from '@/helpers/browserExtension';
 
-import { ProxyDetails, ProxyInfoMap, ProxyInfo, ProxyDetailsMap } from '@/helpers/socksProxy.types';
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
 
 export type Store = {
@@ -17,6 +23,7 @@ export type Store = {
   proxiesList: Ref<Country[]>;
   randomProxyActive: Ref<boolean>;
   webRTCStatus: Ref<boolean>;
+  optionsActiveTab: Ref<Tab>;
 };
 
 const useStore = (): Store => {
@@ -30,6 +37,7 @@ const useStore = (): Store => {
   const proxiesList = useBrowserStorageLocal('proxiesList', [] as Country[]);
   const randomProxyActive = useBrowserStorageLocal('randomProxyActive', false);
   const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
+  const optionsActiveTab = useBrowserStorageLocal('optionsActiveTab', Tab.SETTINGS);
   return {
     excludedHosts,
     globalProxy,
@@ -38,6 +46,7 @@ const useStore = (): Store => {
     hostProxiesDetails,
     historyEntries,
     mullvadAccount,
+    optionsActiveTab,
     proxiesList,
     randomProxyActive,
     webRTCStatus,

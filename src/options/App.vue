@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useQueryProvider } from 'vue-query';
 import { NConfigProvider, GlobalThemeOverrides, darkTheme } from 'naive-ui';
+import Options from './Options.vue';
 
 useQueryProvider();
 const themeOverrides: GlobalThemeOverrides = {
@@ -27,6 +28,17 @@ const themeOverrides: GlobalThemeOverrides = {
     checkMarkColor: 'var(--success)',
     border: '1px solid var(--blue)',
     borderChecked: '1px solid var(--blue)',
+  },
+  Tabs: {
+    tabFontSizeLarge: '1.12rem',
+    tabFontWeight: '600',
+    tabFontWeightActive: '600',
+    tabColor: 'var(--blue)',
+    tabTextColorLine: '--light-grey',
+    tabTextColorHoverLine: 'var(--white)',
+    tabTextColorActiveLine: 'var(--white)',
+    tabBorderColor: 'var(--blue)',
+    barColor: 'var(--white)',
   },
 };
 </script>

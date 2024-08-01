@@ -8,7 +8,7 @@ import IconLabel from '@/components/IconLabel.vue';
 import FeArrowLeft from '@/components/Icons/FeArrowLeft.vue';
 import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
 
-import { closePopup } from '@/helpers/extensionNavigation';
+import { closePopup, openOptions, Tab } from '@/helpers/browserExtension';
 
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import useWarnings from '@/composables/useWarnings/useWarnings';
@@ -69,7 +69,7 @@ const activeNotifications = computed(() => {
             >
               <ExternalLinkIconLabel v-if="notification.ctaLabel" :text="notification.ctaLabel" />
             </Button>
-            <Button :to="`/settings#${notification.id}`"> Learn more </Button>
+            <Button @click="openOptions(Tab.SETTINGS)"> Learn More </Button>
           </div>
           <div v-else class="mt-3 flex items-center">
             <Button :href="notification.ctaUrl" @click="closePopup"> Read more </Button>

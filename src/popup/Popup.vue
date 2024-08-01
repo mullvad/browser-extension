@@ -5,8 +5,6 @@ import { NScrollbar } from 'naive-ui';
 
 import HomeHeader from '@/components/Headers/HomeHeader.vue';
 import ProxyHeader from '@/components/Headers/ProxyHeader.vue';
-import LicenseHeader from '@/components/Headers/LicenseHeader.vue';
-import SettingsHeader from '@/components/Headers/SettingsHeader.vue';
 
 const route = useRoute();
 const path = computed(() => route && route.path);
@@ -17,8 +15,6 @@ const path = computed(() => route && route.path);
     <header class="sticky top-0 z-1">
       <HomeHeader v-if="path === '/'" />
       <ProxyHeader v-if="path === '/proxy'" />
-      <SettingsHeader v-if="path === '/settings'" />
-      <LicenseHeader v-if="path === '/license'" />
     </header>
 
     <n-scrollbar :x-scrollable="false" class="max-h-543px px-4">
