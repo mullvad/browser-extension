@@ -8,7 +8,7 @@ import Instructions from '@/components/PrivacyRecommendations/Instructions.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 
-import { closePopup } from '@/helpers/extensionNavigation';
+import { closePopup } from '@/helpers/browserExtension';
 
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';

@@ -1,39 +1,50 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { NScrollbar } from 'naive-ui';
+import { NAvatar, NTabPane, NTabs } from 'naive-ui';
 
-import HomeHeader from '@/components/Headers/HomeHeader.vue';
-import ProxyHeader from '@/components/Headers/ProxyHeader.vue';
-import LicenseHeader from '@/components/Headers/LicenseHeader.vue';
-import SettingsHeader from '@/components/Headers/SettingsHeader.vue';
+import AboutTab from '@/components/OptionsTabs/AboutTab.vue';
+import ProxyTab from '@/components/OptionsTabs/ProxyTab.vue';
+import SettingsTab from '@/components/OptionsTabs/SettingsTab.vue';
 
-const route = useRoute();
-const path = computed(() => route && route.path);
+import useStore from '@/composables/useStore';
+
+const { optionsActiveTab } = useStore();
+const defaultTab = computed(() => optionsActiveTab.value);
 </script>
 
 <template>
-  <main class="w-[450px]">
-    <header class="sticky top-0 z-1">
-      <HomeHeader v-if="path === '/'" />
-      <ProxyHeader v-if="path === '/proxy'" />
-      <SettingsHeader v-if="path === '/settings'" />
-      <LicenseHeader v-if="path === '/license'" />
-    </header>
+  <main class="w-[800px] mx-auto px-4 pb-4">
+    <n-tabs
+      v-model:value="optionsActiveTab"
+      type="line"
+      animated
+      :default-value="defaultTab"
+      size="large"
+    >
+      <template #prefix>
+        <n-avatar size="small" src="/assets/mullvad-logo.svg" />
+      </template>
 
-    <n-scrollbar :x-scrollable="false" class="max-h-543px px-4">
-      <div class="py-1rem">
-        <router-view />
-      </div>
-    </n-scrollbar>
+      <n-tab-pane name="settings" tab="Settings">
+        <SettingsTab />
+      </n-tab-pane>
+
+      <n-tab-pane name="proxy" tab="Proxy">
+        <ProxyTab />
+      </n-tab-pane>
+
+      <n-tab-pane name="about" tab="About">
+        <AboutTab />
+      </n-tab-pane>
+    </n-tabs>
   </main>
 </template>
 
-<style scoped>
-header {
-  box-shadow:
-    rgb(0 0 0 / 5%) 0 1px 2px 0,
-    rgb(0 0 0 / 5%) 0 1px 4px 0,
-    rgb(0 0 0 / 5%) 0 2px 8px 0;
+<style>
+.n-tabs-nav {
+  position: sticky !important;
+  top: 0;
+  z-index: 1;
+  background-color: var(--dark-blue);
 }
 </style>
