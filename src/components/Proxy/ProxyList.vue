@@ -1,34 +1,29 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { NCard, NList, NListItem, NEmpty } from 'naive-ui';
+import { NCard } from 'naive-ui';
+
 import CurrentProxyDetails from '@/components/Proxy/CurrentProxyDetails.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
+import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
+import ProxyGlobal from '@/components/Proxy/ProxyGlobal.vue';
+
 import useStore from '@/composables/useStore';
 
-const { hostProxiesDetails, globalProxyDetails } = useStore();
-
-const activeHostProxies = computed(() =>
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Object.entries(hostProxiesDetails.value).filter(([_, proxy]) => proxy.socksEnabled),
-);
-
-const hasProxies = computed(
-  () => globalProxyDetails.value.socksEnabled || activeHostProxies.value.length > 0,
+const { hostProxiesDetails } = useStore();
+const proxies = computed(() =>
+  Object.entries(hostProxiesDetails.value).map(([host, proxy]) => ({ host, proxy })),
 );
 </script>
 
 <template>
-  <NCard title="Proxy Settings" :bordered="false">
-    <NEmpty v-if="!hasProxies" description="No Proxy set" />
-    <NList v-else>
-      <NListItem v-if="globalProxyDetails.socksEnabled">
-        <TitleCategory title="Global Proxy (All Websites)" />
-        <CurrentProxyDetails :proxyDetails="globalProxyDetails" />
-      </NListItem>
-      <NListItem v-for="[host, proxy] in activeHostProxies" :key="host">
-        <TitleCategory :title="host" />
-        <CurrentProxyDetails :proxyDetails="proxy" />
-      </NListItem>
-    </NList>
+  <ProxyGlobal />
+  <NCard :bordered="false">
+    <TitleCategory title="Custom proxies" />
+    <NCard v-for="{ host, proxy } in proxies" :key="host" :bordered="false" class="mb-4">
+      <TitleCategory :title="host" />
+      <CurrentProxyDetails :proxyDetails="proxy" />
+    </NCard>
   </NCard>
+
+  <LocationDrawer />
 </template>
