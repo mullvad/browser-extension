@@ -12,7 +12,6 @@ const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPerm
 
 <template>
   <template v-if="proxyPermissionsGranted">
-    <div>List of the existing proxies</div>
     <ProxyList />
   </template>
 
