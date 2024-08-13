@@ -125,6 +125,12 @@ const setCurrentHostProxy = (
   hostProxiesDetails.value = { ...hostProxiesDetails.value, [host]: newHostProxyDetails };
 };
 
+const removeCustomProxy = (host: string) => {
+  delete hostProxies.value[host];
+  delete hostProxiesDetails.value[host];
+  updateConnection();
+};
+
 const useSocksProxy = () => {
   return {
     currentHostProxyDetails,
@@ -135,6 +141,7 @@ const useSocksProxy = () => {
     globalProxyDNSEnabled,
     globalProxyEnabled,
     hostProxiesDetails,
+    removeCustomProxy,
     setCurrentHostProxy,
     setGlobalProxy,
     toggleCurrentHostProxy,

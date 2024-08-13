@@ -11,7 +11,8 @@ import useStore from '@/composables/useStore';
 // For some reason importing `hostProxiesDetails` directly from useStore()
 // will cause the value not to be reactively updated
 const { excludedHosts } = useStore();
-const { toggleCustomProxy, toggleCustomProxyDNS, hostProxiesDetails } = useSocksProxy();
+const { toggleCustomProxy, toggleCustomProxyDNS, hostProxiesDetails, removeCustomProxy } =
+  useSocksProxy();
 
 const proxies = computed(() =>
   Object.entries(hostProxiesDetails.value).map(([host, proxy]) => ({ host, proxyDetails: proxy })),
@@ -23,7 +24,7 @@ const allowProxy = (host: string) => {
 </script>
 
 <template>
-  <NCard :bordered="false" class="mb-4">
+  <NCard v-if="proxies.length > 0" :bordered="false" class="mb-4">
     <TitleCategory title="Custom proxies" />
     <div v-for="{ host, proxyDetails } in proxies" :key="host" :bordered="false" class="mb-4">
       <n-divider />
@@ -51,6 +52,11 @@ const allowProxy = (host: string) => {
             />
           </li>
         </ul>
+      </div>
+
+      <div class="flex justify-between">
+        <!-- <Button>Select location</Button> -->
+        <Button @click="removeCustomProxy(host)">Remove Proxy</Button>
       </div>
     </div>
   </NCard>
