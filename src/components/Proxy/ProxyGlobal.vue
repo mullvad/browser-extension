@@ -1,14 +1,17 @@
 <script lang="ts" setup>
-import { NCard, NCheckbox, NSwitch, NTooltip } from 'naive-ui';
+import { NCard, NCheckbox, NDivider, NSwitch, NTooltip } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
+
+import { ProxyDetails, ProxyInfo } from '@/helpers/socksProxy.types';
 
 import useLocations from '@/composables/useLocations';
 import useSocksProxy from '@/composables/useSocksProxy';
 
 const { hostProxySelect, toggleLocations } = useLocations();
 const {
+  globalProxy,
   globalProxyDetails,
   globalProxyDNSEnabled,
   globalProxyEnabled,
@@ -20,12 +23,34 @@ const handleProxySelect = () => {
   hostProxySelect.value = false;
   toggleLocations();
 };
+
+const handleResetGlobalProxy = () => {
+  globalProxy.value = {} as ProxyInfo;
+  globalProxyDetails.value = {} as ProxyDetails;
+};
 </script>
 
 <template>
   <n-card :bordered="false" class="mb-4">
+    <TitleCategory title="Default proxy (all websites)" />
+    <n-divider />
     <div class="flex justify-between">
-      <TitleCategory title="Proxy for all websites" />
+      <div v-if="globalProxyDetails.server" class="mb-3">
+        <h1>{{ globalProxyDetails.country }}, {{ globalProxyDetails.city }}</h1>
+        <ul class="mb-2">
+          <li>Proxy Server: {{ globalProxyDetails.server }}</li>
+          <li>
+            Proxy DNS
+            <n-checkbox
+              size="large"
+              :checked="globalProxyDNSEnabled"
+              :focusable="false"
+              @update-checked="toggleGlobalProxyDNS"
+            />
+          </li>
+        </ul>
+      </div>
+
       <n-tooltip v-if="globalProxyDetails.server">
         <template #trigger>
           <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
@@ -34,22 +59,11 @@ const handleProxySelect = () => {
       </n-tooltip>
     </div>
 
-    <div v-if="globalProxyDetails.server" class="mb-3">
-      <h1>{{ globalProxyDetails.country }}, {{ globalProxyDetails.city }}</h1>
-      <ul class="mb-2">
-        <li>Proxy Server: {{ globalProxyDetails.server }}</li>
-        <li>
-          Proxy DNS
-          <n-checkbox
-            size="large"
-            :checked="globalProxyDNSEnabled"
-            :focusable="false"
-            @update-checked="toggleGlobalProxyDNS"
-          />
-        </li>
-      </ul>
+    <div class="flex justify-between">
+      <Button @click="handleProxySelect"> Select location </Button>
+      <Button v-if="globalProxyDetails.server" @click="handleResetGlobalProxy">
+        Remove proxy
+      </Button>
     </div>
-
-    <Button @click="handleProxySelect"> Select location </Button>
   </n-card>
 </template>

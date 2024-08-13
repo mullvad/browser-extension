@@ -44,6 +44,13 @@ const toggleCurrentHostProxy = () => {
   updateCurrentTabProxyBadge();
 };
 
+const toggleCustomProxy = (host: string) => {
+  hostProxiesDetails.value[host].socksEnabled = !hostProxiesDetails.value[host].socksEnabled;
+};
+const toggleCustomProxyDNS = (host: string) => {
+  hostProxiesDetails.value[host].proxyDNS = !hostProxiesDetails.value[host].proxyDNS;
+};
+
 const toggleGlobalProxyDNS = () => {
   const updatedGlobalProxyDNS = !globalProxyDetails.value.proxyDNS;
   globalProxyDetails.value.proxyDNS = updatedGlobalProxyDNS;
@@ -123,13 +130,17 @@ const useSocksProxy = () => {
     currentHostProxyDetails,
     currentHostProxyDNSEnabled,
     currentHostProxyEnabled,
+    globalProxy,
     globalProxyDetails,
     globalProxyDNSEnabled,
     globalProxyEnabled,
+    hostProxiesDetails,
     setCurrentHostProxy,
     setGlobalProxy,
     toggleCurrentHostProxy,
     toggleCurrentHostProxyDNS,
+    toggleCustomProxy,
+    toggleCustomProxyDNS,
     toggleGlobalProxy,
     toggleGlobalProxyDNS,
   };
