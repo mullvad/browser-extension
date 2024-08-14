@@ -65,7 +65,7 @@ const handleCustomProxySelect = (host: string) => {
 
       <div class="flex justify-between">
         <Button @click="handleCustomProxySelect(host)">Select location</Button>
-        <Button @click="removeCustomProxy(host)">Remove proxy</Button>
+        <Button color="error" @click="removeCustomProxy(host)">Remove proxy</Button>
       </div>
     </div>
   </NCard>

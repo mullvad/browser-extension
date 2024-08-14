@@ -40,8 +40,8 @@ onMounted(loadProxies);
     </IconLabel>
 
     <div>
-      <ProxyHost v-if="!isBrowserPage" />
       <ProxyGlobal />
+      <ProxyHost v-if="!isBrowserPage" />
       <LocationDrawer />
     </div>
   </template>

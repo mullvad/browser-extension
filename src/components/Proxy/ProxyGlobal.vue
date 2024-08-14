@@ -54,7 +54,9 @@ const handleProxySelect = () => {
 
     <div class="flex justify-between">
       <Button @click="handleProxySelect"> Select location </Button>
-      <Button v-if="globalProxyDetails.server" @click="removeGlobalProxy"> Remove proxy </Button>
+      <Button v-if="globalProxyDetails.server" color="error" @click="removeGlobalProxy">
+        Remove proxy
+      </Button>
     </div>
   </n-card>
 </template>
