@@ -8,29 +8,22 @@ import TitleCategory from '@/components/TitleCategory.vue';
 import useActiveTab from '@/composables/useActiveTab';
 import useLocations from '@/composables/useLocations';
 import useSocksProxy from '@/composables/useSocksProxy';
-import useStore from '@/composables/useStore';
 
 const { activeTabHost } = useActiveTab();
 const { hostProxySelect, toggleLocations } = useLocations();
 const {
+  allowProxy,
   currentHostProxyDetails,
   currentHostProxyDNSEnabled,
   currentHostProxyEnabled,
+  excludedHosts,
+  neverProxyHost,
   toggleCurrentHostProxy,
   toggleCurrentHostProxyDNS,
 } = useSocksProxy();
-const { excludedHosts } = useStore();
 
 const title = computed(() => `Proxy for ${activeTabHost.value}`);
 const currentHostExcluded = computed(() => excludedHosts.value.includes(activeTabHost.value));
-
-const neverProxyHost = () => {
-  excludedHosts.value = [...excludedHosts.value, activeTabHost.value];
-};
-
-const allowProxy = () => {
-  excludedHosts.value = excludedHosts.value.filter((excluded) => excluded !== activeTabHost.value);
-};
 
 const handleProxySelect = () => {
   hostProxySelect.value = true;
@@ -70,7 +63,7 @@ const handleProxySelect = () => {
       <Button
         v-if="currentHostExcluded"
         class="flex items-center justify-center"
-        @click="allowProxy"
+        @click="allowProxy(activeTabHost)"
       >
         <p>
           Allow proxy for <strong>{{ activeTabHost }}</strong>
@@ -82,7 +75,7 @@ const handleProxySelect = () => {
           Select location
         </Button>
 
-        <Button class="flex items-center justify-center" @click="neverProxyHost">
+        <Button class="flex items-center justify-center" @click="neverProxyHost(activeTabHost)">
           Never proxy
         </Button>
       </div>

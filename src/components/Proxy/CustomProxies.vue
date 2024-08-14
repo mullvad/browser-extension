@@ -6,20 +6,29 @@ import Button from '@/components/Buttons/Button.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useSocksProxy from '@/composables/useSocksProxy';
-import useStore from '@/composables/useStore';
+import useLocations from '@/composables/useLocations';
+
+const { customProxy, hostProxySelect, toggleLocations } = useLocations();
 
 // For some reason importing `hostProxiesDetails` directly from useStore()
 // will cause the value not to be reactively updated
-const { excludedHosts } = useStore();
-const { toggleCustomProxy, toggleCustomProxyDNS, hostProxiesDetails, removeCustomProxy } =
-  useSocksProxy();
+const {
+  allowProxy,
+  excludedHosts,
+  hostProxiesDetails,
+  removeCustomProxy,
+  toggleCustomProxy,
+  toggleCustomProxyDNS,
+} = useSocksProxy();
 
 const proxies = computed(() =>
   Object.entries(hostProxiesDetails.value).map(([host, proxy]) => ({ host, proxyDetails: proxy })),
 );
 
-const allowProxy = (host: string) => {
-  excludedHosts.value = excludedHosts.value.filter((excluded) => excluded !== host);
+const handleCustomProxySelect = (host: string) => {
+  customProxy.value = host;
+  hostProxySelect.value = true;
+  toggleLocations();
 };
 </script>
 
@@ -55,8 +64,8 @@ const allowProxy = (host: string) => {
       </div>
 
       <div class="flex justify-between">
-        <!-- <Button>Select location</Button> -->
-        <Button @click="removeCustomProxy(host)">Remove Proxy</Button>
+        <Button @click="handleCustomProxySelect(host)">Select location</Button>
+        <Button @click="removeCustomProxy(host)">Remove proxy</Button>
       </div>
     </div>
   </NCard>

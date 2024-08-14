@@ -6,12 +6,15 @@ import IconLabel from '@/components/IconLabel.vue';
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useSocksProxy from '@/composables/useSocksProxy';
-import useStore from '@/composables/useStore';
 
 const { activeTabHost, isAboutPage } = useActiveTab();
-const { currentHostProxyDetails, currentHostProxyEnabled, globalProxyDetails, globalProxyEnabled } =
-  useSocksProxy();
-const { excludedHosts } = useStore();
+const {
+  currentHostProxyDetails,
+  currentHostProxyEnabled,
+  excludedHosts,
+  globalProxyDetails,
+  globalProxyEnabled,
+} = useSocksProxy();
 const { connection } = inject(ConnectionKey, defaultConnection);
 
 const currentHostExcluded = computed(() => {
