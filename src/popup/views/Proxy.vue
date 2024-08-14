@@ -14,7 +14,7 @@ import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useListProxies from '@/composables/useListProxies';
 import useProxyPermissions from '@/composables/useProxyPermissions';
 
-const { isAboutPage } = useActiveTab();
+const { isBrowserPage } = useActiveTab();
 const { getSocksProxies } = useListProxies();
 const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPermissions();
 
@@ -40,7 +40,7 @@ onMounted(loadProxies);
     </IconLabel>
 
     <div>
-      <ProxyHost v-if="!isAboutPage" />
+      <ProxyHost v-if="!isBrowserPage" />
       <ProxyGlobal />
       <LocationDrawer />
     </div>
