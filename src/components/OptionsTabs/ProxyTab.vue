@@ -2,17 +2,21 @@
 import { NCard } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
-import ProxyList from '@/components/Proxy/ProxyList.vue';
+import CustomProxies from '@/components/Proxy/CustomProxies.vue';
 import IconLabel from '@/components/IconLabel.vue';
+import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
+import ProxyGlobal from '@/components/Proxy/ProxyGlobal.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
-import useProxyPermissions from '@/composables/useProxyPermissions';
 
+import useProxyPermissions from '@/composables/useProxyPermissions';
 const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPermissions();
 </script>
 
 <template>
   <template v-if="proxyPermissionsGranted">
-    <ProxyList />
+    <ProxyGlobal />
+    <CustomProxies />
+    <LocationDrawer />
   </template>
 
   <template v-else>
