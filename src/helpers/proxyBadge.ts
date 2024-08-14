@@ -43,7 +43,13 @@ const setTabExtBadge = async (
 ) => {
   const { id: tabId } = tab;
 
-  if (proxy && !isExcluded) {
+  if (isExcluded) {
+    browser.browserAction.setBadgeText({ text: '🚫', tabId });
+    // TODO Remove one of these lines based on design feedback
+    browser.browserAction.setBadgeBackgroundColor({ color: [0, 0, 0, 0], tabId });
+    browser.browserAction.setBadgeBackgroundColor({ color: '#ffd524', tabId });
+    browser.browserAction.setBadgeTextColor({ color: 'black', tabId });
+  } else if (proxy) {
     browser.browserAction.setBadgeText({ text: countryCode.toUpperCase(), tabId });
     browser.browserAction.setBadgeBackgroundColor({ color: '#ffd524', tabId });
     browser.browserAction.setBadgeTextColor({ color: 'black', tabId });
