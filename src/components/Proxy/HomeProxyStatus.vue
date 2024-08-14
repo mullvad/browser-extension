@@ -7,7 +7,7 @@ import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useSocksProxy from '@/composables/useSocksProxy';
 
-const { activeTabHost, isAboutPage } = useActiveTab();
+const { activeTabHost, isBrowserPage } = useActiveTab();
 const {
   currentHostProxyDetails,
   currentHostProxyEnabled,
@@ -33,7 +33,7 @@ const currentHostExcluded = computed(() => {
   </IconLabel>
 
   <IconLabel
-    v-if="globalProxyEnabled && connection.isMullvad && !isAboutPage"
+    v-if="globalProxyEnabled && connection.isMullvad && !isBrowserPage"
     type="info"
     class="my-2"
   >
