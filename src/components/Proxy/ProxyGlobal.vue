@@ -4,17 +4,15 @@ import { NCard, NCheckbox, NDivider, NSwitch, NTooltip } from 'naive-ui';
 import Button from '@/components/Buttons/Button.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
-import { ProxyDetails, ProxyInfo } from '@/helpers/socksProxy.types';
-
 import useLocations from '@/composables/useLocations';
 import useSocksProxy from '@/composables/useSocksProxy';
 
 const { hostProxySelect, toggleLocations } = useLocations();
 const {
-  globalProxy,
   globalProxyDetails,
   globalProxyDNSEnabled,
   globalProxyEnabled,
+  removeGlobalProxy,
   toggleGlobalProxy,
   toggleGlobalProxyDNS,
 } = useSocksProxy();
@@ -22,11 +20,6 @@ const {
 const handleProxySelect = () => {
   hostProxySelect.value = false;
   toggleLocations();
-};
-
-const handleResetGlobalProxy = () => {
-  globalProxy.value = {} as ProxyInfo;
-  globalProxyDetails.value = {} as ProxyDetails;
 };
 </script>
 
@@ -61,9 +54,7 @@ const handleResetGlobalProxy = () => {
 
     <div class="flex justify-between">
       <Button @click="handleProxySelect"> Select location </Button>
-      <Button v-if="globalProxyDetails.server" @click="handleResetGlobalProxy">
-        Remove proxy
-      </Button>
+      <Button v-if="globalProxyDetails.server" @click="removeGlobalProxy"> Remove proxy </Button>
     </div>
   </n-card>
 </template>

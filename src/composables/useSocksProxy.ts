@@ -21,7 +21,8 @@ const socksIp = '10.64.0.1';
 
 const { activeTabHost } = useActiveTab();
 const { updateConnection } = useConnection();
-const { globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } = useStore();
+const { excludedHosts, globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } =
+  useStore();
 
 const currentHostProxyDetails = computed(
   () => hostProxiesDetails.value[activeTabHost.value] || null,
@@ -46,9 +47,11 @@ const toggleCurrentHostProxy = () => {
 
 const toggleCustomProxy = (host: string) => {
   hostProxiesDetails.value[host].socksEnabled = !hostProxiesDetails.value[host].socksEnabled;
+  updateCurrentTabProxyBadge();
 };
 const toggleCustomProxyDNS = (host: string) => {
   hostProxiesDetails.value[host].proxyDNS = !hostProxiesDetails.value[host].proxyDNS;
+  updateCurrentTabProxyBadge();
 };
 
 const toggleGlobalProxyDNS = () => {
@@ -129,19 +132,40 @@ const removeCustomProxy = (host: string) => {
   delete hostProxies.value[host];
   delete hostProxiesDetails.value[host];
   updateConnection();
+  updateCurrentTabProxyBadge();
+};
+
+const removeGlobalProxy = () => {
+  globalProxy.value = {} as ProxyInfo;
+  globalProxyDetails.value = {} as ProxyDetails;
+  updateCurrentTabProxyBadge();
+};
+
+const allowProxy = (host: string) => {
+  excludedHosts.value = excludedHosts.value.filter((excluded) => excluded !== host);
+  updateCurrentTabProxyBadge();
+};
+
+const neverProxyHost = (host: string) => {
+  excludedHosts.value = [...excludedHosts.value, host];
+  updateCurrentTabProxyBadge();
 };
 
 const useSocksProxy = () => {
   return {
+    allowProxy,
     currentHostProxyDetails,
     currentHostProxyDNSEnabled,
     currentHostProxyEnabled,
+    excludedHosts,
     globalProxy,
     globalProxyDetails,
     globalProxyDNSEnabled,
     globalProxyEnabled,
     hostProxiesDetails,
+    neverProxyHost,
     removeCustomProxy,
+    removeGlobalProxy,
     setCurrentHostProxy,
     setGlobalProxy,
     toggleCurrentHostProxy,

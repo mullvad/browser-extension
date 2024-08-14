@@ -15,13 +15,13 @@ import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
 
 const { activeTabHost } = useActiveTab();
-const { hostProxySelect, toggleLocations } = useLocations();
+const { customProxy, hostProxySelect, toggleLocations } = useLocations();
 const { proxiesList } = useListProxies();
 const { setCurrentHostProxy, setGlobalProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useProxyHistory();
 
 const currentOrAllWebsites = computed(() =>
-  hostProxySelect.value ? activeTabHost.value : 'all your browser traffic',
+  hostProxySelect.value ? customProxy.value || activeTabHost.value : 'all your browser traffic',
 );
 
 const setProxy = (
@@ -38,8 +38,9 @@ const setProxy = (
   if (hostProxySelect.value) {
     setCurrentHostProxy(
       { country, countryCode, city, hostname, ipv4_address, port },
-      activeTabHost.value,
+      customProxy.value || activeTabHost.value,
     );
+    customProxy.value = '';
   } else {
     setGlobalProxy({ country, countryCode, city, hostname, ipv4_address, port });
   }
