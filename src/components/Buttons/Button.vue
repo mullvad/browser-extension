@@ -5,7 +5,7 @@ type Props = {
   color?: string;
   textColor?: string;
   href?: string;
-  to?: string;
+  size?: 'small' | 'medium' | 'large';
 };
 
 const props = defineProps<Props>();
@@ -13,26 +13,28 @@ const type = computed(() => {
   if (props.href) {
     return 'a';
   }
-  if (props.to) {
-    return 'router-link';
-  }
   return 'button';
 });
 
 const { color, textColor } = toRefs(props);
 const classes = computed(() => {
-  let colors;
+  let colors = '';
+  let sizeClass = '';
 
   if (color?.value) {
     colors = `bg-${color.value} text-${textColor?.value || 'white'}`;
   }
 
-  return colors;
+  if (props.size) {
+    sizeClass = `btn-${props.size}`;
+  }
+
+  return `${colors} ${sizeClass}`;
 });
 </script>
 
 <template>
-  <component :is="type" :href="href" :to="to" class="btn" :class="classes">
+  <component :is="type" :href="href" class="btn" :class="classes">
     <slot></slot>
   </component>
 </template>
@@ -92,5 +94,20 @@ const classes = computed(() => {
 .bg-error:not(:disabled):focus,
 .bg-error:not(:disabled):hover {
   background-color: var(--red-hover);
+}
+
+.btn-small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-medium {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.btn-large {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
 }
 </style>

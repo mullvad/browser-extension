@@ -15,18 +15,6 @@ describe('Button', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
 
-  it('should render a router-link', () => {
-    const wrapper = mount(Button, {
-      props: { to: '/locations' },
-      slots: { default: 'Locations' },
-    });
-    const routerLink = wrapper.find('router-link');
-    expect(routerLink.exists()).toBe(true);
-    expect(routerLink.attributes('to')).toBe('/locations');
-
-    expect(wrapper.element).toMatchSnapshot();
-  });
-
   it('should render a button', () => {
     const wrapper = mount(Button, {
       slots: { default: 'Knapp' },

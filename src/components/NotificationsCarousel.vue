@@ -22,7 +22,7 @@ const activeNotifications = computed(() => {
 </script>
 
 <template>
-  <div v-if="activeNotifications.length > 0" class="mb-4">
+  <div v-if="activeNotifications.length > 0" class="mb-4 z-50">
     <n-carousel :show-arrow="activeNotifications.length > 1" :show-dots="false">
       <template #arrow="{ prev, next }">
         <div v-if="activeNotifications.length > 1" class="arrows-custom">

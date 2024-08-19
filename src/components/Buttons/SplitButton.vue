@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { NButtonGroup, NPopover } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -17,7 +17,7 @@ type Props = {
   subColor: string;
   subText: string;
   href?: string;
-  to?: string;
+  size?: 'small' | 'medium' | 'large';
 };
 
 const props = defineProps<Props>();
@@ -31,6 +31,19 @@ const handleSubClick = () => {
   rotateDropDown.value = false;
   emit('subClick');
 };
+
+const buttonHeightClass = computed(() => {
+  switch (props.size) {
+    case 'small':
+      return 'h-8';
+    case 'medium':
+      return 'h-10';
+    case 'large':
+      return 'h-12';
+    default:
+      return 'h-10';
+  }
+});
 </script>
 
 <template>
@@ -38,8 +51,8 @@ const handleSubClick = () => {
     <Button
       v-if="mainText"
       :href="props.href"
-      :to="props.to"
       :color="props.mainColor"
+      :size="$props.size"
       @click="handleMainClick"
     >
       {{ props.mainText }}
@@ -47,7 +60,7 @@ const handleSubClick = () => {
 
     <n-popover ref="popoverRef" trigger="click" raw placement="bottom" @update:show="onUpdateShow">
       <template #trigger>
-        <Button class="h-10 flex items-center">
+        <Button :size="$props.size" :class="buttonHeightClass">
           <FeDropDown
             class="transform transition-transform duration-400 text-lg"
             :class="{ 'rotate-180': rotateDropDown }"
@@ -55,7 +68,7 @@ const handleSubClick = () => {
         </Button>
       </template>
 
-      <Button :color="props.subColor" @click="handleSubClick">
+      <Button :color="props.subColor" :size="$props.size" @click="handleSubClick">
         {{ props.subText }}
       </Button>
     </n-popover>
