@@ -2,6 +2,7 @@
 import { NCard } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
+import ProxyList from '@/components/Proxy/ProxyList.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 import useProxyPermissions from '@/composables/useProxyPermissions';
@@ -12,6 +13,7 @@ const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPerm
 <template>
   <template v-if="proxyPermissionsGranted">
     <div>List of the existing proxies</div>
+    <ProxyList />
   </template>
 
   <template v-else>
