@@ -20,17 +20,6 @@ exports[`Button should render a button 1`] = `
 </button>
 `;
 
-exports[`Button should render a router-link 1`] = `
-<router-link
-  class="btn"
-  to="/locations"
->
-  
-  Locations
-  
-</router-link>
-`;
-
 exports[`Button should render an a tag 1`] = `
 <a
   class="btn"

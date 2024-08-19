@@ -1,35 +1,33 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { NScrollbar } from 'naive-ui';
+import { inject } from 'vue';
+import { NIcon } from 'naive-ui';
 
-import HomeHeader from '@/components/Headers/HomeHeader.vue';
-import ProxyHeader from '@/components/Headers/ProxyHeader.vue';
+import ConnectionDetails from '@/components/ConnectionDetails/ConnectionDetails.vue';
+import FeCog from '@/components/Icons/FeCog.vue';
+import HomeProxyStatus from '@/components/Proxy/HomeProxyStatus.vue';
+import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
+import NotificationsCarousel from '@/components/NotificationsCarousel.vue';
 
-const route = useRoute();
-const path = computed(() => route && route.path);
+import { openOptions } from '@/helpers/browserExtension';
+
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useProxyPermissions from '@/composables/useProxyPermissions';
+
+const { proxyPermissionsGranted } = useProxyPermissions();
+
+const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
 </script>
 
 <template>
-  <main class="w-[450px]">
-    <header class="sticky top-0 z-1">
-      <HomeHeader v-if="path === '/'" />
-      <ProxyHeader v-if="path === '/proxy'" />
-    </header>
-
-    <n-scrollbar :x-scrollable="false" class="max-h-543px px-4">
-      <div class="py-1rem">
-        <router-view />
-      </div>
-    </n-scrollbar>
+  <main class="w-[450px] m-3">
+    <div class="absolute z-60 top-4 right-4 hover:text-white cursor-pointer" @click="openOptions()">
+      <n-icon size="20">
+        <FeCog />
+      </n-icon>
+    </div>
+    <NotificationsCarousel v-if="!isLoading && !isError" />
+    <ConnectionDetails />
+    <HomeProxyStatus v-if="!isLoading && proxyPermissionsGranted" />
+    <LocationDrawer />
   </main>
 </template>
-
-<style scoped>
-header {
-  box-shadow:
-    rgb(0 0 0 / 5%) 0 1px 2px 0,
-    rgb(0 0 0 / 5%) 0 1px 4px 0,
-    rgb(0 0 0 / 5%) 0 2px 8px 0;
-}
-</style>

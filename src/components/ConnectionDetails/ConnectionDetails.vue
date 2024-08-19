@@ -4,7 +4,6 @@ import { inject } from 'vue';
 import AdvancedDns from '@/components/ConnectionDetails/AdvancedDns.vue';
 import AdvancedInfo from '@/components/ConnectionDetails/AdvancedInfo.vue';
 import AdvancedWebRTC from '@/components/ConnectionDetails/AdvancedWebTRC.vue';
-import Button from '@/components/Buttons/Button.vue';
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
@@ -27,10 +26,7 @@ const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnecti
       </p>
 
       <div v-if="globalProxyEnabled">
-        <p>Either disconnect the proxy for all websites or connect to Mullvad VPN.</p>
-        <router-link to="/proxy">
-          <Button color="info" class="mt-2">Review proxy settings</Button>
-        </router-link>
+        <p>Either disconnect the default proxy (all websites) or connect to Mullvad VPN.</p>
       </div>
     </div>
 
