@@ -44,7 +44,7 @@ export async function getManifest() {
       search_provider: {
         name: 'Mullvad Leta',
         search_url: 'https://leta.mullvad.net/?q={searchTerms}',
-        keyword: 'leta',
+        keyword: '@leta',
         favicon_url: './assets/mullvad-logo.svg',
       },
     },
