@@ -28,6 +28,7 @@ const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
     <NotificationsCarousel v-if="!isLoading && !isError" />
     <ConnectionDetails />
     <HomeProxyStatus v-if="!isLoading && proxyPermissionsGranted" />
+    <!-- TODO ADD PERMISSIONS CHECK HERE -->
     <LocationDrawer />
   </main>
 </template>

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { computed, inject, onMounted, ref } from 'vue';
-import { NCollapse, NCollapseItem, NSwitch, NTag } from 'naive-ui';
+import { computed, inject } from 'vue';
+import { NSwitch, NTabPane, NTabs, NTag } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
-import IconLabel from '@/components/IconLabel.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
+import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
@@ -35,25 +35,9 @@ const handleProxySelect = (customProxy: boolean) => {
   hostProxySelect.value = customProxy;
   toggleLocations();
 };
-
-const activeCollapse = ref('global');
-
-const updateExpanded = ({ name }: { name: string }) => {
-  activeCollapse.value = name;
-};
-
-onMounted(() => {
-  if (currentHostProxyEnabled.value) {
-    activeCollapse.value = 'host';
-  } else if (globalProxyEnabled.value) {
-    activeCollapse.value = 'global';
-  }
-});
 </script>
 
 <template>
-  <TitleCategory title="Proxy" />
-
   <IconLabel v-if="currentHostProxyEnabled && !connection.isMullvad" type="warning" class="my-2">
     <strong>{{ activeTabHost }}</strong> can't be reached, either disable the proxy in use or
     connect to Mullvad VPN.
@@ -70,40 +54,35 @@ onMounted(() => {
     </Button>
   </div>
 
-  <n-collapse
-    v-else
-    :expanded-names="activeCollapse"
-    :on-item-header-click="updateExpanded"
-    accordion
-  >
-    <n-collapse-item title="Default proxy (all websites)" name="global">
-      <template #header-extra>
+  <n-tabs v-else type="line" justify-content="space-evenly">
+    <template #prefix>
+      <TitleCategory title="Proxy" />
+    </template>
+
+    <n-tab-pane name="default" tab="All websites">
+      <template #tab>
         <div class="flex items-center">
-          <n-tag
-            v-if="globalProxyEnabled && !currentHostProxyEnabled"
-            round
-            :bordered="false"
-            type="success"
-            class="mr-4"
-          >
-            in use
-          </n-tag>
-          <n-switch
-            v-if="globalProxyDetails.server"
-            :value="globalProxyEnabled"
-            @update-value="toggleGlobalProxy()"
-          />
+          All websites
+          <n-tag round :bordered="false" type="success" class="mr-4"> active </n-tag>
         </div>
       </template>
 
-      <div v-if="globalProxyDetails.server">
-        <h4 class="font-semibold">
-          {{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}
-        </h4>
-        <div class="flex">
-          <h4 class="font-semibold">Server</h4>
-          <div class="ml-2">{{ globalProxyDetails.server }}</div>
+      <div class="flex justify-between mb-3">
+        <div v-if="globalProxyDetails.server">
+          <h4 class="font-semibold">
+            {{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}
+          </h4>
+          <div class="flex">
+            <h4 class="font-semibold">Server</h4>
+            <div class="ml-2">{{ globalProxyDetails.server }}</div>
+          </div>
         </div>
+
+        <n-switch
+          v-if="globalProxyDetails.server"
+          :value="globalProxyEnabled"
+          @update-value="toggleGlobalProxy()"
+        />
       </div>
 
       <div class="flex justify-between">
@@ -119,32 +98,30 @@ onMounted(() => {
           Remove proxy
         </Button>
       </div>
-    </n-collapse-item>
+    </n-tab-pane>
 
-    <n-collapse-item v-if="!isBrowserPage" :title="activeTabHost" name="host">
-      <template #header-extra>
-        <div class="flex items-center">
-          <n-tag v-if="currentHostProxyEnabled" round :bordered="false" type="success" class="mr-4">
-            in use
-          </n-tag>
-          <n-switch
-            v-if="currentHostProxyDetails"
-            :value="currentHostProxyEnabled"
-            @update-value="toggleCurrentHostProxy()"
-          />
-        </div>
-      </template>
-
+    <n-tab-pane v-if="!isBrowserPage" name="current" tab="Current website">
       <div v-if="currentHostProxyDetails">
-        <div>
-          <div class="flex">
-            <h4 class="font-semibold">
-              {{ currentHostProxyDetails.city }}, {{ currentHostProxyDetails.country }}
-            </h4>
+        <div class="flex justify-between mb-3">
+          <div>
+            <div class="flex">
+              <h4 class="font-semibold">
+                {{ currentHostProxyDetails.city }}, {{ currentHostProxyDetails.country }}
+              </h4>
+            </div>
+            <div class="flex">
+              <h4 class="font-semibold">Server</h4>
+              <div class="ml-2">{{ currentHostProxyDetails.server }}</div>
+            </div>
           </div>
-          <div class="flex">
-            <h4 class="font-semibold">Server</h4>
-            <div class="ml-2">{{ currentHostProxyDetails.server }}</div>
+
+          <div class="flex justify-between">
+            <h1 class="font-semibold text-lg mb-2 text-gray-200">{{ host }}</h1>
+            <n-switch
+              v-if="currentHostProxyDetails"
+              :value="currentHostProxyEnabled"
+              @update-value="toggleCurrentHostProxy()"
+            />
           </div>
         </div>
 
@@ -170,6 +147,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
+
       <div v-else class="flex justify-between">
         <Button
           size="small"
@@ -187,6 +165,6 @@ onMounted(() => {
           Never proxy
         </Button>
       </div>
-    </n-collapse-item>
-  </n-collapse>
+    </n-tab-pane>
+  </n-tabs>
 </template>
