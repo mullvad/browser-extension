@@ -9,10 +9,13 @@ import TitleCategory from '@/components/TitleCategory.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useListProxies from '@/composables/useListProxies';
 import useLocations from '@/composables/useLocations';
+import useProxyPermissions from '@/composables/useProxyPermissions';
 import useSocksProxy from '@/composables/useSocksProxy';
 
 const { activeTabHost, isBrowserPage } = useActiveTab();
+const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPermissions();
 const {
   allowProxy,
   currentHostProxyDetails,
@@ -26,13 +29,21 @@ const {
   toggleCurrentHostProxy,
   toggleGlobalProxy,
 } = useSocksProxy();
+const { getSocksProxies } = useListProxies();
 const { hostProxySelect, toggleLocations } = useLocations();
 const { connection } = inject(ConnectionKey, defaultConnection);
 
 const currentHostExcluded = computed(() => excludedHosts.value.includes(activeTabHost.value));
 
-const handleProxySelect = (customProxy: boolean) => {
+const truncatedActiveTabHost = computed(() => {
+  return activeTabHost.value.length <= 25
+    ? activeTabHost.value
+    : `${activeTabHost.value.substring(0, 18)}...${activeTabHost.value.slice(-7)}`;
+});
+
+const handleProxySelect = async (customProxy: boolean) => {
   hostProxySelect.value = customProxy;
+  await getSocksProxies();
   toggleLocations();
 };
 </script>
@@ -54,12 +65,12 @@ const handleProxySelect = (customProxy: boolean) => {
     </Button>
   </div>
 
-  <n-tabs v-else type="line" justify-content="space-evenly">
+  <n-tabs v-else-if="proxyPermissionsGranted" type="line" justify-content="start">
     <template #prefix>
       <TitleCategory title="Proxy" />
     </template>
 
-    <n-tab-pane name="default" tab="All websites">
+    <n-tab-pane name="all-websites">
       <template #tab>
         <div class="flex items-center">
           All websites
@@ -100,7 +111,7 @@ const handleProxySelect = (customProxy: boolean) => {
       </div>
     </n-tab-pane>
 
-    <n-tab-pane v-if="!isBrowserPage" name="current" tab="Current website">
+    <n-tab-pane v-if="!isBrowserPage" name="current" :tab="truncatedActiveTabHost">
       <div v-if="currentHostProxyDetails">
         <div class="flex justify-between mb-3">
           <div>
@@ -116,7 +127,6 @@ const handleProxySelect = (customProxy: boolean) => {
           </div>
 
           <div class="flex justify-between">
-            <h1 class="font-semibold text-lg mb-2 text-gray-200">{{ host }}</h1>
             <n-switch
               v-if="currentHostProxyDetails"
               :value="currentHostProxyEnabled"
@@ -163,6 +173,43 @@ const handleProxySelect = (customProxy: boolean) => {
           @click="neverProxyHost(activeTabHost)"
         >
           Never proxy
+        </Button>
+      </div>
+    </n-tab-pane>
+
+    <n-tab-pane
+      v-if="!proxyPermissionsGranted"
+      name="permissions"
+      tab="Permissions missing"
+      class="flex flex-col"
+    >
+      <ul>
+        <li>- <strong>tabs</strong> to show proxy settings from the active tab</li>
+        <li>- <strong>proxy</strong> to configure and use Mullvad proxy servers</li>
+        <li>- <strong>&lt;all_urls&gt;</strong> to have granular proxy settings</li>
+      </ul>
+
+      <Button size="small" class="mt-3" @click="triggerRequestProxyPermissions">
+        Grant permissions
+      </Button>
+    </n-tab-pane>
+  </n-tabs>
+
+  <n-tabs v-if="!proxyPermissionsGranted" type="line" justify-content="start">
+    <template #prefix>
+      <TitleCategory title="Proxy" />
+    </template>
+
+    <n-tab-pane v-if="!proxyPermissionsGranted" name="permissions" tab="Permissions missing">
+      <div class="flex flex-col">
+        <ul>
+          <li>- <strong>tabs</strong> to show proxy settings from the active tab</li>
+          <li>- <strong>proxy</strong> to configure and use Mullvad proxy servers</li>
+          <li>- <strong>&lt;all_urls&gt;</strong> to have granular proxy settings</li>
+        </ul>
+
+        <Button size="small" class="mt-3" @click="triggerRequestProxyPermissions">
+          Grant permissions
         </Button>
       </div>
     </n-tab-pane>

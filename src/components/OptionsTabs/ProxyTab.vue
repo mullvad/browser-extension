@@ -20,7 +20,7 @@ const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPerm
   <template v-else>
     <n-card :bordered="false" class="mb-4">
       <div class="flex justify-between">
-        <TitleCategory title="Permissions required" />
+        <TitleCategory title="Permissions missing" />
       </div>
 
       <IconLabel type="warning" class="my-2">

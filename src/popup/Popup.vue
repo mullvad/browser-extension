@@ -11,9 +11,6 @@ import NotificationsCarousel from '@/components/NotificationsCarousel.vue';
 import { openOptions } from '@/helpers/browserExtension';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useProxyPermissions from '@/composables/useProxyPermissions';
-
-const { proxyPermissionsGranted } = useProxyPermissions();
 
 const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
 </script>
@@ -27,8 +24,7 @@ const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
     </div>
     <NotificationsCarousel v-if="!isLoading && !isError" />
     <ConnectionDetails />
-    <HomeProxyStatus v-if="!isLoading && proxyPermissionsGranted" />
-    <!-- TODO ADD PERMISSIONS CHECK HERE -->
+    <HomeProxyStatus v-if="!isLoading" />
     <LocationDrawer />
   </main>
 </template>
