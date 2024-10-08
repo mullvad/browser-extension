@@ -74,12 +74,12 @@ const handleProxySelect = async (customProxy: boolean) => {
       <template #tab>
         <div class="flex items-center">
           All websites
-          <n-tag round :bordered="false" type="success" class="mr-4"> active </n-tag>
+          <n-tag round :bordered="false" type="success" class="mx-2"> in use </n-tag>
         </div>
       </template>
 
-      <div class="flex justify-between mb-3">
-        <div v-if="globalProxyDetails.server">
+      <div v-if="globalProxyDetails.server" class="flex justify-between">
+        <div class="mb-2">
           <h4 class="font-semibold">
             {{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}
           </h4>
@@ -89,12 +89,13 @@ const handleProxySelect = async (customProxy: boolean) => {
           </div>
         </div>
 
-        <n-switch
-          v-if="globalProxyDetails.server"
-          :value="globalProxyEnabled"
-          @update-value="toggleGlobalProxy()"
-        />
+        <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
       </div>
+
+      <p class="mb-4">
+        {{ globalProxyEnabled ? 'This' : 'When enabled, this' }} proxy is used by
+        <strong>all websites</strong>, with the exception of domain specific proxies.
+      </p>
 
       <div class="flex justify-between">
         <Button size="small" @click="handleProxySelect(false)">
@@ -113,7 +114,7 @@ const handleProxySelect = async (customProxy: boolean) => {
 
     <n-tab-pane v-if="!isBrowserPage" name="current" :tab="truncatedActiveTabHost">
       <div v-if="currentHostProxyDetails">
-        <div class="flex justify-between mb-3">
+        <div class="flex justify-between mb-2">
           <div>
             <div class="flex">
               <h4 class="font-semibold">
@@ -134,6 +135,11 @@ const handleProxySelect = async (customProxy: boolean) => {
             />
           </div>
         </div>
+
+        <p class="break-all mb-4">
+          This proxy is used by <strong>{{ activeTabHost }}</strong
+          >.
+        </p>
 
         <div class="flex justify-between">
           <Button
@@ -158,22 +164,29 @@ const handleProxySelect = async (customProxy: boolean) => {
         </div>
       </div>
 
-      <div v-else class="flex justify-between">
-        <Button
-          size="small"
-          class="flex items-center justify-center"
-          @click="handleProxySelect(true)"
-        >
-          {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
-        </Button>
+      <div v-else>
+        <p class="break-all mb-4">
+          When enabled, this proxy is used by <strong>{{ activeTabHost }}</strong
+          >.
+        </p>
 
-        <Button
-          size="small"
-          class="flex items-center justify-center"
-          @click="neverProxyHost(activeTabHost)"
-        >
-          Never proxy
-        </Button>
+        <div class="flex justify-between">
+          <Button
+            size="small"
+            class="flex items-center justify-center"
+            @click="handleProxySelect(true)"
+          >
+            {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
+          </Button>
+
+          <Button
+            size="small"
+            class="flex items-center justify-center"
+            @click="neverProxyHost(activeTabHost)"
+          >
+            Never proxy
+          </Button>
+        </div>
       </div>
     </n-tab-pane>
 
