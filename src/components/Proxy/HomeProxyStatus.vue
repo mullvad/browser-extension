@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
-import { NSwitch, NTabPane, NTabs, NTag } from 'naive-ui';
+import { NSwitch, NTabPane, NTabs } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
@@ -36,10 +36,15 @@ const { connection } = inject(ConnectionKey, defaultConnection);
 const currentHostExcluded = computed(() => excludedHosts.value.includes(activeTabHost.value));
 
 const truncatedActiveTabHost = computed(() => {
+  // Adjust this based on design
   return activeTabHost.value.length <= 25
     ? activeTabHost.value
-    : `${activeTabHost.value.substring(0, 18)}...${activeTabHost.value.slice(-7)}`;
+    : `${activeTabHost.value.substring(0, 15)}...${activeTabHost.value.slice(-15)}`;
 });
+
+const defaultActiveTab = computed(() =>
+  currentHostProxyEnabled.value || currentHostExcluded.value ? 'current-website' : 'all-websites',
+);
 
 const handleProxySelect = async (customProxy: boolean) => {
   hostProxySelect.value = customProxy;
@@ -54,30 +59,17 @@ const handleProxySelect = async (customProxy: boolean) => {
     connect to Mullvad VPN.
   </IconLabel>
 
-  <div v-if="currentHostExcluded">
-    <IconLabel type="info" class="my-2">
-      <strong>{{ activeTabHost }}</strong> is set to never be proxied
-    </IconLabel>
-    <Button class="flex items-center justify-center" @click="allowProxy(activeTabHost)">
-      <p>
-        Allow proxy for <strong>{{ activeTabHost }}</strong>
-      </p>
-    </Button>
-  </div>
-
-  <n-tabs v-else-if="proxyPermissionsGranted" type="line" justify-content="start">
+  <n-tabs
+    v-if="proxyPermissionsGranted"
+    type="line"
+    justify-content="start"
+    :default-value="defaultActiveTab"
+  >
     <template #prefix>
       <TitleCategory title="Proxy" />
     </template>
 
-    <n-tab-pane name="all-websites">
-      <template #tab>
-        <div class="flex items-center">
-          All websites
-          <n-tag round :bordered="false" type="success" class="mx-2"> in use </n-tag>
-        </div>
-      </template>
-
+    <n-tab-pane name="all-websites" tab="All websites">
       <div v-if="globalProxyDetails.server" class="flex justify-between">
         <div class="mb-2">
           <h4 class="font-semibold">
@@ -112,8 +104,24 @@ const handleProxySelect = async (customProxy: boolean) => {
       </div>
     </n-tab-pane>
 
-    <n-tab-pane v-if="!isBrowserPage" name="current" :tab="truncatedActiveTabHost">
-      <div v-if="currentHostProxyDetails">
+    <n-tab-pane v-if="!isBrowserPage" name="current-website" :tab="truncatedActiveTabHost">
+      <div v-if="currentHostExcluded">
+        <p class="break-all mb-4">
+          <strong>{{ activeTabHost }}</strong> is set to never be proxied.
+        </p>
+
+        <Button
+          size="small"
+          class="flex items-center justify-center"
+          @click="allowProxy(activeTabHost)"
+        >
+          <p>
+            Allow proxy for <strong>{{ truncatedActiveTabHost }}</strong>
+          </p>
+        </Button>
+      </div>
+
+      <div v-else-if="currentHostProxyDetails">
         <div class="flex justify-between mb-2">
           <div>
             <div class="flex">
