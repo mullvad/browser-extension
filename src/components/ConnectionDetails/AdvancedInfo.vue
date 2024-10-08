@@ -10,11 +10,9 @@ const { connection } = inject(ConnectionKey, defaultConnection);
   <div class="mb-2 ml-35px">
     <div>
       <h4 class="font-semibold inline-block">IP</h4>
-      <span class="ml-2">{{ connection.ip }}</span>
-    </div>
-    <div v-if="connection.ipv6">
-      <h4 class="font-semibold inline-block">IPv6</h4>
-      <span class="ml-2">{{ connection.ipv6 }}</span>
+      <span class="ml-2"
+        >{{ connection.ip }} <span v-if="connection.ipv6"> / {{ connection.ipv6 }}</span></span
+      >
     </div>
     <div>
       <h4 class="font-semibold inline-block">Provider</h4>

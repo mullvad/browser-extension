@@ -5,7 +5,6 @@ import Button from '@/components/Buttons/Button.vue';
 import CustomProxies from '@/components/Proxy/CustomProxies.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
-import ProxyGlobal from '@/components/Proxy/ProxyGlobal.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useProxyPermissions from '@/composables/useProxyPermissions';
@@ -14,7 +13,6 @@ const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPerm
 
 <template>
   <template v-if="proxyPermissionsGranted">
-    <ProxyGlobal />
     <CustomProxies />
     <LocationDrawer />
   </template>
@@ -22,7 +20,7 @@ const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPerm
   <template v-else>
     <n-card :bordered="false" class="mb-4">
       <div class="flex justify-between">
-        <TitleCategory title="Permissions required" />
+        <TitleCategory title="Permissions missing" />
       </div>
 
       <IconLabel type="warning" class="my-2">
