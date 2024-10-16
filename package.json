@@ -92,7 +92,6 @@
     "ipaddr.js": "^2.2.0",
     "naive-ui": "^2.39.0",
     "uuid": "^10.0.0",
-    "vue-query": "^1.26.0",
-    "vue-router": "^4.4.0"
+    "vue-query": "^1.26.0"
   }
 }
