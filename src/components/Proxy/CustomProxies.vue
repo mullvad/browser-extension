@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { NCard, NCheckbox, NDivider, NSwitch, NTooltip } from 'naive-ui';
+import { computed, ref } from 'vue';
+import { NCard, NCheckbox, NDivider, NSwitch, NTooltip, NInput } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
-
-import { openPopup } from '@/helpers/browserExtension';
 
 const { customProxy, hostProxySelect, toggleLocations } = useLocations();
 
@@ -27,24 +25,30 @@ const proxies = computed(() =>
   Object.entries(hostProxiesDetails.value).map(([host, proxy]) => ({ host, proxyDetails: proxy })),
 );
 
+const manualProxyDomain = ref('');
+
 const handleCustomProxySelect = (host: string) => {
   customProxy.value = host;
   hostProxySelect.value = true;
   toggleLocations();
+  manualProxyDomain.value = '';
 };
 </script>
 
 <template>
-  <NCard v-if="excludedHosts.length <= 0 && proxies.length <= 0" :bordered="false">
-    <p>
-      No custom proxies configured. You can configure the proxy through
-      <a class="underline cursor-pointer" @click="openPopup">the popup</a>.
-    </p>
-  </NCard>
-
-  <NCard v-if="proxies.length > 0" :bordered="false" class="mb-4">
-    <TitleCategory title="Custom proxies" />
-    <div v-for="{ host, proxyDetails } in proxies" :key="host" :bordered="false" class="mb-4">
+  <NCard :bordered="false" class="mb-4">
+    <TitleCategory title="Add proxy for a domain" />
+    <div class="flex items-center mt-2">
+      <NInput
+        v-model:value="manualProxyDomain"
+        placeholder="Enter domain name"
+        class="mr-2 flex-grow"
+      />
+      <Button class="whitespace-nowrap" @click="handleCustomProxySelect(manualProxyDomain)"
+        >Select Location</Button
+      >
+    </div>
+    <div v-for="{ host, proxyDetails } in proxies" :key="host" :bordered="false">
       <n-divider />
       <div class="flex justify-between">
         <h1 class="font-semibold text-lg mb-2 text-gray-200">{{ host }}</h1>
