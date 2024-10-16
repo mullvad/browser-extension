@@ -6,5 +6,8 @@
   },
   "files.associations": {
     "*.css": "postcss"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
