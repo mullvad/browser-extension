@@ -8,6 +8,8 @@ import TitleCategory from '@/components/TitleCategory.vue';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 
+import { openPopup } from '@/helpers/browserExtension';
+
 const { customProxy, hostProxySelect, toggleLocations } = useLocations();
 
 // For some reason importing `hostProxiesDetails` directly from useStore()
@@ -33,6 +35,13 @@ const handleCustomProxySelect = (host: string) => {
 </script>
 
 <template>
+  <NCard v-if="excludedHosts.length <= 0 && proxies.length <= 0" :bordered="false">
+    <p>
+      No custom proxies configured. You can configure the proxy through
+      <a class="underline cursor-pointer" @click="openPopup">the popup</a>.
+    </p>
+  </NCard>
+
   <NCard v-if="proxies.length > 0" :bordered="false" class="mb-4">
     <TitleCategory title="Custom proxies" />
     <div v-for="{ host, proxyDetails } in proxies" :key="host" :bordered="false" class="mb-4">

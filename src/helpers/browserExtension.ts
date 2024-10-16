@@ -19,4 +19,8 @@ export const openOptions = async (tab?: Tab) => {
   browser.runtime.openOptionsPage();
 };
 
+export const openPopup = () => {
+  browser.browserAction.openPopup();
+};
+
 export const { version } = browser.runtime.getManifest();
