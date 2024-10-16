@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { NSwitch, NTabPane, NTabs } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -42,9 +42,15 @@ const truncatedActiveTabHost = computed(() => {
     : `${activeTabHost.value.substring(0, 15)}...${activeTabHost.value.slice(-15)}`;
 });
 
+const lastClickedTab = ref<string | null>(null);
 const defaultActiveTab = computed(() =>
   currentHostProxyEnabled.value || currentHostExcluded.value ? 'current-website' : 'all-websites',
 );
+const activeTab = computed(() => lastClickedTab.value || defaultActiveTab.value);
+
+const handleTabClick = (tabName: string) => {
+  lastClickedTab.value = tabName;
+};
 
 const handleProxySelect = async (customProxy: boolean) => {
   hostProxySelect.value = customProxy;
@@ -54,16 +60,12 @@ const handleProxySelect = async (customProxy: boolean) => {
 </script>
 
 <template>
-  <IconLabel v-if="currentHostProxyEnabled && !connection.isMullvad" type="warning" class="my-2">
-    <strong>{{ activeTabHost }}</strong> can't be reached, either disable the proxy in use or
-    connect to Mullvad VPN.
-  </IconLabel>
-
   <n-tabs
     v-if="proxyPermissionsGranted"
     type="line"
     justify-content="start"
-    :default-value="defaultActiveTab"
+    :value="activeTab"
+    @update:value="handleTabClick"
   >
     <template #prefix>
       <TitleCategory title="Proxy" />
@@ -84,7 +86,12 @@ const handleProxySelect = async (customProxy: boolean) => {
         <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
       </div>
 
-      <p class="mb-4">
+      <IconLabel v-if="globalProxyEnabled && !connection.isMullvad" type="warning" class="mb-2">
+        Internet can't be reached, either disconnect the proxy for <strong>all websites</strong> or
+        connect to Mullvad VPN.
+      </IconLabel>
+
+      <p v-else class="mb-2">
         {{ globalProxyEnabled ? 'This' : 'When enabled, this' }} proxy is used by
         <strong>all websites</strong>, with the exception of domain specific proxies.
       </p>
@@ -106,7 +113,7 @@ const handleProxySelect = async (customProxy: boolean) => {
 
     <n-tab-pane v-if="!isBrowserPage" name="current-website" :tab="truncatedActiveTabHost">
       <div v-if="currentHostExcluded">
-        <p class="break-all mb-4">
+        <p class="break-words mb-4">
           <strong>{{ activeTabHost }}</strong> is set to never be proxied.
         </p>
 
@@ -144,7 +151,16 @@ const handleProxySelect = async (customProxy: boolean) => {
           </div>
         </div>
 
-        <p class="break-all mb-4">
+        <IconLabel
+          v-if="currentHostProxyEnabled && !connection.isMullvad"
+          type="warning"
+          class="my-2"
+        >
+          <strong>{{ truncatedActiveTabHost }}</strong> can't be reached, either disable the proxy
+          in use or connect to Mullvad VPN.
+        </IconLabel>
+
+        <p v-else class="break-words mb-4">
           This proxy is used by <strong>{{ activeTabHost }}</strong
           >.
         </p>
@@ -173,7 +189,7 @@ const handleProxySelect = async (customProxy: boolean) => {
       </div>
 
       <div v-else>
-        <p class="break-all mb-4">
+        <p class="break-words mb-4">
           When enabled, this proxy is used by <strong>{{ activeTabHost }}</strong
           >.
         </p>

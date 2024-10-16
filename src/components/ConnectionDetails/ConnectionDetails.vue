@@ -6,14 +6,11 @@ import AdvancedInfo from '@/components/ConnectionDetails/AdvancedInfo.vue';
 import AdvancedWebRTC from '@/components/ConnectionDetails/AdvancedWebTRC.vue';
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
 import IconLabel from '@/components/IconLabel.vue';
-
 import UsingMullvadConnectionStatus from '@/components/ConnectionStatus/UsingMullvadConnectionStatus.vue';
 import DnsLeakStatus from '@/components/ConnectionStatus/DnsLeakStatus.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useSocksProxy from '@/composables/useSocksProxy';
 
-const { globalProxyEnabled } = useSocksProxy();
 const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
 </script>
 
@@ -24,10 +21,6 @@ const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnecti
         <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
         <IconLabel v-if="isError" text="Couldn't get connection details" type="warning" />
       </p>
-
-      <div v-if="globalProxyEnabled">
-        <p>Either disconnect the default proxy (all websites) or connect to Mullvad VPN.</p>
-      </div>
     </div>
 
     <div v-else>

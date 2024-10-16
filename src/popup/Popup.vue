@@ -24,7 +24,7 @@ const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
     </div>
     <NotificationsCarousel v-if="!isLoading && !isError" />
     <ConnectionDetails />
-    <HomeProxyStatus v-if="!isLoading" />
+    <HomeProxyStatus />
     <LocationDrawer />
   </main>
 </template>
