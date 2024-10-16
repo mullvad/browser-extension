@@ -6,7 +6,7 @@ exports[`MostUsedLocationButtons should render one button 1`] = `
 >
   
   <button
-    class="btn block"
+    class="btn whitespace-nowrap block"
   >
     
     Argentina
@@ -22,21 +22,21 @@ exports[`MostUsedLocationButtons should render three buttons 1`] = `
 >
   
   <button
-    class="btn block"
+    class="btn whitespace-nowrap block"
   >
     
     Sweden
     
   </button>
   <button
-    class="btn block"
+    class="btn whitespace-nowrap block"
   >
     
     Norway
     
   </button>
   <button
-    class="btn block"
+    class="btn whitespace-nowrap block"
   >
     
     Iceland

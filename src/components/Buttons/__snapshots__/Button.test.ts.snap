@@ -2,7 +2,7 @@
 
 exports[`Button should render a blue button 1`] = `
 <button
-  class="btn bg-blue text-white"
+  class="btn whitespace-nowrap bg-blue text-white"
 >
   
   Knapp
@@ -12,7 +12,7 @@ exports[`Button should render a blue button 1`] = `
 
 exports[`Button should render a button 1`] = `
 <button
-  class="btn"
+  class="btn whitespace-nowrap"
 >
   
   Knapp
@@ -22,7 +22,7 @@ exports[`Button should render a button 1`] = `
 
 exports[`Button should render an a tag 1`] = `
 <a
-  class="btn"
+  class="btn whitespace-nowrap"
   href="https://www.mullvad.net"
 >
   

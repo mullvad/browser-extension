@@ -34,7 +34,7 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <component :is="type" :href="href" class="btn" :class="classes">
+  <component :is="type" :href="href" class="btn whitespace-nowrap" :class="classes">
     <slot></slot>
   </component>
 </template>
