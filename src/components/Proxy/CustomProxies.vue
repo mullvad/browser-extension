@@ -10,18 +10,22 @@ import TitleCategory from '@/components/TitleCategory.vue';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 
-const { customProxy, hostProxySelect, toggleLocations } = useLocations();
+const { proxySelect } = useLocations();
 
 // For some reason importing `hostProxiesDetails` directly from useStore()
 // will cause the value not to be reactively updated
 const {
   allowProxy,
   excludedHosts,
+  globalProxyDetails,
+  globalProxyEnabled,
   hostProxiesDetails,
   neverProxyHost,
   removeCustomProxy,
+  removeGlobalProxy,
   toggleCustomProxy,
   toggleCustomProxyDNS,
+  toggleGlobalProxy,
 } = useSocksProxy();
 
 const manualProxyDomain = ref('');
@@ -32,10 +36,8 @@ const combinedHosts = computed(() => {
   return [...new Set(allHosts)].sort((a, b) => a.localeCompare(b));
 });
 
-const handleCustomProxySelect = (host: string) => {
-  customProxy.value = host;
-  hostProxySelect.value = true;
-  toggleLocations();
+const handleProxySelect = (host?: string) => {
+  proxySelect(host);
   manualProxyDomain.value = '';
 };
 
@@ -51,7 +53,7 @@ const neverProxyHostManual = () => {
 
 const handleCustomProxySelectManual = () => {
   if (manualProxyDomain.value) {
-    handleCustomProxySelect(manualProxyDomain.value);
+    handleProxySelect(manualProxyDomain.value);
     manualProxyDomain.value = '';
     manualProxyDomainError.value = false;
   } else {
@@ -88,6 +90,44 @@ const clearError = () => {
     </div>
     <div v-if="manualProxyDomainError" class="text-red-500 text-sm mt-1">
       Please enter a domain name
+    </div>
+
+    <n-divider />
+    <div>
+      <h1 class="font-semibold text-lg mb-2 text-gray-200">All websites</h1>
+
+      <div v-if="globalProxyDetails.server" class="flex justify-between">
+        <div class="mb-2">
+          <h4 class="font-semibold">
+            {{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}
+          </h4>
+          <div class="flex">
+            <h4 class="font-semibold">Server</h4>
+            <div class="ml-2">{{ globalProxyDetails.server }}</div>
+          </div>
+        </div>
+
+        <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
+      </div>
+
+      <IconLabel type="info" class="mb-3">
+        {{ globalProxyEnabled ? 'Proxy' : 'When enabled, this proxy is' }} used by
+        <strong>all websites</strong>, except for domains listed below.
+      </IconLabel>
+
+      <div class="flex justify-between">
+        <Button size="small" @click="handleProxySelect()">
+          {{ globalProxyDetails.server ? 'Change location' : 'Select location' }}
+        </Button>
+        <Button
+          v-if="globalProxyDetails.server"
+          size="small"
+          color="error"
+          @click="removeGlobalProxy"
+        >
+          Remove proxy
+        </Button>
+      </div>
     </div>
 
     <div v-for="host in combinedHosts" :key="host" :bordered="false" class="mb-4">
@@ -132,7 +172,7 @@ const clearError = () => {
           <Button
             size="small"
             class="flex items-center justify-center"
-            @click="handleCustomProxySelect(host)"
+            @click="handleProxySelect(host)"
           >
             Change location
           </Button>

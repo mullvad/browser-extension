@@ -30,7 +30,7 @@ const {
   toggleGlobalProxy,
 } = useSocksProxy();
 const { getSocksProxies } = useListProxies();
-const { hostProxySelect, toggleLocations } = useLocations();
+const { proxySelect } = useLocations();
 const { connection } = inject(ConnectionKey, defaultConnection);
 
 const currentHostExcluded = computed(() => excludedHosts.value.includes(activeTabHost.value));
@@ -52,10 +52,9 @@ const handleTabClick = (tabName: string) => {
   lastClickedTab.value = tabName;
 };
 
-const handleProxySelect = async (customProxy: boolean) => {
-  hostProxySelect.value = customProxy;
+const handleProxySelect = async (host?: string) => {
+  proxySelect(host);
   await getSocksProxies();
-  toggleLocations();
 };
 </script>
 
@@ -97,7 +96,7 @@ const handleProxySelect = async (customProxy: boolean) => {
       </p>
 
       <div class="flex justify-between">
-        <Button size="small" @click="handleProxySelect(false)">
+        <Button size="small" @click="handleProxySelect()">
           {{ globalProxyDetails.server ? 'Change location' : 'Select location' }}
         </Button>
         <Button
@@ -169,7 +168,7 @@ const handleProxySelect = async (customProxy: boolean) => {
           <Button
             size="small"
             class="flex items-center justify-center"
-            @click="handleProxySelect(true)"
+            @click="handleProxySelect(activeTabHost)"
           >
             {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
           </Button>
@@ -198,7 +197,7 @@ const handleProxySelect = async (customProxy: boolean) => {
           <Button
             size="small"
             class="flex items-center justify-center"
-            @click="handleProxySelect(true)"
+            @click="handleProxySelect(activeTabHost)"
           >
             {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
           </Button>
