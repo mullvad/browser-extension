@@ -6,6 +6,7 @@ import {
   ProxyInfoType,
   ProxyOperationArgs,
 } from '@/helpers/socksProxy.types';
+import { reloadOptions } from '@/helpers/browserExtension';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
 import useActiveTab from '@/composables/useActiveTab';
@@ -39,15 +40,18 @@ const currentHostProxyDNSEnabled = computed(() => currentHostProxyDetails.value?
 const toggleGlobalProxy = () => {
   globalProxyDetails.value.socksEnabled = !globalProxyDetails.value.socksEnabled;
   updateCurrentTabProxyBadge();
+  reloadOptions();
 };
 const toggleCurrentHostProxy = () => {
   hostProxiesDetails.value[activeTabHost.value].socksEnabled = !currentHostProxyEnabled.value;
   updateCurrentTabProxyBadge();
+  reloadOptions();
 };
 
 const toggleCustomProxy = (host: string) => {
   hostProxiesDetails.value[host].socksEnabled = !hostProxiesDetails.value[host].socksEnabled;
   updateCurrentTabProxyBadge();
+  reloadOptions();
 };
 const toggleCustomProxyDNS = (host: string) => {
   hostProxiesDetails.value[host].proxyDNS = !hostProxiesDetails.value[host].proxyDNS;
@@ -95,6 +99,7 @@ const setGlobalProxy = ({
   globalProxyDetails.value = newGlobalProxyDetails;
 
   updateConnection();
+  reloadOptions();
 };
 
 const setCurrentHostProxy = (
@@ -126,6 +131,8 @@ const setCurrentHostProxy = (
 
   hostProxies.value = { ...hostProxies.value, [host]: newHostProxy };
   hostProxiesDetails.value = { ...hostProxiesDetails.value, [host]: newHostProxyDetails };
+
+  reloadOptions();
 };
 
 const removeCustomProxy = (host: string) => {
@@ -133,22 +140,26 @@ const removeCustomProxy = (host: string) => {
   delete hostProxiesDetails.value[host];
   updateConnection();
   updateCurrentTabProxyBadge();
+  reloadOptions();
 };
 
 const removeGlobalProxy = () => {
   globalProxy.value = {} as ProxyInfo;
   globalProxyDetails.value = {} as ProxyDetails;
   updateCurrentTabProxyBadge();
+  reloadOptions();
 };
 
 const allowProxy = (host: string) => {
   excludedHosts.value = excludedHosts.value.filter((excluded) => excluded !== host);
   updateCurrentTabProxyBadge();
+  reloadOptions();
 };
 
 const neverProxyHost = (host: string) => {
   excludedHosts.value = [...excludedHosts.value, host];
   updateCurrentTabProxyBadge();
+  reloadOptions();
 };
 
 const useSocksProxy = () => {
