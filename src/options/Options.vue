@@ -40,7 +40,7 @@ const defaultTab = computed(() => optionsActiveTab.value);
   </main>
 </template>
 
-<style>
+<style scoped>
 .n-tabs-nav {
   position: sticky !important;
   top: 0;
