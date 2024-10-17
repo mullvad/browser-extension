@@ -1,6 +1,6 @@
 import { InjectionKey, Ref, ref } from 'vue';
 import type { Connection } from '@/helpers/connCheck.types';
-import { connCheck } from '@/helpers/connCheck';
+import { connCheckIpv4, connCheckIpv6 } from '@/helpers/connCheck';
 
 //  Keep this outside of the hook to make it a singleton
 const connection = ref({} as Connection);
@@ -14,7 +14,21 @@ const useConnection = () => {
     isError.value = false;
     error.value = undefined;
     try {
-      connection.value = await connCheck();
+      const ipv4Promise = connCheckIpv4();
+      const ipv6Promise = connCheckIpv6();
+
+      // Wait for IPv4 result
+      connection.value = await ipv4Promise;
+
+      // Because IPV6 is not reliably working in socks proxy,
+      // don't wait IPv6 result so that it's non-blocking.
+      ipv6Promise
+        .then((ipv6) => {
+          connection.value = { ...connection.value, ipv6 };
+        })
+        .catch((e) => {
+          console.log(`IPv6 check error: ${e.message}`);
+        });
     } catch (e) {
       console.log({ useConnectionError: e });
       isError.value = true;
