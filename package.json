@@ -91,6 +91,7 @@
   "dependencies": {
     "ipaddr.js": "^2.2.0",
     "naive-ui": "^2.39.0",
+    "tlds": "^1.255.0",
     "uuid": "^10.0.0",
     "vue-query": "^1.26.0"
   }

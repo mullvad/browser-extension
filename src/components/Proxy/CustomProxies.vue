@@ -7,6 +7,8 @@ import IconLabel from '@/components/IconLabel.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
+import isValidDomain from '@/helpers/validateDomain';
+
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 
@@ -41,9 +43,9 @@ const handleProxySelect = (host?: string) => {
   manualProxyDomain.value = '';
 };
 
-const neverProxyHostManual = () => {
-  if (manualProxyDomain.value) {
-    neverProxyHost(manualProxyDomain.value);
+const handleCustomProxySelectManual = () => {
+  if (manualProxyDomain.value && isValidDomain(manualProxyDomain.value)) {
+    handleProxySelect(manualProxyDomain.value);
     manualProxyDomain.value = '';
     manualProxyDomainError.value = false;
   } else {
@@ -51,9 +53,9 @@ const neverProxyHostManual = () => {
   }
 };
 
-const handleCustomProxySelectManual = () => {
-  if (manualProxyDomain.value) {
-    handleProxySelect(manualProxyDomain.value);
+const neverProxyHostManual = () => {
+  if (manualProxyDomain.value && isValidDomain(manualProxyDomain.value)) {
+    neverProxyHost(manualProxyDomain.value);
     manualProxyDomain.value = '';
     manualProxyDomainError.value = false;
   } else {
@@ -89,7 +91,7 @@ const clearError = () => {
       />
     </div>
     <div v-if="manualProxyDomainError" class="text-red-500 text-sm mt-1">
-      Please enter a domain name
+      Please enter a valid domain name.
     </div>
 
     <n-divider />
