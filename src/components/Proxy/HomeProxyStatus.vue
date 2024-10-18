@@ -9,7 +9,7 @@ import TitleCategory from '@/components/TitleCategory.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useListProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
 import useLocations from '@/composables/useLocations';
 import useProxyPermissions from '@/composables/useProxyPermissions';
 import useSocksProxy from '@/composables/useSocksProxy';
@@ -29,7 +29,7 @@ const {
   toggleCurrentHostProxy,
   toggleGlobalProxy,
 } = useSocksProxy();
-const { getSocksProxies } = useListProxies();
+const { getSocksProxies } = useSocksProxies();
 const { proxySelect } = useLocations();
 const { connection } = inject(ConnectionKey, defaultConnection);
 

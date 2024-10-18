@@ -13,7 +13,7 @@ jest.mock('@/composables/useActiveTab', () => ({
 jest.mock('@/composables/useSocksProxies/useSocksProxies', () => ({
   __esModule: true,
   default: jest.fn(() => ({
-    proxiesList: [
+    filteredProxies: [
       {
         country: 'Albania',
       },

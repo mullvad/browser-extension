@@ -3,18 +3,20 @@ import { computed } from 'vue';
 import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 
 import LocationTabs from '@/components/LocationTabs.vue';
+import SearchLocation from '@/components/SearchLocation.vue';
 
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
-import useListProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
 
 const { customProxyHost, customProxySelect, toggleLocations } = useLocations();
-const { proxiesList } = useListProxies();
+const { clearFilter, filteredProxies } = useSocksProxies();
+
 const { setCurrentHostProxy, setGlobalProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useProxyHistory();
 
@@ -54,16 +56,18 @@ const clickServer = (
   port?: number,
 ) => {
   setProxy(country, countryCode, city, hostname, ipv4_address, port);
+  clearFilter();
 };
 
 const clickCountryOrCity = (selectedCountry: string, selectedCity?: string) => {
   const { country, countryCode, city, hostname, ipv4_address, port } = getRandomSocksProxy({
-    socksProxies: proxiesList.value,
+    socksProxies: filteredProxies.value,
     country: selectedCountry,
     city: selectedCity,
   });
 
   setProxy(country, countryCode, city, hostname, ipv4_address, port);
+  clearFilter();
 };
 
 const selectLocation = (connection: HistoryEntry) => {
@@ -77,13 +81,18 @@ const selectLocation = (connection: HistoryEntry) => {
 </script>
 
 <template>
-  <p class="mb-8">
+  <p class="mb-4">
     Select the location where you want to have {{ currentOrAllWebsites }} routed through.
   </p>
   <div>
     <LocationTabs :selectLocation="selectLocation" />
+    <SearchLocation />
     <n-collapse arrow-placement="right">
-      <n-collapse-item v-for="{ country, cities } in proxiesList" :key="country" :name="country">
+      <n-collapse-item
+        v-for="{ country, cities } in filteredProxies"
+        :key="country"
+        :name="country"
+      >
         <template #header>
           <n-button quaternary @click.prevent="clickCountryOrCity(country)">
             {{ country }}

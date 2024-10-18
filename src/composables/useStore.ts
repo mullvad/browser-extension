@@ -10,40 +10,40 @@ import type {
 import { Tab } from '@/helpers/browserExtension';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
-import { Country } from '@/composables/useSocksProxies/socksProxies.types';
+import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
 
 export type Store = {
   excludedHosts: Ref<string[]>;
+  flatProxiesList: Ref<SocksProxy[]>;
   hostProxies: Ref<ProxyInfoMap>;
   hostProxiesDetails: Ref<ProxyDetailsMap>;
   globalProxy: Ref<ProxyInfo>;
   globalProxyDetails: Ref<ProxyDetails>;
   historyEntries: Ref<HistoryEntriesMap>;
-  proxiesList: Ref<Country[]>;
   webRTCStatus: Ref<boolean>;
   optionsActiveTab: Ref<Tab>;
 };
 
 const useStore = (): Store => {
   const excludedHosts = useBrowserStorageLocal('excludedHosts', []);
+  const flatProxiesList = useBrowserStorageLocal('flatProxiesList', [] as SocksProxy[]);
   const globalProxy = useBrowserStorageLocal('globalProxy', {} as ProxyInfo);
   const globalProxyDetails = useBrowserStorageLocal('globalProxyDetails', {} as ProxyDetails);
   const hostProxies = useBrowserStorageLocal('hostProxies', {});
   const hostProxiesDetails = useBrowserStorageLocal('hostProxiesDetails', {});
   const historyEntries = useBrowserStorageLocal('historyEntries', {});
-  const proxiesList = useBrowserStorageLocal('proxiesList', [] as Country[]);
   const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
   const optionsActiveTab = useBrowserStorageLocal('optionsActiveTab', Tab.SETTINGS);
 
   return {
     excludedHosts,
+    flatProxiesList,
     globalProxy,
     globalProxyDetails,
     hostProxies,
     hostProxiesDetails,
     historyEntries,
     optionsActiveTab,
-    proxiesList,
     webRTCStatus,
   };
 };

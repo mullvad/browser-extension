@@ -20,7 +20,7 @@ const { mostRecent } = useProxyHistory();
 </script>
 
 <template>
-  <div v-if="mostRecent.length > 0" class="mb-8 tabs-card">
+  <div v-if="mostRecent.length > 0" class="mb-3 tabs-card">
     <n-tabs
       size="large"
       justify-content="space-evenly"
