@@ -25,7 +25,7 @@ jest.mock('@/composables/useListProxies', () => ({
 }));
 
 jest.mock('@/helpers/connCheck', () => ({
-  connCheck: jest.fn().mockResolvedValue({
+  connCheckIpv4: jest.fn().mockResolvedValue({
     ip: '193.32.126.67',
     city: 'Paris',
     country: 'France',
@@ -33,6 +33,7 @@ jest.mock('@/helpers/connCheck', () => ({
     mullvad_exit_ip_hostname: 'fr-par-wg-002.relays.mullvad.net',
     mullvad_server_type: 'wireguard',
   }),
+  connCheckIpv6: jest.fn().mockResolvedValue('2001:db8::1'),
 }));
 
 describe('Location', () => {
