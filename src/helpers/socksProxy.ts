@@ -50,37 +50,37 @@ export const getActiveProxyDetails = async () => {
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1750561
 
 export const handleProxyRequest = async (details: browser.proxy._OnRequestDetails) => {
-  const { globalProxy } = await browser.storage.local.get('globalProxy');
-  const { globalProxyDetails } = await browser.storage.local.get('globalProxyDetails');
-  const { excludedHosts } = await browser.storage.local.get('excludedHosts');
-  const { hostProxies } = await browser.storage.local.get('hostProxies');
-  const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
-  const { randomProxyActive } = await browser.storage.local.get('randomProxyActive');
+  try {
+    const { globalProxy } = await browser.storage.local.get('globalProxy');
+    const { globalProxyDetails } = await browser.storage.local.get('globalProxyDetails');
+    const { excludedHosts } = await browser.storage.local.get('excludedHosts');
+    const { hostProxies } = await browser.storage.local.get('hostProxies');
+    const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
 
-  const globalConfigParsed = JSON.parse(globalProxy);
-  const globalProxyDetailsParsed: ProxyDetails = JSON.parse(globalProxyDetails);
-  const excludedHostsParsed: string[] = JSON.parse(excludedHosts);
-  const hostProxiesParsed = JSON.parse(hostProxies);
-  const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
-  const randomProxyActiveParsed = JSON.parse(randomProxyActive);
+    const globalConfigParsed = JSON.parse(globalProxy);
+    const globalProxyDetailsParsed: ProxyDetails = JSON.parse(globalProxyDetails);
+    const excludedHostsParsed: string[] = JSON.parse(excludedHosts);
+    const hostProxiesParsed = JSON.parse(hostProxies);
+    const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
 
-  const proxiedHosts = Object.keys(hostProxiesParsed);
-  const currentHost = getCurrentHost(details);
+    const proxiedHosts = Object.keys(hostProxiesParsed);
+    const currentHost = getCurrentHost(details);
 
-  if (excludedHostsParsed.includes(currentHost) || isLocalOrReservedIP(currentHost)) {
+    if (excludedHostsParsed.includes(currentHost) || isLocalOrReservedIP(currentHost)) {
+      return { type: 'direct' };
+    } else if (
+      proxiedHosts.includes(currentHost) &&
+      hostProxiesDetailsParsed[currentHost].socksEnabled
+    ) {
+      return hostProxiesParsed[currentHost];
+      // TODO implement random proxy
+    } else if (globalProxyDetailsParsed.socksEnabled) {
+      return globalConfigParsed;
+    }
     return { type: 'direct' };
-  } else if (
-    proxiedHosts.includes(currentHost) &&
-    hostProxiesDetailsParsed[currentHost].socksEnabled
-  ) {
-    return hostProxiesParsed[currentHost];
-  } else if (randomProxyActiveParsed) {
-    // TODO implement random proxy
-    return { type: 'direct' };
-  } else if (globalProxyDetailsParsed.socksEnabled) {
-    return globalConfigParsed;
+  } catch (error) {
+    console.log(error);
   }
-  return { type: 'direct' };
 };
 
 const getCurrentHost = (details: RequestDetails) => {
