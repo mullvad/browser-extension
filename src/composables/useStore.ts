@@ -1,7 +1,6 @@
 import { Ref } from 'vue';
 
-import type { HistoryEntriesMap } from './useProxyHistory/HistoryEntries.types';
-import { Country } from './useListProxies';
+import type { HistoryEntriesMap } from '@/composables/useProxyHistory/HistoryEntries.types';
 import type {
   ProxyDetails,
   ProxyInfoMap,
@@ -11,6 +10,7 @@ import type {
 import { Tab } from '@/helpers/browserExtension';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
+import { Country } from '@/composables/useSocksProxies/socksProxies.types';
 
 export type Store = {
   excludedHosts: Ref<string[]>;

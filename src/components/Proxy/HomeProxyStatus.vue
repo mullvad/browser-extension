@@ -9,7 +9,7 @@ import TitleCategory from '@/components/TitleCategory.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useListProxies from '@/composables/useListProxies';
+import useListProxies from '@/composables/useSocksProxies/useSocksProxies';
 import useLocations from '@/composables/useLocations';
 import useProxyPermissions from '@/composables/useProxyPermissions';
 import useSocksProxy from '@/composables/useSocksProxy';

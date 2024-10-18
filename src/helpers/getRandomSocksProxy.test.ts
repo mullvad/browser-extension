@@ -1,5 +1,5 @@
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
-import { Country } from '@/composables/useListProxies';
+import { Country } from '@/composables/useSocksProxies/socksProxies.types';
 
 const gothenburgProxies = [
   { hostname: 'se3-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },

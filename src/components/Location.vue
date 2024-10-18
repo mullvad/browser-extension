@@ -7,7 +7,7 @@ import LocationTabs from '@/components/LocationTabs.vue';
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
-import useListProxies from '@/composables/useListProxies';
+import useListProxies from '@/composables/useSocksProxies/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
