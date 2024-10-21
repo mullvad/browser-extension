@@ -41,6 +41,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.25.8",
     "@ffflorian/jszip-cli": "^3.7.2",
+    "@jest/types": "^29.6.3",
     "@types/eslint__js": "^8.42.3",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/firefox-webext-browser": "^120.0.4",
@@ -95,7 +96,8 @@
     "naive-ui": "^2.40.1",
     "tlds": "^1.255.0",
     "uuid": "^10.0.0",
-    "vue-query": "^1.26.0"
+    "vue-query": "^1.26.0",
+    "windicss": "^3.5.6"
   },
   "type": "module"
 }
