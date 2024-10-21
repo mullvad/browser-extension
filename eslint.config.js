@@ -21,6 +21,14 @@ export default [
         browser: 'readonly',
         es2021: 'readonly',
         node: 'readonly',
+        process: 'readonly',
+        console: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        jest: 'readonly',
       },
     },
     plugins: {
@@ -57,6 +65,7 @@ export default [
       ...tsPlugin.configs.recommended.rules,
     },
     languageOptions: {
+      parser: vuePlugin.parserESLintParser,
       globals: {
         'vue/setup-compiler-macros': 'readonly',
       },
