@@ -27,7 +27,7 @@
     "restart": "web-ext run --source-dir ./extension --target=firefox-desktop --firefox-profile ~/.mozilla/firefox/9eernfyp.browser-extension-testing --keep-profile-changes --start-url=about:debugging#/runtime/this-firefox --start-url=mullvad.net/check",
     "clear": "rimraf extension/dist extension/manifest.json extension/README.md extension/LICENSE.md mullvad-browser-extension* key.pem",
     "lint": "npm run eslint && npm run lint:style",
-    "eslint": "eslint . --ext=.ts,.js,.vue",
+    "eslint": "eslint \"**/*.{ts,js,vue}\"",
     "eslint:fix": "npm run eslint -- --fix",
     "lint:style": "stylelint \"src/**/*.{css,scss,vue}\"",
     "lint:style:fix": "npm run lint:style -- --fix",
@@ -41,6 +41,8 @@
   "devDependencies": {
     "@babel/preset-env": "^7.25.8",
     "@ffflorian/jszip-cli": "^3.7.2",
+    "@types/eslint__js": "^8.42.3",
+    "@types/eslint-config-prettier": "^6.11.3",
     "@types/firefox-webext-browser": "^120.0.4",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.13",
@@ -94,5 +96,6 @@
     "tlds": "^1.255.0",
     "uuid": "^10.0.0",
     "vue-query": "^1.26.0"
-  }
+  },
+  "type": "module"
 }

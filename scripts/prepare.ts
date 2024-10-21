@@ -22,7 +22,7 @@ async function stubIndexHtml() {
 }
 
 function writeManifest() {
-  execSync('npx esno ./scripts/manifest.ts', { stdio: 'inherit' });
+  execSync(`npx esno ${r('scripts/manifest.ts')}`, { stdio: 'inherit' });
 }
 
 writeManifest();
