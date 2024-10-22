@@ -66,7 +66,11 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     const proxiedHosts = Object.keys(hostProxiesParsed);
     const currentHost = getCurrentHost(details);
 
-    if (excludedHostsParsed.includes(currentHost) || isLocalOrReservedIP(currentHost)) {
+    // Since we can't identify speculative requests origin, we need to block them
+    // See: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/proxy
+    if (details.type === 'speculative') {
+      return { cancel: true };
+    } else if (excludedHostsParsed.includes(currentHost) || isLocalOrReservedIP(currentHost)) {
       return { type: 'direct' };
     } else if (
       proxiedHosts.includes(currentHost) &&
