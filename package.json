@@ -60,7 +60,7 @@
     "crx": "^5.0.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-unused-imports": "^3.2.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "eslint-plugin-vue": "^9.29.1",
     "esno": "^4.8.0",
     "fs-extra": "^11.2.0",
