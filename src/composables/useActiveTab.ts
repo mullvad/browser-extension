@@ -1,15 +1,13 @@
-import { getActiveTabDetails } from '@/helpers/socksProxy';
 import { ref } from 'vue';
+import { getActiveTabDetails } from '@/helpers/socksProxy';
 
 const activeTabHost = ref('');
 const isBrowserPage = ref(false);
 
 const getActiveTab = async () => {
-  const activeTabDetails = await getActiveTabDetails();
-
-  activeTabHost.value = activeTabDetails.host;
-  isBrowserPage.value =
-    activeTabDetails.protocol === 'about:' || activeTabDetails.protocol === 'moz-extension:';
+  const { protocol, host } = await getActiveTabDetails();
+  activeTabHost.value = host;
+  isBrowserPage.value = protocol === 'about:' || protocol === 'moz-extension:';
 };
 
 const useActiveTab = () => {

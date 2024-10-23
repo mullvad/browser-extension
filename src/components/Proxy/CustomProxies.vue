@@ -8,7 +8,7 @@ import FeGlobe from '@/components/Icons/FeGlobe.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
-import isValidDomain from '@/helpers/validateDomain';
+import isValidDomain from '@/helpers/domain';
 
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
