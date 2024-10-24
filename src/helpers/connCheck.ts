@@ -36,6 +36,7 @@ export const connCheckIpv4 = async (retries = MAX_RETRIES): Promise<Connection> 
       provider: data.organization,
       isMullvad: data.mullvad_exit_ip ?? false,
     };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     if (retries === 1) throw new Error('IPv4 connection check failed.');
     return connCheckIpv4(retries - 1);
