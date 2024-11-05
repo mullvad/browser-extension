@@ -24,7 +24,7 @@ export async function getManifest() {
     },
     background: {
       page: './dist/background/index.html',
-      persistent: false,
+      persistent: true,
     },
     icons: {
       '16': './assets/mullvad-logo.svg',
