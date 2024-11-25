@@ -12,6 +12,7 @@ import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 import useActiveTab from '@/composables/useActiveTab';
 import useConnection from '@/composables/useConnection';
 import useStore from '@/composables/useStore';
+import { reloadMatchingTabs } from '@/helpers/tabs';
 
 const baseConfig: Partial<ProxyInfo> = {
   port: 1080,
@@ -46,16 +47,19 @@ const toggleCurrentHostProxy = () => {
   hostProxiesDetails.value[activeTabHost.value].socksEnabled = !currentHostProxyEnabled.value;
   updateCurrentTabProxyBadge();
   reloadOptions();
+  reloadMatchingTabs(activeTabHost.value);
 };
 
 const toggleCustomProxy = (host: string) => {
   hostProxiesDetails.value[host].socksEnabled = !hostProxiesDetails.value[host].socksEnabled;
   updateCurrentTabProxyBadge();
   reloadOptions();
+  reloadMatchingTabs(host);
 };
 const toggleCustomProxyDNS = (host: string) => {
   hostProxiesDetails.value[host].proxyDNS = !hostProxiesDetails.value[host].proxyDNS;
   updateCurrentTabProxyBadge();
+  reloadMatchingTabs(host);
 };
 
 const toggleGlobalProxyDNS = () => {
@@ -69,6 +73,7 @@ const toggleCurrentHostProxyDNS = () => {
   hostProxiesDetails.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
   hostProxies.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
   updateCurrentTabProxyBadge();
+  reloadMatchingTabs(activeTabHost.value);
 };
 
 const setGlobalProxy = ({
@@ -133,6 +138,7 @@ const setCurrentHostProxy = (
   hostProxiesDetails.value = { ...hostProxiesDetails.value, [host]: newHostProxyDetails };
 
   reloadOptions();
+  reloadMatchingTabs(host);
 };
 
 const removeCustomProxy = (host: string) => {
@@ -141,6 +147,7 @@ const removeCustomProxy = (host: string) => {
   updateConnection();
   updateCurrentTabProxyBadge();
   reloadOptions();
+  reloadMatchingTabs(host);
 };
 
 const removeGlobalProxy = () => {
@@ -154,12 +161,14 @@ const allowProxy = (host: string) => {
   excludedHosts.value = excludedHosts.value.filter((excluded) => excluded !== host);
   updateCurrentTabProxyBadge();
   reloadOptions();
+  reloadMatchingTabs(host);
 };
 
 const neverProxyHost = (host: string) => {
   excludedHosts.value = [...excludedHosts.value, host];
   updateCurrentTabProxyBadge();
   reloadOptions();
+  reloadMatchingTabs(host);
 };
 
 const useSocksProxy = () => {
