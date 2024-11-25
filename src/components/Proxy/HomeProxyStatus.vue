@@ -8,14 +8,17 @@ import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useConnection, { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useLocations from '@/composables/useLocations';
 import useProxyPermissions from '@/composables/useProxyPermissions';
+import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 
 const { activeTabHost, isBrowserPage } = useActiveTab();
+const { updateConnection } = useConnection();
+const { proxySelect } = useLocations();
 const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPermissions();
+const { getSocksProxies } = useSocksProxies();
 const {
   allowProxy,
   currentHostProxyDetails,
@@ -29,8 +32,6 @@ const {
   toggleCurrentHostProxy,
   toggleGlobalProxy,
 } = useSocksProxy();
-const { getSocksProxies } = useSocksProxies();
-const { proxySelect } = useLocations();
 const { connection } = inject(ConnectionKey, defaultConnection);
 
 const currentHostExcluded = computed(() => excludedHosts.value.includes(activeTabHost.value));
@@ -55,6 +56,16 @@ const handleTabClick = (tabName: string) => {
 const handleProxySelect = async (host?: string) => {
   proxySelect(host);
   await getSocksProxies();
+};
+
+const handleRemoveGlobalProxy = () => {
+  removeGlobalProxy();
+  updateConnection();
+};
+
+const handleToggleGlobalProxy = () => {
+  toggleGlobalProxy();
+  updateConnection();
 };
 </script>
 
@@ -82,7 +93,7 @@ const handleProxySelect = async (host?: string) => {
           </div>
         </div>
 
-        <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
+        <n-switch :value="globalProxyEnabled" @update-value="handleToggleGlobalProxy()" />
       </div>
 
       <IconLabel v-if="globalProxyEnabled && !connection.isMullvad" type="warning" class="mb-2">
@@ -103,7 +114,7 @@ const handleProxySelect = async (host?: string) => {
           v-if="globalProxyDetails.server"
           size="small"
           color="error"
-          @click="removeGlobalProxy"
+          @click="handleRemoveGlobalProxy"
         >
           Remove proxy
         </Button>
