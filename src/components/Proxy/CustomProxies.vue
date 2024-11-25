@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { NCard, NCheckbox, NDivider, NSwitch, NTooltip, NInput } from 'naive-ui';
+import { NCard, NCheckbox, NDivider, NIcon, NInput, NSwitch, NTooltip } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
@@ -32,41 +32,35 @@ const {
   toggleGlobalProxyDNS,
 } = useSocksProxy();
 
-const manualProxyDomain = ref('');
-const manualProxyDomainError = ref(false);
+const inputProxyDomain = ref('');
+const inputProxyDomainError = ref(false);
 
 const combinedHosts = computed(() => {
   const allHosts = [...Object.keys(hostProxiesDetails.value), ...excludedHosts.value];
   return [...new Set(allHosts)].sort((a, b) => a.localeCompare(b));
 });
 
-const handleProxySelect = (host?: string) => {
-  proxySelect(host);
-  manualProxyDomain.value = '';
-};
-
 const handleCustomProxySelectManual = () => {
-  if (manualProxyDomain.value && isValidDomain(manualProxyDomain.value)) {
-    handleProxySelect(manualProxyDomain.value);
-    manualProxyDomain.value = '';
-    manualProxyDomainError.value = false;
+  if (inputProxyDomain.value && isValidDomain(inputProxyDomain.value)) {
+    proxySelect(inputProxyDomain.value);
+    inputProxyDomainError.value = false;
   } else {
-    manualProxyDomainError.value = true;
+    inputProxyDomainError.value = true;
   }
 };
 
 const neverProxyHostManual = () => {
-  if (manualProxyDomain.value && isValidDomain(manualProxyDomain.value)) {
-    neverProxyHost(manualProxyDomain.value);
-    manualProxyDomain.value = '';
-    manualProxyDomainError.value = false;
+  if (inputProxyDomain.value && isValidDomain(inputProxyDomain.value)) {
+    neverProxyHost(inputProxyDomain.value);
+    inputProxyDomain.value = '';
+    inputProxyDomainError.value = false;
   } else {
-    manualProxyDomainError.value = true;
+    inputProxyDomainError.value = true;
   }
 };
 
 const clearError = () => {
-  manualProxyDomainError.value = false;
+  inputProxyDomainError.value = false;
 };
 </script>
 
@@ -75,10 +69,11 @@ const clearError = () => {
     <TitleCategory title="Add proxy for a domain" />
     <div class="flex items-center mt-2">
       <NInput
-        v-model:value="manualProxyDomain"
+        v-model:value="inputProxyDomain"
         placeholder="Enter domain name"
         class="mr-2 flex-grow"
-        :status="manualProxyDomainError ? 'error' : undefined"
+        :status="inputProxyDomainError ? 'error' : undefined"
+        clearable
         @focus="clearError"
       />
 
@@ -92,7 +87,7 @@ const clearError = () => {
         @sub-click="neverProxyHostManual"
       />
     </div>
-    <div v-if="manualProxyDomainError" class="text-red-500 text-sm mt-1">
+    <div v-if="inputProxyDomainError" class="text-red-500 text-sm mt-1">
       Please enter a valid domain name.
     </div>
 
@@ -132,7 +127,7 @@ const clearError = () => {
       </div>
 
       <div class="flex justify-between">
-        <Button size="small" @click="handleProxySelect()">
+        <Button size="small" @click="proxySelect()">
           {{ globalProxyDetails.server ? 'Change location' : 'Select location' }}
         </Button>
         <Button
@@ -195,11 +190,7 @@ const clearError = () => {
         </div>
 
         <div class="flex justify-between">
-          <Button
-            size="small"
-            class="flex items-center justify-center"
-            @click="handleProxySelect(host)"
-          >
+          <Button size="small" class="flex items-center justify-center" @click="proxySelect(host)">
             Change location
           </Button>
 
