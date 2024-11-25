@@ -12,7 +12,7 @@ import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 import useActiveTab from '@/composables/useActiveTab';
 import useConnection from '@/composables/useConnection';
 import useStore from '@/composables/useStore';
-import { reloadMatchingTabs } from '@/helpers/tabs';
+import { reloadGlobalProxiedTabs, reloadMatchingTabs } from '@/helpers/tabs';
 
 const baseConfig: Partial<ProxyInfo> = {
   port: 1080,
@@ -38,10 +38,16 @@ const currentHostProxyEnabled = computed(
 const globalProxyDNSEnabled = computed(() => globalProxy.value?.proxyDNS ?? false);
 const currentHostProxyDNSEnabled = computed(() => currentHostProxyDetails.value?.proxyDNS ?? false);
 
+const combinedHosts = computed(() => {
+  const allHosts = [...Object.keys(hostProxiesDetails.value), ...excludedHosts.value];
+  return [...new Set(allHosts)].sort((a, b) => a.localeCompare(b));
+});
+
 const toggleGlobalProxy = () => {
   globalProxyDetails.value.socksEnabled = !globalProxyDetails.value.socksEnabled;
   updateCurrentTabProxyBadge();
   reloadOptions();
+  reloadGlobalProxiedTabs(combinedHosts.value);
 };
 const toggleCurrentHostProxy = () => {
   hostProxiesDetails.value[activeTabHost.value].socksEnabled = !currentHostProxyEnabled.value;
@@ -67,6 +73,7 @@ const toggleGlobalProxyDNS = () => {
   globalProxyDetails.value.proxyDNS = updatedGlobalProxyDNS;
   globalProxy.value.proxyDNS = updatedGlobalProxyDNS;
   updateCurrentTabProxyBadge();
+  reloadGlobalProxiedTabs(combinedHosts.value);
 };
 const toggleCurrentHostProxyDNS = () => {
   const updatedCurrentHostProxyDNS = !currentHostProxyDetails.value.proxyDNS;
@@ -105,6 +112,7 @@ const setGlobalProxy = ({
 
   updateConnection();
   reloadOptions();
+  reloadGlobalProxiedTabs(combinedHosts.value);
 };
 
 const setCurrentHostProxy = (
@@ -155,6 +163,7 @@ const removeGlobalProxy = () => {
   globalProxyDetails.value = {} as ProxyDetails;
   updateCurrentTabProxyBadge();
   reloadOptions();
+  reloadGlobalProxiedTabs(combinedHosts.value);
 };
 
 const allowProxy = (host: string) => {
