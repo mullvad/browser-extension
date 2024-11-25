@@ -4,6 +4,7 @@ import { NCard, NCheckbox, NDivider, NSwitch, NTooltip, NInput } from 'naive-ui'
 
 import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
+import FeGlobe from '@/components/Icons/FeGlobe.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
@@ -28,6 +29,7 @@ const {
   toggleCustomProxy,
   toggleCustomProxyDNS,
   toggleGlobalProxy,
+  toggleGlobalProxyDNS,
 } = useSocksProxy();
 
 const manualProxyDomain = ref('');
@@ -96,26 +98,38 @@ const clearError = () => {
 
     <n-divider />
     <div>
-      <h1 class="font-semibold text-lg mb-2 text-gray-200">All websites</h1>
+      <div class="flex inline-flex items-center mb-2">
+        <h1 class="font-semibold text-lg text-gray-200">All websites</h1>
+        <p class="ml-1">(except for domains listed below)</p>
+      </div>
 
       <div v-if="globalProxyDetails.server" class="flex justify-between">
         <div class="mb-2">
-          <h4 class="font-semibold">
-            {{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}
-          </h4>
+          <p class="text-white inline-flex items-center">
+            <n-icon size="20">
+              <FeGlobe />
+            </n-icon>
+            <span class="ml-2"
+              >{{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}</span
+            >
+          </p>
           <div class="flex">
             <h4 class="font-semibold">Server</h4>
             <div class="ml-2">{{ globalProxyDetails.server }}</div>
+          </div>
+          <div class="flex">
+            <h4 class="font-semibold pr-2">Proxy DNS</h4>
+            <n-checkbox
+              size="large"
+              :checked="globalProxyDetails.proxyDNS"
+              :focusable="false"
+              @update-checked="toggleGlobalProxyDNS"
+            />
           </div>
         </div>
 
         <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
       </div>
-
-      <IconLabel type="info" class="mb-3">
-        {{ globalProxyEnabled ? 'Proxy' : 'When enabled, this proxy is' }} used by
-        <strong>all websites</strong>, except for domains listed below.
-      </IconLabel>
 
       <div class="flex justify-between">
         <Button size="small" @click="handleProxySelect()">
@@ -155,19 +169,29 @@ const clearError = () => {
 
       <template v-if="host in hostProxiesDetails && !excludedHosts.includes(host)">
         <div v-if="hostProxiesDetails[host].server" class="mb-3">
-          <h1>{{ hostProxiesDetails[host].country }}, {{ hostProxiesDetails[host].city }}</h1>
-          <ul class="mb-2">
-            <li>Proxy Server: {{ hostProxiesDetails[host].server }}</li>
-            <li>
-              Proxy DNS
+          <div class="mb-2">
+            <p class="text-white inline-flex items-center">
+              <n-icon size="20">
+                <FeGlobe />
+              </n-icon>
+              <span class="ml-2"
+                >{{ hostProxiesDetails[host].country }}, {{ hostProxiesDetails[host].city }}</span
+              >
+            </p>
+            <div class="flex">
+              <h4 class="font-semibold">Server</h4>
+              <div class="ml-2">{{ hostProxiesDetails[host].server }}</div>
+            </div>
+            <div class="flex">
+              <h4 class="font-semibold pr-2">Proxy DNS</h4>
               <n-checkbox
                 size="large"
                 :checked="hostProxiesDetails[host].proxyDNS"
                 :focusable="false"
                 @update-checked="toggleCustomProxyDNS(host)"
               />
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
 
         <div class="flex justify-between">
