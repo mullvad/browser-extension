@@ -13,6 +13,7 @@ import useActiveTab from '@/composables/useActiveTab';
 import useConnection from '@/composables/useConnection';
 import useStore from '@/composables/useStore';
 import { reloadGlobalProxiedTabs, reloadMatchingTabs } from '@/helpers/tabs';
+import { checkDomain, getTargetHost } from '@/helpers/domain';
 
 const baseConfig: Partial<ProxyInfo> = {
   port: 1080,
@@ -26,9 +27,26 @@ const { updateConnection } = useConnection();
 const { excludedHosts, globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } =
   useStore();
 
-const currentHostProxyDetails = computed(
-  () => hostProxiesDetails.value[activeTabHost.value] || null,
-);
+const currentHostProxyDetails = computed(() => {
+  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
+
+  // First check for exact matches that are enabled
+  if (hostProxiesDetails.value[activeTabHost.value]?.socksEnabled) {
+    return hostProxiesDetails.value[activeTabHost.value];
+  }
+
+  // Then check parent domain if this is a subdomain
+  if (hasSubdomain && hostProxiesDetails.value[domain]?.socksEnabled) {
+    return hostProxiesDetails.value[domain];
+  }
+
+  // If no enabled proxies found, return any existing proxy config
+  if (hostProxiesDetails.value[activeTabHost.value]) {
+    return hostProxiesDetails.value[activeTabHost.value];
+  }
+
+  return null;
+});
 
 const globalProxyEnabled = computed(() => globalProxyDetails.value.socksEnabled);
 const currentHostProxyEnabled = computed(
@@ -54,22 +72,28 @@ const toggleGlobalProxy = () => {
   reloadGlobalProxiedTabs(combinedHosts.value);
 };
 const toggleCurrentHostProxy = () => {
-  hostProxiesDetails.value[activeTabHost.value].socksEnabled = !currentHostProxyEnabled.value;
+  const targetHost = getTargetHost(activeTabHost.value, hostProxiesDetails.value);
+  hostProxiesDetails.value[targetHost].socksEnabled = !currentHostProxyEnabled.value;
   updateCurrentTabProxyBadge();
   reloadOptions();
-  reloadMatchingTabs(activeTabHost.value);
+  reloadMatchingTabs(targetHost);
 };
 
 const toggleCustomProxy = (host: string) => {
-  hostProxiesDetails.value[host].socksEnabled = !hostProxiesDetails.value[host].socksEnabled;
+  const targetHost = getTargetHost(host, hostProxiesDetails.value);
+  hostProxiesDetails.value[targetHost].socksEnabled =
+    !hostProxiesDetails.value[targetHost].socksEnabled;
   updateCurrentTabProxyBadge();
   reloadOptions();
-  reloadMatchingTabs(host);
+  reloadMatchingTabs(targetHost);
 };
+
 const toggleCustomProxyDNS = (host: string) => {
-  hostProxiesDetails.value[host].proxyDNS = !hostProxiesDetails.value[host].proxyDNS;
+  const targetHost = getTargetHost(host, hostProxiesDetails.value);
+
+  hostProxiesDetails.value[targetHost].proxyDNS = !hostProxiesDetails.value[targetHost].proxyDNS;
   updateCurrentTabProxyBadge();
-  reloadMatchingTabs(host);
+  reloadMatchingTabs(targetHost);
 };
 
 const toggleGlobalProxyDNS = () => {
@@ -80,11 +104,18 @@ const toggleGlobalProxyDNS = () => {
   reloadGlobalProxiedTabs(combinedHosts.value);
 };
 const toggleCurrentHostProxyDNS = () => {
-  const updatedCurrentHostProxyDNS = !currentHostProxyDetails.value.proxyDNS;
-  hostProxiesDetails.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
-  hostProxies.value[activeTabHost.value].proxyDNS = updatedCurrentHostProxyDNS;
+  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
+
+  const targetHost =
+    hasSubdomain && hostProxiesDetails.value[domain] ? domain : activeTabHost.value;
+
+  const updatedCurrentHostProxyDNS = !(currentHostProxyDetails.value as ProxyDetails).proxyDNS;
+
+  hostProxiesDetails.value[targetHost].proxyDNS = updatedCurrentHostProxyDNS;
+  hostProxies.value[targetHost].proxyDNS = updatedCurrentHostProxyDNS;
+
   updateCurrentTabProxyBadge();
-  reloadMatchingTabs(activeTabHost.value);
+  reloadMatchingTabs(targetHost);
 };
 
 const setGlobalProxy = ({

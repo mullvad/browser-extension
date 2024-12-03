@@ -13,6 +13,7 @@ import useLocations from '@/composables/useLocations';
 import useProxyPermissions from '@/composables/useProxyPermissions';
 import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
+import { checkDomain } from '@/helpers/domain';
 
 const { activeTabHost, isBrowserPage } = useActiveTab();
 const { updateConnection } = useConnection();
@@ -33,17 +34,35 @@ const {
   toggleGlobalProxy,
 } = useSocksProxy();
 const { connection } = inject(ConnectionKey, defaultConnection);
+const lastClickedTab = ref<string | null>(null);
 
 const currentHostExcluded = computed(() => excludedHosts.value.includes(activeTabHost.value));
 
-const truncatedActiveTabHost = computed(() => {
-  // Adjust this based on design
-  return activeTabHost.value.length <= 25
-    ? activeTabHost.value
-    : `${activeTabHost.value.substring(0, 15)}...${activeTabHost.value.slice(-15)}`;
+const tabDisplayHost = computed(() => {
+  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
+
+  console.log('hasSubdomain', hasSubdomain, domain);
+
+  // Check if there's a proxy configured for the parent domain
+  const hasParentDomainProxy =
+    hasSubdomain &&
+    Object.keys(currentHostProxyDetails.value || {}).length > 0 &&
+    currentHostProxyDetails.value?.server;
+
+  // If parent domain has a proxy configured, show the parent domain
+  if (hasParentDomainProxy) {
+    return domain;
+  }
+
+  // Otherwise show the full hostname
+  return activeTabHost.value;
 });
 
-const lastClickedTab = ref<string | null>(null);
+const truncatedActiveTabHost = computed(() => {
+  const host = tabDisplayHost.value;
+  return host.length <= 25 ? host : `${host.substring(0, 15)}...${host.slice(-15)}`;
+});
+
 const defaultActiveTab = computed(() =>
   currentHostProxyEnabled.value || currentHostExcluded.value ? 'current-website' : 'all-websites',
 );
@@ -124,13 +143,13 @@ const handleToggleGlobalProxy = () => {
     <n-tab-pane v-if="!isBrowserPage" name="current-website" :tab="truncatedActiveTabHost">
       <div v-if="currentHostExcluded">
         <p class="break-words mb-4">
-          <strong>{{ activeTabHost }}</strong> is set to never be proxied.
+          <strong>{{ tabDisplayHost }}</strong> is set to never be proxied.
         </p>
 
         <Button
           size="small"
           class="flex items-center justify-center"
-          @click="allowProxy(activeTabHost)"
+          @click="allowProxy(tabDisplayHost)"
         >
           <p>
             Allow proxy for <strong>{{ truncatedActiveTabHost }}</strong>
@@ -171,7 +190,7 @@ const handleToggleGlobalProxy = () => {
         </IconLabel>
 
         <p v-else class="break-words mb-4">
-          This proxy is used by <strong>{{ activeTabHost }}</strong
+          This proxy is used by <strong>{{ tabDisplayHost }}</strong
           >.
         </p>
 
@@ -179,7 +198,7 @@ const handleToggleGlobalProxy = () => {
           <Button
             size="small"
             class="flex items-center justify-center"
-            @click="handleProxySelect(activeTabHost)"
+            @click="handleProxySelect(tabDisplayHost)"
           >
             {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
           </Button>
@@ -191,8 +210,8 @@ const handleToggleGlobalProxy = () => {
               sub-color="white"
               main-text="Remove proxy"
               sub-text="Never proxy"
-              @main-click="removeCustomProxy(activeTabHost)"
-              @sub-click="neverProxyHost(activeTabHost)"
+              @main-click="removeCustomProxy(tabDisplayHost)"
+              @sub-click="neverProxyHost(tabDisplayHost)"
             />
           </div>
         </div>
@@ -200,7 +219,7 @@ const handleToggleGlobalProxy = () => {
 
       <div v-else>
         <p class="break-words mb-4">
-          When enabled, this proxy is used by <strong>{{ activeTabHost }}</strong
+          When enabled, this proxy is used by <strong>{{ tabDisplayHost }}</strong
           >.
         </p>
 
@@ -208,7 +227,7 @@ const handleToggleGlobalProxy = () => {
           <Button
             size="small"
             class="flex items-center justify-center"
-            @click="handleProxySelect(activeTabHost)"
+            @click="handleProxySelect(tabDisplayHost)"
           >
             {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
           </Button>
@@ -216,7 +235,7 @@ const handleToggleGlobalProxy = () => {
           <Button
             size="small"
             class="flex items-center justify-center"
-            @click="neverProxyHost(activeTabHost)"
+            @click="neverProxyHost(tabDisplayHost)"
           >
             Never proxy
           </Button>
