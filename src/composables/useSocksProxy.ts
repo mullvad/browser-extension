@@ -39,7 +39,11 @@ const globalProxyDNSEnabled = computed(() => globalProxy.value?.proxyDNS ?? fals
 const currentHostProxyDNSEnabled = computed(() => currentHostProxyDetails.value?.proxyDNS ?? false);
 
 const combinedHosts = computed(() => {
-  const allHosts = [...Object.keys(hostProxiesDetails.value), ...excludedHosts.value];
+  // hosts that are excluded from proxying + hosts that enabled for proxying
+  const enabledProxyHosts = Object.entries(hostProxiesDetails.value)
+    .filter(([, details]) => details.socksEnabled)
+    .map(([host]) => host);
+  const allHosts = [...enabledProxyHosts, ...excludedHosts.value];
   return [...new Set(allHosts)].sort((a, b) => a.localeCompare(b));
 });
 
