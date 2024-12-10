@@ -115,8 +115,11 @@ const toggleCustomProxy = (host: string) => {
 
 const toggleCustomProxyDNS = (host: string) => {
   const targetHost = getTargetHost(host, hostProxiesDetails.value);
+  const updatedProxyDNS = !hostProxiesDetails.value[targetHost].proxyDNS;
 
-  hostProxiesDetails.value[targetHost].proxyDNS = !hostProxiesDetails.value[targetHost].proxyDNS;
+  hostProxiesDetails.value[targetHost].proxyDNS = updatedProxyDNS;
+  hostProxies.value[targetHost].proxyDNS = updatedProxyDNS;
+
   updateCurrentTabProxyBadge();
   reloadMatchingTabs(targetHost);
 };
@@ -126,20 +129,6 @@ const toggleGlobalProxyDNS = () => {
   globalProxyDetails.value.proxyDNS = updatedGlobalProxyDNS;
   globalProxy.value.proxyDNS = updatedGlobalProxyDNS;
   reloadGlobalProxiedTabs(combinedHosts.value);
-  updateCurrentTabProxyBadge();
-};
-const toggleCurrentHostProxyDNS = () => {
-  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
-
-  const targetHost =
-    hasSubdomain && hostProxiesDetails.value[domain] ? domain : activeTabHost.value;
-
-  const updatedCurrentHostProxyDNS = !(currentHostProxyDetails.value as ProxyDetails).proxyDNS;
-
-  hostProxiesDetails.value[targetHost].proxyDNS = updatedCurrentHostProxyDNS;
-  hostProxies.value[targetHost].proxyDNS = updatedCurrentHostProxyDNS;
-
-  reloadMatchingTabs(targetHost);
   updateCurrentTabProxyBadge();
 };
 
@@ -259,7 +248,6 @@ const useSocksProxy = () => {
     setGlobalProxy,
     toggleDomainProxy,
     toggleSubDomainProxy,
-    toggleCurrentHostProxyDNS,
     toggleCustomProxy,
     toggleCustomProxyDNS,
     toggleGlobalProxy,

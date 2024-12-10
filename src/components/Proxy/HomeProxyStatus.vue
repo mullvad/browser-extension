@@ -64,7 +64,6 @@ const truncatedSubDomain = computed(() => {
 });
 
 const domainProxyDetails = computed(() => {
-  if (!tabDomain.value.hasSubdomain) return null;
   return hostProxiesDetails.value[tabDomain.value.domain] || null;
 });
 
