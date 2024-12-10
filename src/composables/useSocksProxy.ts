@@ -67,25 +67,50 @@ const combinedHosts = computed(() => {
 
 const toggleGlobalProxy = () => {
   globalProxyDetails.value.socksEnabled = !globalProxyDetails.value.socksEnabled;
-  updateCurrentTabProxyBadge();
   reloadOptions();
   reloadGlobalProxiedTabs(combinedHosts.value);
-};
-const toggleCurrentHostProxy = () => {
-  const targetHost = getTargetHost(activeTabHost.value, hostProxiesDetails.value);
-  hostProxiesDetails.value[targetHost].socksEnabled = !currentHostProxyEnabled.value;
   updateCurrentTabProxyBadge();
+};
+
+const toggleSubDomainProxy = (subdomain: string) => {
+  const { domain } = checkDomain(subdomain);
+
+  // If no subdomain proxy exists but parent domain has proxy
+  if (!hostProxiesDetails.value[subdomain] && hostProxiesDetails.value[domain]) {
+    // Clone parent domain proxy settings
+    hostProxiesDetails.value[subdomain] = {
+      ...hostProxiesDetails.value[domain],
+      socksEnabled: true,
+    };
+    hostProxies.value[subdomain] = {
+      ...hostProxies.value[domain],
+      proxyDNS: hostProxiesDetails.value[domain].proxyDNS,
+    };
+  } else {
+    // Toggle existing subdomain proxy
+    hostProxiesDetails.value[subdomain].socksEnabled =
+      !hostProxiesDetails.value[subdomain].socksEnabled;
+  }
+
   reloadOptions();
-  reloadMatchingTabs(targetHost);
+  reloadMatchingTabs(subdomain);
+  updateCurrentTabProxyBadge();
+};
+
+const toggleDomainProxy = (domain: string) => {
+  hostProxiesDetails.value[domain].socksEnabled = !hostProxiesDetails.value[domain].socksEnabled;
+  reloadOptions();
+  reloadMatchingTabs(domain);
+  updateCurrentTabProxyBadge();
 };
 
 const toggleCustomProxy = (host: string) => {
   const targetHost = getTargetHost(host, hostProxiesDetails.value);
   hostProxiesDetails.value[targetHost].socksEnabled =
     !hostProxiesDetails.value[targetHost].socksEnabled;
-  updateCurrentTabProxyBadge();
   reloadOptions();
   reloadMatchingTabs(targetHost);
+  updateCurrentTabProxyBadge();
 };
 
 const toggleCustomProxyDNS = (host: string) => {
@@ -100,8 +125,8 @@ const toggleGlobalProxyDNS = () => {
   const updatedGlobalProxyDNS = !globalProxyDetails.value.proxyDNS;
   globalProxyDetails.value.proxyDNS = updatedGlobalProxyDNS;
   globalProxy.value.proxyDNS = updatedGlobalProxyDNS;
-  updateCurrentTabProxyBadge();
   reloadGlobalProxiedTabs(combinedHosts.value);
+  updateCurrentTabProxyBadge();
 };
 const toggleCurrentHostProxyDNS = () => {
   const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
@@ -114,8 +139,8 @@ const toggleCurrentHostProxyDNS = () => {
   hostProxiesDetails.value[targetHost].proxyDNS = updatedCurrentHostProxyDNS;
   hostProxies.value[targetHost].proxyDNS = updatedCurrentHostProxyDNS;
 
-  updateCurrentTabProxyBadge();
   reloadMatchingTabs(targetHost);
+  updateCurrentTabProxyBadge();
 };
 
 const setGlobalProxy = ({
@@ -232,7 +257,8 @@ const useSocksProxy = () => {
     removeGlobalProxy,
     setCurrentHostProxy,
     setGlobalProxy,
-    toggleCurrentHostProxy,
+    toggleDomainProxy,
+    toggleSubDomainProxy,
     toggleCurrentHostProxyDNS,
     toggleCustomProxy,
     toggleCustomProxyDNS,

@@ -6,7 +6,7 @@ export const checkDomain = (host: string) => {
   const parts = host.split('.');
   return {
     hasSubdomain: parts.length > 2,
-    subdomain: parts.slice(0, -2).join('.'),
+    subDomain: host,
     domain: parts.slice(-2).join('.'),
   };
 };

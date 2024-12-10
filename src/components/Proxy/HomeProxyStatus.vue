@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, watch } from 'vue';
 import { NSwitch, NTabPane, NTabs } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -22,50 +22,75 @@ const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPerm
 const { getSocksProxies } = useSocksProxies();
 const {
   allowProxy,
-  currentHostProxyDetails,
   currentHostProxyEnabled,
+  hostProxiesDetails,
   excludedHosts,
   globalProxyEnabled,
   globalProxyDetails,
   neverProxyHost,
   removeCustomProxy,
   removeGlobalProxy,
-  toggleCurrentHostProxy,
+  toggleDomainProxy,
+  toggleSubDomainProxy,
   toggleGlobalProxy,
 } = useSocksProxy();
 const { connection } = inject(ConnectionKey, defaultConnection);
-const lastClickedTab = ref<string | null>(null);
 
 const currentHostExcluded = computed(() => excludedHosts.value.includes(activeTabHost.value));
 
-const tabDisplayHost = computed(() => {
-  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
+const tabDomain = computed(() => {
+  const { domain, hasSubdomain, subDomain } = checkDomain(activeTabHost.value);
 
-  console.log('hasSubdomain', hasSubdomain, domain);
-
-  // Check if there's a proxy configured for the parent domain
-  const hasParentDomainProxy =
-    hasSubdomain &&
-    Object.keys(currentHostProxyDetails.value || {}).length > 0 &&
-    currentHostProxyDetails.value?.server;
-
-  // If parent domain has a proxy configured, show the parent domain
-  if (hasParentDomainProxy) {
-    return domain;
-  }
-
-  // Otherwise show the full hostname
-  return activeTabHost.value;
+  return {
+    domain,
+    hasSubdomain,
+    subDomain,
+  };
 });
 
-const truncatedActiveTabHost = computed(() => {
-  const host = tabDisplayHost.value;
+const hasSubDomainProxy = computed(() => {
+  if (!tabDomain.value.hasSubdomain) return false;
+  return !!hostProxiesDetails.value[tabDomain.value.subDomain];
+});
+
+const truncatedDomain = computed(() => {
+  const host = tabDomain.value.domain;
   return host.length <= 25 ? host : `${host.substring(0, 15)}...${host.slice(-15)}`;
 });
 
-const defaultActiveTab = computed(() =>
-  currentHostProxyEnabled.value || currentHostExcluded.value ? 'current-website' : 'all-websites',
+const truncatedSubDomain = computed(() => {
+  const host = tabDomain.value.subDomain;
+  return host.length <= 25 ? host : `${host.substring(0, 15)}...${host.slice(-15)}`;
+});
+
+const domainProxyDetails = computed(() => {
+  if (!tabDomain.value.hasSubdomain) return null;
+  return hostProxiesDetails.value[tabDomain.value.domain] || null;
+});
+
+const subDomainProxyDetails = computed(() =>
+  hostProxiesDetails.value[activeTabHost.value] && activeTabHost.value !== tabDomain.value.domain
+    ? hostProxiesDetails.value[activeTabHost.value]
+    : null,
 );
+
+const subDomainProxyEnabled = computed(() => {
+  const host = activeTabHost.value;
+  return hostProxiesDetails.value[host]?.socksEnabled ?? false;
+});
+
+const lastClickedTab = ref<string | null>(null);
+
+const defaultActiveTab = computed(() => {
+  if (tabDomain.value.hasSubdomain && hasSubDomainProxy.value && subDomainProxyEnabled.value) {
+    return 'current-sub-domain';
+  }
+  if (domainProxyDetails.value?.socksEnabled || currentHostExcluded.value) {
+    return 'current-domain';
+  }
+  return 'all-websites';
+});
+
 const activeTab = computed(() => lastClickedTab.value || defaultActiveTab.value);
 
 const handleTabClick = (tabName: string) => {
@@ -76,7 +101,6 @@ const handleProxySelect = async (host?: string) => {
   proxySelect(host);
   await getSocksProxies();
 };
-
 const handleRemoveGlobalProxy = () => {
   removeGlobalProxy();
   updateConnection();
@@ -86,6 +110,16 @@ const handleToggleGlobalProxy = () => {
   toggleGlobalProxy();
   updateConnection();
 };
+
+const handleRemoveProxy = (host: string) => {
+  removeCustomProxy(host);
+  // Force switch to default tab otherwise it doesn't work
+  lastClickedTab.value = defaultActiveTab.value;
+};
+
+watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails], () => {
+  lastClickedTab.value = null;
+});
 </script>
 
 <template>
@@ -140,105 +174,96 @@ const handleToggleGlobalProxy = () => {
       </div>
     </n-tab-pane>
 
-    <n-tab-pane v-if="!isBrowserPage" name="current-website" :tab="truncatedActiveTabHost">
-      <div v-if="currentHostExcluded">
-        <p class="break-words mb-4">
-          <strong>{{ tabDisplayHost }}</strong> is set to never be proxied.
-        </p>
-
-        <Button
-          size="small"
-          class="flex items-center justify-center"
-          @click="allowProxy(tabDisplayHost)"
-        >
-          <p>
-            Allow proxy for <strong>{{ truncatedActiveTabHost }}</strong>
-          </p>
-        </Button>
-      </div>
-
-      <div v-else-if="currentHostProxyDetails">
-        <div class="flex justify-between mb-2">
-          <div>
-            <div class="flex">
+    <n-tab-pane v-if="!isBrowserPage" name="current-domain" :tab="truncatedDomain">
+      <div>
+        <h3 class="font-bold mb-2">{{ tabDomain.domain }}</h3>
+        <div v-if="excludedHosts.includes(tabDomain.domain)">
+          <p class="break-words mb-4">This domain is set to never be proxied.</p>
+          <Button size="small" @click="allowProxy(tabDomain.domain)">Allow proxy for domain</Button>
+        </div>
+        <div v-else>
+          <div v-if="domainProxyDetails" class="flex justify-between mb-2">
+            <div>
               <h4 class="font-semibold">
-                {{ currentHostProxyDetails.city }}, {{ currentHostProxyDetails.country }}
+                {{ domainProxyDetails.city }}, {{ domainProxyDetails.country }}
               </h4>
+              <div class="flex">
+                <h4 class="font-semibold">Server</h4>
+                <div class="ml-2">{{ domainProxyDetails.server }}</div>
+              </div>
             </div>
-            <div class="flex">
-              <h4 class="font-semibold">Server</h4>
-              <div class="ml-2">{{ currentHostProxyDetails.server }}</div>
-            </div>
-          </div>
-
-          <div class="flex justify-between">
             <n-switch
-              v-if="currentHostProxyDetails"
-              :value="currentHostProxyEnabled"
-              @update-value="toggleCurrentHostProxy()"
+              :value="domainProxyDetails?.socksEnabled"
+              @update-value="() => toggleDomainProxy(tabDomain.domain)"
             />
           </div>
-        </div>
-
-        <IconLabel
-          v-if="currentHostProxyEnabled && !connection.isMullvad"
-          type="warning"
-          class="my-2"
-        >
-          <strong>{{ truncatedActiveTabHost }}</strong> can't be reached, either disable the proxy
-          in use or connect to Mullvad VPN.
-        </IconLabel>
-
-        <p v-else class="break-words mb-4">
-          This proxy is used by <strong>{{ tabDisplayHost }}</strong
-          >.
-        </p>
-
-        <div class="flex justify-between">
-          <Button
-            size="small"
-            class="flex items-center justify-center"
-            @click="handleProxySelect(tabDisplayHost)"
-          >
-            {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
-          </Button>
-
-          <div>
+          <div class="flex justify-between">
+            <Button size="small" @click="handleProxySelect(tabDomain.domain)">
+              {{ domainProxyDetails ? 'Change location' : 'Select location' }}
+            </Button>
             <SplitButton
+              v-if="domainProxyDetails"
               size="small"
               main-color="error"
               sub-color="white"
               main-text="Remove proxy"
               sub-text="Never proxy"
-              @main-click="removeCustomProxy(tabDisplayHost)"
-              @sub-click="neverProxyHost(tabDisplayHost)"
+              @main-click="removeCustomProxy(tabDomain.domain)"
+              @sub-click="neverProxyHost(tabDomain.domain)"
             />
+            <Button
+              v-else
+              size="small"
+              class="flex items-center justify-center"
+              @click="neverProxyHost(tabDomain.domain)"
+            >
+              Never proxy
+            </Button>
           </div>
         </div>
       </div>
+    </n-tab-pane>
 
-      <div v-else>
-        <p class="break-words mb-4">
-          When enabled, this proxy is used by <strong>{{ tabDisplayHost }}</strong
-          >.
-        </p>
-
-        <div class="flex justify-between">
-          <Button
-            size="small"
-            class="flex items-center justify-center"
-            @click="handleProxySelect(tabDisplayHost)"
+    <n-tab-pane v-if="hasSubDomainProxy" name="current-sub-domain" :tab="truncatedSubDomain">
+      <div class="mb-6">
+        <h3 class="font-bold mb-2">{{ tabDomain.subDomain }}</h3>
+        <div v-if="currentHostExcluded">
+          <p class="break-words mb-4">This subdomain is set to never be proxied.</p>
+          <Button size="small" @click="allowProxy(tabDomain.subDomain)"
+            >Allow proxy for this subdomain</Button
           >
-            {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
-          </Button>
-
-          <Button
-            size="small"
-            class="flex items-center justify-center"
-            @click="neverProxyHost(tabDisplayHost)"
-          >
-            Never proxy
-          </Button>
+        </div>
+        <div v-else>
+          <div v-if="subDomainProxyDetails" class="flex justify-between mb-2">
+            <div>
+              <h4 class="font-semibold">
+                {{ subDomainProxyDetails.city }}, {{ subDomainProxyDetails.country }}
+              </h4>
+              <div class="flex">
+                <h4 class="font-semibold">Server</h4>
+                <div class="ml-2">{{ subDomainProxyDetails.server }}</div>
+              </div>
+            </div>
+            <n-switch
+              :value="subDomainProxyEnabled"
+              @update-value="toggleSubDomainProxy(tabDomain.subDomain)"
+            />
+          </div>
+          <div class="flex justify-between">
+            <Button size="small" @click="handleProxySelect(tabDomain.subDomain)">
+              {{ subDomainProxyDetails ? 'Change location' : 'Select location' }}
+            </Button>
+            <SplitButton
+              v-if="subDomainProxyDetails"
+              size="small"
+              main-color="error"
+              sub-color="white"
+              main-text="Remove proxy"
+              sub-text="Never proxy"
+              @main-click="handleRemoveProxy(tabDomain.subDomain)"
+              @sub-click="neverProxyHost(tabDomain.subDomain)"
+            />
+          </div>
         </div>
       </div>
     </n-tab-pane>

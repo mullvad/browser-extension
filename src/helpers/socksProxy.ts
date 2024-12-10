@@ -12,24 +12,6 @@ const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
   return { socksEnabled: false };
 };
 
-const getHostProxyDetails = async (): Promise<ProxyDetails> => {
-  const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
-
-  if (hostProxiesDetails) {
-    const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
-    const proxiedHosts = Object.keys(hostProxiesDetailsParsed);
-    const activeTabHost = (await getActiveTabDetails()).host;
-
-    if (
-      proxiedHosts.includes(activeTabHost) &&
-      hostProxiesDetailsParsed[activeTabHost].socksEnabled
-    ) {
-      return hostProxiesDetailsParsed[activeTabHost];
-    }
-  }
-  return { socksEnabled: false };
-};
-
 export const getActiveTabDetails = async () => {
   const activeTab = await browser.tabs.query({ active: true });
 
@@ -43,8 +25,26 @@ export const getActiveTabDetails = async () => {
 
 export const getActiveProxyDetails = async () => {
   const globalProxyDetails = await getGlobalProxyDetails();
-  const hostProxyDetails = await getHostProxyDetails();
-  return hostProxyDetails.socksEnabled ? hostProxyDetails : globalProxyDetails;
+  const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
+
+  if (hostProxiesDetails) {
+    const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
+    const activeTab = await browser.tabs.query({ active: true, currentWindow: true });
+    const tabHost = new URL(activeTab[0].url!).hostname;
+    const { domain } = checkDomain(tabHost);
+
+    // Check subdomain proxy first
+    if (hostProxiesDetailsParsed[tabHost]?.socksEnabled) {
+      return hostProxiesDetailsParsed[tabHost];
+    }
+
+    // Then check domain proxy
+    if (hostProxiesDetailsParsed[domain]?.socksEnabled) {
+      return hostProxiesDetailsParsed[domain];
+    }
+  }
+
+  return globalProxyDetails;
 };
 
 // TODO decide what how to handle fallback proxy (if proxy is invalid, it will fallback to Firefox proxy if configured)
