@@ -55,12 +55,12 @@ const hasSubDomainProxy = computed(() => {
 
 const truncatedDomain = computed(() => {
   const host = tabDomain.value.domain;
-  return host.length <= 25 ? host : `${host.substring(0, 15)}...${host.slice(-15)}`;
+  return host.length <= 16 ? host : `${host.substring(0, 8)}...${host.slice(-8)}`;
 });
 
 const truncatedSubDomain = computed(() => {
   const host = tabDomain.value.subDomain;
-  return host.length <= 25 ? host : `${host.substring(0, 15)}...${host.slice(-15)}`;
+  return host.length <= 16 ? host : `${host.substring(0, 8)}...${host.slice(-8)}`;
 });
 
 const domainProxyDetails = computed(() => {
@@ -175,9 +175,9 @@ watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails], () =
 
     <n-tab-pane v-if="!isBrowserPage" name="current-domain" :tab="truncatedDomain">
       <div>
-        <h3 class="font-bold mb-2">{{ tabDomain.domain }}</h3>
+        <h3 class="font-bold mb-2 break-words">{{ tabDomain.domain }}</h3>
         <div v-if="excludedHosts.includes(tabDomain.domain)">
-          <p class="break-words mb-4">This domain is set to never be proxied.</p>
+          <p class="mb-4">This domain is set to never be proxied.</p>
           <Button size="small" @click="allowProxy(tabDomain.domain)">Allow proxy for domain</Button>
         </div>
         <div v-else>
@@ -225,9 +225,9 @@ watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails], () =
 
     <n-tab-pane v-if="hasSubDomainProxy" name="current-sub-domain" :tab="truncatedSubDomain">
       <div class="mb-6">
-        <h3 class="font-bold mb-2">{{ tabDomain.subDomain }}</h3>
+        <h3 class="font-bold mb-2 break-words">{{ tabDomain.subDomain }}</h3>
         <div v-if="currentHostExcluded">
-          <p class="break-words mb-4">This subdomain is set to never be proxied.</p>
+          <p class="mb-4">This subdomain is set to never be proxied.</p>
           <Button size="small" @click="allowProxy(tabDomain.subDomain)"
             >Allow proxy for this subdomain</Button
           >
