@@ -65,40 +65,46 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     const hostProxiesDetailsParsed: Record<string, ProxyDetails> = JSON.parse(hostProxiesDetails);
 
     const currentHost = getCurrentHost(details);
-    const { hasSubdomain, domain } = checkDomain(currentHost);
+    const { hasSubdomain, domain, subDomain } = checkDomain(currentHost);
 
-    // Since we can't identify speculative requests origin, we need to block them
-    // See: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/proxy
+    // Block speculative requests
     if (details.type === 'speculative') {
       return { cancel: true };
     }
 
-    if (excludedHostsParsed.includes(currentHost) || isLocalOrReservedIP(currentHost)) {
+    // Skip proxy for local/reserved IPs
+    if (isLocalOrReservedIP(currentHost)) {
       return { type: 'direct' };
     }
 
-    // First check for exact matches (specific subdomain rules take precedence)
-    if (
-      Object.hasOwn(hostProxiesParsed, currentHost) &&
-      hostProxiesDetailsParsed[currentHost].socksEnabled
-    ) {
-      return hostProxiesParsed[currentHost];
+    // 1. Check subdomain level
+    if (hasSubdomain) {
+      if (excludedHostsParsed.includes(subDomain)) {
+        return { type: 'direct' };
+      }
+
+      if (
+        Object.hasOwn(hostProxiesParsed, subDomain) &&
+        hostProxiesDetailsParsed[currentHost].socksEnabled
+      ) {
+        return hostProxiesParsed[subDomain];
+      }
     }
 
-    // Then check parent domain if this is a subdomain (for default subdomain behavior)
-    if (
-      hasSubdomain &&
-      Object.hasOwn(hostProxiesParsed, domain) &&
-      hostProxiesDetailsParsed[domain].socksEnabled
-    ) {
+    // 2. Check domain level
+    if (excludedHostsParsed.includes(domain)) {
+      return { type: 'direct' };
+    }
+    if (Object.hasOwn(hostProxiesParsed, domain) && hostProxiesDetailsParsed[domain].socksEnabled) {
       return hostProxiesParsed[domain];
     }
 
-    // Fall back to global proxy if enabled
+    // 3. Check global proxy
     if (globalProxyDetailsParsed.socksEnabled) {
       return globalConfigParsed;
     }
 
+    // 4. Default: no proxy
     return { type: 'direct' };
   } catch (error) {
     console.log(error);
