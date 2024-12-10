@@ -1,32 +1,25 @@
-import tlds from 'tlds';
+import { parse } from 'tldts';
 import { ProxyDetails } from './socksProxy.types';
 
 export const checkDomain = (host: string) => {
-  // Check if the hostname contains a subdomain
-  const parts = host.split('.');
+  const parsed = parse(host);
   return {
-    hasSubdomain: parts.length > 2,
+    hasSubdomain: Boolean(parsed.subdomain),
     subDomain: host,
-    domain: parts.slice(-2).join('.'),
+    domain: parsed.domain || host,
   };
 };
 
 export const isValidDomain = (domain: string): boolean => {
-  const parts = domain.split('.');
-  if (parts.length < 2) return false;
-  const tld = parts[parts.length - 1].toLowerCase();
-  return tlds.includes(tld);
+  const parsed = parse(domain);
+  return Boolean(parsed.domain && parsed.publicSuffix);
 };
 
 export const getTargetHost = (host: string, proxyDetails: Record<string, ProxyDetails>) => {
-  // If there's already a proxy for this exact host, use it
   if (proxyDetails[host]) {
     return host;
   }
 
-  // Otherwise check for parent domain
   const { hasSubdomain, domain } = checkDomain(host);
-  return hasSubdomain && proxyDetails[domain] ? domain : host;
+  return hasSubdomain && domain && proxyDetails[domain] ? domain : host;
 };
-
-export default isValidDomain;

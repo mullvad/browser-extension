@@ -8,7 +8,7 @@ import FeGlobe from '@/components/Icons/FeGlobe.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
-import isValidDomain from '@/helpers/domain';
+import { isValidDomain } from '@/helpers/domain';
 
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
@@ -42,7 +42,8 @@ const combinedHosts = computed(() => {
 
 const handleCustomProxySelectManual = () => {
   if (inputProxyDomain.value && isValidDomain(inputProxyDomain.value)) {
-    proxySelect(inputProxyDomain.value);
+    const hostname = new URL(inputProxyDomain.value).hostname;
+    proxySelect(hostname);
     inputProxyDomainError.value = false;
   } else {
     inputProxyDomainError.value = true;
@@ -66,7 +67,7 @@ const clearError = () => {
 
 <template>
   <NCard :bordered="false">
-    <TitleCategory title="Add proxy for a domain" />
+    <TitleCategory title="Add proxy for a domain (or subdomain)" />
     <div class="flex items-center mt-2">
       <NInput
         v-model:value="inputProxyDomain"
@@ -88,7 +89,7 @@ const clearError = () => {
       />
     </div>
     <div v-if="inputProxyDomainError" class="text-red-500 text-sm mt-1">
-      Please enter a valid domain name.
+      Please enter a valid domain name
     </div>
 
     <n-divider />
