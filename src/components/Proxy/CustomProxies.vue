@@ -8,7 +8,7 @@ import FeGlobe from '@/components/Icons/FeGlobe.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
-import { isValidDomain } from '@/helpers/domain';
+import { isValidDomain, normalizeToFQDN } from '@/helpers/domain';
 
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
@@ -41,9 +41,9 @@ const combinedHosts = computed(() => {
 });
 
 const handleCustomProxySelectManual = () => {
-  if (inputProxyDomain.value && isValidDomain(inputProxyDomain.value)) {
-    const hostname = new URL(inputProxyDomain.value).hostname;
-    proxySelect(hostname);
+  const normalizedDomain = normalizeToFQDN(inputProxyDomain.value);
+  if (normalizedDomain && isValidDomain(normalizedDomain)) {
+    proxySelect(normalizedDomain);
     inputProxyDomainError.value = false;
   } else {
     inputProxyDomainError.value = true;

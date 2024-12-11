@@ -23,3 +23,8 @@ export const getTargetHost = (host: string, proxyDetails: Record<string, ProxyDe
   const { hasSubdomain, domain } = checkDomain(host);
   return hasSubdomain && domain && proxyDetails[domain] ? domain : host;
 };
+
+export const normalizeToFQDN = (input: string): string | null => {
+  const parsed = parse(input);
+  return parsed.hostname || null;
+};
