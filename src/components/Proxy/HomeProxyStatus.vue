@@ -81,12 +81,21 @@ const subDomainProxyEnabled = computed(() => {
 const lastClickedTab = ref<string | null>(null);
 
 const defaultActiveTab = computed(() => {
-  if (tabDomain.value.hasSubdomain && hasSubDomainProxy.value && subDomainProxyEnabled.value) {
+  // Check subdomain first (active proxy or excluded)
+  if (
+    tabDomain.value.hasSubdomain &&
+    (subDomainProxyEnabled.value || excludedHosts.value.includes(tabDomain.value.subDomain))
+  ) {
     return 'current-sub-domain';
   }
-  if (domainProxyDetails.value?.socksEnabled || currentHostExcluded.value) {
+  // Check domain (active proxy or excluded)
+  if (
+    domainProxyDetails.value?.socksEnabled ||
+    excludedHosts.value.includes(tabDomain.value.domain)
+  ) {
     return 'current-domain';
   }
+  // Default to all websites
   return 'all-websites';
 });
 
@@ -116,7 +125,7 @@ const handleRemoveProxy = (host: string) => {
   lastClickedTab.value = defaultActiveTab.value;
 };
 
-watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails], () => {
+watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails, excludedHosts], () => {
   lastClickedTab.value = null;
 });
 </script>
