@@ -17,7 +17,7 @@ import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.
 const { customProxyHost, customProxySelect, toggleLocations } = useLocations();
 const { clearFilter, filteredProxies } = useSocksProxies();
 
-const { setCurrentHostProxy, setGlobalProxy } = useSocksProxy();
+const { setCustomProxy, setGlobalProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useProxyHistory();
 
 const currentOrAllWebsites = computed(() =>
@@ -36,7 +36,7 @@ const setProxy = (
   toggleLocations();
 
   if (customProxySelect.value) {
-    setCurrentHostProxy(
+    setCustomProxy(
       { country, countryCode, city, hostname, ipv4_address, port },
       customProxyHost.value,
     );

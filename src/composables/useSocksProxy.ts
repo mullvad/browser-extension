@@ -164,7 +164,7 @@ const setGlobalProxy = ({
   reloadGlobalProxiedTabs(combinedHosts.value);
 };
 
-const setCurrentHostProxy = (
+const setCustomProxy = (
   {
     country,
     countryCode,
@@ -244,7 +244,7 @@ const useSocksProxy = () => {
     neverProxyHost,
     removeCustomProxy,
     removeGlobalProxy,
-    setCurrentHostProxy,
+    setCustomProxy,
     setGlobalProxy,
     toggleDomainProxy,
     toggleSubDomainProxy,
