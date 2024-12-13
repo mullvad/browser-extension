@@ -13,12 +13,14 @@ const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
 };
 
 export const getActiveTabDetails = async () => {
-  const activeTab = await browser.tabs.query({ active: true });
+  const activeWindow = await browser.windows.getCurrent({ populate: true });
+  const activeTab = activeWindow.tabs!.find((tab) => tab.active);
+  const activeTabURL = new URL(activeTab!.url!);
 
-  return activeTab[0].url
+  return activeTabURL
     ? {
-        host: new URL(activeTab[0].url).hostname,
-        protocol: new URL(activeTab[0].url).protocol,
+        host: activeTabURL.hostname,
+        protocol: activeTabURL.protocol,
       }
     : { host: '', protocol: '' };
 };
