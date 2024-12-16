@@ -10,8 +10,9 @@ const browserStorageLocal: StorageLikeAsync = {
     return storage.local.set({ [key]: value });
   },
 
-  async getItem(key: string) {
-    return (await storage.local.get(key))[key];
+  async getItem(key: string): Promise<string | null> {
+    const result = await storage.local.get(key);
+    return (result[key] as string) ?? null;
   },
 };
 
