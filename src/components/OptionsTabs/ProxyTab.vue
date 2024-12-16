@@ -8,11 +8,11 @@ import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useProxyPermissions from '@/composables/useProxyPermissions';
-const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPermissions();
+const { isGranted, requestPermissions } = useProxyPermissions();
 </script>
 
 <template>
-  <template v-if="proxyPermissionsGranted">
+  <template v-if="isGranted">
     <CustomProxies />
     <LocationDrawer />
   </template>
@@ -31,7 +31,7 @@ const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPerm
         </ul>
       </IconLabel>
 
-      <Button class="mt-3" @click="triggerRequestProxyPermissions"> Grant permissions </Button>
+      <Button class="mt-3" @click="requestPermissions"> Grant permissions </Button>
     </n-card>
   </template>
 </template>

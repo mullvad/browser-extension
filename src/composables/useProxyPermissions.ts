@@ -1,21 +1,24 @@
-import { ref } from 'vue';
+import { ref, readonly } from 'vue';
 import { getProxyPermissions, requestProxyPermissions } from '@/helpers/permissions';
 
-const useProxyPermissions = () => {
-  const proxyPermissionsGranted = ref(false);
+export const useProxyPermissions = () => {
+  const isGranted = ref(false);
 
   const checkProxyPermissions = async () => {
-    proxyPermissionsGranted.value = await getProxyPermissions();
+    isGranted.value = await getProxyPermissions();
   };
 
-  const triggerRequestProxyPermissions = async () => {
-    proxyPermissionsGranted.value = await requestProxyPermissions();
-    return proxyPermissionsGranted.value;
+  const requestPermissions = async (): Promise<boolean> => {
+    isGranted.value = await requestProxyPermissions();
+    return isGranted.value;
   };
 
   checkProxyPermissions();
 
-  return { proxyPermissionsGranted, triggerRequestProxyPermissions };
+  return {
+    isGranted: readonly(isGranted),
+    requestPermissions,
+  };
 };
 
 export default useProxyPermissions;

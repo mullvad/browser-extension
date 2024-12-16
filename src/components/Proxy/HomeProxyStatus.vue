@@ -18,7 +18,7 @@ import { checkDomain } from '@/helpers/domain';
 const { activeTabHost, isBrowserPage } = useActiveTab();
 const { updateConnection } = useConnection();
 const { proxySelect } = useLocations();
-const { proxyPermissionsGranted, triggerRequestProxyPermissions } = useProxyPermissions();
+const { isGranted, requestPermissions } = useProxyPermissions();
 const { getSocksProxies } = useSocksProxies();
 const {
   allowProxy,
@@ -132,7 +132,7 @@ watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails, exclu
 
 <template>
   <n-tabs
-    v-if="proxyPermissionsGranted"
+    v-if="isGranted"
     type="line"
     justify-content="start"
     :value="activeTab"
@@ -275,31 +275,14 @@ watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails, exclu
         </div>
       </div>
     </n-tab-pane>
-
-    <n-tab-pane
-      v-if="!proxyPermissionsGranted"
-      name="permissions"
-      tab="Permissions missing"
-      class="flex flex-col"
-    >
-      <ul>
-        <li>- <strong>tabs</strong> to show proxy settings from the active tab</li>
-        <li>- <strong>proxy</strong> to configure and use Mullvad proxy servers</li>
-        <li>- <strong>&lt;all_urls&gt;</strong> to have granular proxy settings</li>
-      </ul>
-
-      <Button size="small" class="mt-3" @click="triggerRequestProxyPermissions">
-        Grant permissions
-      </Button>
-    </n-tab-pane>
   </n-tabs>
 
-  <n-tabs v-if="!proxyPermissionsGranted" type="line" justify-content="start">
+  <n-tabs v-else type="line" justify-content="start">
     <template #prefix>
       <TitleCategory title="Proxy" />
     </template>
 
-    <n-tab-pane v-if="!proxyPermissionsGranted" name="permissions" tab="Permissions missing">
+    <n-tab-pane name="permissions" tab="Permissions missing">
       <div class="flex flex-col">
         <ul>
           <li>- <strong>tabs</strong> to show proxy settings from the active tab</li>
@@ -307,9 +290,7 @@ watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails, exclu
           <li>- <strong>&lt;all_urls&gt;</strong> to have granular proxy settings</li>
         </ul>
 
-        <Button size="small" class="mt-3" @click="triggerRequestProxyPermissions">
-          Grant permissions
-        </Button>
+        <Button size="small" class="mt-3" @click="requestPermissions"> Grant permissions </Button>
       </div>
     </n-tab-pane>
   </n-tabs>
