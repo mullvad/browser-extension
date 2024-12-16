@@ -13,16 +13,18 @@ const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
 };
 
 export const getActiveTabDetails = async () => {
-  const activeWindow = await browser.windows.getCurrent({ populate: true });
-  const activeTab = activeWindow.tabs!.find((tab) => tab.active);
-  const activeTabURL = new URL(activeTab!.url!);
+  const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
 
-  return activeTabURL
-    ? {
-        host: activeTabURL.hostname,
-        protocol: activeTabURL.protocol,
-      }
-    : { host: '', protocol: '' };
+  // activeTab will be null if tabs permission has not been granted
+  if (!activeTab?.url) {
+    return { host: '', protocol: '' };
+  }
+
+  const activeTabURL = new URL(activeTab.url);
+  return {
+    host: activeTabURL.hostname,
+    protocol: activeTabURL.protocol,
+  };
 };
 
 export const getActiveProxyDetails = async () => {
@@ -31,8 +33,8 @@ export const getActiveProxyDetails = async () => {
 
   if (hostProxiesDetails) {
     const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
-    const activeTab = await browser.tabs.query({ active: true, currentWindow: true });
-    const tabHost = new URL(activeTab[0].url!).hostname;
+    const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+    const tabHost = new URL(activeTab.url!).hostname;
     const { domain } = checkDomain(tabHost);
 
     // Check subdomain proxy first

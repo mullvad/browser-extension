@@ -3,10 +3,10 @@ import { ProxyDetails } from '@/helpers/socksProxy.types';
 import { checkDomain } from './domain';
 
 export const updateCurrentTabProxyBadge = async () => {
-  const activeTab = await browser.tabs.query({ active: true, currentWindow: true });
+  const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
 
-  if (activeTab[0]) {
-    await updateTabProxyBadge(activeTab[0], await getActiveProxyDetails());
+  if (activeTab) {
+    await updateTabProxyBadge(activeTab, await getActiveProxyDetails());
   }
 };
 
