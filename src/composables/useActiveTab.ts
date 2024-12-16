@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { getActiveTabDetails } from '@/helpers/socksProxy';
+import { getActiveTabDetails } from '@/helpers/tabs';
 
 const activeTabHost = ref('');
 const isBrowserPage = ref(false);

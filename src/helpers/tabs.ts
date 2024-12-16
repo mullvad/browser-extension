@@ -1,3 +1,6 @@
+import { checkDomain } from './domain';
+import { ProxyDetails } from './socksProxy.types';
+
 export const reloadMatchingTabs = async (url: string) => {
   const urlPattern = `*://*.${url}/*`;
 
@@ -29,4 +32,57 @@ export const reloadGlobalProxiedTabs = async (excludedURLs: string[]) => {
 const isExcludedURL = (url: string, excludedURLs: string[]): boolean => {
   const { hostname } = new URL(url);
   return excludedURLs.some((excludedUrl) => hostname === excludedUrl);
+};
+
+export const getActiveTabDetails = async () => {
+  const activeTab = await getActiveTab();
+
+  // activeTab will be null if tabs permission has not been granted
+  if (!activeTab?.url) {
+    return { host: '', protocol: '' };
+  }
+
+  const activeTabURL = new URL(activeTab.url);
+  return {
+    host: activeTabURL.hostname,
+    protocol: activeTabURL.protocol,
+  };
+};
+
+export const getActiveProxyDetails = async () => {
+  const globalProxyDetails = await getGlobalProxyDetails();
+  const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
+
+  if (hostProxiesDetails) {
+    const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
+    const activeTab = await getActiveTab();
+    const tabHost = new URL(activeTab.url!).hostname;
+    const { domain } = checkDomain(tabHost);
+
+    // Check subdomain proxy first
+    if (hostProxiesDetailsParsed[tabHost]?.socksEnabled) {
+      return hostProxiesDetailsParsed[tabHost];
+    }
+
+    // Then check domain proxy
+    if (hostProxiesDetailsParsed[domain]?.socksEnabled) {
+      return hostProxiesDetailsParsed[domain];
+    }
+  }
+
+  return globalProxyDetails;
+};
+
+const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
+  const response = await browser.storage.local.get('globalProxyDetails');
+
+  if ('globalProxyDetails' in response) {
+    return JSON.parse(response.globalProxyDetails);
+  }
+  return { socksEnabled: false };
+};
+
+export const getActiveTab = async () => {
+  const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+  return activeTab;
 };

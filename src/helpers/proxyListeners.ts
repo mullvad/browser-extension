@@ -1,6 +1,7 @@
 import { getProxyPermissions } from '@/helpers/permissions';
 import { updateCurrentTabProxyBadge, updateTabProxyBadge } from '@/helpers/proxyBadge';
-import { getActiveProxyDetails, handleProxyRequest } from '@/helpers/socksProxy';
+import { handleProxyRequest } from '@/helpers/socksProxy';
+import { getActiveProxyDetails } from './tabs';
 
 export const initProxyListeners = () => {
   // Will init listeners on extension start if permissions are granted

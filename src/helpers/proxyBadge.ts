@@ -1,9 +1,10 @@
-import { getActiveProxyDetails, isLocalOrReservedIP } from '@/helpers/socksProxy';
+import { isLocalOrReservedIP } from '@/helpers/socksProxy';
 import { ProxyDetails } from '@/helpers/socksProxy.types';
 import { checkDomain } from './domain';
+import { getActiveProxyDetails, getActiveTab } from './tabs';
 
 export const updateCurrentTabProxyBadge = async () => {
-  const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+  const activeTab = await getActiveTab();
 
   if (activeTab) {
     await updateTabProxyBadge(activeTab, await getActiveProxyDetails());

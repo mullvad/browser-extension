@@ -3,54 +3,6 @@ import ipaddr from 'ipaddr.js';
 import { RequestDetails, ProxyDetails, ProxyInfoMap } from '@/helpers/socksProxy.types';
 import { checkDomain } from './domain';
 
-const getGlobalProxyDetails = async (): Promise<ProxyDetails> => {
-  const response = await browser.storage.local.get('globalProxyDetails');
-
-  if ('globalProxyDetails' in response) {
-    return JSON.parse(response.globalProxyDetails);
-  }
-  return { socksEnabled: false };
-};
-
-export const getActiveTabDetails = async () => {
-  const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
-
-  // activeTab will be null if tabs permission has not been granted
-  if (!activeTab?.url) {
-    return { host: '', protocol: '' };
-  }
-
-  const activeTabURL = new URL(activeTab.url);
-  return {
-    host: activeTabURL.hostname,
-    protocol: activeTabURL.protocol,
-  };
-};
-
-export const getActiveProxyDetails = async () => {
-  const globalProxyDetails = await getGlobalProxyDetails();
-  const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
-
-  if (hostProxiesDetails) {
-    const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
-    const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
-    const tabHost = new URL(activeTab.url!).hostname;
-    const { domain } = checkDomain(tabHost);
-
-    // Check subdomain proxy first
-    if (hostProxiesDetailsParsed[tabHost]?.socksEnabled) {
-      return hostProxiesDetailsParsed[tabHost];
-    }
-
-    // Then check domain proxy
-    if (hostProxiesDetailsParsed[domain]?.socksEnabled) {
-      return hostProxiesDetailsParsed[domain];
-    }
-  }
-
-  return globalProxyDetails;
-};
-
 // TODO decide what how to handle fallback proxy (if proxy is invalid, it will fallback to Firefox proxy if configured)
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1750561
 
