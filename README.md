@@ -87,7 +87,7 @@ The following permissions are optional, but are needed to use the proxy feature:
 
 - `proxy` to configure and use Mullvad proxy servers
 - `tabs` to show proxy settings from active tab
-- `<all_urls>` to have granular proxy settings
+- `<all_urls>` to specify a proxy configuration per domain (each request needs to be intercepted)
 
 _Permissions are automatically accepted when testing the extension._
 
