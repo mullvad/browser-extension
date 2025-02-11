@@ -4,6 +4,7 @@ import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 
 import LocationTabs from '@/components/LocationTabs.vue';
 import SearchLocation from '@/components/SearchLocation.vue';
+import IconLabel from '@/components/IconLabel.vue';
 
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
@@ -15,7 +16,7 @@ import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
 
 const { customProxyHost, customProxySelect, toggleLocations } = useLocations();
-const { clearFilter, filteredProxies } = useSocksProxies();
+const { clearFilter, filteredProxies, isError, error } = useSocksProxies();
 
 const { setCustomProxy, setGlobalProxy } = useSocksProxy();
 const { storeSocksProxyUsage } = useProxyHistory();
@@ -81,10 +82,15 @@ const selectLocation = (connection: HistoryEntry) => {
 </script>
 
 <template>
-  <p class="mb-4">
-    Select the location where you want to have {{ currentOrAllWebsites }} routed through.
-  </p>
-  <div>
+  <div v-if="isError">
+    <IconLabel :text="error" type="warning" />
+  </div>
+
+  <div v-else>
+    <p class="mb-4">
+      Select the location where you want to have {{ currentOrAllWebsites }} routed through.
+    </p>
+
     <LocationTabs :selectLocation="selectLocation" />
     <SearchLocation />
     <n-collapse arrow-placement="right">
