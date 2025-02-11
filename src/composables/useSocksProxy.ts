@@ -24,8 +24,14 @@ const socksIp = '10.64.0.1';
 
 const { activeTabHost } = useActiveTab();
 const { updateConnection } = useConnection();
-const { excludedHosts, globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } =
-  useStore();
+const {
+  excludedHosts,
+  globalProxy,
+  globalProxyDetails,
+  hostProxies,
+  hostProxiesDetails,
+  proxyAutoReload,
+} = useStore();
 
 const currentHostProxyDetails = computed(() => {
   const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
@@ -68,7 +74,9 @@ const combinedHosts = computed(() => {
 const toggleGlobalProxy = () => {
   globalProxyDetails.value.socksEnabled = !globalProxyDetails.value.socksEnabled;
   reloadOptions();
-  reloadGlobalProxiedTabs(combinedHosts.value);
+  if (proxyAutoReload.value) {
+    reloadGlobalProxiedTabs(combinedHosts.value);
+  }
   updateCurrentTabProxyBadge();
 };
 
@@ -93,14 +101,18 @@ const toggleSubDomainProxy = (subdomain: string) => {
   }
 
   reloadOptions();
-  reloadMatchingTabs(subdomain);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(subdomain);
+  }
   updateCurrentTabProxyBadge();
 };
 
 const toggleDomainProxy = (domain: string) => {
   hostProxiesDetails.value[domain].socksEnabled = !hostProxiesDetails.value[domain].socksEnabled;
   reloadOptions();
-  reloadMatchingTabs(domain);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(domain);
+  }
   updateCurrentTabProxyBadge();
 };
 
@@ -109,7 +121,9 @@ const toggleCustomProxy = (host: string) => {
   hostProxiesDetails.value[targetHost].socksEnabled =
     !hostProxiesDetails.value[targetHost].socksEnabled;
   reloadOptions();
-  reloadMatchingTabs(targetHost);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(targetHost);
+  }
   updateCurrentTabProxyBadge();
 };
 
@@ -121,14 +135,18 @@ const toggleCustomProxyDNS = (host: string) => {
   hostProxies.value[targetHost].proxyDNS = updatedProxyDNS;
 
   updateCurrentTabProxyBadge();
-  reloadMatchingTabs(targetHost);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(targetHost);
+  }
 };
 
 const toggleGlobalProxyDNS = () => {
   const updatedGlobalProxyDNS = !globalProxyDetails.value.proxyDNS;
   globalProxyDetails.value.proxyDNS = updatedGlobalProxyDNS;
   globalProxy.value.proxyDNS = updatedGlobalProxyDNS;
-  reloadGlobalProxiedTabs(combinedHosts.value);
+  if (proxyAutoReload.value) {
+    reloadGlobalProxiedTabs(combinedHosts.value);
+  }
   updateCurrentTabProxyBadge();
 };
 
@@ -161,7 +179,9 @@ const setGlobalProxy = ({
 
   updateConnection();
   reloadOptions();
-  reloadGlobalProxiedTabs(combinedHosts.value);
+  if (proxyAutoReload.value) {
+    reloadGlobalProxiedTabs(combinedHosts.value);
+  }
 };
 
 const setCustomProxy = (
@@ -195,7 +215,9 @@ const setCustomProxy = (
   hostProxiesDetails.value = { ...hostProxiesDetails.value, [host]: newHostProxyDetails };
 
   reloadOptions();
-  reloadMatchingTabs(host);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(host);
+  }
 };
 
 const removeCustomProxy = (host: string) => {
@@ -204,7 +226,9 @@ const removeCustomProxy = (host: string) => {
   updateConnection();
   updateCurrentTabProxyBadge();
   reloadOptions();
-  reloadMatchingTabs(host);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(host);
+  }
 };
 
 const removeGlobalProxy = () => {
@@ -212,21 +236,27 @@ const removeGlobalProxy = () => {
   globalProxyDetails.value = {} as ProxyDetails;
   updateCurrentTabProxyBadge();
   reloadOptions();
-  reloadGlobalProxiedTabs(combinedHosts.value);
+  if (proxyAutoReload.value) {
+    reloadGlobalProxiedTabs(combinedHosts.value);
+  }
 };
 
 const allowProxy = (host: string) => {
   excludedHosts.value = excludedHosts.value.filter((excluded) => excluded !== host);
   updateCurrentTabProxyBadge();
   reloadOptions();
-  reloadMatchingTabs(host);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(host);
+  }
 };
 
 const neverProxyHost = (host: string) => {
   excludedHosts.value = [...excludedHosts.value, host];
   updateCurrentTabProxyBadge();
   reloadOptions();
-  reloadMatchingTabs(host);
+  if (proxyAutoReload.value) {
+    reloadMatchingTabs(host);
+  }
 };
 
 const useSocksProxy = () => {

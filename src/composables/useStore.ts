@@ -15,13 +15,14 @@ import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
 export type Store = {
   excludedHosts: Ref<string[]>;
   flatProxiesList: Ref<SocksProxy[]>;
-  hostProxies: Ref<ProxyInfoMap>;
-  hostProxiesDetails: Ref<ProxyDetailsMap>;
   globalProxy: Ref<ProxyInfo>;
   globalProxyDetails: Ref<ProxyDetails>;
   historyEntries: Ref<HistoryEntriesMap>;
-  webRTCStatus: Ref<boolean>;
+  hostProxies: Ref<ProxyInfoMap>;
+  hostProxiesDetails: Ref<ProxyDetailsMap>;
   optionsActiveTab: Ref<Tab>;
+  proxyAutoReload: Ref<boolean>;
+  webRTCStatus: Ref<boolean>;
 };
 
 const useStore = (): Store => {
@@ -29,21 +30,23 @@ const useStore = (): Store => {
   const flatProxiesList = useBrowserStorageLocal('flatProxiesList', [] as SocksProxy[]);
   const globalProxy = useBrowserStorageLocal('globalProxy', {} as ProxyInfo);
   const globalProxyDetails = useBrowserStorageLocal('globalProxyDetails', {} as ProxyDetails);
+  const historyEntries = useBrowserStorageLocal('historyEntries', {});
   const hostProxies = useBrowserStorageLocal('hostProxies', {});
   const hostProxiesDetails = useBrowserStorageLocal('hostProxiesDetails', {});
-  const historyEntries = useBrowserStorageLocal('historyEntries', {});
-  const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
   const optionsActiveTab = useBrowserStorageLocal('optionsActiveTab', Tab.SETTINGS);
+  const proxyAutoReload = useBrowserStorageLocal('proxyAutoReload', false);
+  const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
 
   return {
     excludedHosts,
     flatProxiesList,
     globalProxy,
     globalProxyDetails,
+    historyEntries,
     hostProxies,
     hostProxiesDetails,
-    historyEntries,
     optionsActiveTab,
+    proxyAutoReload,
     webRTCStatus,
   };
 };

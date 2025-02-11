@@ -5,6 +5,7 @@ import Button from '@/components/Buttons/Button.vue';
 import CustomProxies from '@/components/Proxy/CustomProxies.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
+import proxyAutoReload from '@/components/Proxy/proxyAutoReload.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useProxyPermissions from '@/composables/useProxyPermissions';
@@ -14,6 +15,7 @@ const { isGranted, requestPermissions } = useProxyPermissions();
 <template>
   <template v-if="isGranted">
     <CustomProxies />
+    <proxyAutoReload class="mt-4" />
     <LocationDrawer />
   </template>
 
