@@ -1,15 +1,18 @@
 import { computed, ref } from 'vue';
-
 import { addCountryCode } from '@/composables/useSocksProxies/addCountryCode';
 import { groupByCountryAndCity } from '@/composables/useSocksProxies/groupByCountryAndCity';
 import { sortProxiesByCountryAndCity } from '@/composables/useSocksProxies/sortProxiesByCountryAndCity';
-
 import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
 import useStore from '@/composables/useStore';
 
-const { flatProxiesList } = useStore();
+const SOCKS_API_URL = 'https://api.mullvad.net/network/v1-beta1/socks-proxies';
+const NETWORK_ERROR = `The proxy list couldn't be loaded. Please try again later.`;
 
+const { flatProxiesList } = useStore();
 const query = ref('');
+const isLoading = ref(false);
+const isError = ref(false);
+const error = ref('');
 
 const clearFilter = () => {
   query.value = '';
@@ -17,10 +20,30 @@ const clearFilter = () => {
 
 const useSocksProxies = () => {
   const getSocksProxies = async () => {
-    const response = await fetch('https://api.mullvad.net/network/v1-beta1/socks-proxies');
-    const data: SocksProxy[] = await response.json();
+    isLoading.value = true;
+    isError.value = false;
+    error.value = '';
 
-    flatProxiesList.value = data.filter((proxy: SocksProxy) => proxy.online);
+    try {
+      const response = await fetch(SOCKS_API_URL);
+      const data: SocksProxy[] = await response.json();
+      flatProxiesList.value = data.filter((proxy: SocksProxy) => proxy.online);
+    } catch (e: unknown) {
+      isError.value = true;
+
+      if (e instanceof Error) {
+        if (e.message.includes('NetworkError')) {
+          error.value = NETWORK_ERROR;
+        } else {
+          error.value = e.message;
+        }
+      } else {
+        error.value = `An unknown error occurred: ${e}`;
+      }
+      console.log(e);
+    } finally {
+      isLoading.value = false;
+    }
   };
 
   const filteredData = computed(() =>
@@ -37,7 +60,11 @@ const useSocksProxies = () => {
     sortProxiesByCountryAndCity(groupByCountryAndCity(addCountryCode(filteredData.value))),
   );
 
-  return { clearFilter, filteredProxies, getSocksProxies, query };
+  if (!isLoading.value) {
+    getSocksProxies();
+  }
+
+  return { clearFilter, filteredProxies, getSocksProxies, query, isLoading, isError, error };
 };
 
 export default useSocksProxies;
