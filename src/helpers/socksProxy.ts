@@ -9,12 +9,14 @@ import { checkDomain } from './domain';
 export const handleProxyRequest = async (details: browser.proxy._OnRequestDetails) => {
   try {
     const { globalProxy } = await browser.storage.local.get('globalProxy');
+    const { randomProxyMode } = await browser.storage.local.get('randomProxyMode');
     const { globalProxyDetails } = await browser.storage.local.get('globalProxyDetails');
     const { excludedHosts } = await browser.storage.local.get('excludedHosts');
     const { hostProxies } = await browser.storage.local.get('hostProxies');
     const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
 
     const globalConfigParsed = JSON.parse(globalProxy);
+    const randomProxyModeParsed = JSON.parse(randomProxyMode);
     const globalProxyDetailsParsed: ProxyDetails = JSON.parse(globalProxyDetails);
     const excludedHostsParsed: string[] = JSON.parse(excludedHosts);
     const hostProxiesParsed: ProxyInfoMap = JSON.parse(hostProxies);
@@ -23,7 +25,7 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     const currentHost = getCurrentHost(details);
     const { hasSubdomain, domain, subDomain } = checkDomain(currentHost);
 
-    // Block speculative requests
+    // Block speculative requests, since we can't identify their origins
     if (details.type === 'speculative') {
       return { cancel: true };
     }
@@ -31,6 +33,12 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     // Skip proxy for local/reserved IPs
     if (isLocalOrReservedIP(currentHost)) {
       return { type: 'direct' };
+    }
+
+    // 0. If random proxy is enabled, return a random proxy for the session
+    if (randomProxyModeParsed) {
+      console.log({ randomProxyModeParsed });
+      return { cancel: true };
     }
 
     // 1. Check subdomain level
