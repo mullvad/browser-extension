@@ -2,6 +2,7 @@ import ipaddr from 'ipaddr.js';
 
 import { RequestDetails, ProxyDetails, ProxyInfoMap } from '@/helpers/socksProxy.types';
 import { checkDomain } from './domain';
+import { getRandomSessionProxy } from './getRandomSessionProxy';
 
 // TODO decide what how to handle fallback proxy (if proxy is invalid, it will fallback to Firefox proxy if configured)
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1750561
@@ -35,10 +36,10 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
       return { type: 'direct' };
     }
 
-    // 0. If random proxy is enabled, return a random proxy for the session
+    // 0. If random proxy is enabled, get a random proxy per domain
     if (randomProxyModeParsed) {
-      console.log({ randomProxyModeParsed });
-      return { cancel: true };
+      const randomProxy = await getRandomSessionProxy(domain);
+      return randomProxy;
     }
 
     // 1. Check subdomain level
