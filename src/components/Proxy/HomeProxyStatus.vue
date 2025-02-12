@@ -128,6 +128,13 @@ const handleRemoveProxy = (host: string) => {
 watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails, excludedHosts], () => {
   lastClickedTab.value = null;
 });
+
+watch(isGranted, () => {
+  // This is to make sure there's always a proxy list when the user starts using the proxy feature
+  if (isGranted.value) {
+    getSocksProxies();
+  }
+});
 </script>
 
 <template>

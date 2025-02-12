@@ -36,8 +36,8 @@ const useStore = (): Store => {
   const hostProxiesDetails = useBrowserStorageLocal('hostProxiesDetails', {});
   const optionsActiveTab = useBrowserStorageLocal('optionsActiveTab', Tab.SETTINGS);
   const proxyAutoReload = useBrowserStorageLocal('proxyAutoReload', false);
+  const randomProxyMode = useBrowserStorageLocal('randomProxyMode', false);
   const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
-  const randomProxyMode = useBrowserStorageLocal('randomProxyMode', true);
 
   return {
     excludedHosts,
