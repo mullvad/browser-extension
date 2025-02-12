@@ -22,6 +22,7 @@ export type Store = {
   hostProxiesDetails: Ref<ProxyDetailsMap>;
   optionsActiveTab: Ref<Tab>;
   proxyAutoReload: Ref<boolean>;
+  randomProxyMode: Ref<boolean>;
   webRTCStatus: Ref<boolean>;
 };
 
@@ -36,6 +37,7 @@ const useStore = (): Store => {
   const optionsActiveTab = useBrowserStorageLocal('optionsActiveTab', Tab.SETTINGS);
   const proxyAutoReload = useBrowserStorageLocal('proxyAutoReload', false);
   const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
+  const randomProxyMode = useBrowserStorageLocal('randomProxyMode', true);
 
   return {
     excludedHosts,
@@ -47,6 +49,7 @@ const useStore = (): Store => {
     hostProxiesDetails,
     optionsActiveTab,
     proxyAutoReload,
+    randomProxyMode,
     webRTCStatus,
   };
 };
