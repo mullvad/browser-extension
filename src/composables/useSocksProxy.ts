@@ -15,12 +15,12 @@ import useStore from '@/composables/useStore';
 import { reloadGlobalProxiedTabs, reloadMatchingTabs } from '@/helpers/tabs';
 import { checkDomain, getTargetHost } from '@/helpers/domain';
 
-const baseConfig: Partial<ProxyInfo> = {
+export const baseConfig: Partial<ProxyInfo> = {
   port: 1080,
   proxyDNS: true,
 };
 
-const socksIp = '10.64.0.1';
+export const socksIp = '10.64.0.1';
 
 const { activeTabHost } = useActiveTab();
 const { updateConnection } = useConnection();
