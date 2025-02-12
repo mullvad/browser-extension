@@ -1,6 +1,6 @@
 import { it, describe, expect } from 'vitest';
 
-import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
+import getCityCountrySocksProxy from '@/helpers/getCityCountrySocksProxy';
 import { Country } from '@/composables/useSocksProxies/socksProxies.types';
 
 const gothenburgProxies = [
@@ -41,19 +41,19 @@ const mockSocksProxies = [
   },
 ] as Country[];
 
-describe('getRandomSocksProxy', () => {
+describe('getCityCountrySocksProxy', () => {
   it('should throw error if no sockproxies list is available', () => {
-    expect(() => getRandomSocksProxy({ socksProxies: undefined, country: 'Mongolia' })).toThrow(
-      'No proxies to choose from',
-    );
+    expect(() =>
+      getCityCountrySocksProxy({ socksProxies: undefined, country: 'Mongolia' }),
+    ).toThrow('No proxies to choose from');
 
-    expect(() => getRandomSocksProxy({ socksProxies: [], country: 'Mongolia' })).toThrow(
+    expect(() => getCityCountrySocksProxy({ socksProxies: [], country: 'Mongolia' })).toThrow(
       'No proxies to choose from',
     );
   });
 
   it('should return a proxy in Sweden', () => {
-    const { hostname, port } = getRandomSocksProxy({
+    const { hostname, port } = getCityCountrySocksProxy({
       socksProxies: mockSocksProxies,
       country: 'Sweden',
     });
@@ -64,7 +64,7 @@ describe('getRandomSocksProxy', () => {
   });
 
   it('should return a proxy in Gothenburg', () => {
-    const { hostname, port } = getRandomSocksProxy({
+    const { hostname, port } = getCityCountrySocksProxy({
       socksProxies: mockSocksProxies,
       country: 'Sweden',
       city: 'Gothenburg',
@@ -78,7 +78,7 @@ describe('getRandomSocksProxy', () => {
   });
 
   it('should return a proxy in Malmö', () => {
-    const { hostname, port } = getRandomSocksProxy({
+    const { hostname, port } = getCityCountrySocksProxy({
       socksProxies: mockSocksProxies,
       country: 'Sweden',
       city: 'Malmo',
@@ -88,7 +88,7 @@ describe('getRandomSocksProxy', () => {
   });
 
   it('should return a proxy in Stockholm', () => {
-    const { hostname, port } = getRandomSocksProxy({
+    const { hostname, port } = getCityCountrySocksProxy({
       socksProxies: mockSocksProxies,
       country: 'Sweden',
       city: 'Stockholm',

@@ -5,7 +5,7 @@ import LocationTabs from '@/components/LocationTabs.vue';
 import SearchLocation from '@/components/SearchLocation.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
+import getCityCountrySocksProxy from '@/helpers/getCityCountrySocksProxy';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
 import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
@@ -53,8 +53,11 @@ const setProxy = ({ country, countryCode, city, hostname, ipv4_address, port }: 
   clearFilter();
 };
 
-const setRandomCountryOrCityProxy = ({ country, city: selectedCity }: setRandomCountryOrCityProxyProps) => {
-  const { countryCode, city, hostname, ipv4_address, port } = getRandomSocksProxy({
+const setRandomCountryOrCityProxy = ({
+  country,
+  city: selectedCity,
+}: setRandomCountryOrCityProxyProps) => {
+  const { countryCode, city, hostname, ipv4_address, port } = getCityCountrySocksProxy({
     socksProxies: filteredProxies.value,
     country,
     city: selectedCity,
