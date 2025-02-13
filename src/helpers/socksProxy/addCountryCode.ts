@@ -1,4 +1,4 @@
-import { SocksProxy } from './socksProxies.types';
+import { SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 export const addCountryCode = (data: SocksProxy[]) => {
   return data.map((proxy) => {

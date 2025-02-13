@@ -11,7 +11,7 @@ import useActiveTab from '@/composables/useActiveTab';
 import useConnection, { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useLocations from '@/composables/useLocations';
 import useProxyPermissions from '@/composables/useProxyPermissions';
-import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import { checkDomain } from '@/helpers/domain';
 

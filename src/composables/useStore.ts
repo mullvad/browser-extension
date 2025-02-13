@@ -6,11 +6,11 @@ import type {
   ProxyInfoMap,
   ProxyInfo,
   ProxyDetailsMap,
-} from '@/helpers/socksProxy.types';
+} from '@/helpers/socksProxy/socksProxy.types';
 import { Tab } from '@/helpers/browserExtension';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
-import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
+import { SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 export type Store = {
   excludedHosts: Ref<string[]>;
