@@ -21,7 +21,7 @@ jest.mock('@/composables/useActiveTab', () => ({
   })),
 }));
 
-jest.mock('@/composables/useSocksProxies/useSocksProxies', () => ({
+jest.mock('@/composables/useSocksProxies', () => ({
   __esModule: true,
   default: jest.fn(() => ({
     filteredProxies: [
