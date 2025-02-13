@@ -1,6 +1,6 @@
 import { getProxyPermissions } from '@/helpers/permissions';
 import { updateCurrentTabProxyBadge, updateTabProxyBadge } from '@/helpers/proxyBadge';
-import { handleProxyRequest } from '@/helpers/socksProxy';
+import { handleProxyRequest } from '@/helpers/socksProxy/socksProxy';
 import { getActiveProxyDetails } from '@/helpers/tabs';
 
 export const initProxyListeners = () => {

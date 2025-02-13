@@ -1,4 +1,4 @@
-import { isLocalOrReservedIP } from './socksProxy';
+import { isLocalOrReservedIP } from '@/helpers/socksProxy/socksProxy';
 
 describe('isLocalOrReservedIP', () => {
   it('should return true for localhost', () => {

@@ -1,8 +1,8 @@
 import ipaddr from 'ipaddr.js';
 
-import { RequestDetails, ProxyDetails, ProxyInfoMap } from '@/helpers/socksProxy.types';
-import { checkDomain } from './domain';
-import { getRandomSessionProxy } from './getRandomSessionProxy';
+import { RequestDetails, ProxyDetails, ProxyInfoMap } from '@/helpers/socksProxy/socksProxy.types';
+import { checkDomain } from '@/helpers/domain';
+import { getRandomSessionProxy } from '@/helpers/socksProxy/getRandomSessionProxy';
 
 // TODO decide what how to handle fallback proxy (if proxy is invalid, it will fallback to Firefox proxy if configured)
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1750561

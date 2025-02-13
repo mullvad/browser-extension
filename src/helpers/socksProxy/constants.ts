@@ -1,4 +1,4 @@
-import { ProxyInfo } from '@/helpers/socksProxy.types';
+import { ProxyInfo } from '@/helpers/socksProxy/socksProxy.types';
 
 export const baseConfig: Partial<ProxyInfo> = {
   port: 1080,

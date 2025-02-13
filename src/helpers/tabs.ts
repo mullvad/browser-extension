@@ -1,5 +1,5 @@
-import { checkDomain } from './domain';
-import { ProxyDetails } from './socksProxy.types';
+import { checkDomain } from '@/helpers/domain';
+import { ProxyDetails } from '@/helpers/socksProxy/socksProxy.types';
 
 export const reloadMatchingTabs = async (url: string) => {
   const urlPattern = `*://*.${url}/*`;
