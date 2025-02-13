@@ -1,11 +1,13 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+
+export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
     customExportConditions: ['node', 'node-addons'],
   },
   transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': '@swc/jest',
     '^.+\\.vue$': '@vue/vue3-jest',
   },
   moduleNameMapper: {
