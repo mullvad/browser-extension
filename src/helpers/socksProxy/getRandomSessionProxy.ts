@@ -1,3 +1,5 @@
+import { addCountryCodeToProxy } from '@/helpers/socksProxy/addCountryCode';
+import { baseConfig, socksIp } from '@/helpers/socksProxy/constants';
 import { SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 import {
   ProxyInfo,
@@ -6,10 +8,9 @@ import {
   ProxyDetailsMap,
   ProxyInfoType,
 } from '@/helpers/socksProxy/socksProxy.types';
-import { baseConfig, socksIp } from './constants';
 
 const domainProxyInfoMap: ProxyInfoMap = {};
-const domainProxyDetailsMap: ProxyDetailsMap = {};
+export const domainProxyDetailsMap: ProxyDetailsMap = {};
 
 export async function getRandomSessionProxy(domain: string) {
   try {
@@ -17,16 +18,11 @@ export async function getRandomSessionProxy(domain: string) {
     const socksList: Array<SocksProxy> = JSON.parse(flatProxiesList);
 
     // Check if we've already assigned a proxy to this domain
+    // Otherwise assign a random one
     if (!domainProxyInfoMap[domain]) {
-      // If not, pick one at random
-      if (socksList.length === 0) {
-        throw new Error('No proxies available');
-      }
-
       const randomIndex = Math.floor(Math.random() * socksList.length);
       const randomProxy = socksList[randomIndex];
 
-      // Set up the ProxyInfo object
       const proxyInfo: ProxyInfo = {
         host: randomProxy.ipv4_address || socksIp,
         port: randomProxy.port,
@@ -35,19 +31,17 @@ export async function getRandomSessionProxy(domain: string) {
       };
       domainProxyInfoMap[domain] = proxyInfo;
 
-      // Optionally store user-facing details in ProxyDetailsMap
       const proxyDetails: ProxyDetails = {
         socksEnabled: true,
         server: randomProxy.hostname!.replace('socks5-', '')!.replace('.relays.mullvad.net', ''),
         country: randomProxy.location.country,
-        countryCode: randomProxy.location.countryCode,
+        countryCode: addCountryCodeToProxy(randomProxy).location.countryCode,
         city: randomProxy.location.city,
         proxyDNS: baseConfig.proxyDNS,
       };
       domainProxyDetailsMap[domain] = proxyDetails;
     }
 
-    // Return the assigned ProxyInfo for the current host
     return domainProxyInfoMap[domain];
   } catch (e) {
     console.error(`Error determining proxy for ${domain}`, e);
