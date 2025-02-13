@@ -1,7 +1,8 @@
 import ipaddr from 'ipaddr.js';
 
-import { RequestDetails, ProxyDetails, ProxyInfoMap } from '@/helpers/socksProxy.types';
-import { checkDomain } from './domain';
+import { RequestDetails, ProxyDetails, ProxyInfoMap } from '@/helpers/socksProxy/socksProxy.types';
+import { checkDomain } from '@/helpers/domain';
+import { getRandomSessionProxy } from '@/helpers/socksProxy/getRandomSessionProxy';
 
 // TODO decide what how to handle fallback proxy (if proxy is invalid, it will fallback to Firefox proxy if configured)
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1750561
@@ -9,12 +10,14 @@ import { checkDomain } from './domain';
 export const handleProxyRequest = async (details: browser.proxy._OnRequestDetails) => {
   try {
     const { globalProxy } = await browser.storage.local.get('globalProxy');
+    const { randomProxyMode } = await browser.storage.local.get('randomProxyMode');
     const { globalProxyDetails } = await browser.storage.local.get('globalProxyDetails');
     const { excludedHosts } = await browser.storage.local.get('excludedHosts');
     const { hostProxies } = await browser.storage.local.get('hostProxies');
     const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
 
     const globalConfigParsed = JSON.parse(globalProxy);
+    const randomProxyModeParsed = JSON.parse(randomProxyMode);
     const globalProxyDetailsParsed: ProxyDetails = JSON.parse(globalProxyDetails);
     const excludedHostsParsed: string[] = JSON.parse(excludedHosts);
     const hostProxiesParsed: ProxyInfoMap = JSON.parse(hostProxies);
@@ -23,7 +26,7 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     const currentHost = getCurrentHost(details);
     const { hasSubdomain, domain, subDomain } = checkDomain(currentHost);
 
-    // Block speculative requests
+    // Block speculative requests, since we can't identify their origins
     if (details.type === 'speculative') {
       return { cancel: true };
     }
@@ -31,6 +34,12 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     // Skip proxy for local/reserved IPs
     if (isLocalOrReservedIP(currentHost)) {
       return { type: 'direct' };
+    }
+
+    // 0. If random proxy is enabled, get a random proxy per domain
+    if (randomProxyModeParsed) {
+      const randomProxy = await getRandomSessionProxy(domain);
+      return randomProxy;
     }
 
     // 1. Check subdomain level

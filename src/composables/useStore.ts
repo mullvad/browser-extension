@@ -6,11 +6,11 @@ import type {
   ProxyInfoMap,
   ProxyInfo,
   ProxyDetailsMap,
-} from '@/helpers/socksProxy.types';
+} from '@/helpers/socksProxy/socksProxy.types';
 import { Tab } from '@/helpers/browserExtension';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
-import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
+import { SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 export type Store = {
   excludedHosts: Ref<string[]>;
@@ -22,6 +22,7 @@ export type Store = {
   hostProxiesDetails: Ref<ProxyDetailsMap>;
   optionsActiveTab: Ref<Tab>;
   proxyAutoReload: Ref<boolean>;
+  randomProxyMode: Ref<boolean>;
   webRTCStatus: Ref<boolean>;
 };
 
@@ -35,6 +36,7 @@ const useStore = (): Store => {
   const hostProxiesDetails = useBrowserStorageLocal('hostProxiesDetails', {});
   const optionsActiveTab = useBrowserStorageLocal('optionsActiveTab', Tab.SETTINGS);
   const proxyAutoReload = useBrowserStorageLocal('proxyAutoReload', false);
+  const randomProxyMode = useBrowserStorageLocal('randomProxyMode', false);
   const webRTCStatus = useBrowserStorageLocal('webRTCStatus', true);
 
   return {
@@ -47,6 +49,7 @@ const useStore = (): Store => {
     hostProxiesDetails,
     optionsActiveTab,
     proxyAutoReload,
+    randomProxyMode,
     webRTCStatus,
   };
 };

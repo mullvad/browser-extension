@@ -11,7 +11,7 @@ import useActiveTab from '@/composables/useActiveTab';
 import useConnection, { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useLocations from '@/composables/useLocations';
 import useProxyPermissions from '@/composables/useProxyPermissions';
-import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import { checkDomain } from '@/helpers/domain';
 
@@ -127,6 +127,13 @@ const handleRemoveProxy = (host: string) => {
 
 watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails, excludedHosts], () => {
   lastClickedTab.value = null;
+});
+
+watch(isGranted, () => {
+  // This is to make sure there's always a proxy list when the user starts using the proxy feature
+  if (isGranted.value) {
+    getSocksProxies();
+  }
 });
 </script>
 

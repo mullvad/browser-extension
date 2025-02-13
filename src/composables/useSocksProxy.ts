@@ -5,7 +5,7 @@ import {
   ProxyInfo,
   ProxyInfoType,
   ProxyOperationArgs,
-} from '@/helpers/socksProxy.types';
+} from '@/helpers/socksProxy/socksProxy.types';
 import { reloadOptions } from '@/helpers/browserExtension';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
@@ -14,13 +14,7 @@ import useConnection from '@/composables/useConnection';
 import useStore from '@/composables/useStore';
 import { reloadGlobalProxiedTabs, reloadMatchingTabs } from '@/helpers/tabs';
 import { checkDomain, getTargetHost } from '@/helpers/domain';
-
-const baseConfig: Partial<ProxyInfo> = {
-  port: 1080,
-  proxyDNS: true,
-};
-
-const socksIp = '10.64.0.1';
+import { baseConfig, socksIp } from '@/helpers/socksProxy/constants';
 
 const { activeTabHost } = useActiveTab();
 const { updateConnection } = useConnection();

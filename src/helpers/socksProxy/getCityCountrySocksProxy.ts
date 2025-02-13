@@ -1,4 +1,4 @@
-import type { Country } from '@/composables/useSocksProxies/socksProxies.types';
+import type { Country } from '@/helpers/socksProxy/socksProxies.types';
 
 type Props = {
   socksProxies: Country[] | undefined;
@@ -6,7 +6,7 @@ type Props = {
   city?: string;
 };
 
-const getRandomSocksProxy = ({ socksProxies, country, city }: Props) => {
+const getCityCountrySocksProxy = ({ socksProxies, country, city }: Props) => {
   if (!socksProxies || !socksProxies.length) {
     throw new Error('No proxies to choose from');
   }
@@ -36,4 +36,4 @@ const getRandomSocksProxy = ({ socksProxies, country, city }: Props) => {
   return randomSocks;
 };
 
-export default getRandomSocksProxy;
+export default getCityCountrySocksProxy;
