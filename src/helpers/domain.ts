@@ -1,5 +1,5 @@
 import { parse } from 'tldts';
-import { ProxyDetails } from './socksProxy.types';
+import { ProxyDetails } from '@/helpers/socksProxy/socksProxy.types';
 
 export const checkDomain = (host: string) => {
   const parsed = parse(host);
