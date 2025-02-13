@@ -6,7 +6,7 @@ import {
   ProxyDetailsMap,
   ProxyInfoType,
 } from '@/helpers/socksProxy.types';
-import { baseConfig, socksIp } from '@/composables/useSocksProxy';
+import { baseConfig, socksIp } from './constants';
 
 const domainProxyInfoMap: ProxyInfoMap = {};
 const domainProxyDetailsMap: ProxyDetailsMap = {};
