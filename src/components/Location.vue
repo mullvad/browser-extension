@@ -5,10 +5,10 @@ import LocationTabs from '@/components/LocationTabs.vue';
 import SearchLocation from '@/components/SearchLocation.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import getCityCountrySocksProxy from '@/helpers/getCityCountrySocksProxy';
+import getCityCountrySocksProxy from '@/helpers/socksProxy/getCityCountrySocksProxy';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
-import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';

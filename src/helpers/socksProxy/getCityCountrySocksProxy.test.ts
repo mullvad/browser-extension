@@ -1,7 +1,7 @@
 import { it, describe, expect } from 'vitest';
 
-import getCityCountrySocksProxy from '@/helpers/getCityCountrySocksProxy';
-import { Country } from '@/composables/useSocksProxies/socksProxies.types';
+import getCityCountrySocksProxy from '@/helpers/socksProxy/getCityCountrySocksProxy';
+import { Country } from '@/helpers/socksProxy/socksProxies.types';
 
 const gothenburgProxies = [
   { hostname: 'se3-wg.socks5.mullvad.net', port: 1080, location: { countryCode: 'se' } },

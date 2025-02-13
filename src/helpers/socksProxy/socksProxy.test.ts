@@ -1,5 +1,5 @@
 import { it, describe, expect } from 'vitest';
-import { isLocalOrReservedIP } from './socksProxy';
+import { isLocalOrReservedIP } from '@/helpers/socksProxy/socksProxy';
 
 vi.mock('@/helpers/getRandomSessionProxy', () => ({
   browserStorage: {

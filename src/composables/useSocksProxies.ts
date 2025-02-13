@@ -1,9 +1,11 @@
 import { computed, ref } from 'vue';
-import { addCountryCode } from '@/composables/useSocksProxies/addCountryCode';
-import { groupByCountryAndCity } from '@/composables/useSocksProxies/groupByCountryAndCity';
-import { sortProxiesByCountryAndCity } from '@/composables/useSocksProxies/sortProxiesByCountryAndCity';
-import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
+
 import useStore from '@/composables/useStore';
+
+import { addCountryCode } from '@/helpers/socksProxy/addCountryCode';
+import { groupByCountryAndCity } from '@/helpers/socksProxy/groupByCountryAndCity';
+import { sortProxiesByCountryAndCity } from '@/helpers/socksProxy/sortProxiesByCountryAndCity';
+import { SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 const SOCKS_API_URL = 'https://api.mullvad.net/network/v1-beta1/socks-proxies';
 const NETWORK_ERROR = `The proxy list couldn't be loaded. Please try again later.`;
