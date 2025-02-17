@@ -1,7 +1,6 @@
 import vuePlugin from 'eslint-plugin-vue';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import unusedImports from 'eslint-plugin-unused-imports';
-import vueTsEslintConfig from '@vue/eslint-config-typescript';
 import prettier from 'eslint-config-prettier';
 
 import globals from 'globals';
@@ -10,7 +9,6 @@ import js from '@eslint/js';
 export default [
   js.configs.recommended,
   prettier,
-  ...vueTsEslintConfig(),
 
   {
     plugins: {
