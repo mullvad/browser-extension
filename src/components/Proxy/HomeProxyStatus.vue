@@ -8,18 +8,15 @@ import IconLabel from '@/components/IconLabel.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
-import useConnection, { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useLocations from '@/composables/useLocations';
 import useProxyPermissions from '@/composables/useProxyPermissions';
-import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import { checkDomain } from '@/helpers/domain';
 
-const { activeTabHost, isBrowserPage } = useActiveTab();
-const { updateConnection } = useConnection();
+const { activeTabHost, isAboutPage } = useActiveTab();
 const { proxySelect } = useLocations();
 const { isGranted, requestPermissions } = useProxyPermissions();
-const { getSocksProxies } = useSocksProxies();
 const {
   allowProxy,
   currentHostProxyEnabled,
@@ -105,20 +102,6 @@ const handleTabClick = (tabName: string) => {
   lastClickedTab.value = tabName;
 };
 
-const handleProxySelect = async (host?: string) => {
-  proxySelect(host);
-  await getSocksProxies();
-};
-const handleRemoveGlobalProxy = () => {
-  removeGlobalProxy();
-  updateConnection();
-};
-
-const handleToggleGlobalProxy = () => {
-  toggleGlobalProxy();
-  updateConnection();
-};
-
 const handleRemoveProxy = (host: string) => {
   removeCustomProxy(host);
   // Force switch to default tab otherwise it doesn't work
@@ -127,13 +110,6 @@ const handleRemoveProxy = (host: string) => {
 
 watch([currentHostProxyEnabled, subDomainProxyEnabled, domainProxyDetails, excludedHosts], () => {
   lastClickedTab.value = null;
-});
-
-watch(isGranted, () => {
-  // This is to make sure there's always a proxy list when the user starts using the proxy feature
-  if (isGranted.value) {
-    getSocksProxies();
-  }
 });
 </script>
 
@@ -161,7 +137,7 @@ watch(isGranted, () => {
           </div>
         </div>
 
-        <n-switch :value="globalProxyEnabled" @update-value="handleToggleGlobalProxy()" />
+        <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
       </div>
 
       <IconLabel v-if="globalProxyEnabled && !connection.isMullvad" type="warning" class="mb-2">
@@ -175,21 +151,21 @@ watch(isGranted, () => {
       </p>
 
       <div class="flex justify-between">
-        <Button size="small" @click="handleProxySelect()">
+        <Button size="small" @click="proxySelect()">
           {{ globalProxyDetails.server ? 'Change location' : 'Select location' }}
         </Button>
         <Button
           v-if="globalProxyDetails.server"
           size="small"
           color="error"
-          @click="handleRemoveGlobalProxy"
+          @click="removeGlobalProxy"
         >
           Remove proxy
         </Button>
       </div>
     </n-tab-pane>
 
-    <n-tab-pane v-if="!isBrowserPage" name="current-domain" :tab="truncatedDomain">
+    <n-tab-pane v-if="!isAboutPage" name="current-domain" :tab="truncatedDomain">
       <div>
         <h3 class="font-bold mb-2 break-words">{{ tabDomain.domain }}</h3>
         <div v-if="excludedHosts.includes(tabDomain.domain)">
@@ -213,7 +189,7 @@ watch(isGranted, () => {
             />
           </div>
           <div class="flex justify-between">
-            <Button size="small" @click="handleProxySelect(tabDomain.domain)">
+            <Button size="small" @click="proxySelect(tabDomain.domain)">
               {{ domainProxyDetails ? 'Change location' : 'Select location' }}
             </Button>
             <SplitButton
@@ -265,7 +241,7 @@ watch(isGranted, () => {
             />
           </div>
           <div class="flex justify-between">
-            <Button size="small" @click="handleProxySelect(tabDomain.subDomain)">
+            <Button size="small" @click="proxySelect(tabDomain.subDomain)">
               {{ subDomainProxyDetails ? 'Change location' : 'Select location' }}
             </Button>
             <SplitButton
