@@ -30,7 +30,7 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     const hostProxiesDetailsParsed: Record<string, ProxyDetails> = JSON.parse(hostProxiesDetails);
 
     const currentHost = getCurrentHost(details);
-    const { hasSubdomain, domain, subDomain, isMullvadNet } = checkDomain(currentHost);
+    const { hasSubdomain, domain, subDomain } = checkDomain(currentHost);
     const currentDomain = hasSubdomain ? subDomain : domain;
 
     const isDomainExcluded = excludedHostsParsed.includes(currentDomain);
@@ -50,13 +50,7 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
 
     // 3. When the request if a conncheck/DNS check originating from the extension,
     // we want to use the same proxy as the active tab, to get a consistent conncheck result
-    const isExtensionRequest = details.documentUrl?.startsWith('moz-extension://');
-    const isConnCheck = isMullvadNet && details.url?.endsWith('am.i.mullvad.net/json');
-    const isDNSCheck = isMullvadNet && details.url?.endsWith('dnsleak.am.i.mullvad.net/');
-
-    const isExtConnCheck = isExtensionRequest && (isConnCheck || isDNSCheck);
-
-    if (isExtConnCheck) {
+    if (isExtConnCheck(details)) {
       return getProxyForExtensionConnectionCheck(
         isGlobalProxyEnabled,
         globalConfigParsed,
@@ -113,6 +107,17 @@ const getCurrentHost = (details: RequestDetails) => {
   // When a request is initiated in the browser background,
   // the host is derived from the request URL itself
   return new URL(details.url).hostname;
+};
+
+const isExtConnCheck = (details: RequestDetails): boolean => {
+  const isExtensionRequest = Boolean(details.documentUrl?.startsWith('moz-extension://'));
+  const isConnCheck =
+    details.url === 'https://ipv4.am.i.mullvad.net/json' ||
+    details.url === 'https://ipv6.am.i.mullvad.net/json';
+  const isDNSCheck =
+    checkDomain(details.url).domain === 'mullvad.net' && details.url.endsWith('am.i.mullvad.net/');
+
+  return isExtensionRequest && (isConnCheck || isDNSCheck);
 };
 
 export const isLocalOrReservedIP = (hostname: string) => {
