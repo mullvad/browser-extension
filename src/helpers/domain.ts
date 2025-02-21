@@ -7,6 +7,7 @@ export const checkDomain = (host: string) => {
     hasSubdomain: Boolean(parsed.subdomain),
     subDomain: host,
     domain: parsed.domain || host,
+    isMullvadNet: parsed.domain === 'mullvad.net',
   };
 };
 
