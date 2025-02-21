@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 
 import {
   ProxyDetails,
@@ -171,7 +171,6 @@ const setGlobalProxy = ({
   globalProxy.value = newGlobalProxy;
   globalProxyDetails.value = newGlobalProxyDetails;
 
-  updateConnection();
   reloadOptions();
   if (proxyAutoReload.value) {
     reloadGlobalProxiedTabs(combinedHosts.value);
@@ -217,7 +216,6 @@ const setCustomProxy = (
 const removeCustomProxy = (host: string) => {
   delete hostProxies.value[host];
   delete hostProxiesDetails.value[host];
-  updateConnection();
   updateCurrentTabProxyBadge();
   reloadOptions();
   if (proxyAutoReload.value) {
@@ -252,6 +250,14 @@ const neverProxyHost = (host: string) => {
     reloadMatchingTabs(host);
   }
 };
+
+watch(
+  [() => globalProxyDetails.value, () => hostProxiesDetails.value],
+  () => {
+    updateConnection();
+  },
+  { deep: true, immediate: false },
+);
 
 const useSocksProxy = () => {
   return {

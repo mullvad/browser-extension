@@ -39,13 +39,15 @@ export const getActiveTabDetails = async () => {
 
   // activeTab will be null if tabs permission has not been granted
   if (!activeTab?.url) {
-    return { host: '', protocol: '' };
+    return { host: '', protocol: '', isAboutPage: false };
   }
 
   const activeTabURL = new URL(activeTab.url);
+
   return {
     host: activeTabURL.hostname,
     protocol: activeTabURL.protocol,
+    isAboutPage: activeTabURL.protocol === 'about:',
   };
 };
 
