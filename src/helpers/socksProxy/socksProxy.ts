@@ -15,28 +15,23 @@ import { getActiveTabDetails } from '@/helpers/tabs';
 
 export const handleProxyRequest = async (details: browser.proxy._OnRequestDetails) => {
   try {
-    const { globalProxy } = await browser.storage.local.get('globalProxy');
-    const { randomProxyMode } = await browser.storage.local.get('randomProxyMode');
-    const { globalProxyDetails } = await browser.storage.local.get('globalProxyDetails');
-    const { excludedHosts } = await browser.storage.local.get('excludedHosts');
-    const { hostProxies } = await browser.storage.local.get('hostProxies');
-    const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
-
-    const globalConfigParsed: ProxyInfo = JSON.parse(globalProxy);
-    const randomProxyModeParsed: boolean = JSON.parse(randomProxyMode);
-    const globalProxyDetailsParsed: ProxyDetails = JSON.parse(globalProxyDetails);
-    const excludedHostsParsed: string[] = JSON.parse(excludedHosts);
-    const hostProxiesParsed: ProxyInfoMap = JSON.parse(hostProxies);
-    const hostProxiesDetailsParsed: Record<string, ProxyDetails> = JSON.parse(hostProxiesDetails);
+    const {
+      excludedHosts,
+      globalProxy,
+      globalProxyDetails,
+      hostProxies,
+      hostProxiesDetails,
+      randomProxyMode,
+    } = await getLocalStorageItems();
 
     const currentHost = getCurrentHost(details);
     const { hasSubdomain, domain, subDomain } = checkDomain(currentHost);
     const currentDomain = hasSubdomain ? subDomain : domain;
 
-    const isDomainExcluded = excludedHostsParsed.includes(currentDomain);
-    const isDomainProxied = Object.hasOwn(hostProxiesParsed, currentDomain);
-    const isDomainProxydEnabled = !!hostProxiesDetailsParsed[currentDomain]?.socksEnabled;
-    const isGlobalProxyEnabled = globalProxyDetailsParsed.socksEnabled;
+    const isDomainExcluded = excludedHosts.includes(currentDomain);
+    const isDomainProxied = Object.hasOwn(hostProxies, currentDomain);
+    const isDomainProxydEnabled = Boolean(hostProxiesDetails[currentDomain]?.socksEnabled);
+    const isGlobalProxyEnabled = globalProxyDetails.socksEnabled;
 
     // 1. Block speculative requests, since we can't identify their origins
     if (details.type === 'speculative') {
@@ -53,17 +48,17 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     if (isExtConnCheck(details)) {
       return getProxyForExtensionConnectionCheck(
         isGlobalProxyEnabled,
-        globalConfigParsed,
-        randomProxyModeParsed,
-        excludedHostsParsed,
-        hostProxiesParsed,
-        hostProxiesDetailsParsed,
+        globalProxy,
+        randomProxyMode,
+        excludedHosts,
+        hostProxies,
+        hostProxiesDetails,
       );
     }
 
     // 4. Check for random proxy mode
     // For now, overrides all other proxy settings
-    if (randomProxyModeParsed) {
+    if (randomProxyMode) {
       return getRandomSessionProxy(domain);
     }
 
@@ -73,12 +68,12 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     }
 
     if (isDomainProxied && isDomainProxydEnabled) {
-      return hostProxiesParsed[currentDomain];
+      return hostProxies[currentDomain];
     }
 
     // 6. Check global proxy
     if (isGlobalProxyEnabled) {
-      return globalConfigParsed;
+      return globalProxy;
     }
 
     // 7. Default: no proxy
@@ -87,6 +82,33 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     console.log(error);
   }
 };
+
+async function getLocalStorageItems(): Promise<{
+  excludedHosts: string[];
+  globalProxy: ProxyInfo;
+  globalProxyDetails: ProxyDetails;
+  hostProxies: ProxyInfoMap;
+  hostProxiesDetails: Record<string, ProxyDetails>;
+  randomProxyMode: boolean;
+}> {
+  const data = await browser.storage.local.get([
+    'excludedHosts',
+    'globalProxy',
+    'globalProxyDetails',
+    'hostProxies',
+    'hostProxiesDetails',
+    'randomProxyMode',
+  ]);
+
+  return {
+    excludedHosts: JSON.parse(data.excludedHosts),
+    globalProxy: JSON.parse(data.globalProxy),
+    globalProxyDetails: JSON.parse(data.globalProxyDetails),
+    hostProxies: JSON.parse(data.hostProxies),
+    hostProxiesDetails: JSON.parse(data.hostProxiesDetails),
+    randomProxyMode: JSON.parse(data.randomProxyMode),
+  };
+}
 
 const getCurrentHost = (details: RequestDetails) => {
   if (details.frameAncestors && details.frameAncestors.length > 0) {
@@ -143,27 +165,27 @@ export const isLocalOrReservedIP = (hostname: string) => {
 
 const getProxyForExtensionConnectionCheck = async (
   isGlobalProxyEnabled: boolean,
-  globalConfigParsed: ProxyInfo,
-  randomProxyModeParsed: boolean,
-  excludedHostsParsed: string[],
-  hostProxiesParsed: ProxyInfoMap,
-  hostProxiesDetailsParsed: Record<string, ProxyDetails>,
+  globalProxy: ProxyInfo,
+  randomProxyMode: boolean,
+  excludedHosts: string[],
+  hostProxies: ProxyInfoMap,
+  hostProxiesDetails: Record<string, ProxyDetails>,
 ) => {
   const { isAboutPage, host } = await getActiveTabDetails();
   const { domain, hasSubdomain, subDomain } = checkDomain(host);
   const tabDomain = hasSubdomain ? subDomain : domain;
 
-  const isTabDomainExcluded = excludedHostsParsed.includes(tabDomain);
-  const isTabDomainProxied = Object.hasOwn(hostProxiesParsed, tabDomain);
-  const isTabProxyEnabled = !!hostProxiesDetailsParsed[tabDomain]?.socksEnabled;
+  const isTabDomainExcluded = excludedHosts.includes(tabDomain);
+  const isTabDomainProxied = Object.hasOwn(hostProxies, tabDomain);
+  const isTabProxyEnabled = !!hostProxiesDetails[tabDomain]?.socksEnabled;
 
   // a) If the current tab is an about page, we only need to check for a global proxy
   if (isAboutPage) {
-    return isGlobalProxyEnabled ? globalConfigParsed : { type: 'direct' };
+    return isGlobalProxyEnabled ? globalProxy : { type: 'direct' };
   }
 
   // b) If random proxy mode is enabled, we need to check for the current tab's proxy
-  if (randomProxyModeParsed) {
+  if (randomProxyMode) {
     return getRandomSessionProxy(tabDomain);
   }
 
@@ -174,12 +196,12 @@ const getProxyForExtensionConnectionCheck = async (
 
   // d) If current tab is proxied, we need to check for the current tab's proxy
   if (isTabDomainProxied && isTabProxyEnabled) {
-    return hostProxiesParsed[tabDomain];
+    return hostProxies[tabDomain];
   }
 
   // e) If global proxy is enabled
   if (isGlobalProxyEnabled) {
-    return globalConfigParsed;
+    return globalProxy;
   }
 
   return { type: 'direct' };
