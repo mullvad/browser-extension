@@ -13,7 +13,8 @@ import useActiveTab from '@/composables/useActiveTab';
 import useConnection from '@/composables/useConnection';
 import useStore from '@/composables/useStore';
 import { reloadGlobalProxiedTabs, reloadMatchingTabs } from '@/helpers/tabs';
-import { checkDomain, getTargetHost } from '@/helpers/domain';
+import { checkDomain } from '@/helpers/domain';
+import { getTargetHost } from '@/helpers/socksProxy/getTargetHost';
 import { baseConfig, socksIp } from '@/helpers/socksProxy/constants';
 
 const { activeTabHost } = useActiveTab();
