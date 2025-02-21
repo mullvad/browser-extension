@@ -11,17 +11,14 @@ export const checkDomain = (host: string) => {
 };
 
 export const isValidDomain = (domain: string): boolean => {
-  const parsed = parse(domain);
-  return Boolean(parsed.domain && parsed.publicSuffix);
-};
+  // Special use domains should be allowed according to the IETF RFC 6761
+  const publicSuffixes = ['arpa', 'test', 'localhost', 'internal'];
 
-export const getTargetHost = (host: string, proxyDetails: Record<string, ProxyDetails>) => {
-  if (proxyDetails[host]) {
-    return host;
-  }
+  const parsed = parse(domain, {
+    validHosts: publicSuffixes,
+  });
 
-  const { hasSubdomain, domain } = checkDomain(host);
-  return hasSubdomain && domain && proxyDetails[domain] ? domain : host;
+  return Boolean(parsed.domain && (parsed.isIcann || publicSuffixes.includes(parsed.domain)));
 };
 
 export const normalizeToFQDN = (input: string): string | null => {
