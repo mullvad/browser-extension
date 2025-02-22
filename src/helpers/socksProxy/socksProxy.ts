@@ -131,7 +131,7 @@ const getCurrentHost = (details: RequestDetails) => {
   return new URL(details.url).hostname;
 };
 
-const isExtConnCheck = (details: RequestDetails): boolean => {
+export const isExtConnCheck = (details: RequestDetails): boolean => {
   const isExtensionRequest = Boolean(details.documentUrl?.startsWith('moz-extension://'));
   const isConnCheck =
     details.url === 'https://ipv4.am.i.mullvad.net/json' ||

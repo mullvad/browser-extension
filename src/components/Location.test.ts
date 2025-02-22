@@ -35,6 +35,16 @@ jest.mock('@/composables/useSocksProxies', () => ({
   })),
 }));
 
+jest.mock('@/composables/useSocksProxy', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    setCustomProxy: jest.fn(),
+    setGlobalProxy: jest.fn(),
+    globalProxyDetails: { value: {} },
+    hostProxiesDetails: { value: {} },
+  })),
+}));
+
 jest.mock('@/helpers/connCheck', () => ({
   connCheckIpv4: jest.fn().mockResolvedValue({
     ip: '193.32.126.67',
