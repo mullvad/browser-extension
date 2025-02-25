@@ -2,7 +2,7 @@ import { it, describe, expect } from 'vitest';
 
 import { ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';
+import ConnectionLocation from '@/components/ConnectionCheck/ConnectionLocation.vue';
 import { ConnectionKey } from '@/composables/useConnection';
 
 describe('ConnectionLocation.vue', function () {
