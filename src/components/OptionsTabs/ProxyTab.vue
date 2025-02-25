@@ -4,7 +4,7 @@ import { NCard } from 'naive-ui';
 import Button from '@/components/Buttons/Button.vue';
 import CustomProxies from '@/components/Proxy/CustomProxies.vue';
 import IconLabel from '@/components/IconLabel.vue';
-import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
+import LocationDrawer from '@/components/LocationDrawer.vue';
 import ProxyAutoReload from '@/components/Proxy/ProxyAutoReload.vue';
 import RandomProxyMode from '@/components/Proxy/RandomProxyMode.vue';
 import TitleCategory from '@/components/TitleCategory.vue';

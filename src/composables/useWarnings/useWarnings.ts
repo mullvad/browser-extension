@@ -5,14 +5,24 @@ import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 import { warnings } from '@/composables/useWarnings/warnings';
 import useWebRtc from '@/composables/useWebRtc';
 
-const { isMullvadDoh, isthirdPartyDns } = useCheckDnsLeaks();
+const { isMullvadDoh, isMullvadDNS, isLoading, isError } = useCheckDnsLeaks();
 const { connection } = useConnection();
 const { webRTCLeaking } = useWebRtc();
 
-const dohDisable = computed(() => connection.value.isMullvad && isMullvadDoh.value);
-const dohEnable = computed(() => !connection.value.isMullvad && !isMullvadDoh.value);
-const dohLeak = computed(() => isMullvadDoh.value && isthirdPartyDns.value);
-const dnsLeak = computed(() => connection.value.isMullvad && isthirdPartyDns.value);
+const isDNSCheckCompleted = computed(() => !isLoading.value && isError.value === false);
+
+const dohDisable = computed(
+  () => isDNSCheckCompleted.value && connection.value.isMullvad && isMullvadDoh.value,
+);
+const dohEnable = computed(
+  () => isDNSCheckCompleted.value && !connection.value.isMullvad && !isMullvadDoh.value,
+);
+const dohLeak = computed(
+  () => isDNSCheckCompleted.value && isMullvadDoh.value && !isMullvadDNS.value,
+);
+const dnsLeak = computed(
+  () => isDNSCheckCompleted.value && connection.value.isMullvad && !isMullvadDNS.value,
+);
 
 const activeWarnings = computed(() => {
   const activeWarningsIds: string[] = [];
