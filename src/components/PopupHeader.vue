@@ -6,6 +6,7 @@ import FeCheck from '@/components/Icons/FeCheckCircle.vue';
 import FeCog from '@/components/Icons/FeCog.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
+import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
 
 import { openOptions } from '@/helpers/browserExtension';
@@ -15,6 +16,7 @@ import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 
 defineProps<{
   isLeaking: boolean;
+  isErrorDNS: boolean;
   isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
@@ -48,6 +50,7 @@ const isMullvad = computed(() => connection.value.isMullvad);
         <template #icon>
           <n-icon size="20">
             <MuSpinner v-if="isLoadingDNS" />
+            <FeHelpCircle v-else-if="isErrorDNS" class="text-warning" />
             <FeDrop v-else-if="isLeaking && isMullvad" class="text-error" />
             <FeXCircle v-else-if="isLeaking && !isMullvad" class="text-error" />
             <FeCheck v-else-if="isMullvadDNS" class="text-success" />
