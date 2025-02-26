@@ -37,8 +37,12 @@ const isMullvadDoh = ref(false);
 const useCheckDnsLeaks = () => {
   const checkDnsLeaks = async () => {
     dnsServers.value = [];
+    error.value = undefined;
+    isError.value = false;
     isLeaking.value = false;
     isLoading.value = true;
+    isMullvadDNS.value = false;
+    isMullvadDoh.value = false;
     try {
       // The returned value from  Promise.all is here a list of lists, so add .flat() to make it a single level list
       const allDnsServers = (await Promise.all([...Array(6)].map(() => dnsLeakRequest()))).flat();
@@ -69,6 +73,7 @@ const useCheckDnsLeaks = () => {
   }
 
   return {
+    checkDnsLeaks,
     dnsServers,
     error,
     isError,

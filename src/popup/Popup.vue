@@ -13,7 +13,13 @@ const { dnsServers, isError, isLeaking, isLoading, isMullvadDNS, isMullvadDoh } 
 
 <template>
   <main class="w-[450px] m-3">
-    <PopupHeader :isLeaking :isLoadingDNS="isLoading" :isMullvadDNS :isMullvadDoh />
+    <PopupHeader
+      :isLeaking
+      :isErrorDNS="isError"
+      :isLoadingDNS="isLoading"
+      :isMullvadDNS
+      :isMullvadDoh
+    />
     <ConnectionCheck :dnsServers :isErrorDNS="isError" :isLoadingDNS="isLoading" />
     <HomeProxyStatus />
     <LocationDrawer />
