@@ -4,7 +4,7 @@ import { inject } from 'vue';
 import FeCheckCircle from '@/components/Icons/FeCheckCircle.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
-import FeWarning from '@/components/Icons/FeWarning.vue';
+import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
@@ -43,7 +43,7 @@ const { connection } = inject(ConnectionKey, defaultConnection);
           <MuSpinner />
         </div>
         <div v-if="isErrorDNS" class="flex items-center">
-          <FeWarning class="text-warning" />
+          <FeHelpCircle class="text-warning" />
           <span class="ml-1">Couldn't determine DNS</span>
         </div>
         <div v-for="dnsServer in dnsServers" :key="dnsServer.ip" class="flex flex-row">
