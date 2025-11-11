@@ -66,17 +66,6 @@ const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enab
       <Instructions :recommendation="recommendation" />
     </div>
 
-    <div
-      v-if="!recommendation.activated && recommendation.id === 'default-search'"
-      class="pt-4 flex items-center"
-    >
-      <IconLabel
-        :text="`We recommend you change your default search engine to a privacy focused one (for example, DuckDuckGo).`"
-        type="info"
-        class="mb-2"
-      />
-    </div>
-
     <div v-if="recommendation.warning" class="pt-4 flex items-center">
       <IconLabel :text="recommendation.warning" type="info" />
     </div>
@@ -95,30 +84,23 @@ const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enab
           <ExternalLinkIconLabel text="Learn More" />
         </Button>
 
-        <Button v-if="recommendation.ignored" color="success" @click="toggleIgnore">
-          Enable recommendation
-        </Button>
+        <div>
+          <Button v-if="recommendation.ignored" color="success" @click="toggleIgnore">
+            Enable recommendation
+          </Button>
 
-        <div v-else-if="recommendation.type === 'extension'">
-          <SplitButton
-            v-if="!recommendation.activated"
-            main-color="success"
-            :main-text="mainTextExtension"
-            sub-color="error"
-            sub-text="Ignore recommendation"
-            :href="recommendation.ctaUrl"
-            @sub-click="toggleIgnore"
-            @main-click="closePopup"
-          />
+          <div v-else>
+            <Button
+              v-if="recommendation.id === 'uBlock0@raymondhill.net'"
+              color="success"
+              :href="recommendation.ctaUrl"
+              @click="closePopup"
+            >
+              Install
+            </Button>
+            <Button class="ml-2" color="error" @click="toggleIgnore"> Ignore </Button>
+          </div>
         </div>
-
-        <SplitButton
-          v-else-if="recommendation.type === 'setting' && !recommendation.activated"
-          sub-color="error"
-          sub-text="Ignore recommendation"
-          :href="recommendation.ctaUrl"
-          @sub-click="toggleIgnore"
-        />
       </div>
     </template>
   </n-card>
