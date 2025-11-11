@@ -3,6 +3,17 @@ import { NCollapseItem } from 'naive-ui';
 
 import Location from '@/components/Location.vue';
 
+jest.mock('@vueuse/core', () => ({
+  useStorageAsync: jest.fn(),
+}));
+
+jest.mock('@/composables/useStore', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    historyEntries: { value: {} },
+  })),
+}));
+
 jest.mock('@/composables/useActiveTab', () => ({
   __esModule: true,
   default: jest.fn(() => ({

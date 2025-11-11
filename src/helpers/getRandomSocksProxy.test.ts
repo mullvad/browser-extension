@@ -41,11 +41,11 @@ const mockSocksProxies = [
 
 describe('getRandomSocksProxy', () => {
   it('should throw error if no sockproxies list is available', () => {
-    expect(() =>
-      getRandomSocksProxy({ socksProxies: undefined, country: 'Mongolia' }),
-    ).toThrowError('No proxies to choose from');
+    expect(() => getRandomSocksProxy({ socksProxies: undefined, country: 'Mongolia' })).toThrow(
+      'No proxies to choose from',
+    );
 
-    expect(() => getRandomSocksProxy({ socksProxies: [], country: 'Mongolia' })).toThrowError(
+    expect(() => getRandomSocksProxy({ socksProxies: [], country: 'Mongolia' })).toThrow(
       'No proxies to choose from',
     );
   });
