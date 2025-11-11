@@ -40,14 +40,6 @@ export async function getManifest() {
         id: '{d19a89b9-76c1-4a61-bcd4-49e8de916403}',
       },
     },
-    chrome_settings_overrides: {
-      search_provider: {
-        name: 'Mullvad Leta',
-        search_url: 'https://leta.mullvad.net/?q={searchTerms}',
-        keyword: 'leta',
-        favicon_url: './assets/mullvad-logo.svg',
-      },
-    },
     incognito: 'spanning',
   };
 
