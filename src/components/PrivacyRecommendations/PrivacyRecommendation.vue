@@ -71,11 +71,7 @@ const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enab
       class="pt-4 flex items-center"
     >
       <IconLabel
-        :text="
-          connection.isMullvad
-            ? 'As you\'re using Mullvad VPN, we recommend you set Mullvad Leta as your default search engine.'
-            : 'As you\'re not using Mullvad VPN, we recommend you change your default search engine to a privacy focused one (for example, DuckDuckGo).'
-        "
+        :text="`We recommend you change your default search engine to a privacy focused one (for example, DuckDuckGo).`"
         type="info"
         class="mb-2"
       />
@@ -89,10 +85,10 @@ const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enab
       <div class="flex justify-between">
         <Button
           v-if="!recommendation.activated && recommendation.id === 'default-search'"
-          :href="connection.isMullvad ? `https://leta.mullvad.net` : `https://duckduckgo.com`"
+          :href="`https://duckduckgo.com`"
           @click="closePopup"
         >
-          <ExternalLinkIconLabel :text="connection.isMullvad ? `Mullvad Leta` : `DuckDuckGo`" />
+          <ExternalLinkIconLabel :text="`DuckDuckGo`" />
         </Button>
 
         <Button v-else :href="recommendation.homeUrl" @click="closePopup">
