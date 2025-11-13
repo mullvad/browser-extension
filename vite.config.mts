@@ -42,6 +42,7 @@ export default defineConfig(({ command }) => ({
     hmr: {
       host: 'localhost',
     },
+    cors: true,
   },
   build: {
     outDir: r('extension/dist'),
