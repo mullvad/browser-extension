@@ -1,5 +1,9 @@
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { bgCyan, black } from 'kolorist';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const port = parseInt(process.env.PORT || '') || 3303;
 export const r = (...args: string[]) => resolve(__dirname, '..', ...args);

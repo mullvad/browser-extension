@@ -6,10 +6,10 @@ import LocationTabs from '@/components/LocationTabs.vue';
 import SearchLocation from '@/components/SearchLocation.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
+import getCityCountrySocksProxy from '@/helpers/socksProxy/getCityCountrySocksProxy';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
-import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useSocksProxies from '@/composables/useSocksProxies';
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
@@ -61,7 +61,7 @@ const clickServer = (
 };
 
 const clickCountryOrCity = (selectedCountry: string, selectedCity?: string) => {
-  const { country, countryCode, city, hostname, ipv4_address, port } = getRandomSocksProxy({
+  const { country, countryCode, city, hostname, ipv4_address, port } = getCityCountrySocksProxy({
     socksProxies: filteredProxies.value,
     country: selectedCountry,
     city: selectedCity,
