@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ConnectionCheck from '@/components/ConnectionCheck/ConnectionCheck.vue';
-import HomeProxyStatus from '@/components/Proxy/HomeProxyStatus.vue';
+import PopupProxyPanel from '@/components/Proxy/PopupProxyPanel.vue';
 import LocationDrawer from '@/components/LocationDrawer.vue';
 import NotificationsCarousel from '@/components/NotificationsCarousel.vue';
 import PopupHeader from '@/components/PopupHeader.vue';
@@ -21,7 +21,7 @@ const { dnsServers, isError, isLeaking, isLoading, isMullvadDNS, isMullvadDoh } 
       :isMullvadDoh
     />
     <ConnectionCheck :dnsServers :isErrorDNS="isError" :isLoadingDNS="isLoading" />
-    <HomeProxyStatus />
+    <PopupProxyPanel />
     <LocationDrawer />
     <NotificationsCarousel />
   </main>
