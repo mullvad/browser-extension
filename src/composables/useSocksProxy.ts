@@ -256,7 +256,7 @@ const neverProxyHost = (host: string) => {
 };
 
 watch(
-  [() => globalProxyDetails.value, () => hostProxiesDetails.value],
+  [globalProxyDetails, hostProxiesDetails],
   () => {
     checkDnsLeaks();
     updateConnection();
