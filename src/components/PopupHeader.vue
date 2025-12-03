@@ -8,6 +8,7 @@ import FeDrop from '@/components/Icons/FeDrop.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
 import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
+import TitleCategory from '@/components/TitleCategory.vue';
 
 import { openOptions } from '@/helpers/browserExtension';
 
@@ -22,7 +23,7 @@ defineProps<{
   isMullvadDoh: boolean;
 }>();
 
-const { activeTabHost } = useActiveTab();
+const { activeTabHost, isAboutPage, isExtensionPage } = useActiveTab();
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 
 const isMullvad = computed(() => connection.value.isMullvad);
@@ -30,9 +31,11 @@ const isMullvad = computed(() => connection.value.isMullvad);
 
 <template>
   <div class="flex justify-between mb-3">
-    <h3 class="font-bold break-words ml-3">{{ activeTabHost }}</h3>
+    <div>
+      <TitleCategory v-if="!isAboutPage && !isExtensionPage" :title="activeTabHost" class="ml-3" />
+    </div>
 
-    <div class="flex flex-row">
+    <div class="flex flex-row self-end">
       <n-tag round type="info">
         <span> VPN </span>
         <template #icon>

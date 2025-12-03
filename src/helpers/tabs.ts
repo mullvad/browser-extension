@@ -39,7 +39,7 @@ export const getActiveTabDetails = async () => {
 
   // activeTab will be null if tabs permission has not been granted
   if (!activeTab?.url) {
-    return { host: '', protocol: '', isAboutPage: false };
+    return { host: '', protocol: '', isAboutPage: false, isExtensionPage: false };
   }
 
   const activeTabURL = new URL(activeTab.url);
@@ -48,6 +48,7 @@ export const getActiveTabDetails = async () => {
     host: activeTabURL.hostname,
     protocol: activeTabURL.protocol,
     isAboutPage: activeTabURL.protocol === 'about:',
+    isExtensionPage: activeTabURL.protocol === 'moz-extension:',
   };
 };
 
