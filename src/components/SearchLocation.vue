@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { NInput } from 'naive-ui';
 import { nextTick, onMounted, ref } from 'vue';
-import useSocksProxies from '@/composables/useSocksProxies/useSocksProxies';
+import useSocksProxies from '@/composables/useSocksProxies';
 
 const { query } = useSocksProxies();
 const inputRef = ref<HTMLInputElement | null>(null);

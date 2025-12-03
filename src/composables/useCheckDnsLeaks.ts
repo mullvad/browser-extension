@@ -29,13 +29,15 @@ const dnsLeakRequest = async () => {
 const dnsServers = ref([] as DnsServer[]);
 const error = ref<Error>();
 const isError = ref(false);
-const isLeaking = ref<boolean | undefined>();
+const isLeaking = ref(false);
 const isLoading = ref(false);
-const isthirdPartyDns = ref(false);
+const isMullvadDNS = ref(false);
 const isMullvadDoh = ref(false);
 
 const useCheckDnsLeaks = () => {
   const checkDnsLeaks = async () => {
+    dnsServers.value = [];
+    isLeaking.value = false;
     isLoading.value = true;
     try {
       // The returned value from  Promise.all is here a list of lists, so add .flat() to make it a single level list
@@ -51,7 +53,7 @@ const useCheckDnsLeaks = () => {
       isMullvadDoh.value = uniqueDnsServers.some(
         (server) => server.mullvad_dns && server.mullvad_dns_hostname.includes('dns'),
       );
-      isthirdPartyDns.value = uniqueDnsServers.some((server) => !server.mullvad_dns);
+      isMullvadDNS.value = uniqueDnsServers.some((server) => server.mullvad_dns);
     } catch (e) {
       // If the users is not connected to Mullvad, but using a Proxy we will end up here
       isError.value = true;
@@ -73,7 +75,7 @@ const useCheckDnsLeaks = () => {
     isLeaking,
     isLoading,
     isMullvadDoh,
-    isthirdPartyDns,
+    isMullvadDNS,
   };
 };
 

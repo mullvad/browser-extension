@@ -21,7 +21,7 @@ jest.mock('@/composables/useActiveTab', () => ({
   })),
 }));
 
-jest.mock('@/composables/useSocksProxies/useSocksProxies', () => ({
+jest.mock('@/composables/useSocksProxies', () => ({
   __esModule: true,
   default: jest.fn(() => ({
     filteredProxies: [
@@ -32,6 +32,16 @@ jest.mock('@/composables/useSocksProxies/useSocksProxies', () => ({
         country: 'Australia',
       },
     ],
+  })),
+}));
+
+jest.mock('@/composables/useSocksProxy', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    setCustomProxy: jest.fn(),
+    setGlobalProxy: jest.fn(),
+    globalProxyDetails: { value: {} },
+    hostProxiesDetails: { value: {} },
   })),
 }));
 

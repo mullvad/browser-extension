@@ -1,4 +1,4 @@
-import { City, Country, Servers } from './socksProxies.types';
+import { City, Country, Servers } from '@/helpers/socksProxy/socksProxies.types';
 
 export const sortProxiesByCountryAndCity = (grouped: Servers) =>
   Object.entries(grouped)

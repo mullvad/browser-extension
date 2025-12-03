@@ -1,11 +1,11 @@
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 
 import {
   ProxyDetails,
   ProxyInfo,
   ProxyInfoType,
   ProxyOperationArgs,
-} from '@/helpers/socksProxy.types';
+} from '@/helpers/socksProxy/socksProxy.types';
 import { reloadOptions } from '@/helpers/browserExtension';
 import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
 
@@ -13,14 +13,9 @@ import useActiveTab from '@/composables/useActiveTab';
 import useConnection from '@/composables/useConnection';
 import useStore from '@/composables/useStore';
 import { reloadGlobalProxiedTabs, reloadMatchingTabs } from '@/helpers/tabs';
-import { checkDomain, getTargetHost } from '@/helpers/domain';
-
-const baseConfig: Partial<ProxyInfo> = {
-  port: 1080,
-  proxyDNS: true,
-};
-
-const socksIp = '10.64.0.1';
+import { checkDomain } from '@/helpers/domain';
+import { getTargetHost } from '@/helpers/socksProxy/getTargetHost';
+import { baseConfig, socksIp } from '@/helpers/socksProxy/constants';
 
 const { activeTabHost } = useActiveTab();
 const { updateConnection } = useConnection();
@@ -177,7 +172,6 @@ const setGlobalProxy = ({
   globalProxy.value = newGlobalProxy;
   globalProxyDetails.value = newGlobalProxyDetails;
 
-  updateConnection();
   reloadOptions();
   if (proxyAutoReload.value) {
     reloadGlobalProxiedTabs(combinedHosts.value);
@@ -223,7 +217,6 @@ const setCustomProxy = (
 const removeCustomProxy = (host: string) => {
   delete hostProxies.value[host];
   delete hostProxiesDetails.value[host];
-  updateConnection();
   updateCurrentTabProxyBadge();
   reloadOptions();
   if (proxyAutoReload.value) {
@@ -258,6 +251,14 @@ const neverProxyHost = (host: string) => {
     reloadMatchingTabs(host);
   }
 };
+
+watch(
+  [() => globalProxyDetails.value, () => hostProxiesDetails.value],
+  () => {
+    updateConnection();
+  },
+  { deep: true, immediate: false },
+);
 
 const useSocksProxy = () => {
   return {
