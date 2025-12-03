@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { computed, inject } from 'vue';
+import { computed, inject, watch } from 'vue';
 import { NIcon, NTag } from 'naive-ui';
 
 import FeCheck from '@/components/Icons/FeCheckCircle.vue';
 import FeCog from '@/components/Icons/FeCog.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
+import FeInfo from '@/components/Icons//FeInfo.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
 import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
@@ -14,6 +15,8 @@ import { openOptions } from '@/helpers/browserExtension';
 
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useSocksProxy from '@/composables/useSocksProxy';
+import useRandomProxy from '@/composables/useRandomProxy';
 
 defineProps<{
   isLeaking: boolean;
@@ -25,8 +28,13 @@ defineProps<{
 
 const { activeTabHost, isAboutPage, isExtensionPage } = useActiveTab();
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
+const { globalProxyEnabled, currentHostProxyEnabled } = useSocksProxy();
+const { randomProxyMode } = useRandomProxy();
 
 const isMullvad = computed(() => connection.value.isMullvad);
+const isProxyInUse = computed(
+  () => randomProxyMode.value || currentHostProxyEnabled.value || globalProxyEnabled.value,
+);
 </script>
 
 <template>
@@ -36,6 +44,15 @@ const isMullvad = computed(() => connection.value.isMullvad);
     </div>
 
     <div class="flex flex-row self-end">
+      <n-tag v-if="isProxyInUse" round type="info">
+        <span> Proxy </span>
+        <template #icon>
+          <n-icon size="20">
+            <FeInfo />
+          </n-icon>
+        </template>
+      </n-tag>
+
       <n-tag round type="info">
         <span> VPN </span>
         <template #icon>
