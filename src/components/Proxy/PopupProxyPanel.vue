@@ -3,11 +3,12 @@ import { computed, ref } from 'vue';
 import { NCard, NCollapseTransition, NIcon, NSwitch, NTag } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
-import SplitButton from '@/components/Buttons/SplitButton.vue';
 import FeChevronDown from '@/components/Icons/FeChevronDown.vue';
 import FeChevronUp from '@/components/Icons/FeChevronUp.vue';
 import FeInfo from '@/components/Icons/FeInfo.vue';
+import SplitButton from '@/components/Buttons/SplitButton.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
+import InUseTag from '@/components/Proxy/InUseTag.vue';
 
 import useActiveTab from '@/composables/useActiveTab';
 import useLocations from '@/composables/useLocations';
@@ -51,7 +52,10 @@ const currentTabProxyDetails = computed(() => {
         class="flex justify-between cursor-pointer"
         @click="showDetailsCurrentTab = !showDetailsCurrentTab"
       >
-        <TitleCategory :level="2" :title="`Proxy for ${activeTabDomain}`" />
+        <div class="flex">
+          <TitleCategory :level="2" title="Proxy for current tab" />
+          <InUseTag v-if="!randomProxyMode && currentHostProxyEnabled" />
+        </div>
 
         <div class="flex flex-row items-center">
           <n-switch
@@ -134,6 +138,7 @@ const currentTabProxyDetails = computed(() => {
       >
         <div class="flex flex-row items-center">
           <TitleCategory :level="2" title="Proxy for all websites" />
+          <InUseTag v-if="!randomProxyMode && !currentHostProxyEnabled && globalProxyEnabled" />
         </div>
 
         <div class="flex flex-row items-center">
@@ -198,6 +203,7 @@ const currentTabProxyDetails = computed(() => {
       >
         <div class="flex flex-row items-center">
           <TitleCategory :level="2" title="Random proxy mode" />
+          <InUseTag v-if="randomProxyMode" />
         </div>
 
         <div class="flex flex-row items-center">
