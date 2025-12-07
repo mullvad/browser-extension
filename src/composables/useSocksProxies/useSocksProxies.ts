@@ -50,9 +50,9 @@ const useSocksProxies = () => {
     flatProxiesList.value.filter(
       (socksProxy) =>
         !query.value ||
-        socksProxy.location.country.toLowerCase().includes(query.value.toLowerCase()) ||
-        socksProxy.location.city.toLowerCase().includes(query.value.toLowerCase()) ||
-        socksProxy.hostname.toLowerCase().includes(query.value.toLowerCase()),
+        socksProxy.location.country?.toLowerCase().includes(query.value.toLowerCase()) ||
+        socksProxy.location.city?.toLowerCase().includes(query.value.toLowerCase()) ||
+        socksProxy.hostname?.toLowerCase().includes(query.value.toLowerCase()),
     ),
   );
 
