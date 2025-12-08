@@ -1,5 +1,8 @@
-import useStore from '@/composables/useStore';
 import { watch } from 'vue';
+
+import { updateCurrentTabProxyBadge } from '@/helpers/proxyBadge';
+
+import useStore from '@/composables/useStore';
 import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 import useConnection from '@/composables/useConnection';
 
@@ -10,6 +13,7 @@ const { updateConnection } = useConnection();
 const useRandomProxy = () => {
   const toggleRandomProxyMode = () => {
     randomProxyMode.value = !randomProxyMode.value;
+    updateCurrentTabProxyBadge();
   };
 
   watch(
