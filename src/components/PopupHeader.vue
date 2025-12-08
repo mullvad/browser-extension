@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { computed, inject, watch } from 'vue';
+import { computed, inject } from 'vue';
 import { NIcon, NTag } from 'naive-ui';
 
 import FeCheck from '@/components/Icons/FeCheckCircle.vue';
 import FeCog from '@/components/Icons/FeCog.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
-import FeInfo from '@/components/Icons//FeInfo.vue';
+import FeShuffle from '@/components/Icons//FeShuffle.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
 import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
@@ -15,6 +15,7 @@ import { openOptions } from '@/helpers/browserExtension';
 
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import useRandomProxy from '@/composables/useRandomProxy';
 
 defineProps<{
   isLeaking: boolean;
@@ -26,6 +27,7 @@ defineProps<{
 }>();
 
 const { activeTabHost, isAboutPage, isExtensionPage } = useActiveTab();
+const { randomProxyMode } = useRandomProxy();
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
 
 const isMullvad = computed(() => connection.value.isMullvad);
@@ -42,12 +44,13 @@ const isMullvad = computed(() => connection.value.isMullvad);
         <span> Proxy </span>
         <template #icon>
           <n-icon size="20">
-            <FeCheck />
+            <FeShuffle v-if="randomProxyMode" />
+            <FeCheck v-else />
           </n-icon>
         </template>
       </n-tag>
 
-      <n-tag round type="info">
+      <n-tag round type="info" class="ml-1">
         <span> VPN </span>
         <template #icon>
           <n-icon size="20">
@@ -58,7 +61,7 @@ const isMullvad = computed(() => connection.value.isMullvad);
         </template>
       </n-tag>
 
-      <n-tag round type="info">
+      <n-tag round type="info" class="ml-1">
         <span v-if="isMullvadDoh"> DOH </span>
         <span v-else> DNS </span>
         <template #icon>

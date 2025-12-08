@@ -39,14 +39,11 @@ export const updateTabProxyBadge = async (
 
   // 0. Check for random proxy mode
   if (randomProxyModeParsed) {
-    const proxyDetails = domainProxyDetailsMap[domain];
-    if (proxyDetails) {
-      const proxyDNSMessage = proxyDetails.proxyDNS ? 'DNS proxied' : 'DNS not proxied';
-      const title = `${proxyDetails.city}, ${proxyDetails.country}\nServer: ${proxyDetails.server}\n${proxyDNSMessage}`;
-      browser.browserAction.setTitle({ tabId, title });
-      await setTabExtBadge(tab, true, false, proxyDetails.countryCode);
-      return;
-    }
+    // If it's random proxy mode, we show a shuffle icon on the badge
+    const title = `Random proxy`;
+    browser.browserAction.setTitle({ tabId, title });
+    await setTabExtBadge(tab, true, false, '🔀', true);
+    return;
   }
 
   // 1. Check subdomain level
@@ -100,6 +97,7 @@ const setTabExtBadge = async (
   proxy = true,
   isExcluded = false,
   countryCode = 'P',
+  randomProxyMode = false,
 ) => {
   const { id: tabId } = tab;
 
@@ -111,6 +109,8 @@ const setTabExtBadge = async (
     browser.browserAction.setBadgeText({ text: countryCode.toUpperCase(), tabId });
     browser.browserAction.setBadgeBackgroundColor({ color: '#ffd524', tabId });
     browser.browserAction.setBadgeTextColor({ color: 'black', tabId });
+  } else if (randomProxyMode) {
+    browser.browserAction.setBadgeText({ text: countryCode, tabId });
   } else {
     browser.browserAction.setBadgeText({ text: '', tabId });
   }
