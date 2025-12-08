@@ -16,9 +16,10 @@ defineProps<{
   dnsServers: DnsServer[];
   isErrorDNS: boolean;
   isLoadingDNS: boolean;
+  isProxyInUse: boolean;
 }>();
 
-const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
+const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
 
 const showDetails = ref(true);
 </script>
@@ -26,9 +27,15 @@ const showDetails = ref(true);
 <template>
   <n-card :bordered="false" class="mb-2">
     <div v-if="isLoading || isError">
-      <p class="mb-2">
+      <p>
         <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
-        <IconLabel v-if="isError" text="Couldn't get connection details" type="warning" />
+        <IconLabel
+          v-if="isError || (!isLoading && isProxyInUse && !connection.isMullvad)"
+          type="warning"
+        >
+          Internet can't be reached. Make sure you're connected to the internet and Mullvad VPN, or
+          disable the proxy.
+        </IconLabel>
       </p>
     </div>
 
