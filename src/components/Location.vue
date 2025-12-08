@@ -104,7 +104,32 @@ const selectLocation = (connection: HistoryEntry) => {
             {{ country }}
           </n-button>
         </template>
-        <n-collapse arrow-placement="right">
+
+        <div v-if="cities?.length === 1">
+          <n-space vertical class="ml-8">
+            <span class="city-name">{{ cities[0].city }}</span>
+            <n-button
+              v-for="proxy in cities[0].proxyList"
+              :key="proxy.hostname"
+              secondary
+              medium
+              @click="
+                clickServer(
+                  country,
+                  proxy.location.countryCode,
+                  cities[0].city,
+                  proxy.hostname,
+                  proxy.ipv4_address,
+                  proxy.port,
+                )
+              "
+            >
+              {{ proxy.hostname }}
+            </n-button>
+          </n-space>
+        </div>
+
+        <n-collapse v-else arrow-placement="right">
           <n-collapse-item
             v-for="{ city, proxyList } in cities"
             :key="city"
@@ -116,6 +141,7 @@ const selectLocation = (connection: HistoryEntry) => {
                 {{ city }}
               </n-button>
             </template>
+
             <n-space vertical>
               <n-button
                 v-for="proxy in proxyList"
@@ -146,5 +172,9 @@ const selectLocation = (connection: HistoryEntry) => {
 <style scoped>
 p {
   color: var(--light-grey);
+}
+
+.city-name {
+  font-size: 14px;
 }
 </style>
