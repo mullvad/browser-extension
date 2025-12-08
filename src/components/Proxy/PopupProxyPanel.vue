@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, CSSProperties, ref } from 'vue';
 import { NCard, NCollapseTransition, NIcon, NSwitch, NTag } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -43,6 +43,38 @@ const currentTabExcluded = computed(() => excludedHosts.value.includes(activeTab
 const currentTabProxyDetails = computed(() => {
   return hostProxiesDetails.value[activeTabDomain.value] || null;
 });
+
+const isCurrentTabProxyOverriden = computed(() =>
+  !randomProxyMode.value && currentHostProxyEnabled.value ? false : true,
+);
+
+const isAllWebsitesProxyOverriden = computed(() =>
+  !randomProxyMode.value && !currentHostProxyEnabled.value && globalProxyEnabled.value
+    ? false
+    : true,
+);
+
+function railStyleCurrentTab(params: { checked: boolean }): CSSProperties {
+  const { checked } = params;
+  const style: CSSProperties = {};
+
+  if (checked && randomProxyMode.value) {
+    style.background = '#327554';
+  }
+
+  return style;
+}
+
+function railStyleAllWebsites(params: { checked: boolean }): CSSProperties {
+  const { checked } = params;
+  const style: CSSProperties = {};
+
+  if ((checked && randomProxyMode.value) || !isCurrentTabProxyOverriden.value) {
+    style.background = '#327554';
+  }
+
+  return style;
+}
 </script>
 
 <template>
@@ -54,13 +86,14 @@ const currentTabProxyDetails = computed(() => {
       >
         <div class="flex">
           <TitleCategory :level="2" title="Proxy for current tab" />
-          <InUseTag v-if="!randomProxyMode && currentHostProxyEnabled" />
+          <InUseTag v-if="!isCurrentTabProxyOverriden" />
         </div>
 
         <div class="flex flex-row items-center">
           <n-switch
             v-if="currentTabProxyDetails"
             :value="currentHostProxyEnabled"
+            :rail-style="railStyleCurrentTab"
             @update-value="toggleDomainProxy(activeTabDomain)"
             @click.stop
             class="mr-2"
@@ -138,13 +171,14 @@ const currentTabProxyDetails = computed(() => {
       >
         <div class="flex flex-row items-center">
           <TitleCategory :level="2" title="Proxy for all websites" />
-          <InUseTag v-if="!randomProxyMode && !currentHostProxyEnabled && globalProxyEnabled" />
+          <InUseTag v-if="!isAllWebsitesProxyOverriden" />
         </div>
 
         <div class="flex flex-row items-center">
           <n-switch
             v-if="globalProxyDetails.server"
             :value="globalProxyEnabled"
+            :rail-style="railStyleAllWebsites"
             @update-value="toggleGlobalProxy()"
             @click.stop
             class="mr-2"

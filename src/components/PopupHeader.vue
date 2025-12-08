@@ -42,7 +42,7 @@ const isMullvad = computed(() => connection.value.isMullvad);
         <span> Proxy </span>
         <template #icon>
           <n-icon size="20">
-            <FeInfo />
+            <FeCheck />
           </n-icon>
         </template>
       </n-tag>
