@@ -50,6 +50,10 @@ const getLabel = (historyEntry: HistoryEntry) => {
   return `${city ? city + `, ${countryCode.toUpperCase()}` : country} (${servername})`;
 };
 
+const clearHistory = () => {
+  historyEntries.value = {};
+};
+
 watchEffect(() => {
   mostUsed.value = Object.values(historyEntries.value).sort((a, b) => b.count - a.count);
 
@@ -64,6 +68,7 @@ const useProxyHistory = () => {
     mostUsed,
     mostRecent,
     getLabel,
+    clearHistory,
   };
 };
 

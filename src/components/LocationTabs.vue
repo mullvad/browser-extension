@@ -5,6 +5,7 @@ import RecentLocationButtons from '@/components/RecentLocationButtons.vue';
 import MostUsedLocationButtons from '@/components/MostUsedLocationButtons.vue';
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
+import Button from '@/components/Buttons/Button.vue';
 
 type TabsThemeOverrides = NonNullable<TabsProps['themeOverrides']>;
 const tabsThemeOverrides: TabsThemeOverrides = {
@@ -16,7 +17,7 @@ const tabsThemeOverrides: TabsThemeOverrides = {
 
 defineProps<{ selectLocation: (connection: HistoryEntry) => void }>();
 
-const { mostRecent } = useProxyHistory();
+const { mostRecent, clearHistory } = useProxyHistory();
 </script>
 
 <template>
@@ -34,6 +35,9 @@ const { mostRecent } = useProxyHistory();
         <RecentLocationButtons :selectLocation="selectLocation" />
       </n-tab-pane>
     </n-tabs>
+    <div class="flex justify-end mt-4">
+      <Button @click="clearHistory" color="error" size="small">Clear history</Button>
+    </div>
   </div>
 </template>
 
