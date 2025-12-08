@@ -15,8 +15,6 @@ import { openOptions } from '@/helpers/browserExtension';
 
 import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useSocksProxy from '@/composables/useSocksProxy';
-import useRandomProxy from '@/composables/useRandomProxy';
 
 defineProps<{
   isLeaking: boolean;
@@ -24,17 +22,13 @@ defineProps<{
   isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
+  isProxyInUse: boolean;
 }>();
 
 const { activeTabHost, isAboutPage, isExtensionPage } = useActiveTab();
 const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
-const { globalProxyEnabled, currentHostProxyEnabled } = useSocksProxy();
-const { randomProxyMode } = useRandomProxy();
 
 const isMullvad = computed(() => connection.value.isMullvad);
-const isProxyInUse = computed(
-  () => randomProxyMode.value || currentHostProxyEnabled.value || globalProxyEnabled.value,
-);
 </script>
 
 <template>

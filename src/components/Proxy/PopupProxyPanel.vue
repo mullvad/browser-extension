@@ -227,7 +227,7 @@ const currentTabProxyDetails = computed(() => {
             <FeInfo />
           </n-icon>
           <p>
-            Random proxy mode assigns a random proxy per domain. On browser restart, proxies are
+            When enabled, a random proxy is assigned per domain. On browser restart, proxies are
             rotated.
             <br />
             This will override any other proxy.
