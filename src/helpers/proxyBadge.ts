@@ -1,7 +1,8 @@
-import { isLocalOrReservedIP } from '@/helpers/socksProxy';
-import { ProxyDetails } from '@/helpers/socksProxy.types';
-import { checkDomain } from './domain';
-import { getActiveProxyDetails, getActiveTab } from './tabs';
+import { checkDomain } from '@/helpers/domain';
+import { domainProxyDetailsMap } from '@/helpers/socksProxy/getRandomSessionProxy';
+import { isLocalOrReservedIP } from '@/helpers/socksProxy/socksProxy';
+import { ProxyDetails } from '@/helpers/socksProxy/socksProxy.types';
+import { getActiveProxyDetails, getActiveTab } from '@/helpers/tabs';
 
 export const updateCurrentTabProxyBadge = async () => {
   const activeTab = await getActiveTab();
@@ -19,10 +20,12 @@ export const updateTabProxyBadge = async (
   const { excludedHosts } = await browser.storage.local.get('excludedHosts');
   const { hostProxiesDetails } = await browser.storage.local.get('hostProxiesDetails');
   const { globalProxyDetails } = await browser.storage.local.get('globalProxyDetails');
+  const { randomProxyMode } = await browser.storage.local.get('randomProxyMode');
 
   const hostProxiesDetailsParsed = JSON.parse(hostProxiesDetails);
   const excludedHostsParsed = JSON.parse(excludedHosts);
   const globalProxyDetailsParsed = JSON.parse(globalProxyDetails);
+  const randomProxyModeParsed = JSON.parse(randomProxyMode);
 
   const tabHost = new URL(url!).hostname;
   const { domain, subDomain, hasSubdomain } = checkDomain(tabHost);
@@ -31,6 +34,15 @@ export const updateTabProxyBadge = async (
   if (isLocalOrReservedIP(tabHost)) {
     browser.browserAction.setTitle({ tabId, title: 'Local/Reserved IP - No proxy needed' });
     await setTabExtBadge(tab, false, false);
+    return;
+  }
+
+  // 0. Check for random proxy mode
+  if (randomProxyModeParsed) {
+    // If it's random proxy mode, we show a shuffle icon on the badge
+    const title = `Random proxy`;
+    browser.browserAction.setTitle({ tabId, title });
+    await setTabExtBadge(tab, true, false, '🔀', true);
     return;
   }
 
@@ -85,6 +97,7 @@ const setTabExtBadge = async (
   proxy = true,
   isExcluded = false,
   countryCode = 'P',
+  randomProxyMode = false,
 ) => {
   const { id: tabId } = tab;
 
@@ -96,6 +109,8 @@ const setTabExtBadge = async (
     browser.browserAction.setBadgeText({ text: countryCode.toUpperCase(), tabId });
     browser.browserAction.setBadgeBackgroundColor({ color: '#ffd524', tabId });
     browser.browserAction.setBadgeTextColor({ color: 'black', tabId });
+  } else if (randomProxyMode) {
+    browser.browserAction.setBadgeText({ text: countryCode, tabId });
   } else {
     browser.browserAction.setBadgeText({ text: '', tabId });
   }

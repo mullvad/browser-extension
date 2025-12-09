@@ -1,5 +1,5 @@
-import { checkDomain } from './domain';
-import { ProxyDetails } from './socksProxy.types';
+import { checkDomain } from '@/helpers/domain';
+import { ProxyDetails } from '@/helpers/socksProxy/socksProxy.types';
 
 export const reloadMatchingTabs = async (url: string) => {
   const urlPattern = `*://*.${url}/*`;
@@ -39,13 +39,16 @@ export const getActiveTabDetails = async () => {
 
   // activeTab will be null if tabs permission has not been granted
   if (!activeTab?.url) {
-    return { host: '', protocol: '' };
+    return { host: '', protocol: '', isAboutPage: false, isExtensionPage: false };
   }
 
   const activeTabURL = new URL(activeTab.url);
+
   return {
     host: activeTabURL.hostname,
     protocol: activeTabURL.protocol,
+    isAboutPage: activeTabURL.protocol === 'about:',
+    isExtensionPage: activeTabURL.protocol === 'moz-extension:',
   };
 };
 

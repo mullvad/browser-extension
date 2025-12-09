@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 import { NCard, NCarousel, NIcon, NImage } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -10,9 +10,11 @@ import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
 
 import { closePopup, openOptions, Tab } from '@/helpers/browserExtension';
 
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import useWarnings from '@/composables/useWarnings/useWarnings';
 
+const { isError, isLoading } = inject(ConnectionKey, defaultConnection);
 const { activeRecommendations } = useRecommendations();
 const { activeWarnings } = useWarnings();
 
@@ -22,7 +24,7 @@ const activeNotifications = computed(() => {
 </script>
 
 <template>
-  <div v-if="activeNotifications.length > 0" class="mb-4 z-50">
+  <div v-if="!isLoading && !isError && activeNotifications.length > 0" class="mt-4 z-50">
     <n-carousel :show-arrow="activeNotifications.length > 1" :show-dots="false">
       <template #arrow="{ prev, next }">
         <div v-if="activeNotifications.length > 1" class="arrows-custom">

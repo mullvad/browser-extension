@@ -1,30 +1,39 @@
 <script lang="ts" setup>
-import { inject } from 'vue';
-import { NIcon } from 'naive-ui';
+import { computed } from 'vue';
 
-import ConnectionDetails from '@/components/ConnectionDetails/ConnectionDetails.vue';
-import FeCog from '@/components/Icons/FeCog.vue';
-import HomeProxyStatus from '@/components/Proxy/HomeProxyStatus.vue';
-import LocationDrawer from '@/components/ConnectionDetails/LocationDrawer.vue';
+import ConnectionCheck from '@/components/ConnectionCheck/ConnectionCheck.vue';
+import PopupProxyPanel from '@/components/Proxy/PopupProxyPanel.vue';
+import LocationDrawer from '@/components/LocationDrawer.vue';
 import NotificationsCarousel from '@/components/NotificationsCarousel.vue';
+import PopupHeader from '@/components/PopupHeader.vue';
 
-import { openOptions } from '@/helpers/browserExtension';
+import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
+import useSocksProxy from '@/composables/useSocksProxy';
+import useRandomProxy from '@/composables/useRandomProxy';
 
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+const { dnsServers, isError, isLeaking, isLoading, isMullvadDNS, isMullvadDoh } =
+  useCheckDnsLeaks();
+const { globalProxyEnabled, currentHostProxyEnabled } = useSocksProxy();
+const { randomProxyMode } = useRandomProxy();
 
-const { isLoading, isError } = inject(ConnectionKey, defaultConnection);
+const isProxyInUse = computed(
+  () => !!(randomProxyMode.value || currentHostProxyEnabled.value || globalProxyEnabled.value),
+);
 </script>
 
 <template>
   <main class="w-[450px] m-3">
-    <div class="absolute z-60 top-4 right-4 hover:text-white cursor-pointer" @click="openOptions()">
-      <n-icon size="20">
-        <FeCog />
-      </n-icon>
-    </div>
-    <NotificationsCarousel v-if="!isLoading && !isError" />
-    <ConnectionDetails />
-    <HomeProxyStatus />
+    <PopupHeader
+      :isLeaking
+      :isErrorDNS="isError"
+      :isLoadingDNS="isLoading"
+      :isMullvadDNS
+      :isMullvadDoh
+      :isProxyInUse
+    />
+    <ConnectionCheck :dnsServers :isProxyInUse :isErrorDNS="isError" :isLoadingDNS="isLoading" />
+    <PopupProxyPanel />
     <LocationDrawer />
+    <NotificationsCarousel />
   </main>
 </template>

@@ -7,6 +7,6 @@ import WebRTCToggle from '@/components/PrivacyRecommendations/WebRTCToggle.vue';
 <template>
   <WebRTCToggle class="pt-4" />
 
-  <TitleCategory title="Privacy Recommendations" class="pt-4" />
+  <TitleCategory title="Privacy Recommendations" class="mb-2 pt-4" />
   <privacy-recommendations />
 </template>

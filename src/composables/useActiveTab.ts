@@ -1,19 +1,31 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { getActiveTabDetails } from '@/helpers/tabs';
+import { checkDomain } from '@/helpers/domain';
 
 const activeTabHost = ref('');
-const isBrowserPage = ref(false);
+const isAboutPage = ref(false);
+const isExtensionPage = ref(false);
 
 const getActiveTab = async () => {
-  const { protocol, host } = await getActiveTabDetails();
+  const {
+    host,
+    isAboutPage: isAboutPageValue,
+    isExtensionPage: isExtensionPageValue,
+  } = await getActiveTabDetails();
+
   activeTabHost.value = host;
-  isBrowserPage.value = protocol === 'about:' || protocol === 'moz-extension:';
+  isAboutPage.value = isAboutPageValue;
+  isExtensionPage.value = isExtensionPageValue; // TODO is this value used anywhere?
 };
+const activeTabDomain = computed(() => {
+  const { domain, hasSubdomain, subDomain } = checkDomain(activeTabHost.value);
+  return hasSubdomain ? subDomain : domain;
+});
 
 const useActiveTab = () => {
   getActiveTab();
 
-  return { activeTabHost, isBrowserPage };
+  return { activeTabDomain, activeTabHost, isAboutPage, isExtensionPage };
 };
 
 export default useActiveTab;

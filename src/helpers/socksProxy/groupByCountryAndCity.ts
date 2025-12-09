@@ -1,4 +1,4 @@
-import { Servers, SocksProxy } from './socksProxies.types';
+import { Servers, SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 export const groupByCountryAndCity = (data: SocksProxy[]) =>
   data.reduce((acc: Servers, proxy: SocksProxy) => {

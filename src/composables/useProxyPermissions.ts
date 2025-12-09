@@ -1,7 +1,7 @@
 import { ref, readonly } from 'vue';
 import { getProxyPermissions, requestProxyPermissions } from '@/helpers/permissions';
 
-export const useProxyPermissions = () => {
+const useProxyPermissions = () => {
   const isGranted = ref(false);
 
   const checkProxyPermissions = async () => {
