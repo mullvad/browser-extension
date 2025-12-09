@@ -107,7 +107,7 @@ const selectLocation = (connection: HistoryEntry) => {
 
         <div v-if="cities?.length === 1">
           <n-space vertical class="ml-8">
-            <span class="city-name">{{ cities[0].city }}</span>
+            <span class="text-sm">{{ cities[0].city }}</span>
             <n-button
               v-for="proxy in cities[0].proxyList"
               :key="proxy.hostname"
@@ -172,9 +172,5 @@ const selectLocation = (connection: HistoryEntry) => {
 <style scoped>
 p {
   color: var(--light-grey);
-}
-
-.city-name {
-  font-size: 14px;
 }
 </style>
