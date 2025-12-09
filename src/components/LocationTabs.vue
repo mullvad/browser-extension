@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { NTabPane, NTabs, TabsProps } from 'naive-ui';
 
-import RecentLocationButtons from '@/components/RecentLocationButtons.vue';
+import Button from '@/components/Buttons/Button.vue';
 import MostUsedLocationButtons from '@/components/MostUsedLocationButtons.vue';
+import RecentLocationButtons from '@/components/RecentLocationButtons.vue';
+
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
-import Button from '@/components/Buttons/Button.vue';
 
 type TabsThemeOverrides = NonNullable<TabsProps['themeOverrides']>;
 const tabsThemeOverrides: TabsThemeOverrides = {
