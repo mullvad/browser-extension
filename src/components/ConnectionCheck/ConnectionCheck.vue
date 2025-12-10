@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { inject, ref } from 'vue';
-import { NCard, NCollapseTransition, NIcon } from 'naive-ui';
+import { inject } from 'vue';
+import { NCard } from 'naive-ui';
 
 import ConnectionDetails from '@/components/ConnectionCheck/ConnectionDetails.vue';
 import ConnectionLocation from '@/components/ConnectionCheck/ConnectionLocation.vue';
-import FeChevronDown from '@/components/Icons/FeChevronDown.vue';
-import FeChevronUp from '@/components/Icons/FeChevronUp.vue';
+
 import IconLabel from '@/components/IconLabel.vue';
 import WebTRCDetails from '@/components/ConnectionCheck/WebTRCDetails.vue';
 
@@ -20,8 +19,6 @@ defineProps<{
 }>();
 
 const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
-
-const showDetails = ref(true);
 </script>
 
 <template>
@@ -40,20 +37,9 @@ const showDetails = ref(true);
     </div>
 
     <div v-else>
-      <div>
-        <ConnectionLocation />
-        <n-icon size="20" class="cursor-pointer" @click="showDetails = !showDetails">
-          <FeChevronUp v-if="showDetails" />
-          <FeChevronDown v-else />
-        </n-icon>
-      </div>
-
-      <div>
-        <n-collapse-transition :show="showDetails">
-          <ConnectionDetails :dnsServers :isErrorDNS :isLoadingDNS />
-          <WebTRCDetails />
-        </n-collapse-transition>
-      </div>
+      <ConnectionLocation />
+      <ConnectionDetails :dnsServers :isErrorDNS :isLoadingDNS />
+      <WebTRCDetails />
     </div>
   </n-card>
 </template>
