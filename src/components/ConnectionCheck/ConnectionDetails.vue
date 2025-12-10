@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
 
-import FeCheckCircle from '@/components/Icons/FeCheckCircle.vue';
+import FeLock from '@/components/Icons/FeLock.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
 import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
@@ -49,7 +49,7 @@ const { connection } = inject(ConnectionKey, defaultConnection);
         <div v-for="dnsServer in dnsServers" :key="dnsServer.ip" class="flex flex-row">
           <div class="inline-flex items-center">
             <FeDrop v-if="connection.isMullvad && !dnsServer.mullvad_dns" class="text-error" />
-            <FeCheckCircle v-if="dnsServer.mullvad_dns" class="text-success" />
+            <FeLock v-if="dnsServer.mullvad_dns" class="text-success" />
             <FeXCircle v-if="!connection.isMullvad && !dnsServer.mullvad_dns" class="text-error" />
             <span class="ml-1">
               {{ dnsServer.ip }}

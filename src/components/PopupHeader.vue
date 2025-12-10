@@ -2,12 +2,14 @@
 import { computed, inject } from 'vue';
 import { NIcon, NTag } from 'naive-ui';
 
-import FeCheck from '@/components/Icons/FeCheckCircle.vue';
 import FeCog from '@/components/Icons/FeCog.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
+import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
+import FeLock from '@/components/Icons/FeLock.vue';
+import FeLockOff from '@/components/Icons/FeLockOff.vue';
+import FePower from './Icons/FePower.vue';
 import FeShuffle from '@/components/Icons//FeShuffle.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
-import FeHelpCircle from '@/components/Icons/FeHelpCircle.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
@@ -44,8 +46,8 @@ const isMullvad = computed(() => connection.value.isMullvad);
         <span> Proxy </span>
         <template #icon>
           <n-icon size="20">
-            <FeShuffle v-if="randomProxyMode" />
-            <FeCheck v-else />
+            <FeShuffle v-if="randomProxyMode" class="text-success" />
+            <FePower v-else class="text-success" />
           </n-icon>
         </template>
       </n-tag>
@@ -55,8 +57,8 @@ const isMullvad = computed(() => connection.value.isMullvad);
         <template #icon>
           <n-icon size="20">
             <MuSpinner v-if="isLoading" />
-            <FeCheck v-else-if="isMullvad" class="text-success" />
-            <FeXCircle v-else class="text-error" />
+            <FeLock v-else-if="isMullvad" class="text-success" />
+            <FeLockOff v-else class="text-error" />
           </n-icon>
         </template>
       </n-tag>
@@ -70,8 +72,8 @@ const isMullvad = computed(() => connection.value.isMullvad);
             <FeHelpCircle v-else-if="isErrorDNS" class="text-warning" />
             <FeDrop v-else-if="isLeaking && isMullvad" class="text-error" />
             <FeXCircle v-else-if="isLeaking && !isMullvad" class="text-error" />
-            <FeCheck v-else-if="isMullvadDNS" class="text-success" />
-            <FeCheck v-else-if="isMullvadDoh" class="text-success" />
+            <FeLock v-else-if="isMullvadDNS" class="text-success" />
+            <FeLock v-else-if="isMullvadDoh" class="text-success" />
           </n-icon>
         </template>
       </n-tag>
