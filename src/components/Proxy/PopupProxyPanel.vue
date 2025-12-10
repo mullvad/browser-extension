@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, CSSProperties, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { NCard, NCollapseTransition, NIcon, NSwitch, NTag } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -44,37 +44,11 @@ const currentTabProxyDetails = computed(() => {
   return hostProxiesDetails.value[activeTabDomain.value] || null;
 });
 
-const isCurrentTabProxyOverriden = computed(() =>
-  !randomProxyMode.value && currentHostProxyEnabled.value ? false : true,
-);
+const isCurrentTabProxyOverriden = computed(() => (!randomProxyMode.value ? false : true));
 
 const isAllWebsitesProxyOverriden = computed(() =>
-  !randomProxyMode.value && !currentHostProxyEnabled.value && globalProxyEnabled.value
-    ? false
-    : true,
+  !randomProxyMode.value && !currentHostProxyEnabled.value ? false : true,
 );
-
-function railStyleCurrentTab(params: { checked: boolean }): CSSProperties {
-  const { checked } = params;
-  const style: CSSProperties = {};
-
-  if (checked && randomProxyMode.value) {
-    style.background = '#327554';
-  }
-
-  return style;
-}
-
-function railStyleAllWebsites(params: { checked: boolean }): CSSProperties {
-  const { checked } = params;
-  const style: CSSProperties = {};
-
-  if ((checked && randomProxyMode.value) || !isCurrentTabProxyOverriden.value) {
-    style.background = '#327554';
-  }
-
-  return style;
-}
 </script>
 
 <template>
@@ -86,14 +60,14 @@ function railStyleAllWebsites(params: { checked: boolean }): CSSProperties {
       >
         <div class="flex">
           <TitleCategory :level="2" title="Proxy for current tab" />
-          <InUseTag v-if="!isCurrentTabProxyOverriden" />
+          <InUseTag v-if="!isCurrentTabProxyOverriden && currentHostProxyEnabled" />
         </div>
 
         <div class="flex flex-row items-center">
           <n-switch
             v-if="currentTabProxyDetails"
             :value="currentHostProxyEnabled"
-            :rail-style="railStyleCurrentTab"
+            :disabled="isCurrentTabProxyOverriden"
             @update-value="toggleDomainProxy(activeTabDomain)"
             @click.stop
             class="mr-2"
@@ -112,8 +86,7 @@ function railStyleAllWebsites(params: { checked: boolean }): CSSProperties {
             <FeInfo />
           </n-icon>
           <p>
-            {{ currentHostProxyEnabled ? 'This' : 'When enabled, this' }} proxy is used for
-            <strong>{{ activeTabDomain }}</strong
+            Proxy configured for <strong>{{ activeTabDomain }}</strong
             >.
           </p>
         </div>
@@ -171,14 +144,14 @@ function railStyleAllWebsites(params: { checked: boolean }): CSSProperties {
       >
         <div class="flex flex-row items-center">
           <TitleCategory :level="2" title="Proxy for all websites" />
-          <InUseTag v-if="!isAllWebsitesProxyOverriden" />
+          <InUseTag v-if="!isAllWebsitesProxyOverriden && globalProxyEnabled" />
         </div>
 
         <div class="flex flex-row items-center">
           <n-switch
             v-if="globalProxyDetails.server"
             :value="globalProxyEnabled"
-            :rail-style="railStyleAllWebsites"
+            :disabled="isAllWebsitesProxyOverriden"
             @update-value="toggleGlobalProxy()"
             @click.stop
             class="mr-2"
@@ -197,8 +170,8 @@ function railStyleAllWebsites(params: { checked: boolean }): CSSProperties {
             <FeInfo />
           </n-icon>
           <p>
-            {{ globalProxyEnabled ? 'This' : 'When enabled, this' }} proxy is used by
-            <strong>all websites</strong>, with the exception of domain specific proxies.
+            Proxy configured for <strong>all websites</strong>, with the exception of domain
+            specific proxies.
           </p>
         </div>
 
