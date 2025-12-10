@@ -52,6 +52,9 @@ const isAllWebsitesProxyOverriden = computed(() =>
 </script>
 
 <template>
+  <div>
+    <TitleCategory v-if="!isAboutPage && !isExtensionPage" title="Proxies" class="ml-3 mb-2" />
+  </div>
   <n-card v-if="isGranted" :bordered="false" class="mb-2">
     <div v-if="!isAboutPage && !isExtensionPage" class="border-[#354f6b] border-b-1 mb-3 pb-3">
       <div
@@ -59,7 +62,7 @@ const isAllWebsitesProxyOverriden = computed(() =>
         @click="showDetailsCurrentTab = !showDetailsCurrentTab"
       >
         <div class="flex">
-          <TitleCategory :level="2" title="Proxy for current tab" />
+          <TitleCategory :level="3" title="Current tab" />
           <InUseTag v-if="!isCurrentTabProxyOverriden && currentHostProxyEnabled" />
         </div>
 
@@ -143,7 +146,7 @@ const isAllWebsitesProxyOverriden = computed(() =>
         @click="showDetailsAllWebsites = !showDetailsAllWebsites"
       >
         <div class="flex flex-row items-center">
-          <TitleCategory :level="2" title="Proxy for all websites" />
+          <TitleCategory :level="3" title="All websites" />
           <InUseTag v-if="!isAllWebsitesProxyOverriden && globalProxyEnabled" />
         </div>
 
@@ -209,7 +212,7 @@ const isAllWebsitesProxyOverriden = computed(() =>
         @click="showDetailsRandom = !showDetailsRandom"
       >
         <div class="flex flex-row items-center">
-          <TitleCategory :level="2" title="Random proxy mode" />
+          <TitleCategory :level="3" title="Random mode" />
           <InUseTag v-if="randomProxyMode" />
         </div>
 
