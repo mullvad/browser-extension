@@ -1,15 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Location should show two countries 1`] = `
-<div>
+exports[`Location > should show two countries 1`] = `
+<div
+  data-v-da2d7eb2=""
+>
   <p
     class="mb-4"
+    data-v-da2d7eb2=""
   >
      Select the location where you want to have all your browser traffic routed through. 
   </p>
   <!--v-if-->
   <div
     class="n-input n-input--resizable n-input--stateful mb-3"
+    data-v-da2d7eb2=""
     style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-count-text-color: rgb(118, 124, 130); --n-count-text-color-disabled: rgba(194, 194, 194, 1); --n-color: rgba(255, 255, 255, 1); --n-font-size: 14px; --n-font-weight: 400; --n-border-radius: 3px; --n-height: 34px; --n-padding-left: 12px; --n-padding-right: 12px; --n-text-color: rgb(51, 54, 57); --n-caret-color: #18a058; --n-text-decoration-color: rgb(51, 54, 57); --n-border: 1px solid rgb(224, 224, 230); --n-border-disabled: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #36ad6a; --n-border-focus: 1px solid #36ad6a; --n-placeholder-color: rgba(194, 194, 194, 1); --n-placeholder-color-disabled: rgba(209, 209, 209, 1); --n-icon-size: 16px; --n-line-height-textarea: 1.6; --n-color-disabled: rgb(250, 250, 252); --n-color-focus: rgba(255, 255, 255, 1); --n-text-color-disabled: rgba(194, 194, 194, 1); --n-box-shadow-focus: 0 0 0 2px rgba(24, 160, 88, 0.2); --n-loading-color: #18a058; --n-caret-color-warning: #f0a020; --n-color-focus-warning: rgba(255, 255, 255, 1); --n-box-shadow-focus-warning: 0 0 0 2px rgba(240, 160, 32, 0.2); --n-border-warning: 1px solid #f0a020; --n-border-focus-warning: 1px solid #fcb040; --n-border-hover-warning: 1px solid #fcb040; --n-loading-color-warning: #f0a020; --n-caret-color-error: #d03050; --n-color-focus-error: rgba(255, 255, 255, 1); --n-box-shadow-focus-error: 0 0 0 2px rgba(208, 48, 80, 0.2); --n-border-error: 1px solid #d03050; --n-border-focus-error: 1px solid #de576d; --n-border-hover-error: 1px solid #de576d; --n-loading-color-error: #d03050; --n-clear-color: rgba(194, 194, 194, 1); --n-clear-size: 16px; --n-clear-color-hover: rgba(146, 146, 146, 1); --n-clear-color-pressed: rgba(175, 175, 175, 1); --n-icon-color: rgba(194, 194, 194, 1); --n-icon-color-hover: rgba(146, 146, 146, 1); --n-icon-color-pressed: rgba(175, 175, 175, 1); --n-icon-color-disabled: rgba(209, 209, 209, 1); --n-suffix-text-color: rgb(51, 54, 57);"
   >
     <div
@@ -72,11 +76,13 @@ exports[`Location should show two countries 1`] = `
   </div>
   <div
     class="n-collapse"
+    data-v-da2d7eb2=""
     style="--n-font-size: 14px; --n-bezier: cubic-bezier(.4, 0, .2, 1); --n-text-color: rgb(51, 54, 57); --n-divider-color: rgb(239, 239, 245); --n-title-padding: 16px 0 0 0; --n-title-font-size: 14px; --n-title-text-color: rgb(31, 34, 37); --n-title-text-color-disabled: rgba(194, 194, 194, 1); --n-title-font-weight: 400; --n-arrow-color: rgb(51, 54, 57); --n-arrow-color-disabled: rgba(194, 194, 194, 1); --n-item-margin: 16px 0 0 0;"
   >
     
     <div
       class="n-collapse-item n-collapse-item--right-arrow-placement n-collapse-item--trigger-area-main n-collapse-item--trigger-area-extra n-collapse-item--trigger-area-arrow"
+      data-v-da2d7eb2=""
     >
       <div
         class="n-collapse-item__header"
@@ -87,6 +93,7 @@ exports[`Location should show two countries 1`] = `
           
           <button
             class="n-button n-button--default-type n-button--medium-type"
+            data-v-da2d7eb2=""
             style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; --n-font-weight: 400; --n-color: #0000; --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: #0000; --n-ripple-color: #0000; --n-text-color: rgb(51, 54, 57); --n-text-color-hover: rgb(51, 54, 57); --n-text-color-pressed: rgb(51, 54, 57); --n-text-color-focus: rgb(51, 54, 57); --n-text-color-disabled: rgb(51, 54, 57); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #36ad6a; --n-border-pressed: 1px solid #0c7a43; --n-border-focus: 1px solid #36ad6a; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: initial; --n-height: 34px; --n-font-size: 14px; --n-padding: 0 14px; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 3px;"
             tabindex="0"
             type="button"
@@ -150,6 +157,7 @@ exports[`Location should show two countries 1`] = `
     </div>
     <div
       class="n-collapse-item n-collapse-item--right-arrow-placement n-collapse-item--trigger-area-main n-collapse-item--trigger-area-extra n-collapse-item--trigger-area-arrow"
+      data-v-da2d7eb2=""
     >
       <div
         class="n-collapse-item__header"
@@ -160,6 +168,7 @@ exports[`Location should show two countries 1`] = `
           
           <button
             class="n-button n-button--default-type n-button--medium-type"
+            data-v-da2d7eb2=""
             style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; --n-font-weight: 400; --n-color: #0000; --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: #0000; --n-ripple-color: #0000; --n-text-color: rgb(51, 54, 57); --n-text-color-hover: rgb(51, 54, 57); --n-text-color-pressed: rgb(51, 54, 57); --n-text-color-focus: rgb(51, 54, 57); --n-text-color-disabled: rgb(51, 54, 57); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #36ad6a; --n-border-pressed: 1px solid #0c7a43; --n-border-focus: 1px solid #36ad6a; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: initial; --n-height: 34px; --n-font-size: 14px; --n-padding: 0 14px; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 3px;"
             tabindex="0"
             type="button"

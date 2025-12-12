@@ -1,17 +1,22 @@
+import { describe, expect, it, vi } from 'vitest';
+
 import { mount } from '@vue/test-utils';
 import MostUsedLocationButtons from '@/components/MostUsedLocationButtons.vue';
 
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import Button from '@/components/Buttons/Button.vue';
 
-jest.mock('@/composables/useProxyHistory/useProxyHistory', () => ({
-  __esModule: true,
-  default: jest.fn(),
+vi.mock('@/composables/useProxyHistory/useProxyHistory', () => ({
+  default: vi.fn(),
 }));
 
 describe('MostUsedLocationButtons', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should render one button', () => {
-    (useProxyHistory as jest.Mock).mockReturnValueOnce({
+    vi.mocked(useProxyHistory).mockReturnValueOnce({
       mostUsed: {
         value: [{ country: 'Argentina' }],
       },
@@ -19,9 +24,9 @@ describe('MostUsedLocationButtons', () => {
         value: [{ country: 'Argentina' }],
       },
       getLabel: ({ country }: { country: string }) => country,
-    });
+    } as any);
 
-    const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: jest.fn() } });
+    const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: vi.fn() } });
     const buttons = wrapper.findAllComponents(Button);
 
     expect(buttons).toHaveLength(1);
@@ -31,7 +36,7 @@ describe('MostUsedLocationButtons', () => {
   });
 
   it('should render three buttons', () => {
-    (useProxyHistory as jest.Mock).mockReturnValueOnce({
+    vi.mocked(useProxyHistory).mockReturnValueOnce({
       mostUsed: {
         value: [
           { country: 'Sweden' },
@@ -53,8 +58,8 @@ describe('MostUsedLocationButtons', () => {
         ],
       },
       getLabel: ({ country }: { country: string }) => country,
-    });
-    const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: jest.fn() } });
+    } as any);
+    const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: vi.fn() } });
     const buttons = wrapper.findAllComponents(Button);
 
     expect(buttons).toHaveLength(3);

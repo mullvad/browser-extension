@@ -1,12 +1,13 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MostUsedLocationButtons should render one button 1`] = `
+exports[`MostUsedLocationButtons > should render one button 1`] = `
 <div
   class="space-y-2"
 >
   
   <button
     class="btn whitespace-nowrap block"
+    data-v-814a3da6=""
   >
     
     Argentina
@@ -16,13 +17,14 @@ exports[`MostUsedLocationButtons should render one button 1`] = `
 </div>
 `;
 
-exports[`MostUsedLocationButtons should render three buttons 1`] = `
+exports[`MostUsedLocationButtons > should render three buttons 1`] = `
 <div
   class="space-y-2"
 >
   
   <button
     class="btn whitespace-nowrap block"
+    data-v-814a3da6=""
   >
     
     Sweden
@@ -30,6 +32,7 @@ exports[`MostUsedLocationButtons should render three buttons 1`] = `
   </button>
   <button
     class="btn whitespace-nowrap block"
+    data-v-814a3da6=""
   >
     
     Norway
@@ -37,6 +40,7 @@ exports[`MostUsedLocationButtons should render three buttons 1`] = `
   </button>
   <button
     class="btn whitespace-nowrap block"
+    data-v-814a3da6=""
   >
     
     Iceland

@@ -1,3 +1,5 @@
+import { it, describe, expect } from 'vitest';
+
 import getRandomSocksProxy from '@/helpers/getRandomSocksProxy';
 import { Country } from '@/composables/useSocksProxies/socksProxies.types';
 

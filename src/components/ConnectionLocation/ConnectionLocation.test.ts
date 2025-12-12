@@ -1,3 +1,5 @@
+import { it, describe, expect } from 'vitest';
+
 import { ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import ConnectionLocation from '@/components/ConnectionLocation/ConnectionLocation.vue';

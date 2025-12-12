@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { dirname, relative } from 'path';
 import { defineConfig, UserConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';

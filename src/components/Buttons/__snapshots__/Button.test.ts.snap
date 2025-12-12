@@ -1,8 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Button should render a blue button 1`] = `
+exports[`Button > should render a blue button 1`] = `
 <button
   class="btn whitespace-nowrap bg-blue text-white"
+  data-v-814a3da6=""
 >
   
   Knapp
@@ -10,9 +11,10 @@ exports[`Button should render a blue button 1`] = `
 </button>
 `;
 
-exports[`Button should render a button 1`] = `
+exports[`Button > should render a button 1`] = `
 <button
   class="btn whitespace-nowrap"
+  data-v-814a3da6=""
 >
   
   Knapp
@@ -20,9 +22,10 @@ exports[`Button should render a button 1`] = `
 </button>
 `;
 
-exports[`Button should render an a tag 1`] = `
+exports[`Button > should render an a tag 1`] = `
 <a
   class="btn whitespace-nowrap"
+  data-v-814a3da6=""
   href="https://www.mullvad.net"
 >
   

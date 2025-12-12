@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { it, describe, expect } from 'vitest';
 
 import useRecommendationIconTooltip from '@/composables/useRecommendationIconTooltip';
 import { Recommendation } from '@/composables/useRecommendations/Recommendation.types';

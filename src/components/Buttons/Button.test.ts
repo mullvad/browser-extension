@@ -1,3 +1,5 @@
+import { it, describe, expect } from 'vitest';
+
 import { mount } from '@vue/test-utils';
 
 import Button from '@/components/Buttons/Button.vue';
