@@ -110,6 +110,79 @@ exports[`Location > should show two countries 1`] = `
             <span
               class="n-button__content"
             >
+              Narnia
+            </span>
+            <div
+              aria-hidden="true"
+              class="n-base-wave"
+            />
+            <!---->
+            <!---->
+          </button>
+          
+          <div
+            class="n-collapse-item-arrow"
+            data-arrow="true"
+          >
+            <i
+              class="n-base-icon"
+            >
+              <svg
+                fill="none"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.64645 3.14645C5.45118 3.34171 5.45118 3.65829 5.64645 3.85355L9.79289 8L5.64645 12.1464C5.45118 12.3417 5.45118 12.6583 5.64645 12.8536C5.84171 13.0488 6.15829 13.0488 6.35355 12.8536L10.8536 8.35355C11.0488 8.15829 11.0488 7.84171 10.8536 7.64645L6.35355 3.14645C6.15829 2.95118 5.84171 2.95118 5.64645 3.14645Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </i>
+          </div>
+          <!---->
+        </div>
+        <div
+          class="n-collapse-item__header-extra"
+          data-extra="true"
+        />
+      </div>
+      <transition-stub
+        appear="false"
+        css="true"
+        name="fade-in-height-expand-transition"
+        persisted="false"
+      >
+        <!---->
+      </transition-stub>
+    </div>
+    <div
+      class="n-collapse-item n-collapse-item--right-arrow-placement n-collapse-item--trigger-area-main n-collapse-item--trigger-area-extra n-collapse-item--trigger-area-arrow"
+    >
+      <div
+        class="n-collapse-item__header"
+      >
+        <div
+          class="n-collapse-item__header-main"
+        >
+          
+          <button
+            class="n-button n-button--default-type n-button--medium-type"
+            style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; --n-font-weight: 400; --n-color: #0000; --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: #0000; --n-ripple-color: #0000; --n-text-color: rgb(51, 54, 57); --n-text-color-hover: rgb(51, 54, 57); --n-text-color-pressed: rgb(51, 54, 57); --n-text-color-focus: rgb(51, 54, 57); --n-text-color-disabled: rgb(51, 54, 57); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #36ad6a; --n-border-pressed: 1px solid #0c7a43; --n-border-focus: 1px solid #36ad6a; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: initial; --n-height: 34px; --n-font-size: 14px; --n-padding: 0 14px; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 3px;"
+            tabindex="0"
+            type="button"
+          >
+            <!---->
+            <transition-stub
+              appear="false"
+              css="true"
+              name="fade-in-width-expand-transition"
+              persisted="false"
+            >
+              <!---->
+            </transition-stub>
+            <span
+              class="n-button__content"
+            >
               Albania
             </span>
             <div

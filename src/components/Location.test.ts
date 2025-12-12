@@ -25,10 +25,37 @@ vi.mock('@/composables/useSocksProxies/useSocksProxies', () => ({
   default: vi.fn(() => ({
     filteredProxies: [
       {
+        country: 'Narnia',
+        cities: [],
+      },
+      {
         country: 'Albania',
+        cities: [{ city: 'Tirana', proxyList: [] }],
       },
       {
         country: 'Australia',
+        cities: [
+          {
+            city: 'Sydney',
+            proxyList: [
+              {
+                online: true,
+                hostname: 'au-syd-wg-001',
+                ipv4_address: '',
+                ipv6_address: '',
+                port: 69,
+                location: {
+                  city: 'Sydney',
+                  code: 'syd',
+                  country: 'Australia',
+                  countryCode: 'au',
+                  longitude: 88,
+                  latitude: 89,
+                },
+              },
+            ],
+          },
+        ],
       },
     ],
   })),
@@ -56,9 +83,10 @@ describe('Location', () => {
     await wrapper.vm.$nextTick();
 
     const countries = wrapper.findAllComponents(NCollapseItem);
-    expect(countries).toHaveLength(2);
-    expect(countries[0]?.text()).toMatch(/albania/i);
-    expect(countries[1]?.text()).toMatch(/australia/i);
+    expect(countries).toHaveLength(3);
+    expect(countries[0]?.text()).toMatch(/narnia/i);
+    expect(countries[1]?.text()).toMatch(/albania/i);
+    expect(countries[2]?.text()).toMatch(/australia/i);
 
     expect(wrapper.element).toMatchSnapshot();
   });
