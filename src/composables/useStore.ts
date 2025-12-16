@@ -3,18 +3,16 @@ import { Ref } from 'vue';
 import type { HistoryEntriesMap } from '@/composables/useProxyHistory/HistoryEntries.types';
 import type {
   ProxyDetails,
-  ProxyInfoMap,
-  ProxyInfo,
   ProxyDetailsMap,
+  ProxyInfo,
+  ProxyInfoMap,
 } from '@/helpers/socksProxy.types';
 import { Tab } from '@/helpers/browserExtension';
 
 import useBrowserStorageLocal from '@/composables/useBrowserStorageLocal';
-import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
 
 export type Store = {
   excludedHosts: Ref<string[]>;
-  flatProxiesList: Ref<SocksProxy[]>;
   globalProxy: Ref<ProxyInfo>;
   globalProxyDetails: Ref<ProxyDetails>;
   historyEntries: Ref<HistoryEntriesMap>;
@@ -27,7 +25,6 @@ export type Store = {
 
 const useStore = (): Store => {
   const excludedHosts = useBrowserStorageLocal('excludedHosts', []);
-  const flatProxiesList = useBrowserStorageLocal('flatProxiesList', [] as SocksProxy[]);
   const globalProxy = useBrowserStorageLocal('globalProxy', {} as ProxyInfo);
   const globalProxyDetails = useBrowserStorageLocal('globalProxyDetails', {} as ProxyDetails);
   const historyEntries = useBrowserStorageLocal('historyEntries', {});
@@ -39,7 +36,6 @@ const useStore = (): Store => {
 
   return {
     excludedHosts,
-    flatProxiesList,
     globalProxy,
     globalProxyDetails,
     historyEntries,
