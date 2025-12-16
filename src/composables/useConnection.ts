@@ -43,15 +43,15 @@ const useConnection = () => {
     updateConnection();
   }
 
-  return { connection, updateConnection, isLoading, isError, error };
+  return { connection, error, isError, isLoading, updateConnection };
 };
 
 export default useConnection;
 
 export const ConnectionKey: InjectionKey<{
   connection: Ref<Connection>;
-  isLoading: Ref<boolean>;
   isError: Ref<boolean>;
+  isLoading: Ref<boolean>;
 }> = Symbol('Connection');
 
 export const defaultConnection = {

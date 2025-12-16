@@ -1,24 +1,20 @@
 <script lang="ts" setup>
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 import { NCard } from 'naive-ui';
 
 import ConnectionDetails from '@/components/ConnectionCheck/ConnectionDetails.vue';
 import ConnectionLocation from '@/components/ConnectionCheck/ConnectionLocation.vue';
-
 import IconLabel from '@/components/IconLabel.vue';
 import WebTRCDetails from '@/components/ConnectionCheck/WebTRCDetails.vue';
 
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import { DnsServer } from '@/composables/useCheckDnsLeaks';
 
 defineProps<{
-  dnsServers: DnsServer[];
-  isErrorDNS: boolean;
-  isLoadingDNS: boolean;
   isProxyInUse: boolean;
 }>();
 
 const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
+const isMullvad = computed(() => connection.value.isMullvad);
 </script>
 
 <template>
@@ -26,10 +22,7 @@ const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnecti
     <div v-if="isLoading || isError">
       <p>
         <IconLabel v-if="isLoading" text="Checking connection" type="spinner" />
-        <IconLabel
-          v-if="isError || (!isLoading && isProxyInUse && !connection.isMullvad)"
-          type="warning"
-        >
+        <IconLabel v-if="isError || (!isLoading && isProxyInUse && !isMullvad)" type="warning">
           Internet can't be reached. Make sure you're connected to the internet and Mullvad VPN, or
           disable the proxy.
         </IconLabel>
@@ -38,7 +31,7 @@ const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnecti
 
     <div v-else>
       <ConnectionLocation />
-      <ConnectionDetails :dnsServers :isErrorDNS :isLoadingDNS />
+      <ConnectionDetails />
       <WebTRCDetails />
     </div>
   </n-card>
