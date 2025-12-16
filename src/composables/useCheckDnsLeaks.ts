@@ -1,7 +1,8 @@
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
 import unique from '@/helpers/unique';
+import useConnection from '@/composables/useConnection';
 
 export type DnsServer = {
   hostname: string;
@@ -34,7 +35,19 @@ const isLoading = ref(false);
 const isMullvadDNS = ref(false);
 const isMullvadDoh = ref(false);
 
+const { isError: isConnectionError } = useConnection();
+
 const useCheckDnsLeaks = () => {
+  // Watch for connection errors and abort DNS leak check if needed
+  watch(isConnectionError, (newValue) => {
+    if (newValue && isLoading.value) {
+      // Connection error occurred during DNS leak check
+      isLoading.value = false;
+      isError.value = true;
+      error.value = new Error('Connection error detected, aborting DNS leak check');
+    }
+  });
+
   const checkDnsLeaks = async () => {
     dnsServers.value = [];
     error.value = undefined;
@@ -46,6 +59,7 @@ const useCheckDnsLeaks = () => {
     try {
       // The returned value from  Promise.all is here a list of lists, so add .flat() to make it a single level list
       const allDnsServers = (await Promise.all([...Array(6)].map(() => dnsLeakRequest()))).flat();
+
       // Remove duplicates, based on DnsServer.ip
       const uniqueDnsServers = unique(allDnsServers, 'ip');
 

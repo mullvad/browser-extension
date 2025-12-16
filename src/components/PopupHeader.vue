@@ -33,7 +33,7 @@ defineProps<{
 
 const { activeTabHost, isAboutPage, isExtensionPage } = useActiveTab();
 const { randomProxyMode } = useRandomProxy();
-const { connection, isLoading } = inject(ConnectionKey, defaultConnection);
+const { connection, isLoading, isError } = inject(ConnectionKey, defaultConnection);
 
 const isMullvad = computed(() => connection.value.isMullvad);
 </script>
@@ -61,6 +61,7 @@ const isMullvad = computed(() => connection.value.isMullvad);
           <n-icon size="20">
             <MuSpinner v-if="isLoading" />
             <FeLock v-else-if="isMullvad" class="text-success" />
+            <FeHelpCircle v-else-if="isError" class="text-warning" />
             <FeLockOff v-else class="text-error" />
           </n-icon>
         </template>
@@ -75,8 +76,7 @@ const isMullvad = computed(() => connection.value.isMullvad);
             <FeHelpCircle v-else-if="isErrorDNS" class="text-warning" />
             <FeDrop v-else-if="isLeaking && isMullvad" class="text-error" />
             <FeXCircle v-else-if="isLeaking && !isMullvad" class="text-error" />
-            <FeLock v-else-if="isMullvadDNS" class="text-success" />
-            <FeLock v-else-if="isMullvadDoh" class="text-success" />
+            <FeLock v-else-if="isMullvadDNS || isMullvadDoh" class="text-success" />
           </n-icon>
         </template>
       </n-tag>
