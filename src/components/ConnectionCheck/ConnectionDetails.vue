@@ -40,11 +40,13 @@ const isMullvad = computed(() => connection.value.isMullvad);
         <div v-if="isLoading" class="flex items-center">
           <MuSpinner />
         </div>
-        <div v-if="isError" class="flex items-center">
-          <FeHelpCircle class="text-warning" />
-          <span class="ml-1">Couldn't determine DNS</span>
-        </div>
-        <div v-for="dnsServer in dnsServers" :key="dnsServer.ip" class="flex flex-row">
+
+        <div
+          v-else-if="dnsServers.length > 0"
+          v-for="dnsServer in dnsServers"
+          :key="dnsServer.ip"
+          class="flex flex-row"
+        >
           <div class="inline-flex items-center">
             <FeLock v-if="isMullvadDNS || isMullvadDoh" class="text-success" />
             <FeDrop v-if="isLeaking && isMullvad" class="text-error" />
@@ -59,6 +61,10 @@ const isMullvad = computed(() => connection.value.isMullvad);
               }})
             </span>
           </div>
+        </div>
+        <div v-else-if="isError" class="flex items-center">
+          <FeHelpCircle class="text-warning" />
+          <span class="ml-1">Couldn't determine DNS</span>
         </div>
       </div>
     </div>
