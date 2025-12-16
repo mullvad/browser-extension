@@ -16,15 +16,18 @@ import TitleCategory from '@/components/TitleCategory.vue';
 import { openOptions } from '@/helpers/browserExtension';
 
 import useActiveTab from '@/composables/useActiveTab';
+const {
+  isError: isErrorDNS,
+  isLeaking,
+  isLoading: isLoadingDNS,
+  isMullvadDNS,
+  isMullvadDoh,
+} = useCheckDnsLeaks();
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
 import useRandomProxy from '@/composables/useRandomProxy';
+import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 
 defineProps<{
-  isLeaking: boolean;
-  isErrorDNS: boolean;
-  isLoadingDNS: boolean;
-  isMullvadDNS: boolean;
-  isMullvadDoh: boolean;
   isProxyInUse: boolean;
 }>();
 
