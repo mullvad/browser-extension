@@ -1,7 +1,7 @@
 import { it, describe, expect } from 'vitest';
 
 import type { Connection } from '@/helpers/connCheck.types';
-import useConnectionLocation from '@/composables/useConnectionLocation';
+import useConnectionLocation from '@/composables/useConnection/useConnectionLocation';
 
 describe('useConnectionLocation test', function () {
   it('should handle empty input', () => {

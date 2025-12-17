@@ -3,7 +3,7 @@ import { it, describe, expect } from 'vitest';
 import { ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import ConnectionLocation from '@/components/ConnectionCheck/ConnectionLocation.vue';
-import { ConnectionKey } from '@/composables/useConnection';
+import { ConnectionKey } from '@/composables/useConnection/useConnection';
 
 describe('ConnectionLocation.vue', function () {
   it('should render an Unknown location', () => {

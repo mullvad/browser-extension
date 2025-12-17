@@ -10,7 +10,7 @@ import FeArrowRight from '@/components/Icons/FeArrowRight.vue';
 
 import { closePopup, openOptions, Tab } from '@/helpers/browserExtension';
 
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection/useConnection';
 import useRecommendations from '@/composables/useRecommendations/useRecommendations';
 import useWarnings from '@/composables/useWarnings/useWarnings';
 

@@ -12,7 +12,7 @@ import { closePopup } from '@/helpers/browserExtension';
 
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
-import useConnection from '@/composables/useConnection';
+import useConnection from '@/composables/useConnection/useConnection';
 
 const { connection } = useConnection();
 

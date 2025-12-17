@@ -2,7 +2,7 @@ import { ref, watch } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
 import unique from '@/helpers/unique';
-import useConnection from '@/composables/useConnection';
+import useConnection from '@/composables/useConnection/useConnection';
 
 export type DnsServer = {
   hostname: string;
@@ -49,6 +49,11 @@ const useCheckDnsLeaks = () => {
   });
 
   const checkDnsLeaks = async () => {
+    if (isLoading.value) {
+      console.log('DNS leak check already in progress, skipping');
+      return;
+    }
+
     dnsServers.value = [];
     error.value = undefined;
     isError.value = false;
@@ -76,6 +81,7 @@ const useCheckDnsLeaks = () => {
       // If the users is not connected to Mullvad, but using a Proxy we will end up here
       isError.value = true;
       error.value = e as Error;
+      console.log(e);
     } finally {
       isLoading.value = false;
     }

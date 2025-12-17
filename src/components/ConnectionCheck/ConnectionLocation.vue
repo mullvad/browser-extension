@@ -3,8 +3,8 @@ import { computed, inject } from 'vue';
 import { NIcon } from 'naive-ui';
 
 import FeGlobe from '@/components/Icons/FeGlobe.vue';
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
-import useConnectionLocation from '@/composables/useConnectionLocation';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection/useConnection';
+import useConnectionLocation from '@/composables/useConnection/useConnectionLocation';
 
 const { connection } = inject(ConnectionKey, defaultConnection);
 const locationString = computed(() => useConnectionLocation(connection.value));
