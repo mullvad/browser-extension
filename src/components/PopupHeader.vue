@@ -21,12 +21,12 @@ import { ConnectionKey, defaultConnection } from '@/composables/useConnection/us
 import useRandomProxy from '@/composables/useRandomProxy';
 
 defineProps<{
-  isProxyInUse: boolean;
   isErrorDNS: boolean;
-  isLoadingDNS: boolean;
   isLeakingDNS: boolean;
+  isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
+  isProxyInUse: boolean;
 }>();
 
 const { activeTabHost, isAboutPage, isExtensionPage } = useActiveTab();

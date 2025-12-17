@@ -11,13 +11,13 @@ import { DnsServer } from '@/composables/useConnection/useCheckDnsLeaks';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection/useConnection';
 
 defineProps<{
-  isProxyInUse: boolean;
+  dnsServers: DnsServer[];
   isErrorDNS: boolean;
-  isLoadingDNS: boolean;
   isLeakingDNS: boolean;
+  isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
-  dnsServers: DnsServer[];
+  isProxyInUse: boolean;
 }>();
 
 const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
@@ -39,13 +39,13 @@ const isMullvad = computed(() => connection.value.isMullvad);
     <div v-else>
       <ConnectionLocation />
       <ConnectionDetails
-        :isProxyInUse
+        :dnsServers
         :isErrorDNS
-        :isLoadingDNS
         :isLeakingDNS
+        :isLoadingDNS
         :isMullvadDNS
         :isMullvadDoh
-        :dnsServers
+        :isProxyInUse
       />
       <WebTRCDetails />
     </div>

@@ -18,10 +18,8 @@ export default function useConnectionStatus() {
     isChecking.value = true;
 
     try {
-      // First check connection
       await updateConnection();
 
-      // Then check DNS leaks only if connection is good
       if (!isError.value) {
         await checkDnsLeaks();
       }

@@ -81,7 +81,6 @@ const useCheckDnsLeaks = () => {
       // If the users is not connected to Mullvad, but using a Proxy we will end up here
       isError.value = true;
       error.value = e as Error;
-      console.log(e);
     } finally {
       isLoading.value = false;
     }
