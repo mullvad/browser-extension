@@ -11,13 +11,13 @@ import { DnsServer } from '@/composables/useConnection/useCheckDnsLeaks';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection/useConnection';
 
 defineProps<{
-  isProxyInUse: boolean;
+  dnsServers: DnsServer[];
   isErrorDNS: boolean;
-  isLoadingDNS: boolean;
   isLeakingDNS: boolean;
+  isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
-  dnsServers: DnsServer[];
+  isProxyInUse: boolean;
 }>();
 
 const { connection } = inject(ConnectionKey, defaultConnection);

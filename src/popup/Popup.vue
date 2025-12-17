@@ -30,21 +30,21 @@ const isProxyInUse = computed(
 <template>
   <main class="w-[450px] m-3">
     <PopupHeader
-      :isProxyInUse
       :isErrorDNS
-      :isLoadingDNS
       :isLeakingDNS
+      :isLoadingDNS
       :isMullvadDNS
       :isMullvadDoh
+      :isProxyInUse
     />
     <ConnectionCheck
-      :isProxyInUse
+      :dnsServers
       :isErrorDNS
-      :isLoadingDNS
       :isLeakingDNS
+      :isLoadingDNS
       :isMullvadDNS
       :isMullvadDoh
-      :dnsServers
+      :isProxyInUse
     />
     <PopupProxyPanel />
     <LocationDrawer />
