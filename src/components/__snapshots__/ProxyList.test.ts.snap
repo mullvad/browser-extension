@@ -1,0 +1,118 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProxyList > should render a single proxy correctly 1`] = `
+<div
+  class="n-space ml-8"
+  role="none"
+  style="display: flex; flex-direction: column; justify-content: flex-start; flex-wrap: nowrap;"
+>
+  <div
+    role="none"
+    style="max-width: 100%;"
+  >
+    <button
+      class="n-button n-button--default-type n-button--medium-type n-button--secondary"
+      medium=""
+      style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; --n-font-weight: 400; --n-color: rgba(46, 51, 56, .05); --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: rgba(46, 51, 56, .05); --n-ripple-color: #0000; --n-text-color: rgb(51, 54, 57); --n-text-color-hover: rgb(51, 54, 57); --n-text-color-pressed: rgb(51, 54, 57); --n-text-color-focus: rgb(51, 54, 57); --n-text-color-disabled: rgb(51, 54, 57); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #36ad6a; --n-border-pressed: 1px solid #0c7a43; --n-border-focus: 1px solid #36ad6a; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: initial; --n-height: 34px; --n-font-size: 14px; --n-padding: 0 14px; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 3px;"
+      tabindex="0"
+      type="button"
+    >
+      <!---->
+      <transition-stub
+        appear="false"
+        css="true"
+        name="fade-in-width-expand-transition"
+        persisted="false"
+      >
+        <!---->
+      </transition-stub>
+      <span
+        class="n-button__content"
+      >
+        narnia-001
+      </span>
+      <div
+        aria-hidden="true"
+        class="n-base-wave"
+      />
+      <!---->
+      <!---->
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ProxyList > should render multiple proxies correctly 1`] = `
+<div
+  class="n-space ml-8"
+  role="none"
+  style="display: flex; flex-direction: column; justify-content: flex-start; flex-wrap: nowrap;"
+>
+  <div
+    role="none"
+    style="max-width: 100%; margin-bottom: 8px;"
+  >
+    <button
+      class="n-button n-button--default-type n-button--medium-type n-button--secondary"
+      medium=""
+      style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; --n-font-weight: 400; --n-color: rgba(46, 51, 56, .05); --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: rgba(46, 51, 56, .05); --n-ripple-color: #0000; --n-text-color: rgb(51, 54, 57); --n-text-color-hover: rgb(51, 54, 57); --n-text-color-pressed: rgb(51, 54, 57); --n-text-color-focus: rgb(51, 54, 57); --n-text-color-disabled: rgb(51, 54, 57); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #36ad6a; --n-border-pressed: 1px solid #0c7a43; --n-border-focus: 1px solid #36ad6a; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: initial; --n-height: 34px; --n-font-size: 14px; --n-padding: 0 14px; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 3px;"
+      tabindex="0"
+      type="button"
+    >
+      <!---->
+      <transition-stub
+        appear="false"
+        css="true"
+        name="fade-in-width-expand-transition"
+        persisted="false"
+      >
+        <!---->
+      </transition-stub>
+      <span
+        class="n-button__content"
+      >
+        narnia-002
+      </span>
+      <div
+        aria-hidden="true"
+        class="n-base-wave"
+      />
+      <!---->
+      <!---->
+    </button>
+  </div>
+  <div
+    role="none"
+    style="max-width: 100%;"
+  >
+    <button
+      class="n-button n-button--default-type n-button--medium-type n-button--secondary"
+      medium=""
+      style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; --n-font-weight: 400; --n-color: rgba(46, 51, 56, .05); --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: rgba(46, 51, 56, .05); --n-ripple-color: #0000; --n-text-color: rgb(51, 54, 57); --n-text-color-hover: rgb(51, 54, 57); --n-text-color-pressed: rgb(51, 54, 57); --n-text-color-focus: rgb(51, 54, 57); --n-text-color-disabled: rgb(51, 54, 57); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #36ad6a; --n-border-pressed: 1px solid #0c7a43; --n-border-focus: 1px solid #36ad6a; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: initial; --n-height: 34px; --n-font-size: 14px; --n-padding: 0 14px; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 3px;"
+      tabindex="0"
+      type="button"
+    >
+      <!---->
+      <transition-stub
+        appear="false"
+        css="true"
+        name="fade-in-width-expand-transition"
+        persisted="false"
+      >
+        <!---->
+      </transition-stub>
+      <span
+        class="n-button__content"
+      >
+        narnia-001
+      </span>
+      <div
+        aria-hidden="true"
+        class="n-base-wave"
+      />
+      <!---->
+      <!---->
+    </button>
+  </div>
+</div>
+`;
