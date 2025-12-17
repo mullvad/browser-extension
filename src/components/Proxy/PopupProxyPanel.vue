@@ -49,7 +49,7 @@ const currentTabProxyDetails = computed(() => {
   return hostProxiesDetails.value[activeTabDomain.value] || null;
 });
 
-const isCurrentTabProxyOverriden = computed(() => (!randomProxyMode.value ? false : true));
+const isCurrentTabProxyOverriden = computed(() => randomProxyMode.value);
 
 const isAllWebsitesProxyOverriden = computed(() =>
   !randomProxyMode.value && !currentHostProxyEnabled.value ? false : true,
