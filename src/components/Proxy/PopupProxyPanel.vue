@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { NCard, NCollapseTransition, NIcon, NSwitch, NTag } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -37,6 +37,11 @@ const {
   toggleDomainProxy,
   toggleGlobalProxy,
 } = useSocksProxy();
+import useSocksProxies from '@/composables/useSocksProxies';
+import useStore from '@/composables/useStore';
+
+const { flatProxiesList } = useStore();
+const { getSocksProxies } = useSocksProxies();
 
 const currentTabExcluded = computed(() => excludedHosts.value.includes(activeTabDomain.value));
 
@@ -49,6 +54,13 @@ const isCurrentTabProxyOverriden = computed(() => (!randomProxyMode.value ? fals
 const isAllWebsitesProxyOverriden = computed(() =>
   !randomProxyMode.value && !currentHostProxyEnabled.value ? false : true,
 );
+
+watch(isGranted, (newValue) => {
+  // If permissions are granted and proxies list is empty
+  if (newValue && (!flatProxiesList.value || flatProxiesList.value.length === 0)) {
+    getSocksProxies();
+  }
+});
 </script>
 
 <template>
