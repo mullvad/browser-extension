@@ -17,7 +17,6 @@ defineProps<{
   isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
-  isProxyInUse: boolean;
 }>();
 
 const { connection } = inject(ConnectionKey, defaultConnection);

@@ -45,7 +45,6 @@ const isMullvad = computed(() => connection.value.isMullvad);
         :isLoadingDNS
         :isMullvadDNS
         :isMullvadDoh
-        :isProxyInUse
       />
       <WebTRCDetails />
     </div>
