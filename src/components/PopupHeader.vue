@@ -16,19 +16,17 @@ import TitleCategory from '@/components/TitleCategory.vue';
 import { openOptions } from '@/helpers/browserExtension';
 
 import useActiveTab from '@/composables/useActiveTab';
-const {
-  isError: isErrorDNS,
-  isLeaking,
-  isLoading: isLoadingDNS,
-  isMullvadDNS,
-  isMullvadDoh,
-} = useCheckDnsLeaks();
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection/useConnection';
 import useRandomProxy from '@/composables/useRandomProxy';
-import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
 
 defineProps<{
   isProxyInUse: boolean;
+  isErrorDNS: boolean;
+  isLoadingDNS: boolean;
+  isLeakingDNS: boolean;
+  isMullvadDNS: boolean;
+  isMullvadDoh: boolean;
 }>();
 
 const { activeTabHost, isAboutPage, isExtensionPage } = useActiveTab();
@@ -74,8 +72,8 @@ const isMullvad = computed(() => connection.value.isMullvad);
           <n-icon size="20">
             <MuSpinner v-if="isLoadingDNS" />
             <FeHelpCircle v-else-if="isErrorDNS" class="text-warning" />
-            <FeDrop v-else-if="isLeaking && isMullvad" class="text-error" />
-            <FeXCircle v-else-if="isLeaking && !isMullvad" class="text-error" />
+            <FeDrop v-else-if="isLeakingDNS && isMullvad" class="text-error" />
+            <FeXCircle v-else-if="isLeakingDNS && !isMullvad" class="text-error" />
             <FeLock v-else-if="isMullvadDNS || isMullvadDoh" class="text-success" />
           </n-icon>
         </template>

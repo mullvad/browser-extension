@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 
-import useConnection from '@/composables/useConnection';
-import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
+import useCheckDnsLeaks from '@/composables/useConnection/useCheckDnsLeaks';
+import useConnection from '@/composables/useConnection/useConnection';
 import { warnings } from '@/composables/useWarnings/warnings';
 import useWebRtc from '@/composables/useWebRtc';
 

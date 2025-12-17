@@ -15,13 +15,13 @@ import { getTargetHost } from '@/helpers/socksProxy/getTargetHost';
 import { baseConfig, socksIp } from '@/helpers/socksProxy/constants';
 
 import useActiveTab from '@/composables/useActiveTab';
-import useCheckDnsLeaks from '@/composables/useCheckDnsLeaks';
-import useConnection from '@/composables/useConnection';
+import useConnectionStatus from '@/composables/useConnection/useConnectionStatus';
 import useStore from '@/composables/useStore';
 
+const { checkStatus } = useConnectionStatus();
+
 const { activeTabHost } = useActiveTab();
-const { checkDnsLeaks } = useCheckDnsLeaks();
-const { updateConnection } = useConnection();
+
 const {
   excludedHosts,
   globalProxy,
@@ -258,8 +258,7 @@ const neverProxyHost = (host: string) => {
 watch(
   [globalProxyDetails, hostProxiesDetails],
   () => {
-    checkDnsLeaks();
-    updateConnection();
+    checkStatus();
   },
   { deep: true, immediate: false },
 );

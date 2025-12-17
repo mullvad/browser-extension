@@ -4,7 +4,7 @@ import { NConfigProvider, darkTheme } from 'naive-ui';
 
 import Popup from '@/popup/Popup.vue';
 import { themeOverrides } from '@/styles/themeOverrides';
-import useConnection, { ConnectionKey } from '@/composables/useConnection';
+import useConnection, { ConnectionKey } from '@/composables/useConnection/useConnection';
 
 const { isLoading, connection, isError } = useConnection();
 provide(ConnectionKey, { connection, isLoading, isError });

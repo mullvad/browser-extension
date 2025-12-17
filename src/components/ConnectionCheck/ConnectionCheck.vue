@@ -7,10 +7,17 @@ import ConnectionLocation from '@/components/ConnectionCheck/ConnectionLocation.
 import IconLabel from '@/components/IconLabel.vue';
 import WebTRCDetails from '@/components/ConnectionCheck/WebTRCDetails.vue';
 
-import { ConnectionKey, defaultConnection } from '@/composables/useConnection';
+import { DnsServer } from '@/composables/useConnection/useCheckDnsLeaks';
+import { ConnectionKey, defaultConnection } from '@/composables/useConnection/useConnection';
 
 defineProps<{
   isProxyInUse: boolean;
+  isErrorDNS: boolean;
+  isLoadingDNS: boolean;
+  isLeakingDNS: boolean;
+  isMullvadDNS: boolean;
+  isMullvadDoh: boolean;
+  dnsServers: DnsServer[];
 }>();
 
 const { isLoading, isError, connection } = inject(ConnectionKey, defaultConnection);
@@ -31,7 +38,15 @@ const isMullvad = computed(() => connection.value.isMullvad);
 
     <div v-else>
       <ConnectionLocation />
-      <ConnectionDetails />
+      <ConnectionDetails
+        :isProxyInUse
+        :isErrorDNS
+        :isLoadingDNS
+        :isLeakingDNS
+        :isMullvadDNS
+        :isMullvadDoh
+        :dnsServers
+      />
       <WebTRCDetails />
     </div>
   </n-card>
