@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { NButton, NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 
 import LocationTabs from '@/components/LocationTabs.vue';
 import SearchLocation from '@/components/SearchLocation.vue';
@@ -14,6 +13,7 @@ import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
 import useProxyHistory from '@/composables/useProxyHistory/useProxyHistory';
 import type { HistoryEntry } from '@/composables/useProxyHistory/HistoryEntries.types';
+import Countries from '@/components/Countries.vue';
 
 const { customProxyHost, customProxySelect, toggleLocations } = useLocations();
 const { clearFilter, filteredProxies, isError, error } = useSocksProxies();
@@ -25,14 +25,18 @@ const currentOrAllWebsites = computed(() =>
   customProxySelect.value ? customProxyHost.value : 'all your browser traffic',
 );
 
-const setProxy = (
-  country: string,
-  countryCode: string,
-  city: string,
-  hostname: string,
-  ipv4_address: string,
-  port?: number,
-) => {
+export type SetProxyProps = {
+  country: string;
+  countryCode: string;
+  city: string;
+  hostname: string;
+  ipv4_address: string;
+  port?: number;
+};
+
+export type SetRandomProxyProps = { country: string; city?: string };
+
+const setProxy = ({ country, countryCode, city, hostname, ipv4_address, port }: SetProxyProps) => {
   storeSocksProxyUsage({ country, countryCode, city, hostname, ipv4_address });
   toggleLocations();
 
@@ -46,37 +50,25 @@ const setProxy = (
     setGlobalProxy({ country, countryCode, city, hostname, ipv4_address, port });
   }
   updateCurrentTabProxyBadge();
-};
-
-const clickServer = (
-  country: string,
-  countryCode: string,
-  city: string,
-  hostname: string,
-  ipv4_address: string,
-  port?: number,
-) => {
-  setProxy(country, countryCode, city, hostname, ipv4_address, port);
   clearFilter();
 };
 
-const clickCountryOrCity = (selectedCountry: string, selectedCity?: string) => {
-  const { country, countryCode, city, hostname, ipv4_address, port } = getRandomSocksProxy({
+const setRandomProxy = ({ country, city: selectedCity }: SetRandomProxyProps) => {
+  const { countryCode, city, hostname, ipv4_address, port } = getRandomSocksProxy({
     socksProxies: filteredProxies.value,
-    country: selectedCountry,
+    country,
     city: selectedCity,
   });
 
-  setProxy(country, countryCode, city, hostname, ipv4_address, port);
-  clearFilter();
+  setProxy({ country, countryCode, city, hostname, ipv4_address, port });
 };
 
 const selectLocation = (connection: HistoryEntry) => {
   const { country, countryCode, city, hostname, ipv4_address } = connection;
   if (hostname) {
-    clickServer(country, countryCode, city, hostname, ipv4_address!);
+    setProxy({ country, countryCode, city, hostname, ipv4_address: ipv4_address! });
   } else {
-    clickCountryOrCity(country, city);
+    setRandomProxy({ country, city });
   }
 };
 </script>
@@ -93,79 +85,7 @@ const selectLocation = (connection: HistoryEntry) => {
 
     <LocationTabs :selectLocation="selectLocation" />
     <SearchLocation />
-    <n-collapse arrow-placement="right">
-      <n-collapse-item
-        v-for="{ country, cities } in filteredProxies"
-        :key="country"
-        :name="country"
-      >
-        <template #header>
-          <n-button quaternary @click.prevent="clickCountryOrCity(country)">
-            {{ country }}
-          </n-button>
-        </template>
-
-        <div v-if="cities?.length === 1">
-          <n-space vertical class="ml-8">
-            <span class="text-sm">{{ cities[0].city }}</span>
-            <n-button
-              v-for="proxy in cities[0].proxyList"
-              :key="proxy.hostname"
-              secondary
-              medium
-              @click="
-                clickServer(
-                  country,
-                  proxy.location.countryCode,
-                  cities[0].city,
-                  proxy.hostname,
-                  proxy.ipv4_address,
-                  proxy.port,
-                )
-              "
-            >
-              {{ proxy.hostname }}
-            </n-button>
-          </n-space>
-        </div>
-
-        <n-collapse v-else arrow-placement="right">
-          <n-collapse-item
-            v-for="{ city, proxyList } in cities"
-            :key="city"
-            :name="city"
-            :title="city"
-          >
-            <template #header>
-              <n-button quaternary @click.prevent="clickCountryOrCity(country, city)">
-                {{ city }}
-              </n-button>
-            </template>
-
-            <n-space vertical>
-              <n-button
-                v-for="proxy in proxyList"
-                :key="proxy.hostname"
-                secondary
-                medium
-                @click="
-                  clickServer(
-                    country,
-                    proxy.location.countryCode,
-                    city,
-                    proxy.hostname,
-                    proxy.ipv4_address,
-                    proxy.port,
-                  )
-                "
-              >
-                {{ proxy.hostname }}
-              </n-button>
-            </n-space>
-          </n-collapse-item>
-        </n-collapse>
-      </n-collapse-item>
-    </n-collapse>
+    <Countries :countries="filteredProxies" :setProxy :setRandomProxy />
   </div>
 </template>
 
