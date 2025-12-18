@@ -7,12 +7,12 @@ import { Location, SocksProxy } from '@/composables/useSocksProxies/socksProxies
 describe('Countries', () => {
   it('should render a Countries list', () => {
     const setProxy = vi.fn();
-    const setRandomProxy = vi.fn();
+    const setRandomCountryOrCityProxy = vi.fn();
 
     const wrapper = mount(Countries, {
       props: {
         setProxy,
-        setRandomProxy,
+        setRandomCountryOrCityProxy,
         countries: [
           { country: 'Narnia', cities: [] },
           { country: 'Mordor', cities: [] },
@@ -25,20 +25,20 @@ describe('Countries', () => {
     expect(buttons[0].text()).toBe('Narnia');
     expect(buttons[1].text()).toBe('Mordor');
     buttons[0].trigger('click');
-    expect(setRandomProxy).toHaveBeenCalledWith({ country: 'Narnia' });
+    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({ country: 'Narnia' });
     buttons[1].trigger('click');
-    expect(setRandomProxy).toHaveBeenCalledWith({ country: 'Mordor' });
+    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({ country: 'Mordor' });
     expect(setProxy).not.toHaveBeenCalled();
   });
 
   it('should render a country with cities', async () => {
     const setProxy = vi.fn();
-    const setRandomProxy = vi.fn();
+    const setRandomCountryOrCityProxy = vi.fn();
 
     const wrapper = mount(Countries, {
       props: {
         setProxy,
-        setRandomProxy,
+        setRandomCountryOrCityProxy,
         countries: [
           {
             country: 'Narnia',
@@ -95,7 +95,7 @@ describe('Countries', () => {
     expect(buttons[2].text()).toBe('Nora');
 
     buttons[1].trigger('click');
-    expect(setRandomProxy).toHaveBeenCalled();
+    expect(setRandomCountryOrCityProxy).toHaveBeenCalled();
 
     arrows = wrapper.findAll('.n-collapse-item-arrow');
     expect(arrows).toHaveLength(3);

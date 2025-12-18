@@ -3,17 +3,17 @@ import { City, SocksProxy } from '@/composables/useSocksProxies/socksProxies.typ
 import { NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 import ProxyList from '@/components/ProxyList.vue';
 import CityButton from '@/components/CityButton.vue';
-import { SetProxyProps, SetRandomProxyProps } from '@/components/Countries.vue';
+import { SetProxyProps, setRandomCountryOrCityProxyProps } from '@/components/Location.vue';
 
-const { country, setProxy, setRandomProxy } = defineProps<{
+const { country, setProxy, setRandomCountryOrCityProxy } = defineProps<{
   cities: City[];
   country: string;
   setProxy: (props: SetProxyProps) => void;
-  setRandomProxy: (props: SetRandomProxyProps) => void;
+  setRandomCountryOrCityProxy: (props: setRandomCountryOrCityProxyProps) => void;
 }>();
 
 const onClickCity = (city: string) => {
-  setRandomProxy({ country, city });
+  setRandomCountryOrCityProxy({ country, city });
 };
 
 const onClickProxy = (proxy: SocksProxy) => {

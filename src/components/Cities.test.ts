@@ -6,7 +6,7 @@ import { Location, SocksProxy } from '@/composables/useSocksProxies/socksProxies
 describe('Cities', () => {
   it('should render a single city', () => {
     const setProxy = vi.fn();
-    const setRandomProxy = vi.fn();
+    const setRandomCountryOrCityProxy = vi.fn();
     const proxy: SocksProxy = {
       hostname: 'na-001',
       location: {
@@ -30,7 +30,7 @@ describe('Cities', () => {
         cities: [{ city: 'Narnium', proxyList: [proxy] }],
         country: 'Narnia',
         setProxy,
-        setRandomProxy,
+        setRandomCountryOrCityProxy,
       },
     });
 
@@ -40,7 +40,7 @@ describe('Cities', () => {
     expect(buttons[1].text()).toEqual('na-001');
 
     buttons[0].trigger('click');
-    expect(setRandomProxy).toHaveBeenCalledWith({ city: 'Narnium', country: 'Narnia' });
+    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({ city: 'Narnium', country: 'Narnia' });
 
     buttons[1].trigger('click');
     expect(setProxy).toHaveBeenCalledWith(expectedSetProxyProps);
@@ -48,7 +48,7 @@ describe('Cities', () => {
 
   it('should render multiple cities', () => {
     const setProxy = vi.fn();
-    const setRandomProxy = vi.fn();
+    const setRandomCountryOrCityProxy = vi.fn();
     const proxy: SocksProxy = {
       hostname: 'na-001',
       location: {
@@ -85,7 +85,7 @@ describe('Cities', () => {
         ],
         country: 'Narnia',
         setProxy,
-        setRandomProxy,
+        setRandomCountryOrCityProxy,
       },
     });
 
@@ -95,6 +95,6 @@ describe('Cities', () => {
     expect(buttons[1].text()).toEqual('Narnium');
 
     buttons[1].trigger('click');
-    expect(setRandomProxy).toHaveBeenCalledWith({ city: 'Narnium', country: 'Narnia' });
+    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({ city: 'Narnium', country: 'Narnia' });
   });
 });

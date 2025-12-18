@@ -34,7 +34,7 @@ export type SetProxyProps = {
   port?: number;
 };
 
-export type SetRandomProxyProps = { country: string; city?: string };
+export type setRandomCountryOrCityProxyProps = { country: string; city?: string };
 
 const setProxy = ({ country, countryCode, city, hostname, ipv4_address, port }: SetProxyProps) => {
   storeSocksProxyUsage({ country, countryCode, city, hostname, ipv4_address });
@@ -53,7 +53,7 @@ const setProxy = ({ country, countryCode, city, hostname, ipv4_address, port }: 
   clearFilter();
 };
 
-const setRandomProxy = ({ country, city: selectedCity }: SetRandomProxyProps) => {
+const setRandomCountryOrCityProxy = ({ country, city: selectedCity }: setRandomCountryOrCityProxyProps) => {
   const { countryCode, city, hostname, ipv4_address, port } = getRandomSocksProxy({
     socksProxies: filteredProxies.value,
     country,
@@ -68,7 +68,7 @@ const selectLocation = (connection: HistoryEntry) => {
   if (hostname) {
     setProxy({ country, countryCode, city, hostname, ipv4_address: ipv4_address! });
   } else {
-    setRandomProxy({ country, city });
+    setRandomCountryOrCityProxy({ country, city });
   }
 };
 </script>
@@ -85,7 +85,7 @@ const selectLocation = (connection: HistoryEntry) => {
 
     <LocationTabs :selectLocation="selectLocation" />
     <SearchLocation />
-    <Countries :countries="filteredProxies" :setProxy :setRandomProxy />
+    <Countries :countries="filteredProxies" :setProxy :setRandomCountryOrCityProxy />
   </div>
 </template>
 
