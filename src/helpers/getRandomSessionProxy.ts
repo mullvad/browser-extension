@@ -11,9 +11,15 @@ import { baseConfig, socksIp } from '@/composables/useSocksProxy';
 const domainProxyInfoMap: ProxyInfoMap = {};
 const domainProxyDetailsMap: ProxyDetailsMap = {};
 
+export const browserStorage = {
+  getLocal: async (key: string) => {
+    return await browser.storage.local.get(key);
+  },
+};
+
 export async function getRandomSessionProxy(domain: string) {
   try {
-    const { flatProxiesList } = await browser.storage.local.get('flatProxiesList');
+    const { flatProxiesList } = await browserStorage.getLocal('flatProxiesList');
     const socksList: Array<SocksProxy> = JSON.parse(flatProxiesList);
 
     // Check if we've already assigned a proxy to this domain

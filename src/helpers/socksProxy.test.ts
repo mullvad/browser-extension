@@ -1,6 +1,11 @@
 import { it, describe, expect } from 'vitest';
-
 import { isLocalOrReservedIP } from './socksProxy';
+
+vi.mock('@/helpers/getRandomSessionProxy', () => ({
+  browserStorage: {
+    getLocal: vi.fn().mockResolvedValue({}),
+  },
+}));
 
 describe('isLocalOrReservedIP', () => {
   it('should return true for localhost', () => {
