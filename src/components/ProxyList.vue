@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { NButton, NSpace } from 'naive-ui';
-import { City, SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
+import type { City, SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 defineProps<{
   cities: City[];

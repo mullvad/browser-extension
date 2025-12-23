@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { NButton, NCollapse, NCollapseItem } from 'naive-ui';
 import Cities from '@/components/Cities.vue';
-import { Country } from '@/composables/useSocksProxies/socksProxies.types';
 import { SetProxyProps, setRandomCountryOrCityProxyProps } from '@/components/Location.vue';
+import type { Country } from '@/helpers/socksProxy/socksProxies.types';
 
 defineProps<{
   countries: Country[];

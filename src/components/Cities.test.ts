@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
-import Cities from '@/components/Cities.vue';
 import { NButton } from 'naive-ui';
-import { Location, SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
+import type { Location, SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
+import Cities from '@/components/Cities.vue';
 
 describe('Cities', () => {
   it('should render a single city', () => {
@@ -40,7 +40,10 @@ describe('Cities', () => {
     expect(buttons[1].text()).toEqual('na-001');
 
     buttons[0].trigger('click');
-    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({ city: 'Narnium', country: 'Narnia' });
+    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({
+      city: 'Narnium',
+      country: 'Narnia',
+    });
 
     buttons[1].trigger('click');
     expect(setProxy).toHaveBeenCalledWith(expectedSetProxyProps);
@@ -70,12 +73,6 @@ describe('Cities', () => {
       port: 2,
     } as SocksProxy;
     const { location, ...clickedProxy } = proxy;
-    const expectedSetProxyProps = {
-      ...clickedProxy,
-      city: location.city,
-      country: location.country,
-      countryCode: location.countryCode,
-    };
 
     const wrapper = mount(Cities, {
       props: {
@@ -95,6 +92,9 @@ describe('Cities', () => {
     expect(buttons[1].text()).toEqual('Narnium');
 
     buttons[1].trigger('click');
-    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({ city: 'Narnium', country: 'Narnia' });
+    expect(setRandomCountryOrCityProxy).toHaveBeenCalledWith({
+      city: 'Narnium',
+      country: 'Narnia',
+    });
   });
 });

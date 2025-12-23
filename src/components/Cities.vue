@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { City, SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
 import { NCollapse, NCollapseItem, NSpace } from 'naive-ui';
 import ProxyList from '@/components/ProxyList.vue';
 import CityButton from '@/components/CityButton.vue';
 import { SetProxyProps, setRandomCountryOrCityProxyProps } from '@/components/Location.vue';
+import type { City, SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 const { country, setProxy, setRandomCountryOrCityProxy } = defineProps<{
   cities: City[];

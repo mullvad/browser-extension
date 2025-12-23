@@ -2,7 +2,7 @@ import { describe } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Countries from '@/components/Countries.vue';
 import { NButton } from 'naive-ui';
-import { Location, SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
+import type { Location, SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 describe('Countries', () => {
   it('should render a Countries list', () => {

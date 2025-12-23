@@ -1,7 +1,7 @@
 import { describe } from 'vitest';
 import { mount } from '@vue/test-utils';
 import ProxyList from '@/components/ProxyList.vue';
-import { SocksProxy } from '@/composables/useSocksProxies/socksProxies.types';
+import type { SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 describe('ProxyList', () => {
   it('should render a single proxy correctly', () => {
