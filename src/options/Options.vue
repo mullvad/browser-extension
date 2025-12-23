@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { NAvatar, NTabPane, NTabs } from 'naive-ui';
 
 import AboutTab from '@/components/OptionsTabs/AboutTab.vue';
+import ImportExportTab from '@/components/OptionsTabs/ImportExportTab.vue';
 import ProxyTab from '@/components/OptionsTabs/ProxyTab.vue';
 import SettingsTab from '@/components/OptionsTabs/SettingsTab.vue';
 
@@ -31,6 +32,10 @@ const defaultTab = computed(() => optionsActiveTab.value);
 
       <n-tab-pane name="proxy" tab="Proxy">
         <ProxyTab />
+      </n-tab-pane>
+
+      <n-tab-pane name="import-export" tab="Import/Export">
+        <ImportExportTab />
       </n-tab-pane>
 
       <n-tab-pane name="about" tab="About">
