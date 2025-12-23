@@ -274,6 +274,7 @@ const useSocksProxy = () => {
     globalProxyDetails,
     globalProxyDNSEnabled,
     globalProxyEnabled,
+    hostProxies,
     hostProxiesDetails,
     neverProxyHost,
     removeCustomProxy,
