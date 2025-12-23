@@ -11,12 +11,12 @@ const { webRTCLeaking } = useWebRtc();
 
 const isMullvad = computed(() => connection.value.isMullvad);
 const isDNSCheckCompleted = computed(() => !isLoading.value && isError.value === false);
-const dohDisable = computed(() => isDNSCheckCompleted.value && isMullvad && isMullvadDoh.value);
-const dohEnable = computed(() => isDNSCheckCompleted.value && !isMullvad && !isMullvadDoh.value);
+const dohDisable = computed(() => isDNSCheckCompleted.value && isMullvad.value && isMullvadDoh.value);
+const dohEnable = computed(() => isDNSCheckCompleted.value && !isMullvad.value && !isMullvadDoh.value);
 const dohLeak = computed(
   () => isDNSCheckCompleted.value && isMullvadDoh.value && !isMullvadDNS.value,
 );
-const dnsLeak = computed(() => isDNSCheckCompleted.value && isMullvad && !isMullvadDNS.value);
+const dnsLeak = computed(() => isDNSCheckCompleted.value && isMullvad.value && !isMullvadDNS.value);
 
 const activeWarnings = computed(() => {
   const activeWarningsIds: string[] = [];
