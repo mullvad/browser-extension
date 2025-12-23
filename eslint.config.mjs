@@ -1,56 +1,48 @@
 import vuePlugin from 'eslint-plugin-vue';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import unusedImports from 'eslint-plugin-unused-imports';
-import prettier from 'eslint-config-prettier';
-
+import ts from 'typescript-eslint';
 import globals from 'globals';
+import prettier from 'eslint-config-prettier';
 import js from '@eslint/js';
 
 export default [
   js.configs.recommended,
+  ...ts.configs.recommended,
+  ...vuePlugin.configs['flat/recommended'],
   prettier,
-
   {
-    plugins: {
-      '@typescript-eslint': tsPlugin,
-      vue: vuePlugin,
-      'unused-imports': unusedImports,
-    },
-
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
-        'vue/setup-compiler-macros': 'readonly',
+        ...globals.webextensions,
       },
-
-      ecmaVersion: 2021,
+      ecmaVersion: 'latest',
       sourceType: 'module',
     },
-
+  },
+  {
     rules: {
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
-      ...vuePlugin.configs['vue3-recommended'].rules,
-      quotes: ['error', 'single', { allowTemplateLiterals: true }],
-
-      semi: ['error', 'always'],
-      'unused-imports/no-unused-imports': 'error',
       'vue/attribute-hyphenation': 'off',
-      'vue/html-self-closing': 'off',
       'vue/multi-word-component-names': 'off',
-      'vue/script-setup-uses-vars': 'error',
-
-      'vue/first-attribute-linebreak': [
-        'error',
+      'vue/attributes-order': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
         {
-          singleline: 'ignore',
-          multiline: 'ignore',
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
     },
   },
   {
-    ignores: ['**/dist', '**/node_modules'],
+    files: ['**/*.vue'],
+    languageOptions: {
+      parserOptions: {
+        parser: ts.parser,
+      },
+    },
   },
+  { ignores: ['**/dist/'] },
 ];
