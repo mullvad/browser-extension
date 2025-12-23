@@ -2,7 +2,7 @@ import type { Connection } from '@/helpers/connCheck.types';
 
 const useConnectionLocation = (connection: Connection) => {
   const { city, country } = connection;
-  
+
   if (!city && !country) {
     return 'Unknown location';
   }

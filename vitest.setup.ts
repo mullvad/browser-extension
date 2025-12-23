@@ -21,4 +21,4 @@ global.browser = {
   tabs: {
     query: vi.fn(),
   },
-} as any;
+} as unknown as typeof browser;
