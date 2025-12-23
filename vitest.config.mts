@@ -13,13 +13,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8', // or 'istanbul'
       reporter: ['text', 'json', 'html'],
-      exclude: [
-        'node_modules/',
-        'extension/',
-        'scripts/',
-        '**/*.spec.ts',
-        '**/*.test.ts',
-      ],
+      exclude: ['node_modules/', 'extension/', 'scripts/', '**/*.spec.ts', '**/*.test.ts'],
     },
   },
   resolve: {
