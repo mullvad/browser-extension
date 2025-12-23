@@ -27,7 +27,7 @@
     "start:firefox": "web-ext run --source-dir ./extension --firefox ~/apps/firefox/firefox --start-url=about:debugging#/runtime/this-firefox",
     "restart": "web-ext run --source-dir ./extension --target=firefox-desktop --firefox-profile ~/.mozilla/firefox/9eernfyp.browser-extension-testing --keep-profile-changes --start-url=about:debugging#/runtime/this-firefox --start-url=mullvad.net/check",
     "clear": "rimraf extension/dist extension/manifest.json extension/README.md extension/LICENSE.md mullvad-browser-extension* key.pem",
-    "lint": "npm run eslint && npm run lint:style",
+    "lint": "prettier --check . && npm run eslint . && npm run lint:style",
     "eslint": "eslint \"**/*.{ts,js,vue}\"",
     "eslint:fix": "npm run eslint -- --fix",
     "lint:style": "stylelint \"src/**/*.{css,scss,vue}\"",
