@@ -24,7 +24,7 @@ describe('MostUsedLocationButtons', () => {
         value: [{ country: 'Argentina' }],
       },
       getLabel: ({ country }: { country: string }) => country,
-    } as any);
+    } as unknown as ReturnType<typeof useProxyHistory>);
 
     const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: vi.fn() } });
     const buttons = wrapper.findAllComponents(Button);
@@ -58,7 +58,7 @@ describe('MostUsedLocationButtons', () => {
         ],
       },
       getLabel: ({ country }: { country: string }) => country,
-    } as any);
+    } as unknown as ReturnType<typeof useProxyHistory>);
     const wrapper = mount(MostUsedLocationButtons, { props: { selectLocation: vi.fn() } });
     const buttons = wrapper.findAllComponents(Button);
 

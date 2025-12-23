@@ -1,5 +1,4 @@
 import { checkDomain } from '@/helpers/domain';
-import { domainProxyDetailsMap } from '@/helpers/socksProxy/getRandomSessionProxy';
 import { isLocalOrReservedIP } from '@/helpers/socksProxy/socksProxy';
 import { ProxyDetails } from '@/helpers/socksProxy/socksProxy.types';
 import { getActiveProxyDetails, getActiveTab } from '@/helpers/tabs';

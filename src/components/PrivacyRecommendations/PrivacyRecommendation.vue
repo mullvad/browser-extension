@@ -1,20 +1,16 @@
 <script lang="ts" setup>
-import { computed, toRefs, watchEffect } from 'vue';
+import { toRefs, watchEffect } from 'vue';
 import { NAvatar, NCard } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import Instructions from '@/components/PrivacyRecommendations/Instructions.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
-import SplitButton from '@/components/Buttons/SplitButton.vue';
 
 import { closePopup } from '@/helpers/browserExtension';
 
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
-import useConnection from '@/composables/useConnection/useConnection';
-
-const { connection } = useConnection();
 
 const props = defineProps<{
   recommendation: Recommendation;
@@ -33,8 +29,6 @@ watchEffect(() => {
     recommendation.value.ctaLabel = recommendation.value.activated ? 'disable' : 'enable';
   }
 });
-
-const mainTextExtension = computed(() => (recommendation.value.installed ? 'Enable' : 'Install'));
 </script>
 
 <template>

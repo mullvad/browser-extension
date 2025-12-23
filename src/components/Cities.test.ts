@@ -72,7 +72,6 @@ describe('Cities', () => {
       ipv4_address: '127.0.0.2',
       port: 2,
     } as SocksProxy;
-    const { location, ...clickedProxy } = proxy;
 
     const wrapper = mount(Cities, {
       props: {
