@@ -1,7 +1,6 @@
 import pluralize from '@/helpers/pluralize';
 import { it, describe, expect } from 'vitest';
 
-
 describe('pluralize', () => {
   it('should return correct plural word', () => {
     expect(pluralize('metal head', 0)).toBe('0 metal heads');

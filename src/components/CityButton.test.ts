@@ -12,7 +12,7 @@ describe('CityButton', () => {
     expect(buttons[0].text()).toBe('Narnia');
 
     buttons[0].trigger('click');
-    expect(onClickCity).toHaveBeenCalledWith('Narnia')
-    expect(wrapper.element).toMatchSnapshot()
+    expect(onClickCity).toHaveBeenCalledWith('Narnia');
+    expect(wrapper.element).toMatchSnapshot();
   });
 });
