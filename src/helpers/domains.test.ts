@@ -1,4 +1,4 @@
-import { checkDomain, isValidDomain, normalizeToFQDN } from '@/helpers/domain';
+import { checkDomain, isValidDomain, normalizeToFQDN, truncateHost } from '@/helpers/domain';
 
 describe('domain helpers', () => {
   describe('checkDomain', () => {
@@ -51,6 +51,45 @@ describe('domain helpers', () => {
     it('should return null for invalid domains', () => {
       expect(normalizeToFQDN('')).toBeNull();
       expect(normalizeToFQDN('invalid..domain')).toBeNull();
+    });
+  });
+
+  describe('truncateHost', () => {
+    it('should return the host as-is when it fits within maxLength', () => {
+      expect(truncateHost('example.com')).toBe('example.com');
+      expect(truncateHost('mail.google.com')).toBe('mail.google.com');
+      expect(truncateHost('www.example.com')).toBe('www.example.com');
+    });
+
+    it('should return the host as-is when exactly at maxLength', () => {
+      // 21 chars exactly
+      const host21 = 'a'.repeat(21);
+      expect(truncateHost(host21)).toBe(host21);
+    });
+
+    it('should truncate with ellipsis when exceeding maxLength', () => {
+      const longHost = 'very-long-subdomain.example.com';
+      const result = truncateHost(longHost);
+      // slice(0, 20) = 'very-long-subdomain.' (20 chars) + '…' = 21 chars
+      expect(result).toBe('very-long-subdomain.…');
+      expect(result.length).toBe(21);
+    });
+
+    it('should respect custom maxLength', () => {
+      // 'example.com' (11 chars), slice(0, 7) = 'example' + '…' = 8 chars
+      expect(truncateHost('example.com', 8)).toBe('example…');
+      expect(truncateHost('short', 10)).toBe('short');
+    });
+
+    it('should handle empty string', () => {
+      expect(truncateHost('')).toBe('');
+    });
+
+    it('should handle host that is all truncation', () => {
+      const veryLong = 'a-really-long-domain-name-that-goes-on-and-on.com';
+      const result = truncateHost(veryLong);
+      expect(result.length).toBe(21);
+      expect(result.endsWith('…')).toBe(true);
     });
   });
 });

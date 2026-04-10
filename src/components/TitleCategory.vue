@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-const props = defineProps<{ title: string; level?: number }>();
+const props = defineProps<{ title: string; level?: number; titleAttr?: string }>();
 
 const headingTag = computed(() => {
   switch (props.level) {
@@ -27,7 +27,11 @@ const headingClass = computed(() => {
 </script>
 
 <template>
-  <component :is="headingTag" :class="`font-semibold ${headingClass} text-gray-200`">
+  <component
+    :is="headingTag"
+    :class="`font-semibold ${headingClass} text-gray-200`"
+    :title="titleAttr || undefined"
+  >
     {{ title }}
   </component>
 </template>

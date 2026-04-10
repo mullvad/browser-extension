@@ -14,6 +14,7 @@ import MuSpinner from '@/components/Icons/MuSpinner.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
 import { openOptions } from '@/helpers/browserExtension';
+import { truncateHost } from '@/helpers/domain';
 
 import useActiveTab from '@/composables/useActiveTab';
 
@@ -34,12 +35,19 @@ const { randomProxyMode } = useRandomProxy();
 const { connection, isLoading, isError } = inject(ConnectionKey, defaultConnection);
 
 const isMullvad = computed(() => connection.value.isMullvad);
+
+const displayHost = computed(() => truncateHost(activeTabHost.value));
 </script>
 
 <template>
   <div class="flex justify-between mb-3">
     <div>
-      <TitleCategory v-if="!isAboutPage && !isExtensionPage" :title="activeTabHost" class="ml-3" />
+      <TitleCategory
+        v-if="!isAboutPage && !isExtensionPage"
+        :title="displayHost"
+        :title-attr="activeTabHost"
+        class="ml-3"
+      />
     </div>
 
     <div class="flex flex-row self-end">

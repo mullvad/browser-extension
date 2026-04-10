@@ -24,3 +24,11 @@ export const normalizeToFQDN = (input: string): string | null => {
   const parsed = parse(input);
   return parsed.hostname || null;
 };
+
+export const truncateHost = (host: string, maxLength = 21): string => {
+  if (!host || host.length <= maxLength) {
+    return host;
+  }
+
+  return host.slice(0, maxLength - 1) + '…';
+};
