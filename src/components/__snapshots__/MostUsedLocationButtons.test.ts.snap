@@ -1,51 +1,211 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MostUsedLocationButtons > should render one button 1`] = `
+exports[`MostUsedLocationButtons > should render one select button and one remove button 1`] = `
 <div
   class="space-y-2"
 >
   
-  <button
-    class="btn whitespace-nowrap block"
-    data-v-814a3da6=""
+  <div
+    class="flex gap-2"
   >
-    
-    Argentina
-    
-  </button>
+    <button
+      class="btn whitespace-nowrap flex-1 truncate"
+      data-v-814a3da6=""
+    >
+      
+      Argentina
+      
+    </button>
+    <button
+      class="btn whitespace-nowrap bg-error text-white btn-small"
+      data-v-814a3da6=""
+    >
+      
+      <svg
+        fill="none"
+        height="1em"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <polyline
+          points="3 6 5 6 21 6"
+        />
+        <path
+          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+        />
+        <line
+          x1="10"
+          x2="10"
+          y1="11"
+          y2="17"
+        />
+        <line
+          x1="14"
+          x2="14"
+          y1="11"
+          y2="17"
+        />
+      </svg>
+      
+    </button>
+  </div>
   
 </div>
 `;
 
-exports[`MostUsedLocationButtons > should render three buttons 1`] = `
+exports[`MostUsedLocationButtons > should render three proxy servers select buttons and three remove buttons 1`] = `
 <div
   class="space-y-2"
 >
   
-  <button
-    class="btn whitespace-nowrap block"
-    data-v-814a3da6=""
+  <div
+    class="flex gap-2"
   >
-    
-    Sweden
-    
-  </button>
-  <button
-    class="btn whitespace-nowrap block"
-    data-v-814a3da6=""
+    <button
+      class="btn whitespace-nowrap flex-1 truncate"
+      data-v-814a3da6=""
+    >
+      
+      Sweden
+      
+    </button>
+    <button
+      class="btn whitespace-nowrap bg-error text-white btn-small"
+      data-v-814a3da6=""
+    >
+      
+      <svg
+        fill="none"
+        height="1em"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <polyline
+          points="3 6 5 6 21 6"
+        />
+        <path
+          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+        />
+        <line
+          x1="10"
+          x2="10"
+          y1="11"
+          y2="17"
+        />
+        <line
+          x1="14"
+          x2="14"
+          y1="11"
+          y2="17"
+        />
+      </svg>
+      
+    </button>
+  </div>
+  <div
+    class="flex gap-2"
   >
-    
-    Norway
-    
-  </button>
-  <button
-    class="btn whitespace-nowrap block"
-    data-v-814a3da6=""
+    <button
+      class="btn whitespace-nowrap flex-1 truncate"
+      data-v-814a3da6=""
+    >
+      
+      Norway
+      
+    </button>
+    <button
+      class="btn whitespace-nowrap bg-error text-white btn-small"
+      data-v-814a3da6=""
+    >
+      
+      <svg
+        fill="none"
+        height="1em"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <polyline
+          points="3 6 5 6 21 6"
+        />
+        <path
+          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+        />
+        <line
+          x1="10"
+          x2="10"
+          y1="11"
+          y2="17"
+        />
+        <line
+          x1="14"
+          x2="14"
+          y1="11"
+          y2="17"
+        />
+      </svg>
+      
+    </button>
+  </div>
+  <div
+    class="flex gap-2"
   >
-    
-    Iceland
-    
-  </button>
+    <button
+      class="btn whitespace-nowrap flex-1 truncate"
+      data-v-814a3da6=""
+    >
+      
+      Iceland
+      
+    </button>
+    <button
+      class="btn whitespace-nowrap bg-error text-white btn-small"
+      data-v-814a3da6=""
+    >
+      
+      <svg
+        fill="none"
+        height="1em"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <polyline
+          points="3 6 5 6 21 6"
+        />
+        <path
+          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+        />
+        <line
+          x1="10"
+          x2="10"
+          y1="11"
+          y2="17"
+        />
+        <line
+          x1="14"
+          x2="14"
+          y1="11"
+          y2="17"
+        />
+      </svg>
+      
+    </button>
+  </div>
   
 </div>
 `;
