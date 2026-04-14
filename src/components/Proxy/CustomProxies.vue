@@ -1,10 +1,20 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { NCard, NCheckbox, NDivider, NIcon, NInput, NSwitch, NTooltip } from 'naive-ui';
+import {
+  NCard,
+  NCheckbox,
+  NDivider,
+  NIcon,
+  NCollapseTransition,
+  NInput,
+  NSwitch,
+  NTooltip,
+} from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
-import IconLabel from '@/components/IconLabel.vue';
-import FeGlobe from '@/components/Icons/FeGlobe.vue';
+import FeChevronDown from '@/components/Icons/FeChevronDown.vue';
+import FeChevronUp from '@/components/Icons/FeChevronUp.vue';
+import FeInfo from '@/components/Icons/FeInfo.vue';
 import SplitButton from '@/components/Buttons/SplitButton.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
@@ -34,11 +44,21 @@ const {
 
 const inputProxyDomain = ref('');
 const inputProxyDomainError = ref(false);
+const showDetailsAllWebsites = ref(false);
+const expandedHosts = ref<Record<string, boolean>>({});
 
 const combinedHosts = computed(() => {
   const allHosts = [...Object.keys(hostProxiesDetails.value), ...excludedHosts.value];
   return [...new Set(allHosts)].sort((a, b) => a.localeCompare(b));
 });
+
+const toggleHostDetails = (host: string) => {
+  expandedHosts.value[host] = !expandedHosts.value[host];
+};
+
+const isHostExpanded = (host: string) => {
+  return !!expandedHosts.value[host];
+};
 
 const handleCustomProxySelectManual = () => {
   const normalizedDomain = normalizeToFQDN(inputProxyDomain.value);
@@ -92,23 +112,45 @@ const clearError = () => {
       Please enter a valid domain name
     </div>
 
-    <n-divider />
-    <div>
-      <div class="flex inline-flex items-center mb-2">
-        <h1 class="font-semibold text-lg text-gray-200">All websites</h1>
-        <p class="ml-1">(except for domains listed below)</p>
+    <n-divider class="!mb-3" />
+
+    <div class="border-[#354f6b] border-b mb-3 pb-3">
+      <div
+        class="flex justify-between cursor-pointer"
+        @click="showDetailsAllWebsites = !showDetailsAllWebsites"
+      >
+        <TitleCategory :level="3" title="All websites" />
+        <div class="flex flex-row items-center">
+          <n-switch
+            v-if="globalProxyDetails.server"
+            :value="globalProxyEnabled"
+            @update-value="toggleGlobalProxy()"
+            @click.stop
+            class="mr-2"
+          />
+          <n-icon size="20" class="cursor-pointer">
+            <FeChevronUp v-if="showDetailsAllWebsites" />
+            <FeChevronDown v-else />
+          </n-icon>
+        </div>
       </div>
 
-      <div v-if="globalProxyDetails.server" class="flex justify-between">
-        <div class="mb-2">
-          <p class="text-white inline-flex items-center">
-            <n-icon size="20">
-              <FeGlobe />
-            </n-icon>
-            <span class="ml-2"
-              >{{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}</span
-            >
+      <n-collapse-transition :show="showDetailsAllWebsites" class="mt-2">
+        <div class="flex items-center mb-2">
+          <n-icon size="20" class="mr-3">
+            <FeInfo />
+          </n-icon>
+          <p>
+            Proxy configured for <strong>all websites</strong>, with the exception of domains listed
+            below.
           </p>
+        </div>
+
+        <div v-if="globalProxyDetails.server" class="mb-3">
+          <div class="flex">
+            <h4 class="font-semibold">Location</h4>
+            <div class="ml-2">{{ globalProxyDetails.city }}, {{ globalProxyDetails.country }}</div>
+          </div>
           <div class="flex">
             <h4 class="font-semibold">Server</h4>
             <div class="ml-2">{{ globalProxyDetails.server }}</div>
@@ -124,56 +166,81 @@ const clearError = () => {
           </div>
         </div>
 
-        <n-switch :value="globalProxyEnabled" @update-value="toggleGlobalProxy()" />
-      </div>
-
-      <div class="flex justify-between">
-        <Button size="small" @click="proxySelect()">
-          {{ globalProxyDetails.server ? 'Change location' : 'Select location' }}
-        </Button>
-        <Button
-          v-if="globalProxyDetails.server"
-          size="small"
-          color="error"
-          @click="removeGlobalProxy"
-        >
-          Remove proxy
-        </Button>
-      </div>
+        <div class="flex justify-between">
+          <Button size="small" @click="proxySelect()" class="mr-2">
+            {{ globalProxyDetails.server ? 'Change location' : 'Select location' }}
+          </Button>
+          <Button
+            v-if="globalProxyDetails.server"
+            size="small"
+            color="error"
+            @click="removeGlobalProxy"
+          >
+            Reset
+          </Button>
+        </div>
+      </n-collapse-transition>
     </div>
 
-    <div v-for="host in combinedHosts" :key="host" :bordered="false" class="mb-4">
-      <n-divider />
-      <div class="flex justify-between">
-        <h1 class="font-semibold text-lg mb-2 text-gray-200">
-          {{ host }}
-        </h1>
-        <template v-if="host in hostProxiesDetails && !excludedHosts.includes(host)">
-          <n-tooltip v-if="hostProxiesDetails[host].server">
+    <div
+      v-for="(host, index) in combinedHosts"
+      :key="host"
+      :class="[
+        'border-[#354f6b] border-b-1 pb-3',
+        {
+          'mb-3': index < combinedHosts.length - 1,
+          'border-b-0': index === combinedHosts.length - 1,
+        },
+      ]"
+    >
+      <div class="flex justify-between cursor-pointer" @click="toggleHostDetails(host)">
+        <TitleCategory :level="3" :title="host" />
+        <div class="flex flex-row items-center">
+          <n-tooltip
+            v-if="
+              host in hostProxiesDetails &&
+              !excludedHosts.includes(host) &&
+              hostProxiesDetails[host].server
+            "
+          >
             <template #trigger>
               <n-switch
                 :value="hostProxiesDetails[host].socksEnabled"
                 @update-value="toggleCustomProxy(host)"
+                @click.stop
+                class="mr-2"
               />
             </template>
             <span>{{
               hostProxiesDetails[host].socksEnabled ? 'Proxy enabled' : 'Proxy disabled'
             }}</span>
           </n-tooltip>
-        </template>
+          <n-icon size="20" class="cursor-pointer">
+            <FeChevronUp v-if="isHostExpanded(host)" />
+            <FeChevronDown v-else />
+          </n-icon>
+        </div>
       </div>
 
-      <template v-if="host in hostProxiesDetails && !excludedHosts.includes(host)">
-        <div v-if="hostProxiesDetails[host].server" class="mb-3">
-          <div class="mb-2">
-            <p class="text-white inline-flex items-center">
-              <n-icon size="20">
-                <FeGlobe />
-              </n-icon>
-              <span class="ml-2"
-                >{{ hostProxiesDetails[host].country }}, {{ hostProxiesDetails[host].city }}</span
-              >
+      <n-collapse-transition :show="isHostExpanded(host)" class="mt-2">
+        <template v-if="host in hostProxiesDetails && !excludedHosts.includes(host)">
+          <div class="flex items-center mb-2">
+            <n-icon size="20" class="mr-3">
+              <FeInfo />
+            </n-icon>
+            <p>
+              Proxy configured for <strong>{{ host }}</strong
+              >.
             </p>
+          </div>
+
+          <div v-if="hostProxiesDetails[host].server" class="mb-3">
+            <div class="flex">
+              <h4 class="font-semibold">Location</h4>
+              <div class="ml-2">
+                {{ hostProxiesDetails[host].city }}, {{ hostProxiesDetails[host].country }}
+              </div>
+            </div>
             <div class="flex">
               <h4 class="font-semibold">Server</h4>
               <div class="ml-2">{{ hostProxiesDetails[host].server }}</div>
@@ -188,33 +255,44 @@ const clearError = () => {
               />
             </div>
           </div>
-        </div>
 
-        <div class="flex justify-between">
-          <Button size="small" class="flex items-center justify-center" @click="proxySelect(host)">
-            Change location
-          </Button>
-
-          <div>
+          <div class="flex justify-between">
+            <Button size="small" @click="proxySelect(host)" class="mr-2">
+              {{ hostProxiesDetails[host].server ? 'Change location' : 'Select location' }}
+            </Button>
             <SplitButton
+              v-if="hostProxiesDetails[host].server"
               size="small"
               main-color="error"
               sub-color="white"
-              main-text="Remove proxy"
+              main-text="Reset"
               sub-text="Never proxy"
               @main-click="removeCustomProxy(host)"
               @sub-click="neverProxyHost(host)"
             />
+            <Button
+              v-else
+              size="small"
+              class="flex items-center justify-center"
+              @click="neverProxyHost(host)"
+            >
+              Never proxy
+            </Button>
           </div>
-        </div>
-      </template>
+        </template>
 
-      <template v-else>
-        <div class="flex justify-between">
-          <IconLabel type="info" class="mb-3"> Never proxied </IconLabel>
-          <Button @click="allowProxy(host)">Allow proxying</Button>
-        </div>
-      </template>
+        <template v-else>
+          <div class="flex items-center mb-2">
+            <n-icon size="20" class="mr-3">
+              <FeInfo />
+            </n-icon>
+            <p>
+              <strong>{{ host }}</strong> is set to never be proxied.
+            </p>
+          </div>
+          <Button size="small" @click="allowProxy(host)">Allow proxying</Button>
+        </template>
+      </n-collapse-transition>
     </div>
   </NCard>
 </template>
