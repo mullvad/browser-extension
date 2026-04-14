@@ -7,7 +7,7 @@ describe('ProxyList', () => {
   it('should render a single proxy correctly', () => {
     const wrapper = mount(ProxyList, {
       props: {
-        cities: [{ city: 'Narnia', proxyList: [{ hostname: 'narnia-001' } as SocksProxy] }],
+        proxyList: [{ hostname: 'narnia-001' } as SocksProxy],
         onClickProxy: vi.fn(),
       },
     });
@@ -21,12 +21,7 @@ describe('ProxyList', () => {
     const onClickProxy = vi.fn();
     const wrapper = mount(ProxyList, {
       props: {
-        cities: [
-          {
-            city: 'Narnia',
-            proxyList: [{ hostname: 'narnia-002' }, { hostname: 'narnia-001' }] as SocksProxy[],
-          },
-        ],
+        proxyList: [{ hostname: 'narnia-002' }, { hostname: 'narnia-001' }] as SocksProxy[],
         onClickProxy,
       },
     });

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { NButton, NSpace } from 'naive-ui';
-import type { City, SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
+import type { SocksProxy } from '@/helpers/socksProxy/socksProxies.types';
 
 defineProps<{
-  cities: City[];
+  proxyList: SocksProxy[];
   onClickProxy: (proxy: SocksProxy) => void;
 }>();
 </script>
@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <n-space vertical class="ml-8">
     <n-button
-      v-for="proxy in cities[0].proxyList"
+      v-for="proxy in proxyList"
       :key="proxy.hostname"
       secondary
       medium

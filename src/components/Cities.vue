@@ -31,19 +31,17 @@ const onClickProxy = (proxy: SocksProxy) => {
   <div v-if="cities?.length === 1">
     <n-space vertical class="ml-8">
       <CityButton :city="cities[0].city" :onClickCity />
-      <ProxyList :cities :onClickProxy />
+      <ProxyList :proxyList="cities[0].proxyList" :onClickProxy />
     </n-space>
   </div>
 
   <n-collapse v-else arrow-placement="right">
-    <n-collapse-item v-for="{ city } in cities" :key="city" :name="city" :title="city">
+    <n-collapse-item v-for="{ city, proxyList } in cities" :key="city" :name="city" :title="city">
       <template #header>
         <CityButton :city :onClickCity />
       </template>
 
-      <n-space vertical>
-        <ProxyList :cities :onClickProxy />
-      </n-space>
+      <ProxyList :proxyList :onClickProxy />
     </n-collapse-item>
   </n-collapse>
 </template>
