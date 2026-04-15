@@ -71,7 +71,7 @@ const currentHostProxyEnabled = computed(
   () => !currentHostExcluded.value && (currentHostProxyDetails.value?.socksEnabled ?? false),
 );
 
-const currentEffectiveProxyDomain = computed(() => {
+const currentEffectiveProxyHost = computed(() => {
   const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
 
   // If the host or its parent domain is excluded, return the excluded domain
@@ -153,11 +153,11 @@ const toggleSubDomainProxy = (subdomain: string) => {
   updateCurrentTabProxyBadge();
 };
 
-const toggleDomainProxy = (domain: string) => {
-  hostProxiesDetails.value[domain].socksEnabled = !hostProxiesDetails.value[domain].socksEnabled;
+const toggleHostProxy = (host: string) => {
+  hostProxiesDetails.value[host].socksEnabled = !hostProxiesDetails.value[host].socksEnabled;
   reloadOptions();
   if (proxyAutoReload.value) {
-    reloadMatchingTabs(domain);
+    reloadMatchingTabs(host);
   }
   updateCurrentTabProxyBadge();
 };
@@ -318,7 +318,7 @@ const useSocksProxy = () => {
     currentHostProxyDNSEnabled,
     currentHostProxyEnabled,
     currentHostExcluded,
-    currentEffectiveProxyDomain,
+    currentEffectiveProxyHost,
     excludedHosts,
     globalProxy,
     globalProxyDetails,
@@ -331,7 +331,7 @@ const useSocksProxy = () => {
     removeGlobalProxy,
     setCustomProxy,
     setGlobalProxy,
-    toggleDomainProxy,
+    toggleHostProxy,
     toggleSubDomainProxy,
     toggleCustomProxy,
     toggleCustomProxyDNS,

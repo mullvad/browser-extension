@@ -6,7 +6,7 @@ describe('domain helpers', () => {
       const result = checkDomain('example.com');
       expect(result).toEqual({
         hasSubdomain: false,
-        subDomain: 'example.com',
+        fullHost: 'example.com',
         domain: 'example.com',
       });
     });
@@ -15,7 +15,7 @@ describe('domain helpers', () => {
       const result = checkDomain('www.torproject.org');
       expect(result).toEqual({
         hasSubdomain: true,
-        subDomain: 'www.torproject.org',
+        fullHost: 'www.torproject.org',
         domain: 'torproject.org',
       });
     });

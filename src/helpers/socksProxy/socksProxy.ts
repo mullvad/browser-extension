@@ -25,8 +25,8 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     } = await getLocalStorageItems();
 
     const currentHost = getCurrentHost(details);
-    const { hasSubdomain, domain, subDomain } = checkDomain(currentHost);
-    const currentDomain = hasSubdomain ? subDomain : domain;
+    const { hasSubdomain, domain, fullHost } = checkDomain(currentHost);
+    const currentDomain = hasSubdomain ? fullHost : domain;
 
     const isDomainExcluded =
       excludedHosts.includes(currentDomain) || (hasSubdomain && excludedHosts.includes(domain));
@@ -180,8 +180,8 @@ const getProxyForExtensionConnectionCheck = async (
   hostProxiesDetails: Record<string, ProxyDetails>,
 ) => {
   const { isAboutPage, host } = await getActiveTabDetails();
-  const { domain, hasSubdomain, subDomain } = checkDomain(host);
-  const tabDomain = hasSubdomain ? subDomain : domain;
+  const { domain, hasSubdomain, fullHost } = checkDomain(host);
+  const tabDomain = hasSubdomain ? fullHost : domain;
 
   const isTabDomainExcluded =
     excludedHosts.includes(tabDomain) || (hasSubdomain && excludedHosts.includes(domain));
