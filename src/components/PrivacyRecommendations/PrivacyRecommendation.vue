@@ -3,6 +3,7 @@ import { toRefs, watchEffect } from 'vue';
 import { NAvatar, NCard } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
+import FeCheckCircle from '@/components/Icons/FeCheckCircle.vue';
 import IconLabel from '@/components/IconLabel.vue';
 import Instructions from '@/components/PrivacyRecommendations/Instructions.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
@@ -34,9 +35,10 @@ watchEffect(() => {
 <template>
   <n-card :id="recommendation.id" :bordered="false">
     <template #header>
-      <div class="flex">
+      <div class="flex items-center">
+        <FeCheckCircle v-if="recommendation.activated" class="mr-2 text-success" />
         <n-avatar
-          v-if="recommendation.icon"
+          v-if="recommendation.icon && !recommendation.activated"
           size="small"
           :src="`/assets/icons/${recommendation.icon}`"
           class="mr-2"
@@ -46,12 +48,12 @@ watchEffect(() => {
     </template>
 
     <template #header-extra>
-      <div class="text-2xl flex">
+      <div v-if="!recommendation.activated" class="text-2xl flex">
         <RecommendationIconWithTooltip :recommendation="recommendation" />
       </div>
     </template>
 
-    <p>{{ recommendation.description }}</p>
+    <p v-if="!recommendation.activated">{{ recommendation.description }}</p>
 
     <div
       v-if="!recommendation.activated && recommendation.id === 'https-only-mode'"
@@ -65,7 +67,7 @@ watchEffect(() => {
     </div>
 
     <template #action>
-      <div class="flex justify-between">
+      <div v-if="!recommendation.activated" class="flex justify-between">
         <Button
           v-if="!recommendation.activated && recommendation.id === 'default-search'"
           :href="`https://duckduckgo.com`"
@@ -85,7 +87,7 @@ watchEffect(() => {
 
           <div v-else>
             <Button
-              v-if="recommendation.id === 'uBlock0@raymondhill.net'"
+              v-if="recommendation.id === 'uBlock0@raymondhill.net' && !recommendation.installed"
               color="success"
               :href="recommendation.ctaUrl"
               @click="closePopup"
