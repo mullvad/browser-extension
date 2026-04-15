@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "module": "ESNext",
     "target": "es2016",
     "lib": ["DOM", "ESNext"],
@@ -8,13 +7,13 @@
     "esModuleInterop": true,
     "incremental": false,
     "skipLibCheck": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "noUnusedLocals": false,
     "forceConsistentCasingInFileNames": true,
     "types": ["vite/client", "@types/firefox-webext-browser", "vitest/globals", "node"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [

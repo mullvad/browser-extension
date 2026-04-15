@@ -28,9 +28,8 @@ export const connCheckIpv4 = async (): Promise<Connection> => {
       provider: data.organization,
       isMullvad: data.mullvad_exit_ip ?? false,
     };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    throw new Error('IPv4 connection check failed.');
+    throw new Error('IPv4 connection check failed.', { cause: error });
   }
 };
 
