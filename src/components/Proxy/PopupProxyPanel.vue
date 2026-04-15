@@ -17,7 +17,7 @@ import useRandomProxy from '@/composables/useRandomProxy';
 import useSocksProxy from '@/composables/useSocksProxy';
 
 const showDetailsAllWebsites = ref(false);
-const showDetailsCurrentTab = ref(false);
+const showDetailsCurrentDomain = ref(false);
 const showDetailsRandom = ref(false);
 
 const { isAboutPage, isExtensionPage } = useActiveTab();
@@ -44,7 +44,7 @@ import useStore from '@/composables/useStore';
 const { flatProxiesList } = useStore();
 const { getSocksProxies } = useSocksProxies();
 
-const isCurrentTabProxyOverriden = computed(() => randomProxyMode.value);
+const isCurrentDomainProxyOverriden = computed(() => randomProxyMode.value);
 
 const isAllWebsitesProxyOverriden = computed(() =>
   !randomProxyMode.value && !currentHostProxyEnabled.value && !currentHostExcluded.value
@@ -68,12 +68,14 @@ watch(isGranted, (newValue) => {
     <div v-if="!isAboutPage && !isExtensionPage" class="border-[#354f6b] border-b-1 mb-3 pb-3">
       <div
         class="flex justify-between cursor-pointer"
-        @click="showDetailsCurrentTab = !showDetailsCurrentTab"
+        @click="showDetailsCurrentDomain = !showDetailsCurrentDomain"
       >
         <div class="flex">
           <TitleCategory :level="3" title="Current domain" />
           <InUseTag
-            v-if="!isCurrentTabProxyOverriden && (currentHostProxyEnabled || currentHostExcluded)"
+            v-if="
+              !isCurrentDomainProxyOverriden && (currentHostProxyEnabled || currentHostExcluded)
+            "
           />
         </div>
 
@@ -81,20 +83,20 @@ watch(isGranted, (newValue) => {
           <n-switch
             v-if="currentHostProxyDetails && !currentHostExcluded"
             :value="currentHostProxyEnabled"
-            :disabled="isCurrentTabProxyOverriden"
+            :disabled="isCurrentDomainProxyOverriden"
             @update-value="toggleDomainProxy(currentEffectiveProxyDomain)"
             @click.stop
             class="mr-2"
           />
 
           <n-icon size="20" class="cursor-pointer">
-            <FeChevronUp v-if="showDetailsCurrentTab" />
+            <FeChevronUp v-if="showDetailsCurrentDomain" />
             <FeChevronDown v-else />
           </n-icon>
         </div>
       </div>
 
-      <n-collapse-transition :show="showDetailsCurrentTab" class="mt-2">
+      <n-collapse-transition :show="showDetailsCurrentDomain" class="mt-2">
         <div v-if="!currentHostExcluded" class="flex items-center mb-2">
           <n-icon size="20" class="mr-3">
             <FeInfo />
