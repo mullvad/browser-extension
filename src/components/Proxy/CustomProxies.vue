@@ -224,16 +224,6 @@ const clearError = () => {
 
       <n-collapse-transition :show="isHostExpanded(host)" class="mt-2">
         <template v-if="host in hostProxiesDetails && !excludedHosts.includes(host)">
-          <div class="flex items-center mb-2">
-            <n-icon size="20" class="mr-3">
-              <FeInfo />
-            </n-icon>
-            <p>
-              Proxy configured for <strong>{{ host }}</strong
-              >.
-            </p>
-          </div>
-
           <div v-if="hostProxiesDetails[host].server" class="mb-3">
             <div class="flex">
               <h4 class="font-semibold">Location</h4>
