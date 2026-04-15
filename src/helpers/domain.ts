@@ -4,7 +4,7 @@ export const checkDomain = (host: string) => {
   const parsed = parse(host);
   return {
     hasSubdomain: Boolean(parsed.subdomain),
-    subDomain: host,
+    fullHost: host,
     domain: parsed.domain || host,
   };
 };

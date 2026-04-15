@@ -27,7 +27,7 @@ export const updateTabProxyBadge = async (
   const randomProxyModeParsed = JSON.parse(randomProxyMode);
 
   const tabHost = new URL(url!).hostname;
-  const { domain, subDomain, hasSubdomain } = checkDomain(tabHost);
+  const { domain, fullHost, hasSubdomain } = checkDomain(tabHost);
 
   // Block for local/reserved IPs
   if (isLocalOrReservedIP(tabHost)) {
@@ -47,13 +47,13 @@ export const updateTabProxyBadge = async (
 
   // 1. Check subdomain level
   if (hasSubdomain) {
-    if (excludedHostsParsed.includes(subDomain)) {
-      browser.browserAction.setTitle({ tabId, title: `${subDomain} is set to never be proxied` });
+    if (excludedHostsParsed.includes(fullHost)) {
+      browser.browserAction.setTitle({ tabId, title: `${fullHost} is set to never be proxied` });
       await setTabExtBadge(tab, false, true);
       return;
     }
 
-    if (hostProxiesDetailsParsed[subDomain]?.socksEnabled) {
+    if (hostProxiesDetailsParsed[fullHost]?.socksEnabled) {
       const proxyDNSMessage = activeProxyDetails.proxyDNS ? 'DNS proxied' : 'DNS not proxied';
       const title = `${activeProxyDetails.city}, ${activeProxyDetails.country}\nServer: ${activeProxyDetails.server}\n${proxyDNSMessage}`;
       browser.browserAction.setTitle({ tabId, title });

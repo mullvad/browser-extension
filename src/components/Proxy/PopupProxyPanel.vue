@@ -29,13 +29,13 @@ const {
   currentHostProxyDetails,
   currentHostProxyEnabled,
   currentHostExcluded,
-  currentEffectiveProxyDomain,
+  currentEffectiveProxyHost,
   globalProxyEnabled,
   globalProxyDetails,
   neverProxyHost,
   removeCustomProxy,
   removeGlobalProxy,
-  toggleDomainProxy,
+  toggleHostProxy,
   toggleGlobalProxy,
 } = useSocksProxy();
 import useSocksProxies from '@/composables/useSocksProxies';
@@ -44,7 +44,7 @@ import useStore from '@/composables/useStore';
 const { flatProxiesList } = useStore();
 const { getSocksProxies } = useSocksProxies();
 
-const isCurrentDomainProxyOverriden = computed(() => randomProxyMode.value);
+const isCurrentHostProxyOverriden = computed(() => randomProxyMode.value);
 
 const isAllWebsitesProxyOverriden = computed(() =>
   !randomProxyMode.value && !currentHostProxyEnabled.value && !currentHostExcluded.value
@@ -73,9 +73,7 @@ watch(isGranted, (newValue) => {
         <div class="flex">
           <TitleCategory :level="3" title="Current domain" />
           <InUseTag
-            v-if="
-              !isCurrentDomainProxyOverriden && (currentHostProxyEnabled || currentHostExcluded)
-            "
+            v-if="!isCurrentHostProxyOverriden && (currentHostProxyEnabled || currentHostExcluded)"
           />
         </div>
 
@@ -83,8 +81,8 @@ watch(isGranted, (newValue) => {
           <n-switch
             v-if="currentHostProxyDetails && !currentHostExcluded"
             :value="currentHostProxyEnabled"
-            :disabled="isCurrentDomainProxyOverriden"
-            @update-value="toggleDomainProxy(currentEffectiveProxyDomain)"
+            :disabled="isCurrentHostProxyOverriden"
+            @update-value="toggleHostProxy(currentEffectiveProxyHost)"
             @click.stop
             class="mr-2"
           />
@@ -102,15 +100,17 @@ watch(isGranted, (newValue) => {
             <FeInfo />
           </n-icon>
           <p>
-            Proxy configured for <strong>{{ currentEffectiveProxyDomain }}</strong
+            Proxy configured for <strong>{{ currentEffectiveProxyHost }}</strong
             >.
           </p>
         </div>
 
         <div v-if="currentHostExcluded" class="mb-3">
-          <p class="mb-4">{{ currentEffectiveProxyDomain }} is set to never be proxied.</p>
-          <Button size="small" @click="allowProxy(currentEffectiveProxyDomain)"
-            >Allow proxy for {{ currentEffectiveProxyDomain }}</Button
+          <p class="mb-4">
+            <strong>{{ currentEffectiveProxyHost }}</strong> is set to never be proxied.
+          </p>
+          <Button size="small" @click="allowProxy(currentEffectiveProxyHost)"
+            >Allow proxy for <strong>{{ currentEffectiveProxyHost }}</strong></Button
           >
         </div>
         <div v-if="!currentHostExcluded">
@@ -127,7 +127,7 @@ watch(isGranted, (newValue) => {
           </div>
 
           <div class="flex justify-between">
-            <Button size="small" @click="proxySelect(currentEffectiveProxyDomain)">
+            <Button size="small" @click="proxySelect(currentEffectiveProxyHost)">
               {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
             </Button>
             <SplitButton
@@ -137,14 +137,14 @@ watch(isGranted, (newValue) => {
               sub-color="white"
               main-text="Reset"
               sub-text="Never proxy"
-              @main-click="removeCustomProxy(currentEffectiveProxyDomain)"
-              @sub-click="neverProxyHost(currentEffectiveProxyDomain)"
+              @main-click="removeCustomProxy(currentEffectiveProxyHost)"
+              @sub-click="neverProxyHost(currentEffectiveProxyHost)"
             />
             <Button
               v-else
               size="small"
               class="flex items-center justify-center"
-              @click="neverProxyHost(currentEffectiveProxyDomain)"
+              @click="neverProxyHost(currentEffectiveProxyHost)"
             >
               Never proxy
             </Button>
