@@ -304,7 +304,7 @@ const neverProxyHost = (host: string) => {
 };
 
 watch(
-  [globalProxyDetails, hostProxiesDetails],
+  [globalProxyDetails, hostProxiesDetails, excludedHosts],
   () => {
     checkStatus();
   },
