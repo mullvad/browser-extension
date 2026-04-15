@@ -20,15 +20,16 @@ const showDetailsAllWebsites = ref(false);
 const showDetailsCurrentTab = ref(false);
 const showDetailsRandom = ref(false);
 
-const { activeTabDomain, isAboutPage, isExtensionPage } = useActiveTab();
+const { isAboutPage, isExtensionPage } = useActiveTab();
 const { proxySelect } = useLocations();
 const { isGranted, requestPermissions } = useProxyPermissions();
 const { toggleRandomProxyMode, randomProxyMode } = useRandomProxy();
 const {
   allowProxy,
+  currentHostProxyDetails,
   currentHostProxyEnabled,
-  hostProxiesDetails,
-  excludedHosts,
+  currentHostExcluded,
+  currentEffectiveProxyDomain,
   globalProxyEnabled,
   globalProxyDetails,
   neverProxyHost,
@@ -43,16 +44,12 @@ import useStore from '@/composables/useStore';
 const { flatProxiesList } = useStore();
 const { getSocksProxies } = useSocksProxies();
 
-const currentTabExcluded = computed(() => excludedHosts.value.includes(activeTabDomain.value));
-
-const currentTabProxyDetails = computed(() => {
-  return hostProxiesDetails.value[activeTabDomain.value] || null;
-});
-
 const isCurrentTabProxyOverriden = computed(() => randomProxyMode.value);
 
 const isAllWebsitesProxyOverriden = computed(() =>
-  !randomProxyMode.value && !currentHostProxyEnabled.value ? false : true,
+  !randomProxyMode.value && !currentHostProxyEnabled.value && !currentHostExcluded.value
+    ? false
+    : true,
 );
 
 watch(isGranted, (newValue) => {
@@ -74,16 +71,18 @@ watch(isGranted, (newValue) => {
         @click="showDetailsCurrentTab = !showDetailsCurrentTab"
       >
         <div class="flex">
-          <TitleCategory :level="3" title="Current tab" />
-          <InUseTag v-if="!isCurrentTabProxyOverriden && currentHostProxyEnabled" />
+          <TitleCategory :level="3" title="Current domain" />
+          <InUseTag
+            v-if="!isCurrentTabProxyOverriden && (currentHostProxyEnabled || currentHostExcluded)"
+          />
         </div>
 
         <div class="flex flex-row items-center">
           <n-switch
-            v-if="currentTabProxyDetails"
+            v-if="currentHostProxyDetails && !currentHostExcluded"
             :value="currentHostProxyEnabled"
             :disabled="isCurrentTabProxyOverriden"
-            @update-value="toggleDomainProxy(activeTabDomain)"
+            @update-value="toggleDomainProxy(currentEffectiveProxyDomain)"
             @click.stop
             class="mr-2"
           />
@@ -96,54 +95,54 @@ watch(isGranted, (newValue) => {
       </div>
 
       <n-collapse-transition :show="showDetailsCurrentTab" class="mt-2">
-        <div class="flex items-center mb-2">
+        <div v-if="!currentHostExcluded" class="flex items-center mb-2">
           <n-icon size="20" class="mr-3">
             <FeInfo />
           </n-icon>
           <p>
-            Proxy configured for <strong>{{ activeTabDomain }}</strong
+            Proxy configured for <strong>{{ currentEffectiveProxyDomain }}</strong
             >.
           </p>
         </div>
 
-        <div v-if="currentTabExcluded" class="mb-3">
-          <p class="mb-4">{{ activeTabDomain }} is set to never be proxied.</p>
-          <Button size="small" @click="allowProxy(activeTabDomain)"
-            >Allow proxy for {{ activeTabDomain }}</Button
+        <div v-if="currentHostExcluded" class="mb-3">
+          <p class="mb-4">{{ currentEffectiveProxyDomain }} is set to never be proxied.</p>
+          <Button size="small" @click="allowProxy(currentEffectiveProxyDomain)"
+            >Allow proxy for {{ currentEffectiveProxyDomain }}</Button
           >
         </div>
-        <div v-if="!currentTabExcluded">
-          <div v-if="currentTabProxyDetails" class="flex justify-between">
+        <div v-if="!currentHostExcluded">
+          <div v-if="currentHostProxyDetails" class="flex justify-between">
             <div class="mb-2">
               <h4 class="font-semibold">
-                {{ currentTabProxyDetails.city }}, {{ currentTabProxyDetails.country }}
+                {{ currentHostProxyDetails.city }}, {{ currentHostProxyDetails.country }}
               </h4>
               <div class="flex">
                 <h4 class="font-semibold">Server</h4>
-                <div class="ml-2">{{ currentTabProxyDetails.server }}</div>
+                <div class="ml-2">{{ currentHostProxyDetails.server }}</div>
               </div>
             </div>
           </div>
 
           <div class="flex justify-between">
-            <Button size="small" @click="proxySelect(activeTabDomain)">
-              {{ currentTabProxyDetails ? 'Change location' : 'Select location' }}
+            <Button size="small" @click="proxySelect(currentEffectiveProxyDomain)">
+              {{ currentHostProxyDetails ? 'Change location' : 'Select location' }}
             </Button>
             <SplitButton
-              v-if="currentTabProxyDetails"
+              v-if="currentHostProxyDetails"
               size="small"
               main-color="error"
               sub-color="white"
               main-text="Reset"
               sub-text="Never proxy"
-              @main-click="removeCustomProxy(activeTabDomain)"
-              @sub-click="neverProxyHost(activeTabDomain)"
+              @main-click="removeCustomProxy(currentEffectiveProxyDomain)"
+              @sub-click="neverProxyHost(currentEffectiveProxyDomain)"
             />
             <Button
               v-else
               size="small"
               class="flex items-center justify-center"
-              @click="neverProxyHost(activeTabDomain)"
+              @click="neverProxyHost(currentEffectiveProxyDomain)"
             >
               Never proxy
             </Button>

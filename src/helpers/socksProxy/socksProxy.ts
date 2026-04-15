@@ -28,9 +28,12 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
     const { hasSubdomain, domain, subDomain } = checkDomain(currentHost);
     const currentDomain = hasSubdomain ? subDomain : domain;
 
-    const isDomainExcluded = excludedHosts.includes(currentDomain);
+    const isDomainExcluded =
+      excludedHosts.includes(currentDomain) || (hasSubdomain && excludedHosts.includes(domain));
     const isDomainProxied = Object.hasOwn(hostProxies, currentDomain);
     const isDomainProxydEnabled = Boolean(hostProxiesDetails[currentDomain]?.socksEnabled);
+    const isParentDomainProxied = hasSubdomain && Object.hasOwn(hostProxies, domain);
+    const isParentProxyEnabled = hasSubdomain && Boolean(hostProxiesDetails[domain]?.socksEnabled);
     const isGlobalProxyEnabled = globalProxyDetails.socksEnabled;
 
     // 1. Block speculative requests, since we can't identify their origins
@@ -69,6 +72,11 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
 
     if (isDomainProxied && isDomainProxydEnabled) {
       return hostProxies[currentDomain];
+    }
+
+    // 5b. Fallback to parent domain for subdomains (e.g., www.reddit.com -> reddit.com)
+    if (isParentDomainProxied && isParentProxyEnabled) {
+      return hostProxies[domain];
     }
 
     // 6. Check global proxy
@@ -175,9 +183,12 @@ const getProxyForExtensionConnectionCheck = async (
   const { domain, hasSubdomain, subDomain } = checkDomain(host);
   const tabDomain = hasSubdomain ? subDomain : domain;
 
-  const isTabDomainExcluded = excludedHosts.includes(tabDomain);
+  const isTabDomainExcluded =
+    excludedHosts.includes(tabDomain) || (hasSubdomain && excludedHosts.includes(domain));
   const isTabDomainProxied = Object.hasOwn(hostProxies, tabDomain);
   const isTabProxyEnabled = !!hostProxiesDetails[tabDomain]?.socksEnabled;
+  const isParentDomainProxied = hasSubdomain && Object.hasOwn(hostProxies, domain);
+  const isParentProxyEnabled = hasSubdomain && !!hostProxiesDetails[domain]?.socksEnabled;
 
   // a) If the current tab is an about page, we only need to check for a global proxy
   if (isAboutPage) {
@@ -197,6 +208,11 @@ const getProxyForExtensionConnectionCheck = async (
   // d) If current tab is proxied, we need to check for the current tab's proxy
   if (isTabDomainProxied && isTabProxyEnabled) {
     return hostProxies[tabDomain];
+  }
+
+  // d-b) Fallback to parent domain for subdomains (e.g., www.reddit.com -> reddit.com)
+  if (isParentDomainProxied && isParentProxyEnabled) {
+    return hostProxies[domain];
   }
 
   // e) If global proxy is enabled

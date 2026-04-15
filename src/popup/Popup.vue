@@ -20,10 +20,12 @@ const {
   dnsServers,
 } = useCheckDnsLeaks();
 const { randomProxyMode } = useRandomProxy();
-const { globalProxyEnabled, currentHostProxyEnabled } = useSocksProxy();
+const { globalProxyEnabled, currentHostProxyEnabled, currentHostExcluded } = useSocksProxy();
 
 const isProxyInUse = computed(
-  () => !!(randomProxyMode.value || currentHostProxyEnabled.value || globalProxyEnabled.value),
+  () =>
+    !currentHostExcluded.value &&
+    !!(randomProxyMode.value || currentHostProxyEnabled.value || globalProxyEnabled.value),
 );
 </script>
 

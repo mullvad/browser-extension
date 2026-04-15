@@ -49,13 +49,61 @@ const currentHostProxyDetails = computed(() => {
     return hostProxiesDetails.value[activeTabHost.value];
   }
 
+  // Also check parent domain for disabled configs (subdomain fallback)
+  if (hasSubdomain && hostProxiesDetails.value[domain]) {
+    return hostProxiesDetails.value[domain];
+  }
+
   return null;
 });
 
 const globalProxyEnabled = computed(() => globalProxyDetails.value.socksEnabled);
+
+const currentHostExcluded = computed(() => {
+  const { domain, hasSubdomain } = checkDomain(activeTabHost.value);
+  return (
+    excludedHosts.value.includes(activeTabHost.value) ||
+    (hasSubdomain && excludedHosts.value.includes(domain))
+  );
+});
+
 const currentHostProxyEnabled = computed(
-  () => currentHostProxyDetails.value?.socksEnabled ?? false,
+  () => !currentHostExcluded.value && (currentHostProxyDetails.value?.socksEnabled ?? false),
 );
+
+const currentEffectiveProxyDomain = computed(() => {
+  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
+
+  // If the host or its parent domain is excluded, return the excluded domain
+  if (excludedHosts.value.includes(activeTabHost.value)) {
+    return activeTabHost.value;
+  }
+  if (hasSubdomain && excludedHosts.value.includes(domain)) {
+    return domain;
+  }
+
+  // Then check for exact matches that are enabled
+  if (hostProxiesDetails.value[activeTabHost.value]?.socksEnabled) {
+    return activeTabHost.value;
+  }
+
+  // Then check parent domain if this is a subdomain (fallback)
+  if (hasSubdomain && hostProxiesDetails.value[domain]?.socksEnabled) {
+    return domain;
+  }
+
+  // Any existing proxy config for the exact host
+  if (hostProxiesDetails.value[activeTabHost.value]) {
+    return activeTabHost.value;
+  }
+
+  // Parent domain fallback for disabled configs
+  if (hasSubdomain && hostProxiesDetails.value[domain]) {
+    return domain;
+  }
+
+  return activeTabHost.value;
+});
 
 const globalProxyDNSEnabled = computed(() => globalProxy.value?.proxyDNS ?? false);
 const currentHostProxyDNSEnabled = computed(() => currentHostProxyDetails.value?.proxyDNS ?? false);
@@ -269,6 +317,8 @@ const useSocksProxy = () => {
     currentHostProxyDetails,
     currentHostProxyDNSEnabled,
     currentHostProxyEnabled,
+    currentHostExcluded,
+    currentEffectiveProxyDomain,
     excludedHosts,
     globalProxy,
     globalProxyDetails,
