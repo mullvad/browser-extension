@@ -6,8 +6,8 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=24.11.0",
-    "npm": ">=11.6.1"
+    "node": ">=24.14.1",
+    "npm": ">=11.11"
   },
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
