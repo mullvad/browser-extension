@@ -46,7 +46,7 @@ const displayHost = computed(() => truncateHost(activeTabHost.value));
         v-if="!isAboutPage && !isExtensionPage"
         :title="displayHost"
         :title-attr="activeTabHost"
-        class="ml-3"
+        class="ml-3 my-0"
       />
     </div>
 
