@@ -50,14 +50,18 @@ const useSocksProxies = () => {
     }
   };
 
+  const queryLower = computed(() => query.value?.toLowerCase() ?? '');
   const filteredData = computed(() =>
-    flatProxiesList.value.filter(
-      (socksProxy) =>
-        !query.value ||
-        socksProxy.location.country?.toLowerCase().includes(query.value.toLowerCase()) ||
-        socksProxy.location.city?.toLowerCase().includes(query.value.toLowerCase()) ||
-        socksProxy.hostname?.toLowerCase().includes(query.value.toLowerCase()),
-    ),
+    flatProxiesList.value.filter((socksProxy) => {
+      const q = queryLower.value;
+      if (!q) return true;
+
+      const country = socksProxy.location.country?.toLowerCase();
+      const city = socksProxy.location.city?.toLowerCase();
+      const hostname = socksProxy.hostname?.toLowerCase();
+
+      return country?.includes(q) || city?.includes(q) || hostname?.includes(q);
+    }),
   );
 
   const filteredProxies = computed(() =>
