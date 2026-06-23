@@ -30,6 +30,7 @@ describe('domain helpers', () => {
     it('should return false for invalid domains', () => {
       expect(isValidDomain('not-a-domain')).toBe(false);
       expect(isValidDomain('not-a-domain.blabla')).toBe(false);
+      expect(isValidDomain('.not-a-domain')).toBe(false);
       expect(isValidDomain('')).toBe(false);
     });
 
@@ -37,7 +38,16 @@ describe('domain helpers', () => {
       expect(isValidDomain('home.arpa')).toBe(true);
       expect(isValidDomain('example.test')).toBe(true);
       expect(isValidDomain('server.localhost')).toBe(true);
-      expect(isValidDomain('page.internal')).toBe(true);
+      expect(isValidDomain('printer.local')).toBe(true);
+      expect(isValidDomain('example.onion')).toBe(true);
+      expect(isValidDomain('foo.alt')).toBe(true);
+      expect(isValidDomain('example.invalid')).toBe(true);
+      expect(isValidDomain('www.example.com')).toBe(true);
+    });
+
+    it('should return false for bare public suffixes', () => {
+      expect(isValidDomain('com')).toBe(false);
+      expect(isValidDomain('net')).toBe(false);
     });
   });
 

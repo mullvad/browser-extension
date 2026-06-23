@@ -10,14 +10,10 @@ export const checkDomain = (host: string) => {
 };
 
 export const isValidDomain = (domain: string): boolean => {
-  // Special use domains should be allowed according to the IETF RFC 6761
-  const publicSuffixes = ['arpa', 'test', 'localhost', 'internal'];
+  // Handle special-use domains (localhost, test, invalid, example, local, onion, alt and home.arpa)
+  const parsed = parse(domain, { detectSpecialUse: true });
 
-  const parsed = parse(domain, {
-    validHosts: publicSuffixes,
-  });
-
-  return Boolean(parsed.domain && (parsed.isIcann || publicSuffixes.includes(parsed.domain)));
+  return Boolean(parsed.isSpecialUse || (parsed.domain && parsed.isIcann));
 };
 
 export const normalizeToFQDN = (input: string): string | null => {
