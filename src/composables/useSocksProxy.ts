@@ -31,8 +31,10 @@ const {
   proxyAutoReload,
 } = useStore();
 
+const activeTabDomainInfo = computed(() => checkDomain(activeTabHost.value));
+
 const currentHostProxyDetails = computed(() => {
-  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
+  const { hasSubdomain, domain } = activeTabDomainInfo.value;
 
   // First check for exact matches that are enabled
   if (hostProxiesDetails.value[activeTabHost.value]?.socksEnabled) {
@@ -60,7 +62,7 @@ const currentHostProxyDetails = computed(() => {
 const globalProxyEnabled = computed(() => globalProxyDetails.value.socksEnabled);
 
 const currentHostExcluded = computed(() => {
-  const { domain, hasSubdomain } = checkDomain(activeTabHost.value);
+  const { domain, hasSubdomain } = activeTabDomainInfo.value;
   return (
     excludedHosts.value.includes(activeTabHost.value) ||
     (hasSubdomain && excludedHosts.value.includes(domain))
@@ -72,7 +74,7 @@ const currentHostProxyEnabled = computed(
 );
 
 const currentEffectiveProxyHost = computed(() => {
-  const { hasSubdomain, domain } = checkDomain(activeTabHost.value);
+  const { hasSubdomain, domain } = activeTabDomainInfo.value;
 
   // If the host or its parent domain is excluded, return the excluded domain
   if (excludedHosts.value.includes(activeTabHost.value)) {
