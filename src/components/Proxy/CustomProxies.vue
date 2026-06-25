@@ -22,17 +22,14 @@ import { isValidDomain, normalizeToFQDN } from '@/helpers/domain';
 
 import useSocksProxy from '@/composables/useSocksProxy';
 import useLocations from '@/composables/useLocations';
+import useStore from '@/composables/useStore';
 
 const { proxySelect } = useLocations();
+const { excludedHosts, globalProxyDetails, hostProxiesDetails } = useStore();
 
-// For some reason importing `hostProxiesDetails` directly from useStore()
-// will cause the value not to be reactively updated
 const {
   allowProxy,
-  excludedHosts,
-  globalProxyDetails,
   globalProxyEnabled,
-  hostProxiesDetails,
   neverProxyHost,
   removeCustomProxy,
   removeGlobalProxy,

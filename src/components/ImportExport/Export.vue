@@ -5,7 +5,10 @@ import { NButton, NCard, NFlex } from 'naive-ui';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
 
-import useSocksProxy from '@/composables/useSocksProxy';
+import useStore from '@/composables/useStore';
+
+const { excludedHosts, globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } =
+  useStore();
 
 const href = ref('');
 
@@ -16,9 +19,6 @@ const href = ref('');
  * which would require additional permissions.
  */
 const setupExport = async () => {
-  const { excludedHosts, globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } =
-    useSocksProxy();
-
   const data = {
     excludedHosts: excludedHosts.value,
     globalProxy: globalProxy.value,

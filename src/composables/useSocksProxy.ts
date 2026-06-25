@@ -105,9 +105,6 @@ const currentEffectiveProxyHost = computed(() => {
   return activeTabHost.value;
 });
 
-const globalProxyDNSEnabled = computed(() => globalProxy.value?.proxyDNS ?? false);
-const currentHostProxyDNSEnabled = computed(() => currentHostProxyDetails.value?.proxyDNS ?? false);
-
 const combinedHosts = computed(() => {
   // hosts that are excluded from proxying + hosts that enabled for proxying
   const enabledProxyHosts = Object.entries(hostProxiesDetails.value)
@@ -122,33 +119,6 @@ const toggleGlobalProxy = () => {
   reloadOptions();
   if (proxyAutoReload.value) {
     reloadGlobalProxiedTabs(combinedHosts.value);
-  }
-  updateCurrentTabProxyBadge();
-};
-
-const toggleSubDomainProxy = (subdomain: string) => {
-  const { domain } = checkDomain(subdomain);
-
-  // If no subdomain proxy exists but parent domain has proxy
-  if (!hostProxiesDetails.value[subdomain] && hostProxiesDetails.value[domain]) {
-    // Clone parent domain proxy settings
-    hostProxiesDetails.value[subdomain] = {
-      ...hostProxiesDetails.value[domain],
-      socksEnabled: true,
-    };
-    hostProxies.value[subdomain] = {
-      ...hostProxies.value[domain],
-      proxyDNS: hostProxiesDetails.value[domain].proxyDNS,
-    };
-  } else {
-    // Toggle existing subdomain proxy
-    hostProxiesDetails.value[subdomain].socksEnabled =
-      !hostProxiesDetails.value[subdomain].socksEnabled;
-  }
-
-  reloadOptions();
-  if (proxyAutoReload.value) {
-    reloadMatchingTabs(subdomain);
   }
   updateCurrentTabProxyBadge();
 };
@@ -315,24 +285,16 @@ const useSocksProxy = () => {
   return {
     allowProxy,
     currentHostProxyDetails,
-    currentHostProxyDNSEnabled,
     currentHostProxyEnabled,
     currentHostExcluded,
     currentEffectiveProxyHost,
-    excludedHosts,
-    globalProxy,
-    globalProxyDetails,
-    globalProxyDNSEnabled,
     globalProxyEnabled,
-    hostProxies,
-    hostProxiesDetails,
     neverProxyHost,
     removeCustomProxy,
     removeGlobalProxy,
     setCustomProxy,
     setGlobalProxy,
     toggleHostProxy,
-    toggleSubDomainProxy,
     toggleCustomProxy,
     toggleCustomProxyDNS,
     toggleGlobalProxy,

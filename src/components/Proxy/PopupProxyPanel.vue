@@ -31,7 +31,6 @@ const {
   currentHostExcluded,
   currentEffectiveProxyHost,
   globalProxyEnabled,
-  globalProxyDetails,
   neverProxyHost,
   removeCustomProxy,
   removeGlobalProxy,
@@ -41,7 +40,7 @@ const {
 import useSocksProxies from '@/composables/useSocksProxies';
 import useStore from '@/composables/useStore';
 
-const { flatProxiesList } = useStore();
+const { flatProxiesList, globalProxyDetails } = useStore();
 const { getSocksProxies } = useSocksProxies();
 
 const isCurrentHostProxyOverriden = computed(() => randomProxyMode.value);

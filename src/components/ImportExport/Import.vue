@@ -4,12 +4,11 @@ import { NButton, NCard, NIcon } from 'naive-ui';
 
 import TitleCategory from '@/components/TitleCategory.vue';
 
-import useSocksProxy from '@/composables/useSocksProxy';
+import useStore from '@/composables/useStore';
 import FeWarning from '@/components/Icons/FeWarning.vue';
 
-// CustomProxies.vue uses useSocksProxy, so use that here too to ensure reactivity
 const { excludedHosts, globalProxy, globalProxyDetails, hostProxies, hostProxiesDetails } =
-  useSocksProxy();
+  useStore();
 
 const fileInputRef = ref<HTMLInputElement | null>(null);
 const message = ref<string>('');
