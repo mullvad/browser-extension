@@ -19,6 +19,41 @@ describe('domain helpers', () => {
         domain: 'torproject.org',
       });
     });
+
+    it('should detect subdomain in special-use domains', () => {
+      expect(checkDomain('api.myapp.test')).toEqual({
+        hasSubdomain: true,
+        fullHost: 'api.myapp.test',
+        domain: 'myapp.test',
+      });
+      expect(checkDomain('sub.example.test')).toEqual({
+        hasSubdomain: true,
+        fullHost: 'sub.example.test',
+        domain: 'example.test',
+      });
+    });
+
+    it('should handle special-use domains without subdomain', () => {
+      expect(checkDomain('printer.local')).toEqual({
+        hasSubdomain: false,
+        fullHost: 'printer.local',
+        domain: 'printer.local',
+      });
+      expect(checkDomain('myapp.test')).toEqual({
+        hasSubdomain: false,
+        fullHost: 'myapp.test',
+        domain: 'myapp.test',
+      });
+    });
+
+    it('should treat onion addresses as atomic (no subdomain)', () => {
+      const onion = 'abcdefghijklmnop.onion';
+      expect(checkDomain(onion)).toEqual({
+        hasSubdomain: false,
+        fullHost: onion,
+        domain: onion,
+      });
+    });
   });
 
   describe('isValidDomain', () => {

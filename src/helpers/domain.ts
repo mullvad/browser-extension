@@ -1,7 +1,7 @@
 import { parse } from 'tldts';
 
 export const checkDomain = (host: string) => {
-  const parsed = parse(host);
+  const parsed = parse(host, { detectSpecialUse: true });
   return {
     hasSubdomain: Boolean(parsed.subdomain),
     fullHost: host,
