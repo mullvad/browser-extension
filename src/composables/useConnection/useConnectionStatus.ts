@@ -10,7 +10,6 @@ const useConnectionStatus = () => {
 
   const checkStatus = async () => {
     if (isChecking.value) {
-      console.log('Status check already in progress, skipping');
       return;
     }
 

@@ -1,4 +1,4 @@
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 
 import {
   ProxyDetails,
@@ -123,6 +123,7 @@ const toggleGlobalProxy = () => {
     reloadGlobalProxiedTabs(combinedHosts.value);
   }
   updateCurrentTabProxyBadge();
+  checkStatus();
 };
 
 const toggleHostProxy = (host: string) => {
@@ -132,6 +133,7 @@ const toggleHostProxy = (host: string) => {
     reloadMatchingTabs(host);
   }
   updateCurrentTabProxyBadge();
+  checkStatus();
 };
 
 const toggleCustomProxy = (host: string) => {
@@ -143,6 +145,7 @@ const toggleCustomProxy = (host: string) => {
     reloadMatchingTabs(targetHost);
   }
   updateCurrentTabProxyBadge();
+  checkStatus();
 };
 
 const toggleCustomProxyDNS = (host: string) => {
@@ -156,6 +159,7 @@ const toggleCustomProxyDNS = (host: string) => {
   if (proxyAutoReload.value) {
     reloadMatchingTabs(targetHost);
   }
+  checkStatus();
 };
 
 const toggleGlobalProxyDNS = () => {
@@ -166,6 +170,7 @@ const toggleGlobalProxyDNS = () => {
     reloadGlobalProxiedTabs(combinedHosts.value);
   }
   updateCurrentTabProxyBadge();
+  checkStatus();
 };
 
 const setGlobalProxy = ({
@@ -199,6 +204,7 @@ const setGlobalProxy = ({
   if (proxyAutoReload.value) {
     reloadGlobalProxiedTabs(combinedHosts.value);
   }
+  checkStatus();
 };
 
 const setCustomProxy = (
@@ -235,6 +241,7 @@ const setCustomProxy = (
   if (proxyAutoReload.value) {
     reloadMatchingTabs(host);
   }
+  checkStatus();
 };
 
 const removeCustomProxy = (host: string) => {
@@ -245,6 +252,7 @@ const removeCustomProxy = (host: string) => {
   if (proxyAutoReload.value) {
     reloadMatchingTabs(host);
   }
+  checkStatus();
 };
 
 const removeGlobalProxy = () => {
@@ -255,6 +263,7 @@ const removeGlobalProxy = () => {
   if (proxyAutoReload.value) {
     reloadGlobalProxiedTabs(combinedHosts.value);
   }
+  checkStatus();
 };
 
 const allowProxy = (host: string) => {
@@ -264,6 +273,7 @@ const allowProxy = (host: string) => {
   if (proxyAutoReload.value) {
     reloadMatchingTabs(host);
   }
+  checkStatus();
 };
 
 const neverProxyHost = (host: string) => {
@@ -273,11 +283,8 @@ const neverProxyHost = (host: string) => {
   if (proxyAutoReload.value) {
     reloadMatchingTabs(host);
   }
-};
-
-watch([globalProxyDetails, hostProxiesDetails, excludedHosts], () => {
   checkStatus();
-});
+};
 
 const useSocksProxy = () => {
   return {
