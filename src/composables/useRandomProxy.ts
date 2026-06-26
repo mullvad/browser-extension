@@ -14,13 +14,9 @@ const useRandomProxy = () => {
     updateCurrentTabProxyBadge();
   };
 
-  watch(
-    randomProxyMode,
-    () => {
-      checkStatus();
-    },
-    { deep: true, immediate: false },
-  );
+  watch(randomProxyMode, () => {
+    checkStatus();
+  });
 
   return {
     toggleRandomProxyMode,

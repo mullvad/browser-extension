@@ -275,13 +275,9 @@ const neverProxyHost = (host: string) => {
   }
 };
 
-watch(
-  [globalProxyDetails, hostProxiesDetails, excludedHosts],
-  () => {
-    checkStatus();
-  },
-  { deep: true, immediate: false },
-);
+watch([globalProxyDetails, hostProxiesDetails, excludedHosts], () => {
+  checkStatus();
+});
 
 const useSocksProxy = () => {
   return {
