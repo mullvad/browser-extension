@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watchEffect } from 'vue';
 import { NCard, NCollapseTransition, NIcon, NSwitch, NTag } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -22,7 +22,7 @@ const showDetailsRandom = ref(false);
 
 const { isAboutPage, isExtensionPage } = useActiveTab();
 const { proxySelect } = useLocations();
-const { isGranted, requestPermissions } = useProxyPermissions();
+const { isGranted, checkProxyPermissions, requestPermissions } = useProxyPermissions();
 const { toggleRandomProxyMode, randomProxyMode } = useRandomProxy();
 const {
   allowProxy,
@@ -40,7 +40,7 @@ const {
 import useSocksProxies from '@/composables/useSocksProxies';
 import useStore from '@/composables/useStore';
 
-const { flatProxiesList, globalProxyDetails } = useStore();
+const { globalProxyDetails } = useStore();
 const { getSocksProxies } = useSocksProxies();
 
 const isCurrentHostProxyOverriden = computed(() => randomProxyMode.value);
@@ -51,9 +51,12 @@ const isAllWebsitesProxyOverriden = computed(() =>
     : true,
 );
 
-watch(isGranted, (newValue) => {
-  // If permissions are granted and proxies list is empty
-  if (newValue && (!flatProxiesList.value || flatProxiesList.value.length === 0)) {
+onMounted(() => {
+  checkProxyPermissions();
+});
+
+watchEffect(() => {
+  if (isGranted.value) {
     getSocksProxies();
   }
 });

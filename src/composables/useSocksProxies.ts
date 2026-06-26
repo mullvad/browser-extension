@@ -20,58 +20,54 @@ const clearFilter = () => {
   query.value = '';
 };
 
-const useSocksProxies = () => {
-  const getSocksProxies = async () => {
-    isLoading.value = true;
-    isError.value = false;
-    error.value = '';
+const getSocksProxies = async () => {
+  isLoading.value = true;
+  isError.value = false;
+  error.value = '';
 
-    try {
-      const response = await fetch(SOCKS_API_URL);
-      const data: SocksProxy[] = await response.json();
-      flatProxiesList.value = data.filter((proxy: SocksProxy) => {
-        return proxy.online && proxy.ipv4_address && proxy.hostname;
-      });
-    } catch (e: unknown) {
-      isError.value = true;
+  try {
+    const response = await fetch(SOCKS_API_URL);
+    const data: SocksProxy[] = await response.json();
+    flatProxiesList.value = data.filter((proxy: SocksProxy) => {
+      return proxy.online && proxy.ipv4_address && proxy.hostname;
+    });
+  } catch (e: unknown) {
+    isError.value = true;
 
-      if (e instanceof Error) {
-        if (e.message.includes('NetworkError')) {
-          error.value = NETWORK_ERROR;
-        } else {
-          error.value = e.message;
-        }
+    if (e instanceof Error) {
+      if (e.message.includes('NetworkError')) {
+        error.value = NETWORK_ERROR;
       } else {
-        error.value = `An unknown error occurred: ${e}`;
+        error.value = e.message;
       }
-      console.log(e);
-    } finally {
-      isLoading.value = false;
+    } else {
+      error.value = `An unknown error occurred: ${e}`;
     }
-  };
-
-  const queryLower = computed(() => query.value?.toLowerCase() ?? '');
-  const filteredData = computed(() =>
-    flatProxiesList.value.filter((socksProxy) => {
-      const q = queryLower.value;
-      if (!q) return true;
-
-      const country = socksProxy.location.country?.toLowerCase();
-      const city = socksProxy.location.city?.toLowerCase();
-      const hostname = socksProxy.hostname?.toLowerCase();
-
-      return country?.includes(q) || city?.includes(q) || hostname?.includes(q);
-    }),
-  );
-
-  const filteredProxies = computed(() =>
-    sortProxiesByCountryAndCity(groupByCountryAndCity(addCountryCode(filteredData.value))),
-  );
-
-  if (!isLoading.value) {
-    getSocksProxies();
+    console.log(e);
+  } finally {
+    isLoading.value = false;
   }
+};
 
+const queryLower = computed(() => query.value?.toLowerCase() ?? '');
+const filteredData = computed(() =>
+  flatProxiesList.value.filter((socksProxy) => {
+    const q = queryLower.value;
+    if (!q) return true;
+
+    const country = socksProxy.location.country?.toLowerCase();
+    const city = socksProxy.location.city?.toLowerCase();
+    const hostname = socksProxy.hostname?.toLowerCase();
+
+    return country?.includes(q) || city?.includes(q) || hostname?.includes(q);
+  }),
+);
+
+const filteredProxies = computed(() =>
+  sortProxiesByCountryAndCity(groupByCountryAndCity(addCountryCode(filteredData.value))),
+);
+
+const useSocksProxies = () => {
   return { clearFilter, filteredProxies, getSocksProxies, query, isLoading, isError, error };
 };
 
