@@ -6,7 +6,7 @@ const isChecking = ref(false);
 
 const useConnectionStatus = () => {
   const { updateConnection, isError } = useConnection();
-  const { checkDnsLeaks } = useCheckDnsLeaks();
+  const { checkDnsLeaks, isLoading: dnsIsLoading } = useCheckDnsLeaks();
 
   const checkStatus = async () => {
     if (isChecking.value) {
@@ -15,12 +15,16 @@ const useConnectionStatus = () => {
     }
 
     isChecking.value = true;
+    // Show DNS spinner for the entire duration (connection check + DNS check)
+    dnsIsLoading.value = true;
 
     try {
       await updateConnection();
 
       if (!isError.value) {
         await checkDnsLeaks();
+      } else {
+        dnsIsLoading.value = false;
       }
     } finally {
       isChecking.value = false;
