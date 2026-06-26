@@ -12,21 +12,9 @@ const updateConnection = async () => {
   isError.value = false;
   error.value = undefined;
   try {
-    const ipv4Promise = connCheckIpv4();
-    const ipv6Promise = connCheckIpv6();
+    const [ipv4Result, ipv6Result] = await Promise.all([connCheckIpv4(), connCheckIpv6()]);
 
-    // Wait for IPv4 result
-    connection.value = await ipv4Promise;
-
-    // Because IPV6 is not reliably working in socks proxy,
-    // don't wait IPv6 result so that it's non-blocking.
-    ipv6Promise
-      .then((ipv6) => {
-        connection.value = { ...connection.value, ipv6 };
-      })
-      .catch((e) => {
-        console.log(`IPv6 check error: ${e.message}`);
-      });
+    connection.value = { ...ipv4Result, ipv6: ipv6Result };
   } catch (e) {
     console.log({ useConnectionError: e });
     isError.value = true;
