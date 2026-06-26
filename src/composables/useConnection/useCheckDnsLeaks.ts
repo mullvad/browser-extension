@@ -37,23 +37,18 @@ const isMullvadDoh = ref(false);
 
 const { isError: isConnectionError } = useConnection();
 
+// Watch for connection errors and abort DNS leak check if needed.
+watch(isConnectionError, (newValue) => {
+  if (newValue && isLoading.value) {
+    // Connection error occurred during DNS leak check
+    isLoading.value = false;
+    isError.value = true;
+    error.value = new Error('Connection error detected, aborting DNS leak check');
+  }
+});
+
 const useCheckDnsLeaks = () => {
-  // Watch for connection errors and abort DNS leak check if needed
-  watch(isConnectionError, (newValue) => {
-    if (newValue && isLoading.value) {
-      // Connection error occurred during DNS leak check
-      isLoading.value = false;
-      isError.value = true;
-      error.value = new Error('Connection error detected, aborting DNS leak check');
-    }
-  });
-
   const checkDnsLeaks = async () => {
-    if (isLoading.value) {
-      console.log('DNS leak check already in progress, skipping');
-      return;
-    }
-
     dnsServers.value = [];
     error.value = undefined;
     isError.value = false;
@@ -85,11 +80,6 @@ const useCheckDnsLeaks = () => {
       isLoading.value = false;
     }
   };
-
-  // Don't start multiple checks
-  if (!isLoading.value) {
-    checkDnsLeaks();
-  }
 
   return {
     checkDnsLeaks,

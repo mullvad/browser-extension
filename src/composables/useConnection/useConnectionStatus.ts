@@ -4,12 +4,11 @@ import useCheckDnsLeaks from '@/composables/useConnection/useCheckDnsLeaks';
 
 const isChecking = ref(false);
 
-export default function useConnectionStatus() {
+const useConnectionStatus = () => {
   const { updateConnection, isError } = useConnection();
   const { checkDnsLeaks } = useCheckDnsLeaks();
 
   const checkStatus = async () => {
-    // Prevent multiple simultaneous checks
     if (isChecking.value) {
       console.log('Status check already in progress, skipping');
       return;
@@ -32,4 +31,6 @@ export default function useConnectionStatus() {
     checkStatus,
     isChecking,
   };
-}
+};
+
+export default useConnectionStatus;
