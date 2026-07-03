@@ -12,6 +12,15 @@ const requestPermissions = async (): Promise<boolean> => {
   return isGranted.value;
 };
 
+// Check permissions on module load so every page context (popup, options, etc.)
+// starts with the correct state without requiring consumers to call it manually.
+void checkProxyPermissions();
+
+// Keep the permission state in sync if permissions are granted or revoked
+// from any context (e.g. the browser's permission management UI).
+browser.permissions.onAdded.addListener(() => void checkProxyPermissions());
+browser.permissions.onRemoved.addListener(() => void checkProxyPermissions());
+
 const useProxyPermissions = () => {
   return {
     isGranted: readonly(isGranted),
