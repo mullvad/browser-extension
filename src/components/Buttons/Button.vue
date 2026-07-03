@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed } from 'vue';
 
 type Props = {
   color?: string;
@@ -16,20 +16,36 @@ const type = computed(() => {
   return 'button';
 });
 
-const { color, textColor } = toRefs(props);
-const classes = computed(() => {
-  let colors = '';
-  let sizeClass = '';
+// Static class map so UnoCSS can detect the classes at build time.
+// Building names dynamically (e.g. `bg-${color}`) would not be picked up by
+// UnoCSS's static scanner, so the CSS for those classes would never be emitted.
+const colorClasses: Record<string, string> = {
+  error: 'bg-error',
+  success: 'bg-success',
+  white: 'bg-white',
+  blue: 'bg-blue',
+};
 
-  if (color?.value) {
-    colors = `bg-${color.value} text-${textColor?.value || 'white'}`;
+const textColorClasses: Record<string, string> = {
+  white: 'text-white',
+  error: 'text-error',
+  success: 'text-success',
+  blue: 'text-blue',
+};
+
+const classes = computed(() => {
+  const parts: string[] = [];
+
+  if (props.color && colorClasses[props.color]) {
+    parts.push(colorClasses[props.color]);
+    parts.push(textColorClasses[props.textColor || 'white'] || 'text-white');
   }
 
   if (props.size) {
-    sizeClass = `btn-${props.size}`;
+    parts.push(`btn-${props.size}`);
   }
 
-  return `${colors} ${sizeClass}`;
+  return parts.join(' ');
 });
 </script>
 
@@ -48,10 +64,14 @@ const classes = computed(() => {
   --blue: rgb(41 77 115 / 90%);
   --blue-hover: rgb(41 77 115 / 100%);
 
+  appearance: none;
+  border: none;
+  font-family: inherit;
   background-color: var(--blue);
   padding: 0.5rem 1rem;
   color: #fff;
   border-radius: 0.25rem;
+  text-decoration: none;
 }
 
 .btn:focus,

@@ -41,7 +41,7 @@ const findTabIdByUrl = async (url: string): Promise<number | undefined> => {
 export const reloadOptions = async () => {
   // Reload the options page if we're in the popup context
   if (isPopupContext()) {
-    const optionsUrl = browser.runtime.getURL('dist/options/index.html');
+    const optionsUrl = browser.runtime.getURL('options.html');
     const optionsTabID = await findTabIdByUrl(optionsUrl);
 
     if (optionsTabID !== undefined) {

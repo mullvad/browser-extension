@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import { NCard, NCollapseTransition, NIcon, NSwitch, NTag } from 'naive-ui';
 
 import Button from '@/components/Buttons/Button.vue';
@@ -22,7 +22,7 @@ const showDetailsRandom = ref(false);
 
 const { isAboutPage, isExtensionPage } = useActiveTab();
 const { proxySelect } = useLocations();
-const { isGranted, checkProxyPermissions, requestPermissions } = useProxyPermissions();
+const { isGranted, requestPermissions } = useProxyPermissions();
 const { toggleRandomProxyMode, randomProxyMode } = useRandomProxy();
 const {
   allowProxy,
@@ -50,10 +50,6 @@ const isAllWebsitesProxyOverriden = computed(() =>
     ? false
     : true,
 );
-
-onMounted(() => {
-  checkProxyPermissions();
-});
 
 watchEffect(() => {
   if (isGranted.value) {

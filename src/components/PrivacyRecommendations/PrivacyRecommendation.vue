@@ -43,7 +43,7 @@ watchEffect(() => {
           :src="`/assets/icons/${recommendation.icon}`"
           class="mr-2"
         />
-        <h2>{{ recommendation.name }}</h2>
+        <h2 class="text-lg">{{ recommendation.name }}</h2>
       </div>
     </template>
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { NAvatar, NTabPane, NTabs } from 'naive-ui';
+import { NTabPane, NTabs } from 'naive-ui';
 
 import AboutTab from '@/components/OptionsTabs/AboutTab.vue';
 import ImportExportTab from '@/components/OptionsTabs/ImportExportTab.vue';
@@ -14,7 +14,7 @@ const defaultTab = computed(() => optionsActiveTab.value);
 </script>
 
 <template>
-  <main class="w-[800px] mx-auto px-4 pb-4">
+  <main class="max-w-[800px] w-full mx-auto px-4 pb-4">
     <n-tabs
       v-model:value="optionsActiveTab"
       type="line"
@@ -22,10 +22,6 @@ const defaultTab = computed(() => optionsActiveTab.value);
       :default-value="defaultTab"
       size="large"
     >
-      <template #prefix>
-        <n-avatar size="small" src="/assets/mullvad-logo.svg" />
-      </template>
-
       <n-tab-pane name="settings" tab="Settings">
         <SettingsTab />
       </n-tab-pane>

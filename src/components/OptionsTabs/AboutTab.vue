@@ -51,3 +51,10 @@ import { version } from '@/helpers/browserExtension';
     <p>Third party extensions logos are the property of their respective owners.</p>
   </n-card>
 </template>
+
+<style scoped>
+a {
+  color: #70c0e8;
+  text-decoration: none;
+}
+</style>

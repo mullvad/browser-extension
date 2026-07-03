@@ -72,8 +72,8 @@ describe('isExtConnCheck', () => {
     const details: RequestDetails = {
       ...baseDetails,
       url: `${DEFAULT_CONFIG.ipv4_url}/json`,
-      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
-      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
+      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
+      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
     };
     expect(isExtConnCheck(details)).toBeTruthy();
   });
@@ -82,8 +82,8 @@ describe('isExtConnCheck', () => {
     const details: RequestDetails = {
       ...baseDetails,
       url: `${DEFAULT_CONFIG.ipv6_url}/json`,
-      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
-      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
+      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
+      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
     };
     expect(isExtConnCheck(details)).toBeTruthy();
   });
@@ -92,8 +92,8 @@ describe('isExtConnCheck', () => {
     const details: RequestDetails = {
       ...baseDetails,
       url: `https://c30d3da2-fc4f-4732-86cc-f233e1692eac.${DEFAULT_CONFIG.dns_leak_domain}/`,
-      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
-      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
+      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
+      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
     };
     expect(isExtConnCheck(details)).toBeTruthy();
   });
@@ -106,8 +106,8 @@ describe('isExtConnCheck', () => {
     const details: RequestDetails = {
       ...baseDetails,
       url: 'https://c30d3da2-fc4f-4732-86cc-f233e1692eac.dnsleak.dk-cph-conncheck-001.mullvad.net/',
-      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
-      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
+      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
+      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
     };
     expect(isExtConnCheck(details, dynamicConfig)).toBeTruthy();
   });
@@ -116,8 +116,8 @@ describe('isExtConnCheck', () => {
     const details: RequestDetails = {
       ...baseDetails,
       url: 'https://example.com#am.i.mullvad.net/',
-      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
-      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
+      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
+      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
     };
     expect(isExtConnCheck(details)).toBeFalsy();
   });
@@ -136,8 +136,8 @@ describe('isExtConnCheck', () => {
     const details: RequestDetails = {
       ...baseDetails,
       url: 'https://example.com',
-      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
-      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/dist/options/index.html',
+      originUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
+      documentUrl: 'moz-extension://8ad8e256-a9a0-4017-b302-1345ac426553/options.html',
     };
     expect(isExtConnCheck(details)).toBeFalsy();
   });
