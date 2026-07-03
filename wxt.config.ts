@@ -8,13 +8,9 @@ import type { UserManifest } from 'wxt';
 // ManifestOptionalPermission type, so the object is cast to UserManifest.
 const manifest: UserManifest = {
   name: 'Mullvad Browser Extension',
-  description: 'Improve your Mullvad VPN experience, in your browser.',
   browser_action: {
     default_icon: '/assets/mullvad-logo.svg',
     default_area: 'navbar',
-  },
-  options_ui: {
-    open_in_tab: true,
   },
   icons: {
     '16': '/assets/mullvad-logo.svg',
