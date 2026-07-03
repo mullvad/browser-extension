@@ -1,8 +1,41 @@
+/* Minimal CSS reset. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: var(--un-default-border-color, #e5e7eb);
+}
+
 html,
 body,
 #app {
   margin: 0;
   padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+figure,
+ul,
+ol,
+li,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
 }
 
 :root {
@@ -18,6 +51,10 @@ body,
 body {
   background-color: var(--dark-blue);
   color: var(--light-grey);
+
+  /* Source Sans Pro is loaded via fonts.css; WindiCSS's preflight applied it to
+     <body> automatically, but UnoCSS does not, so set it explicitly here. */
+  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
 
@@ -52,18 +89,42 @@ em {
 }
 
 .btn {
-  @apply px-4 py-1 rounded inline-block
-    bg-teal-600 text-white cursor-pointer
-    hover:bg-teal-700
-    disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;
+  appearance: none;
+  border: none;
+  font-family: inherit;
+  padding: 0.25rem 1rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+  background-color: rgb(13 148 136); /* teal-600 */
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: rgb(15 118 110); /* teal-700 */
+}
+
+.btn:disabled {
+  cursor: default;
+  background-color: rgb(75 85 99); /* gray-600 */
+  opacity: 0.5;
 }
 
 .icon-btn {
-  @apply inline-block cursor-pointer select-none
-    opacity-75 transition duration-200 ease-in-out
-    hover:opacity-100 hover:text-teal-600;
-
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.75;
+  transition:
+    opacity 0.2s ease-in-out,
+    color 0.2s ease-in-out;
   font-size: 0.9em;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+  color: rgb(13 148 136); /* teal-600 */
 }
 
 .n-drawer-mask {

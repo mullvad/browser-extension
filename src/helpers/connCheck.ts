@@ -45,7 +45,7 @@ export const connCheckIpv6 = async (): Promise<string | undefined> => {
     const data: AmIMullvadServerResponse = await response.json();
     return data.ip;
   } catch (e) {
-    if (__DEV__) {
+    if (import.meta.env.DEV) {
       console.log(`[conCheck IPv6]: Error trying to get ipv6 data: ${(e as Error).message}`);
     }
     return undefined;

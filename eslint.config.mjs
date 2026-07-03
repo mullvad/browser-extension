@@ -44,5 +44,5 @@ export default [
       },
     },
   },
-  { ignores: ['**/dist/'] },
+  { ignores: ['**/dist/', '.wxt/', '.output/', 'public/'] },
 ];
