@@ -24,8 +24,19 @@ describe('isLocalOrReservedIP', () => {
     expect(isLocalOrReservedIP('::1')).toBeTruthy();
   });
 
+  it('should return true for bracketed IPv6', () => {
+    expect(isLocalOrReservedIP('[::1]')).toBeTruthy();
+    expect(isLocalOrReservedIP('[fc00::1]')).toBeTruthy();
+  });
+
   it('should return false for public IP', () => {
     expect(isLocalOrReservedIP('8.8.8.8')).toBeFalsy();
+  });
+
+  it('should return false for domains that contain the localhost substring', () => {
+    expect(isLocalOrReservedIP('notlocalhost.com')).toBeFalsy();
+    expect(isLocalOrReservedIP('localhost.attacker.tld')).toBeFalsy();
+    expect(isLocalOrReservedIP('prod-localhost-cdn.example')).toBeFalsy();
   });
 
   it('should return false for invalid IP', () => {
