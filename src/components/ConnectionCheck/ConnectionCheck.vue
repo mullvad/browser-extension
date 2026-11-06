@@ -17,6 +17,7 @@ defineProps<{
   isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
+  isQuad9Doh: boolean;
   isProxyInUse: boolean;
 }>();
 
@@ -45,6 +46,7 @@ const isMullvad = computed(() => connection.value.isMullvad);
         :isLoadingDNS
         :isMullvadDNS
         :isMullvadDoh
+        :isQuad9Doh
       />
       <WebTRCDetails />
     </div>

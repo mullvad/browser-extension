@@ -6,25 +6,31 @@ import { warnings } from '@/composables/useWarnings/warnings';
 import useWebRtc from '@/composables/useWebRtc';
 
 const { connection } = useConnection();
-const { isMullvadDoh, isMullvadDNS, isLoading, isError } = useCheckDnsLeaks();
+const { isMullvadDoh, isMullvadDNS, isQuad9Doh, isLoading, isError } = useCheckDnsLeaks();
 const { webRTCLeaking } = useWebRtc();
 
 const isMullvad = computed(() => connection.value.isMullvad);
 const isDNSCheckCompleted = computed(() => !isLoading.value && isError.value === false);
+const dohDeprecated = computed(() => isDNSCheckCompleted.value && isMullvadDoh.value);
 const dohDisable = computed(
-  () => isDNSCheckCompleted.value && isMullvad.value && isMullvadDoh.value,
+  () => isDNSCheckCompleted.value && isMullvad.value && (isMullvadDoh.value || isQuad9Doh.value),
 );
 const dohEnable = computed(
-  () => isDNSCheckCompleted.value && !isMullvad.value && !isMullvadDoh.value,
+  () => isDNSCheckCompleted.value && !isMullvad.value && !isMullvadDoh.value && !isQuad9Doh.value,
 );
 const dohLeak = computed(
   () => isDNSCheckCompleted.value && isMullvadDoh.value && !isMullvadDNS.value,
 );
-const dnsLeak = computed(() => isDNSCheckCompleted.value && isMullvad.value && !isMullvadDNS.value);
+const dnsLeak = computed(
+  () => isDNSCheckCompleted.value && isMullvad.value && !isMullvadDNS.value && !isQuad9Doh.value,
+);
 
 const activeWarnings = computed(() => {
   const activeWarningsIds: string[] = [];
 
+  if (dohDeprecated.value) {
+    activeWarningsIds.push('doh-deprecated');
+  }
   if (dohDisable.value) {
     activeWarningsIds.push('doh-disable');
   }

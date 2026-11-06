@@ -9,6 +9,7 @@ import FeLock from '@/components/Icons/FeLock.vue';
 import FeLockOff from '@/components/Icons/FeLockOff.vue';
 import FePower from './Icons/FePower.vue';
 import FeShuffle from '@/components/Icons//FeShuffle.vue';
+import FeWarning from '@/components/Icons/FeWarning.vue';
 import FeXCircle from '@/components/Icons/FeXCircle.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
 import TitleCategory from '@/components/TitleCategory.vue';
@@ -21,12 +22,13 @@ import useActiveTab from '@/composables/useActiveTab';
 import { ConnectionKey, defaultConnection } from '@/composables/useConnection/useConnection';
 import useRandomProxy from '@/composables/useRandomProxy';
 
-defineProps<{
+const props = defineProps<{
   isErrorDNS: boolean;
   isLeakingDNS: boolean;
   isLoadingDNS: boolean;
   isMullvadDNS: boolean;
   isMullvadDoh: boolean;
+  isQuad9Doh: boolean;
   isProxyInUse: boolean;
 }>();
 
@@ -37,6 +39,18 @@ const { connection, isLoading, isError } = inject(ConnectionKey, defaultConnecti
 const isMullvad = computed(() => connection.value.isMullvad);
 
 const displayHost = computed(() => truncateHost(activeTabHost.value));
+
+const dnsTagType = computed(() => {
+  if (props.isQuad9Doh && isMullvad.value) return 'warning';
+  if (props.isQuad9Doh && !isMullvad.value) return 'success';
+  if (props.isMullvadDoh) return 'error';
+  return 'info';
+});
+
+const dnsTagText = computed(() => {
+  if (props.isQuad9Doh) return 'Quad9 DoH';
+  return props.isMullvadDoh ? 'DOH' : 'DNS';
+});
 </script>
 
 <template>
@@ -73,16 +87,18 @@ const displayHost = computed(() => truncateHost(activeTabHost.value));
         </template>
       </n-tag>
 
-      <n-tag round type="info" class="ml-1">
-        <span v-if="isMullvadDoh"> DOH </span>
-        <span v-else> DNS </span>
+      <n-tag round :type="dnsTagType" class="ml-1">
+        <span>{{ dnsTagText }}</span>
         <template #icon>
           <n-icon size="20">
             <MuSpinner v-if="isLoadingDNS" />
             <FeHelpCircle v-else-if="isErrorDNS" class="text-warning" />
+            <FeWarning v-else-if="isMullvadDoh" class="text-error" />
+            <FeWarning v-else-if="isQuad9Doh && isMullvad" class="text-warning" />
+            <FeLock v-else-if="isQuad9Doh && !isMullvad" class="text-success" />
             <FeDrop v-else-if="isLeakingDNS && isMullvad" class="text-error" />
             <FeXCircle v-else-if="isLeakingDNS && !isMullvad" class="text-error" />
-            <FeLock v-else-if="isMullvadDNS || isMullvadDoh" class="text-success" />
+            <FeLock v-else-if="isMullvadDNS" class="text-success" />
           </n-icon>
         </template>
       </n-tag>

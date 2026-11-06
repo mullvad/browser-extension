@@ -4,7 +4,7 @@ export interface Recommendation {
   name: string;
   description: string;
   icon?: string;
-  iconType?: 'warning' | 'success' | 'info' | 'leak';
+  iconType?: 'warning' | 'success' | 'info' | 'leak' | 'error';
   homeUrl?: string;
   warning?: string;
   ctaLabel: 'install' | 'enable' | 'disable' | undefined;

@@ -5,13 +5,20 @@ import unique from '@/helpers/unique';
 import useConnection from '@/composables/useConnection/useConnection';
 import useStore from '@/composables/useStore';
 
+/**
+ * Match the DNSInfo type in
+ * https://github.com/mullvad/conncheck/blob/5fb1cbf65d564de6a1cea4285fd68ec6c65e8c59/api/dns.go#L16-L26
+ */
 export type DnsServer = {
-  hostname: string;
+  hostname?: string;
   ip: string;
+  server_type?: string;
+  quad9_dns: boolean;
   mullvad_dns: boolean;
-  mullvad_dns_hostname: string;
-  country: string;
-  organization: string;
+  mullvad_dns_hostname?: string;
+  city?: string;
+  country?: string;
+  organization?: string;
 };
 
 const { connCheckConfig } = useStore();
@@ -35,6 +42,7 @@ const isLeaking = ref(false);
 const isLoading = ref(false);
 const isMullvadDNS = ref(false);
 const isMullvadDoh = ref(false);
+const isQuad9Doh = ref(false);
 
 const { isError: isConnectionError } = useConnection();
 
@@ -57,6 +65,7 @@ const useCheckDnsLeaks = () => {
     isLoading.value = true;
     isMullvadDNS.value = false;
     isMullvadDoh.value = false;
+    isQuad9Doh.value = false;
     try {
       // The returned value from  Promise.all is here a list of lists, so add .flat() to make it a single level list
       const allDnsServers = (await Promise.all([...Array(6)].map(() => dnsLeakRequest()))).flat();
@@ -64,15 +73,17 @@ const useCheckDnsLeaks = () => {
       // Remove duplicates, based on DnsServer.ip
       const uniqueDnsServers = unique(allDnsServers, 'ip');
 
-      isLeaking.value = uniqueDnsServers.some((server) => !server.mullvad_dns);
+      // Quad9 provides encrypted DNS, so it's not considered a leak
+      isLeaking.value = uniqueDnsServers.some((server) => !server.mullvad_dns && !server.quad9_dns);
       dnsServers.value = uniqueDnsServers;
 
       // If a DNS from the list is Mullvad && contains "dns", it means it's a DoH one
       // See: //mullvad.net/en/help/dns-over-https-and-dns-over-tls/
       isMullvadDoh.value = uniqueDnsServers.some(
-        (server) => server.mullvad_dns && server.mullvad_dns_hostname.includes('dns'),
+        (server) => server.mullvad_dns && server.mullvad_dns_hostname?.includes('dns'),
       );
       isMullvadDNS.value = uniqueDnsServers.some((server) => server.mullvad_dns);
+      isQuad9Doh.value = uniqueDnsServers.some((server) => server.quad9_dns);
     } catch (e) {
       // If the users is not connected to Mullvad, but using a Proxy we will end up here
       isError.value = true;
@@ -91,6 +102,7 @@ const useCheckDnsLeaks = () => {
     isLoading,
     isMullvadDoh,
     isMullvadDNS,
+    isQuad9Doh,
   };
 };
 

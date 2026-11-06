@@ -2,9 +2,21 @@ import { Recommendation } from '../useRecommendations/Recommendation.types';
 
 export const warnings: Recommendation[] = [
   {
+    id: 'doh-deprecated',
+    type: 'warning',
+    name: 'Mullvad DoH is deprecated',
+    description: `Please update your DNS settings to use a different DNS provider. We’re shutting down our public encrypted DNS servers, please update your DNS settings now.`,
+    ctaUrl:
+      'https://mullvad.net/en/blog/shutting-down-our-public-encrypted-dns-servers-and-sponsoring-quad9-instead',
+    iconType: 'error',
+    activated: false,
+    ignored: false,
+    ctaLabel: undefined,
+  },
+  {
     id: 'doh-disable',
     type: 'warning',
-    name: 'Disable Mullvad DoH (encrypted DNS)',
+    name: 'Disable DoH (encrypted DNS)',
     description: `When you're connected to Mullvad VPN, it's better to use the DNS from the server for geolocation and performance reasons.`,
     ctaUrl: 'https://mullvad.net/en/help/dns-over-https-and-dns-over-tls/#when-to-use',
     iconType: 'warning',

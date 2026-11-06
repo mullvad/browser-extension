@@ -14,3 +14,4 @@ extension/manifest.json
 extension/*.md
 node_modules
 coverage
+.juggler

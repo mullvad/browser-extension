@@ -17,6 +17,7 @@ const {
   isLeaking: isLeakingDNS,
   isMullvadDNS,
   isMullvadDoh,
+  isQuad9Doh,
   dnsServers,
 } = useCheckDnsLeaks();
 const { randomProxyMode } = useRandomProxy();
@@ -37,6 +38,7 @@ const isProxyInUse = computed(
       :isLoadingDNS
       :isMullvadDNS
       :isMullvadDoh
+      :isQuad9Doh
       :isProxyInUse
     />
     <ConnectionCheck
@@ -46,6 +48,7 @@ const isProxyInUse = computed(
       :isLoadingDNS
       :isMullvadDNS
       :isMullvadDoh
+      :isQuad9Doh
       :isProxyInUse
     />
     <PopupProxyPanel />

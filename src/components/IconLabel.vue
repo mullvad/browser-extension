@@ -8,7 +8,7 @@ import FeWarning from '@/components/Icons/FeWarning.vue';
 import MuSpinner from '@/components/Icons/MuSpinner.vue';
 import FeDrop from '@/components/Icons/FeDrop.vue';
 
-export type IconType = 'warning' | 'success' | 'info' | 'spinner' | 'leak' | 'check';
+export type IconType = 'warning' | 'success' | 'info' | 'spinner' | 'leak' | 'check' | 'error';
 
 defineProps<{ text?: string; type: IconType }>();
 </script>
@@ -19,6 +19,7 @@ defineProps<{ text?: string; type: IconType }>();
       <FeCheckCircle v-if="type === 'success'" class="text-success" />
       <FeCheck v-if="type === 'check'" class="text-success" />
       <FeWarning v-if="type === 'warning'" class="text-warning" />
+      <FeWarning v-else-if="type === 'error'" class="text-error" />
       <FeInfo v-if="type === 'info'" class="text-info" />
       <MuSpinner v-if="type === 'spinner'" class="text-info" />
       <FeDrop v-if="type === 'leak'" class="text-error" />
