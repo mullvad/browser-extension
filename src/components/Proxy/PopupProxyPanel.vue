@@ -43,6 +43,11 @@ import useStore from '@/composables/useStore';
 const { globalProxyDetails } = useStore();
 const { getSocksProxies } = useSocksProxies();
 
+const grantPermissions = () => {
+  void requestPermissions();
+  window.close();
+};
+
 const isCurrentHostProxyOverriden = computed(() => randomProxyMode.value);
 
 const isAllWebsitesProxyOverriden = computed(() =>
@@ -284,7 +289,7 @@ watchEffect(() => {
         </li>
       </ul>
 
-      <Button size="small" class="mt-3" @click="requestPermissions"> Grant permissions </Button>
+      <Button size="small" class="mt-3" @click="grantPermissions"> Grant permissions </Button>
     </div>
   </n-card>
 </template>
