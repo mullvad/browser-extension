@@ -6,7 +6,6 @@ import Button from '@/components/Buttons/Button.vue';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 import IconLabel from '@/components/IconLabel.vue';
 
-import { closePopup } from '@/helpers/browserExtension';
 import useWebRtc from '@/composables/useWebRtc';
 
 const { setWebRTC, webRTCStatus } = useWebRtc();
@@ -36,7 +35,7 @@ watchEffect(() => {
       />
     </div>
 
-    <Button href="https://mullvad.net/en/help/webrtc/" @click="closePopup">
+    <Button href="https://mullvad.net/en/help/webrtc/" target="_blank" rel="noopener noreferrer">
       <ExternalLinkIconLabel text="Read the guide" />
     </Button>
   </n-card>

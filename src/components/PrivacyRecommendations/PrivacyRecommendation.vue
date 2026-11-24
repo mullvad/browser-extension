@@ -8,8 +8,6 @@ import IconLabel from '@/components/IconLabel.vue';
 import Instructions from '@/components/PrivacyRecommendations/Instructions.vue';
 import RecommendationIconWithTooltip from '@/components/RecommendationIconWithTooltip.vue';
 
-import { closePopup } from '@/helpers/browserExtension';
-
 import type { Recommendation } from '@/composables/useRecommendations/Recommendation.types';
 import ExternalLinkIconLabel from '@/components/ExternalLinkIconLabel.vue';
 
@@ -71,12 +69,13 @@ watchEffect(() => {
         <Button
           v-if="!recommendation.activated && recommendation.id === 'default-search'"
           :href="`https://duckduckgo.com`"
-          @click="closePopup"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <ExternalLinkIconLabel :text="`DuckDuckGo`" />
         </Button>
 
-        <Button v-else :href="recommendation.homeUrl" @click="closePopup">
+        <Button v-else :href="recommendation.homeUrl" target="_blank" rel="noopener noreferrer">
           <ExternalLinkIconLabel text="Learn More" />
         </Button>
 
@@ -90,7 +89,8 @@ watchEffect(() => {
               v-if="recommendation.id === 'uBlock0@raymondhill.net' && !recommendation.installed"
               color="success"
               :href="recommendation.ctaUrl"
-              @click="closePopup"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Install
             </Button>
