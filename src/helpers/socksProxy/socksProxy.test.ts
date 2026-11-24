@@ -4,7 +4,7 @@ import { isExtConnCheck, isLocalOrReservedIP } from '@/helpers/socksProxy/socksP
 import { DEFAULT_CONFIG } from '@/helpers/config';
 import { RequestDetails } from './socksProxy.types';
 
-vi.mock('@/helpers/socksProxy/getRandomSessionProxy', () => ({
+vi.mock('@/helpers/getRandomSessionProxy', () => ({
   browserStorage: {
     getLocal: vi.fn().mockResolvedValue({}),
   },

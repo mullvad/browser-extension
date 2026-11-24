@@ -27,7 +27,7 @@ export const handleProxyRequest = async (details: browser.proxy._OnRequestDetail
       randomProxyMode,
     } = await getLocalStorageItems();
 
-    const currentHost = new URL(details.url).hostname;
+    const currentHost = getCurrentHost(details);
     const { hasSubdomain, domain, fullHost } = checkDomain(currentHost);
     const currentDomain = hasSubdomain ? fullHost : domain;
 
@@ -123,6 +123,27 @@ async function getLocalStorageItems(): Promise<{
     randomProxyMode: JSON.parse(data.randomProxyMode),
   };
 }
+
+const getCurrentHost = (details: RequestDetails) => {
+  if (details.frameAncestors && details.frameAncestors.length > 0) {
+    // when the request initiate from an iframe, it has a parent frame
+    // the host is determined from its top parent frame (frameID === 0)
+    const frame = details.frameAncestors.find((frame) => frame.frameId === 0);
+    if (frame) {
+      return new URL(frame.url).hostname;
+    }
+  } else if (isLocalOrReservedIP(new URL(details.url).hostname)) {
+    // This is to handle localhost/reserved IP ranges
+    return new URL(details.url).hostname;
+  } else if (details.documentUrl) {
+    // when the request comes froms a a page(top level frame),
+    // then the host is determined from the document URL
+    return new URL(details.documentUrl).hostname;
+  }
+  // When a request is initiated in the browser background,
+  // the host is derived from the request URL itself
+  return new URL(details.url).hostname;
+};
 
 export const isExtConnCheck = (
   details: RequestDetails,
