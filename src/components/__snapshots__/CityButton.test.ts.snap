@@ -19,7 +19,9 @@ exports[`CityButton > should render a CityButton 1`] = `
   <span
     class="n-button__content"
   >
+    
     Narnia
+    
   </span>
   <div
     aria-hidden="true"

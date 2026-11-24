@@ -103,8 +103,7 @@ watchEffect(() => {
             <FeInfo />
           </n-icon>
           <p>
-            Proxy configured for <strong>{{ currentEffectiveProxyHost }}</strong
-            >.
+            Proxy configured for <strong>{{ currentEffectiveProxyHost }}</strong>.
           </p>
         </div>
 

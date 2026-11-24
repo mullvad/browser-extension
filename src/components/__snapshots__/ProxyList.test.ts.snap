@@ -6,6 +6,8 @@ exports[`ProxyList > should render a single proxy correctly 1`] = `
   role="none"
   style="display: flex; flex-direction: column; justify-content: flex-start; flex-wrap: nowrap;"
 >
+  
+  
   <div
     role="none"
     style="max-width: 100%;"
@@ -29,7 +31,9 @@ exports[`ProxyList > should render a single proxy correctly 1`] = `
       <span
         class="n-button__content"
       >
+        
         narnia-001
+        
       </span>
       <div
         aria-hidden="true"
@@ -39,6 +43,8 @@ exports[`ProxyList > should render a single proxy correctly 1`] = `
       <!---->
     </button>
   </div>
+  
+  
 </div>
 `;
 
@@ -48,6 +54,8 @@ exports[`ProxyList > should render multiple proxies correctly 1`] = `
   role="none"
   style="display: flex; flex-direction: column; justify-content: flex-start; flex-wrap: nowrap;"
 >
+  
+  
   <div
     role="none"
     style="max-width: 100%; margin-bottom: 8px;"
@@ -71,7 +79,9 @@ exports[`ProxyList > should render multiple proxies correctly 1`] = `
       <span
         class="n-button__content"
       >
+        
         narnia-002
+        
       </span>
       <div
         aria-hidden="true"
@@ -104,7 +114,9 @@ exports[`ProxyList > should render multiple proxies correctly 1`] = `
       <span
         class="n-button__content"
       >
+        
         narnia-001
+        
       </span>
       <div
         aria-hidden="true"
@@ -114,5 +126,7 @@ exports[`ProxyList > should render multiple proxies correctly 1`] = `
       <!---->
     </button>
   </div>
+  
+  
 </div>
 `;

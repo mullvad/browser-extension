@@ -3,7 +3,7 @@ import { dirname, relative } from 'path';
 import { defineConfig, UserConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import UnoCSS from 'unocss/vite';
-import { r, port, isDev } from './scripts/utils';
+import { r, port, isDev } from './scripts/utils.ts';
 
 export const sharedConfig: UserConfig = {
   root: r('src'),
