@@ -55,7 +55,7 @@ const dnsServerName = (dnsServer: DnsServer) => {
       <span class="ml-2">{{ connection.server }}</span>
     </div>
     <div class="flex flex-row">
-      <h4 class="font-semibold mr-2">DNS</h4>
+      <h4 class="font-semibold mr-2 whitespace-nowrap">DNS</h4>
 
       <div>
         <div v-if="isLoadingDNS" class="flex items-center">
@@ -73,7 +73,9 @@ const dnsServerName = (dnsServer: DnsServer) => {
             <FeLock v-else-if="isMullvadDNS || isQuad9Doh" :class="lockClass" />
             <FeDrop v-if="isLeakingDNS && isMullvad" class="text-error" />
             <FeXCircle v-else-if="isLeakingDNS && !isMullvad" class="text-error" />
-            <span class="ml-1"> {{ dnsServer.ip }} ({{ dnsServerName(dnsServer) }}) </span>
+            <span class="ml-1 break-words">
+              {{ dnsServer.ip }} ({{ dnsServerName(dnsServer) }})
+            </span>
           </div>
         </div>
         <div v-else-if="isErrorDNS" class="flex items-center">
